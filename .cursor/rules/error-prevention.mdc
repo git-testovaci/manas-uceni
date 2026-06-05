@@ -1,0 +1,38 @@
+---
+description: Prevence chyb – malé etapy, minimální změny, kontrola diffu
+alwaysApply: true
+---
+
+# Error Prevention
+
+Viz `docs/ERROR_PREVENTION.md`.
+
+## Priorita
+
+**Prevence chyb má přednost před rychlou implementací.**
+
+## Pravidla
+
+- **Malé etapy** – jedna etapa roadmapy = jeden commit
+- **Žádné náhodné opravy** – nejdřív analyzovat příčinu
+- **Žádné nesouvisející změny** – jen soubory z rozsahu etapy
+- **Žádné velké přepisy bez schválení**
+- **Diff vždy zkontrolovat** před commitem
+- **Nepřidávat závislosti** bez výslovného důvodu
+- **Nedělat refaktor zároveň s novou funkcí**
+
+## Při nejasnosti
+
+- Zeptat se nebo navrhnout bezpečný plán (Plan mode)
+- Nepokračovat v implementaci naslepo
+
+## Ověření
+
+- Každá změna má ověřovací kroky
+- Ruční smoke test hlavního toku
+- `npm run lint && npm run build` před push
+
+## UI vs logika
+
+- Logika v `lib/`, UI v `components/` a `features/`
+- localStorage jen přes `lib/storage/`

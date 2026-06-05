@@ -1,0 +1,37 @@
+---
+description: Architektura projektu – struktura složek, oddělení vrstev, pravidla pro nové funkce
+alwaysApply: true
+---
+
+# Project Architecture
+
+Před implementací přečti `docs/ARCHITECTURE.md`, `docs/PROJECT_BRIEF.md` a `docs/DECISIONS.md`.
+
+## Struktura
+
+- `app/` – Next.js stránky (tenké, bez business logiky)
+- `components/` – sdílené UI komponenty
+- `features/` – doménové moduly (math, czech, review, settings, i18n)
+- `lib/` – čistá testovatelná logika (storage, review, validation)
+- `types/` – TypeScript typy
+- `data/` – statická cvičení
+
+## Pravidla
+
+- **Odděluj UI, logiku a data** – logika procvičování v `lib/`, ne v komponentách
+- **Nové funkce dávej do `features/`** – ne do `app/` ani `components/`
+- **Sdílené věci do `lib/`, `types/`, `components/`**
+- **localStorage jen přes `lib/storage/`** – nikdy přímo v komponentách
+- **Statická data v `data/`** – ne hardcoded v komponentách
+- **Žádné velké refaktory bez schválení** – jedna etapa = jeden rozsah
+
+## Závislosti mezi vrstvami
+
+```
+app → features → lib, types, data
+features → components, lib, types, data
+lib → types
+components → types
+```
+
+Nikdy: `lib → features`, `lib → components`, `components → lib/review`

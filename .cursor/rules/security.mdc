@@ -1,0 +1,34 @@
+---
+description: Bezpečnost – secrets, osobní data, localStorage, validace
+alwaysApply: true
+---
+
+# Security
+
+Viz `docs/SECURITY.md`.
+
+## MVP pravidla
+
+- **Žádné secrets v kódu** – API klíče, tokeny, hesla
+- **Žádné osobní údaje dítěte** – jméno, věk, e-mail
+- **localStorage jen pro neosobní lokální data** – review stavy, nastavení
+- **Validovat vstupy** – odpovědi dítěte
+- **Bezpečné chybové hlášky** – dítěti ne technické detaily
+
+## Co neukládat
+
+- Jméno, e-mail, fotografie dítěte
+- Hesla, tokeny
+- Lokace, IP adresy
+
+## Budoucí registrace
+
+- Pozor na GDPR a data dětí
+- Právní kontrola před veřejným provozem
+- V MVP se neimplementuje
+
+## Commit checklist
+
+- [ ] Žádné `.env` v commitu
+- [ ] Žádné API klíče v kódu
+- [ ] localStorage neukládá PII

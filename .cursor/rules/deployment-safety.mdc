@@ -1,0 +1,44 @@
+---
+description: Bezpečné nasazování – Vercel, GitHub, build, server/client
+alwaysApply: true
+---
+
+# Deployment Safety
+
+Viz `docs/DEPLOYMENT.md`.
+
+## Hosting
+
+- **Vercel Hobby** přes **GitHub**
+- Hlavní větev: **main**
+- Push do main = **production deploy**
+
+## Před pushem
+
+```bash
+npm run lint
+npm run build
+```
+
+## Server vs Client
+
+- **Browser API jen v client komponentách** – localStorage, Audio, window
+- Client komponenty musí mít `"use client"`, pokud používají:
+  - useState, useEffect
+  - localStorage
+  - event handlery
+  - Audio nebo animace
+
+## Deployment chyby
+
+1. Otevřít Vercel deployment logs
+2. Najít první skutečnou chybu
+3. Minimální oprava
+4. Znovu lint + build lokálně
+5. Commit + push
+
+## Nikdy
+
+- Vypínat TypeScript/ESLint kvůli obejití chyby
+- Push neověřené velké změny do main
+- Commit `.env` se secrets

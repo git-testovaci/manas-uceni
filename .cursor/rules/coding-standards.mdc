@@ -1,0 +1,41 @@
+---
+description: Coding standards – TypeScript, komponenty, pojmenování, importy
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Coding Standards
+
+## TypeScript
+
+- Striktní typy – žádné `any` bez důvodu
+- Typy exportovat z `types/index.ts`
+- Interface pro objekty, type pro uniony
+
+## Komponenty a funkce
+
+- **Malé komponenty** – jedna odpovědnost
+- **Malé funkce** – max ~30 řádků, ideálně méně
+- **Jasné názvy** – `MultiplicationInput`, ne `MI`
+- **DRY** – ale ne předčasná abstrakce
+
+## Závislosti
+
+- **Žádné zbytečné závislosti** – neměnit `package.json` bez schválení
+- Stack: Next.js, TypeScript, Tailwind – nic dalšího v MVP
+
+## Validace
+
+- Validovat vstupy dítěte (číslo, I/Y)
+- Neočekávaný vstup ignorovat, ne crash
+
+## Importy
+
+- Absolutní cesty nebo relativní – konzistentně
+- `types/` pro typy, ne duplikovat inline
+- Čisté importy – žádné nevyužité
+
+## Client vs Server
+
+- `"use client"` jen kde nutné (state, events, localStorage, Audio)
+- Server Components default

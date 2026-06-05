@@ -1,0 +1,38 @@
+---
+description: Workflow práce s Cursorem – Ask, Plan, Agent, Review
+alwaysApply: true
+---
+
+# Cursor Workflow
+
+Viz `docs/CURSOR_WORKFLOW.md`.
+
+## Režimy
+
+- **Ask** – vysvětlení, analýza, review diffu, dotazy bez úprav
+- **Plan** – větší změna, architektura, refaktor – **vždy před implementací**
+- **Agent** – implementace až po schváleném plánu, malé etapy
+- **Review** – po změně: diff, bezpečnost, typování, lint/build
+
+## Před implementací přečti
+
+1. `docs/PROJECT_BRIEF.md`
+2. `docs/ARCHITECTURE.md`
+3. `docs/DECISIONS.md`
+4. `docs/ERROR_PREVENTION.md`
+5. `docs/DEPLOYMENT.md`
+6. `docs/ROADMAP.md`
+7. Relevantní `.cursor/rules/`
+
+## Po etapě vypsat
+
+- Seznam změněných souborů
+- Rizika
+- Ověřovací kroky
+- Doporučený commit message
+
+## Nikdy
+
+- Celý projekt najednou
+- Implementace mimo rozsah etapy z ROADMAP
+- Prompt bez reference na docs

@@ -1,0 +1,47 @@
+---
+description: Testování a kvalita – smoke testy, lint, build, testovatelný kód
+alwaysApply: true
+---
+
+# Testing & Quality
+
+Viz `docs/TESTING_STRATEGY.md`, `docs/QUALITY_CHECKLIST.md`.
+
+## Každá etapa
+
+- [ ] Ověřovací kroky definované a splněné
+- [ ] `npm run lint` projde
+- [ ] `npm run build` projde
+- [ ] Ruční smoke test hlavního toku
+
+## MVP testování
+
+- Ruční smoke test v prohlížeči
+- Lint + build – automaticky
+
+## Psaní testovatelného kódu
+
+- Čistou logiku psát v `lib/` jako pure funkce
+- Review algoritmus: `lib/review/algorithm.ts` – snadno unit testovatelný
+- Storage vrstva s fallback – tolerantní k rozbitým datům
+
+## Později
+
+- Unit testy pro review algoritmus
+- Unit testy pro validaci
+- E2E test hlavního toku (Playwright)
+
+## Před push do main
+
+```bash
+npm run lint
+npm run build
+```
+
+## Smoke test scénáře
+
+- Homepage se načte
+- Matematika: zadat číslo, správná/chybná odpověď
+- Čeština: I/Y volba
+- Chyba se uloží k opakování
+- Zvuky lze vypnout

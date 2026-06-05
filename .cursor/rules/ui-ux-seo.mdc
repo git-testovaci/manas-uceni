@@ -1,0 +1,44 @@
+---
+description: UI/UX, design, přístupnost a SEO pravidla
+globs: "**/*.{tsx,css}"
+alwaysApply: false
+---
+
+# UI/UX, Accessibility, SEO
+
+Viz `docs/UI_UX_GUIDELINES.md`, `docs/ACCESSIBILITY.md`, `docs/SEO.md`.
+
+## Design
+
+- **Čistý, dětsky přívětivý, ne infantilní**
+- **Bez maskota** – žádné postavičky
+- **Velká tlačítka** – min. ~44px
+- **Velké písmo**, krátké texty
+- **Jedna hlavní akce na obrazovce**
+
+## Barvy
+
+- Matematika: modrá | Čeština: fialová | Úspěch: zelená
+- Chyba: **jemná oranžová**, ne agresivní červená
+
+## Tón
+
+- Chyba klidně a pozitivně: „Ještě ne. Ukážeme si postup."
+- Nikdy „Špatně!" jako hlavní feedback
+
+## Přístupnost
+
+- Labely u inputů, focus states, semantické HTML
+- Barva není jediný signál
+- `prefers-reduced-motion`
+
+## SEO
+
+- Každá stránka: title + description v metadata
+- Jeden h1, logická hierarchie nadpisů
+- `lang="cs"` na html
+
+## Responzivita
+
+- Mobil first, tablet, desktop
+- Testovat na mobilu
