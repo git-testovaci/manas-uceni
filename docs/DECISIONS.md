@@ -15,6 +15,18 @@ Co tím zatím odkládáme: ...
 
 ---
 
+## 2026-06-04 – Homepage shows subjects, not individual topics
+
+**Rozhodnutí:** Homepage zobrazuje pouze předměty na vysoké úrovni (Matematika, Čeština, Moje procvičování). Konkrétní témata (násobilka, i/y) a filtry patří na stránku předmětu, ne na homepage.
+
+**Proč:** Aplikace má růst – více matematických operací, gramatických témat, anglických lekcí. Homepage s konkrétními tématy by brzy přestala stačit a vyžadovala přestavbu.
+
+**Dopady:** Popisky karet na homepage jsou obecné. Placeholder stránky `/math`, `/czech`, `/practice` popisují budoucí strukturu. Dokumentace definuje tři úrovně: homepage → předmět → procvičování.
+
+**Co tím zatím odkládáme:** Skutečný výběr témat a filtrů na stránkách předmětů (implementace v pozdějších etapách).
+
+---
+
 ## 2026-06-04 – Prevence chyb má přednost před rychlou implementací
 
 **Rozhodnutí:** Projekt se staví po malých etapách s dokumentací, plánem a checklisty před každou implementací.

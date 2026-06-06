@@ -36,6 +36,32 @@ vyukovy-web/
 
 ---
 
+## Produktová navigace (informační architektura)
+
+```
+Homepage (/)
+  → předměty: Matematika, Čeština, Angličtina (brzy)
+  → Moje procvičování (/practice)
+
+Stránka předmětu (/math, /czech, /english)
+  → výběr tématu
+  → filtry a nastavení pro předmět
+  → start procvičování
+
+Procvičování
+  → předmětové (uvnitř /math, /czech, …)
+  → smíšené (/practice) napříč math + czech + english
+  → ze slabých míst (review) nebo vlastní konfigurace
+```
+
+### Pravidla
+
+- **Homepage** – jen předměty, ne konkrétní témata (násobilka, i/y patří do stránky předmětu)
+- **app/math/** – nejdřív hub předmětu, později podstránky pro témata a filtry
+- **app/practice/** – globální smíšený režim, ne duplikace předmětových témat
+
+---
+
 ## Vrstvy a odpovědnosti
 
 ### 1. `app/` – routing a stránky

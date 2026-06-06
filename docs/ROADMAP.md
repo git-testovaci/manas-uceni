@@ -62,6 +62,29 @@ Projekt se staví po malých etapách. Každá etapa má jasný cíl, rozsah a o
 
 ---
 
+## Etapa 2.1 – Sladění navigace se škálovatelnou strukturou předmětů
+
+**Cíl:** Homepage zobrazuje předměty, ne konkrétní témata. Placeholder stránky a docs popisují budoucí model.
+
+**Rozsah:**
+- `app/page.tsx` – obecné popisky karet
+- `app/math/page.tsx`, `app/czech/page.tsx`, `app/practice/page.tsx` – upřesněné placeholdery
+- `docs/PROJECT_BRIEF.md`, `PRODUCT_REQUIREMENTS.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `ROADMAP.md`
+
+**Co se nesmí dělat:**
+- Implementace témat, filtrů, cvičení
+- localStorage, review, nové závislosti
+- Změny v `components/` (pokud není nutné)
+
+**Ověřovací kroky:**
+- [ ] Homepage neukazuje „Násobilka“ ani „i/y“ jako popisky karet
+- [ ] Placeholder stránky popisují budoucí strukturu
+- [ ] `npm run lint && npm run build`
+
+**Commit message:** `chore: align navigation with scalable subject structure`
+
+---
+
 ## Etapa 3 – Datové typy a čistá logika procvičování
 
 **Cíl:** TypeScript typy a testovatelné funkce bez UI.

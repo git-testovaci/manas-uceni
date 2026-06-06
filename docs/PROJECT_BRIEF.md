@@ -31,9 +31,9 @@ Dcera potřebuje doma pravidelně procvičovat násobilku a pravopis (i/y). Exis
 
 | Oblast | MVP |
 |--------|-----|
-| Homepage | Rozcestník: Matematika, Čeština, Moje procvičování |
-| Matematika | Násobilka – ruční zadání čísla, vysvětlení, vizuální pomůcka |
-| Čeština | i/y – klikací volba I/Y |
+| Homepage | Rozcestník předmětů: Matematika, Čeština, Moje procvičování (bez konkrétních témat) |
+| Matematika | Předmětová stránka → první téma násobilka – ruční zadání, vysvětlení, vizuální pomůcka |
+| Čeština | Předmětová stránka → první téma i/y – klikací volba I/Y |
 | Opakování | Společný systém pro oba předměty, localStorage |
 | Nastavení | Zvuky a animace (vypnutelné) |
 | Jazyk | Primárně čeština, struktura pro en/sk |
@@ -80,6 +80,12 @@ Plánovaná rozšíření (po MVP):
 | Opakování slabého místa | „Tohle si ještě procvičíme.“ |
 | Opravená stará chyba | „Paráda! Opravená chyba.“ |
 | Běžná správná odpověď | Krátká pozitivní reakce (např. „Výborně!“) |
+
+## Navigace a struktura produktu
+
+- **Homepage** – pouze předměty na vysoké úrovni a vstup do globálního procvičování. Ne konkrétní témata (násobilka, i/y).
+- **Stránka předmětu** – výběr tématu, filtry a nastavení pro daný předmět, potom start procvičování.
+- **Moje procvičování** – smíšený režim napříč matematikou, češtinou a později angličtinou (slabá místa nebo vlastní konfigurace).
 
 ## Design v kostce
 

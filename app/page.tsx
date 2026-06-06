@@ -17,24 +17,24 @@ export default function Home() {
         <SubjectCard
           href="/math"
           title="Matematika"
-          description="Násobilka"
+          description="Příklady, témata a vlastní nastavení"
           variant="math"
         />
         <SubjectCard
           href="/czech"
           title="Čeština"
-          description="i/y"
+          description="Pravopis a jazyková cvičení"
           variant="czech"
         />
         <SubjectCard
           href="/practice"
           title="Moje procvičování"
-          description="Slabá místa"
+          description="Slabá místa napříč předměty"
           variant="practice"
         />
         <SubjectCard
           title="Angličtina"
-          description="Brzy"
+          description="Slovíčka, lekce a opakování"
           variant="english"
           disabled
         />
