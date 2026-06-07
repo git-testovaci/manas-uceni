@@ -30,23 +30,23 @@ export const DEFAULT_SUBTRACTION_CONFIG: SubtractionConfig = {
 
 export const DEFAULT_MULTIPLICATION_CONFIG: MultiplicationConfig = {
   enabled: true,
-  multiplicand: { min: 1, max: 12 },
-  multiplier: { min: 1, max: 12 },
-  maxResult: 144,
+  multiplicand: { min: 1, max: 10 },
+  multiplier: { min: 1, max: 10 },
+  maxResult: 100,
   wholeNumbersOnly: true,
 };
 
 export const DEFAULT_DIVISION_CONFIG: DivisionConfig = {
   enabled: false,
   dividend: { min: 1, max: 120 },
-  divisor: { min: 1, max: 12 },
+  divisor: { min: 1, max: 10 },
   wholeNumbersOnly: true,
 };
 
 export const DEFAULT_DIVISION_REMAINDER_CONFIG: DivisionRemainderConfig = {
   enabled: false,
   dividend: { min: 1, max: 120 },
-  divisor: { min: 1, max: 12 },
+  divisor: { min: 1, max: 10 },
   requireRemainder: true,
 };
 
@@ -62,7 +62,7 @@ export function createDefaultMathPracticeConfig(): MathPracticeConfig {
   return {
     enabledTopics: ["multiplication"],
     minValue: 1,
-    maxValue: 12,
+    maxValue: 10,
     maxResult: 100,
     questionCount: 10,
     allowRemainders: false,

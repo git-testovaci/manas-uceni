@@ -361,7 +361,7 @@ function generateDivisionRemainderFromTopicConfig(
 
   for (const dividend of dividends) {
     for (const divisor of divisors) {
-      if (divisor === 0) {
+      if (!isValidDivisionRemainderExample(dividend, divisor)) {
         continue;
       }
 
@@ -377,6 +377,24 @@ function generateDivisionRemainderFromTopicConfig(
   }
 
   return exercises;
+}
+
+function isValidDivisionRemainderExample(
+  dividend: number,
+  divisor: number,
+): boolean {
+  if (divisor <= 0) {
+    return false;
+  }
+
+  if (dividend <= divisor) {
+    return false;
+  }
+
+  const quotient = Math.floor(dividend / divisor);
+  const remainder = dividend % divisor;
+
+  return quotient >= 1 && remainder > 0;
 }
 
 function getTopicDivisors(
@@ -581,8 +599,7 @@ function generateDivisionRemainderExercises(
 
   for (const divisor of divisors) {
     for (const dividend of pool) {
-      const remainder = dividend % divisor;
-      if (remainder === 0) {
+      if (!isValidDivisionRemainderExample(dividend, divisor)) {
         continue;
       }
       if (!passesMaxResult(config, dividend)) {

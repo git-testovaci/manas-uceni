@@ -2,7 +2,10 @@
 
 import {
   createDefaultMathPracticeConfig,
+  DEFAULT_DIVISION_CONFIG,
+  DEFAULT_DIVISION_REMAINDER_CONFIG,
   DEFAULT_MATH_TOPIC_CONFIGS,
+  DEFAULT_MULTIPLICATION_CONFIG,
 } from "@/lib/math/mathDefaults";
 import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
@@ -57,6 +60,19 @@ const TOPIC_OPTIONS: { topic: MathTopic; label: string }[] = [
 ];
 
 const SELECTABLE_TOPICS: MathTopic[] = TOPIC_OPTIONS.map(({ topic }) => topic);
+
+const NO_TOPICS_ERROR = "Vyber alespoň jedno téma.";
+
+type GridTopic = "multiplication" | "division" | "division-remainder";
+
+const GRID_TOPIC_CONFIG_KEY: Record<
+  GridTopic,
+  "multiplication" | "division" | "divisionRemainder"
+> = {
+  multiplication: "multiplication",
+  division: "division",
+  "division-remainder": "divisionRemainder",
+};
 
 function createDefaultAdvancedFlags(): AdvancedFlags {
   return {
@@ -141,6 +157,96 @@ function formStateFromConfig(config: MathPracticeConfig): MathConfigFormState {
 
 function rangesDiffer(a: MathRangeConfig, b: MathRangeConfig): boolean {
   return a.min !== b.min || a.max !== b.max;
+}
+
+function getDefaultTopicConfigForTopic(topic: MathTopic): MathTopicConfigs {
+  switch (topic) {
+    case "addition":
+      return { addition: { ...DEFAULT_MATH_TOPIC_CONFIGS.addition! } };
+    case "subtraction":
+      return { subtraction: { ...DEFAULT_MATH_TOPIC_CONFIGS.subtraction! } };
+    case "multiplication":
+      return { multiplication: { ...DEFAULT_MULTIPLICATION_CONFIG } };
+    case "division":
+      return { division: { ...DEFAULT_DIVISION_CONFIG } };
+    case "division-remainder":
+      return {
+        divisionRemainder: { ...DEFAULT_DIVISION_REMAINDER_CONFIG },
+      };
+    default:
+      return {};
+  }
+}
+
+function filterSelectionToRange(
+  selected: number[] | undefined,
+  range: MathRangeConfig,
+): number[] | undefined {
+  if (!selected || selected.length === 0) {
+    return undefined;
+  }
+
+  const visible = buildRangeValues(range);
+  const filtered = selected.filter((value) => visible.includes(value));
+
+  if (filtered.length === 0) {
+    return [];
+  }
+
+  if (filtered.length === visible.length) {
+    return undefined;
+  }
+
+  return filtered;
+}
+
+function applyGridLastDeselected(
+  formState: MathConfigFormState,
+  topic: GridTopic,
+): { formState: MathConfigFormState; configError: string | null } {
+  const nextFormState = disableTopicFromEmptyGrid(formState, topic);
+
+  return {
+    formState: nextFormState,
+    configError:
+      nextFormState.enabledTopics.length === 0 ? NO_TOPICS_ERROR : null,
+  };
+}
+
+function disableTopicFromEmptyGrid(
+  formState: MathConfigFormState,
+  topic: GridTopic,
+): MathConfigFormState {
+  const configKey = GRID_TOPIC_CONFIG_KEY[topic];
+  const currentConfig = formState.topicConfigs[configKey];
+  const nextEnabledTopics = formState.enabledTopics.filter(
+    (enabledTopic) => enabledTopic !== topic,
+  );
+
+  if (!currentConfig) {
+    return {
+      ...formState,
+      enabledTopics: nextEnabledTopics,
+    };
+  }
+
+  const clearedConfig = { ...currentConfig };
+  if (topic === "multiplication") {
+    (clearedConfig as MultiplicationConfig).selectedMultipliers = undefined;
+  } else if (topic === "division") {
+    (clearedConfig as DivisionConfig).selectedDivisors = undefined;
+  } else {
+    (clearedConfig as DivisionRemainderConfig).selectedDivisors = undefined;
+  }
+
+  return {
+    ...formState,
+    enabledTopics: nextEnabledTopics,
+    topicConfigs: {
+      ...formState.topicConfigs,
+      [configKey]: clearedConfig,
+    },
+  };
 }
 
 function buildPracticeConfig(form: MathConfigFormState): MathPracticeConfig {
@@ -308,12 +414,132 @@ export function MathPracticeClient() {
   const [configError, setConfigError] = useState<string | null>(null);
 
   const toggleTopic = (topic: MathTopic) => {
-    setFormState((current) => ({
-      ...current,
-      enabledTopics: current.enabledTopics.includes(topic)
-        ? current.enabledTopics.filter((item) => item !== topic)
-        : [...current.enabledTopics, topic],
-    }));
+    setFormState((current) => {
+      if (current.enabledTopics.includes(topic)) {
+        return {
+          ...current,
+          enabledTopics: current.enabledTopics.filter((item) => item !== topic),
+        };
+      }
+
+      const defaultTopicConfig = getDefaultTopicConfigForTopic(topic);
+      return {
+        ...current,
+        enabledTopics: [...current.enabledTopics, topic],
+        topicConfigs: {
+          ...current.topicConfigs,
+          ...defaultTopicConfig,
+        },
+        advanced: {
+          ...current.advanced,
+          [topic]: false,
+        },
+      };
+    });
+    setConfigError(null);
+  };
+
+  const handleGridLastDeselected = (topic: GridTopic) => {
+    const { formState: nextFormState, configError } = applyGridLastDeselected(
+      formState,
+      topic,
+    );
+    setFormState(nextFormState);
+    setConfigError(configError);
+  };
+
+  const handleGridRangeSync = (
+    topic: GridTopic,
+    nextFormState: MathConfigFormState,
+  ): { formState: MathConfigFormState; configError: string | null } => {
+    const configKey = GRID_TOPIC_CONFIG_KEY[topic];
+    const config = nextFormState.topicConfigs[configKey];
+    if (!config) {
+      return { formState: nextFormState, configError: null };
+    }
+
+    const range =
+      topic === "multiplication"
+        ? (config as MultiplicationConfig).multiplier
+        : (config as DivisionConfig | DivisionRemainderConfig).divisor;
+    const selected =
+      topic === "multiplication"
+        ? (config as MultiplicationConfig).selectedMultipliers
+        : (config as DivisionConfig | DivisionRemainderConfig).selectedDivisors;
+
+    const normalized = filterSelectionToRange(selected, range);
+    if (normalized === undefined) {
+      return { formState: nextFormState, configError: null };
+    }
+
+    if (normalized.length === 0) {
+      const disabledState = disableTopicFromEmptyGrid(nextFormState, topic);
+      return {
+        formState: disabledState,
+        configError:
+          disabledState.enabledTopics.length === 0 ? NO_TOPICS_ERROR : null,
+      };
+    }
+
+    const updatedConfig =
+      topic === "multiplication"
+        ? {
+            ...(config as MultiplicationConfig),
+            selectedMultipliers: normalized,
+          }
+        : topic === "division"
+          ? {
+              ...(config as DivisionConfig),
+              selectedDivisors: normalized,
+            }
+          : {
+              ...(config as DivisionRemainderConfig),
+              selectedDivisors: normalized,
+            };
+
+    return {
+      formState: {
+        ...nextFormState,
+        topicConfigs: {
+          ...nextFormState.topicConfigs,
+          [configKey]: updatedConfig,
+        },
+      },
+      configError: null,
+    };
+  };
+
+  const applyFormStateChange = (nextFormState: MathConfigFormState) => {
+    let syncedState = nextFormState;
+    let nextError: string | null = null;
+
+    for (const topic of [
+      "multiplication",
+      "division",
+      "division-remainder",
+    ] as GridTopic[]) {
+      if (!syncedState.enabledTopics.includes(topic)) {
+        continue;
+      }
+
+      const result = handleGridRangeSync(topic, syncedState);
+      syncedState = result.formState;
+      if (result.configError) {
+        nextError = result.configError;
+      }
+    }
+
+    setFormState(syncedState);
+    if (nextError) {
+      setConfigError(nextError);
+      return;
+    }
+
+    if (syncedState.enabledTopics.length > 0) {
+      setConfigError((current) =>
+        current === NO_TOPICS_ERROR ? null : current,
+      );
+    }
   };
 
   const clearAnswerInputs = () => {
@@ -326,7 +552,7 @@ export function MathPracticeClient() {
     setConfigError(null);
 
     if (formState.enabledTopics.length === 0) {
-      setConfigError("Vyber alespoň jedno téma.");
+      setConfigError(NO_TOPICS_ERROR);
       return;
     }
 
@@ -517,7 +743,8 @@ export function MathPracticeClient() {
         formState={formState}
         configError={configError}
         onToggleTopic={toggleTopic}
-        onFormStateChange={setFormState}
+        onFormStateChange={applyFormStateChange}
+        onGridLastDeselected={handleGridLastDeselected}
         onStart={handleStartPractice}
       />
     );
@@ -565,6 +792,7 @@ type ConfigScreenProps = {
   configError: string | null;
   onToggleTopic: (topic: MathTopic) => void;
   onFormStateChange: (state: MathConfigFormState) => void;
+  onGridLastDeselected: (topic: GridTopic) => void;
   onStart: () => void;
 };
 
@@ -573,6 +801,7 @@ function ConfigScreen({
   configError,
   onToggleTopic,
   onFormStateChange,
+  onGridLastDeselected,
   onStart,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
@@ -678,6 +907,7 @@ function ConfigScreen({
             onChange={(config) =>
               updateTopicConfig("multiplication", () => config)
             }
+            onGridLastDeselected={() => onGridLastDeselected("multiplication")}
           />
         )}
 
@@ -688,6 +918,7 @@ function ConfigScreen({
             advanced={formState.advanced.division}
             onAdvancedChange={(value) => setAdvanced("division", value)}
             onChange={(config) => updateTopicConfig("division", () => config)}
+            onGridLastDeselected={() => onGridLastDeselected("division")}
           />
         )}
 
@@ -701,6 +932,9 @@ function ConfigScreen({
             }
             onChange={(config) =>
               updateTopicConfig("divisionRemainder", () => config)
+            }
+            onGridLastDeselected={() =>
+              onGridLastDeselected("division-remainder")
             }
           />
         )}
@@ -749,8 +983,24 @@ function TopicCard({ topic, label, selected, onToggle }: TopicCardProps) {
   );
 }
 
+type TopicSettingsColor =
+  | "addition"
+  | "subtraction"
+  | "multiplication"
+  | "division"
+  | "division-remainder";
+
+const TOPIC_HEADER_STYLES: Record<TopicSettingsColor, string> = {
+  addition: "border-sky-200 bg-sky-100 text-sky-950",
+  subtraction: "border-indigo-200 bg-indigo-100 text-indigo-950",
+  multiplication: "border-violet-200 bg-violet-100 text-violet-950",
+  division: "border-teal-200 bg-teal-100 text-teal-950",
+  "division-remainder": "border-orange-200 bg-orange-100 text-orange-950",
+};
+
 type SettingsSectionProps = {
   title: string;
+  topicColor: TopicSettingsColor;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   simpleFields: ReactNode;
@@ -759,25 +1009,32 @@ type SettingsSectionProps = {
 
 function SettingsSection({
   title,
+  topicColor,
   advanced,
   onAdvancedChange,
   simpleFields,
   advancedFields,
 }: SettingsSectionProps) {
   return (
-    <section className="space-y-4 rounded-2xl border border-foreground/15 p-4 sm:p-5">
-      <h2 className="text-xl font-semibold">{title}</h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{simpleFields}</div>
-      <label className="flex min-h-11 items-center gap-3 text-base">
-        <input
-          type="checkbox"
-          checked={advanced}
-          onChange={(event) => onAdvancedChange(event.target.checked)}
-          className="h-5 w-5 rounded border-foreground/30"
-        />
-        <span>Rozšířené nastavení</span>
-      </label>
-      {advanced && <div className="space-y-4">{advancedFields}</div>}
+    <section className="overflow-hidden rounded-2xl border border-foreground/15">
+      <div
+        className={`border-b px-4 py-3 sm:px-5 ${TOPIC_HEADER_STYLES[topicColor]}`}
+      >
+        <h2 className="text-xl font-semibold">{title}</h2>
+      </div>
+      <div className="space-y-4 p-4 sm:p-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{simpleFields}</div>
+        <label className="flex min-h-11 items-center gap-3 text-base">
+          <input
+            type="checkbox"
+            checked={advanced}
+            onChange={(event) => onAdvancedChange(event.target.checked)}
+            className="h-5 w-5 rounded border-foreground/30"
+          />
+          <span>Rozšířené nastavení</span>
+        </label>
+        {advanced && <div className="space-y-4">{advancedFields}</div>}
+      </div>
     </section>
   );
 }
@@ -860,25 +1117,52 @@ type NumberGridProps = {
   range: MathRangeConfig;
   selected: number[] | undefined;
   onChange: (selected: number[] | undefined) => void;
+  onLastDeselected?: () => void;
 };
 
-function NumberGrid({ label, range, selected, onChange }: NumberGridProps) {
+function getEffectiveNumberSelection(
+  selected: number[] | undefined,
+  numbers: number[],
+): number[] {
+  if (!selected || selected.length === 0) {
+    return numbers;
+  }
+
+  return selected;
+}
+
+function isImplicitAllSelection(
+  selected: number[] | undefined,
+): boolean {
+  return !selected || selected.length === 0;
+}
+
+function NumberGrid({
+  label,
+  range,
+  selected,
+  onChange,
+  onLastDeselected,
+}: NumberGridProps) {
   const numbers = buildRangeValues(range);
+  const effectiveSelected = getEffectiveNumberSelection(selected, numbers);
+  const implicitAll = isImplicitAllSelection(selected);
 
   const toggleNumber = (value: number) => {
-    const current = selected ?? [];
-    if (current.length === 0) {
-      onChange([value]);
-      return;
-    }
+    const current = implicitAll ? numbers : selected!;
 
     if (current.includes(value)) {
       const next = current.filter((item) => item !== value);
-      onChange(next.length > 0 ? next : undefined);
+      if (next.length === 0) {
+        onLastDeselected?.();
+        return;
+      }
+      onChange(next.length === numbers.length ? undefined : next);
       return;
     }
 
-    onChange([...current, value].sort((a, b) => a - b));
+    const next = [...current, value].sort((a, b) => a - b);
+    onChange(next.length === numbers.length ? undefined : next);
   };
 
   return (
@@ -886,10 +1170,7 @@ function NumberGrid({ label, range, selected, onChange }: NumberGridProps) {
       <p className="text-base font-semibold">{label}</p>
       <div className="flex flex-wrap gap-2">
         {numbers.map((value) => {
-          const isPressed =
-            selected !== undefined &&
-            selected.length > 0 &&
-            selected.includes(value);
+          const isPressed = effectiveSelected.includes(value);
 
           return (
             <button
@@ -909,7 +1190,7 @@ function NumberGrid({ label, range, selected, onChange }: NumberGridProps) {
         })}
       </div>
       <p className="text-sm text-foreground/60">
-        Žádné tlačítko není vybrané = použijí se všechna čísla v rozsahu.
+        Všechna čísla v rozsahu jsou vybraná. Kliknutím můžeš výběr upravit.
       </p>
     </div>
   );
@@ -947,6 +1228,7 @@ function AdditionSettings({
   return (
     <SettingsSection
       title="Sčítání"
+      topicColor="addition"
       advanced={advanced}
       onAdvancedChange={onAdvancedChange}
       simpleFields={
@@ -1018,6 +1300,7 @@ function SubtractionSettings({
   return (
     <SettingsSection
       title="Odčítání"
+      topicColor="subtraction"
       advanced={advanced}
       onAdvancedChange={onAdvancedChange}
       simpleFields={
@@ -1073,6 +1356,7 @@ type MultiplicationSettingsProps = {
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: MultiplicationConfig) => void;
+  onGridLastDeselected: () => void;
 };
 
 function MultiplicationSettings({
@@ -1080,6 +1364,7 @@ function MultiplicationSettings({
   advanced,
   onAdvancedChange,
   onChange,
+  onGridLastDeselected,
 }: MultiplicationSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -1093,6 +1378,7 @@ function MultiplicationSettings({
   return (
     <SettingsSection
       title="Násobení"
+      topicColor="multiplication"
       advanced={advanced}
       onAdvancedChange={onAdvancedChange}
       simpleFields={
@@ -1113,7 +1399,7 @@ function MultiplicationSettings({
           />
           <NumberField
             label="Max výsledek"
-            value={config.maxResult ?? 144}
+            value={config.maxResult ?? 100}
             onChange={(maxResult) => onChange({ ...config, maxResult })}
           />
         </>
@@ -1132,7 +1418,7 @@ function MultiplicationSettings({
           />
           <NumberField
             label="Max výsledek"
-            value={config.maxResult ?? 144}
+            value={config.maxResult ?? 100}
             onChange={(maxResult) => onChange({ ...config, maxResult })}
           />
           <label className="flex min-h-11 items-center gap-3 text-base">
@@ -1156,6 +1442,7 @@ function MultiplicationSettings({
             onChange={(selectedMultipliers) =>
               onChange({ ...config, selectedMultipliers })
             }
+            onLastDeselected={onGridLastDeselected}
           />
         </>
       }
@@ -1168,6 +1455,7 @@ type DivisionSettingsProps = {
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionConfig) => void;
+  onGridLastDeselected: () => void;
 };
 
 function DivisionSettings({
@@ -1175,6 +1463,7 @@ function DivisionSettings({
   advanced,
   onAdvancedChange,
   onChange,
+  onGridLastDeselected,
 }: DivisionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -1188,6 +1477,7 @@ function DivisionSettings({
   return (
     <SettingsSection
       title="Dělení"
+      topicColor="division"
       advanced={advanced}
       onAdvancedChange={onAdvancedChange}
       simpleFields={
@@ -1239,6 +1529,7 @@ function DivisionSettings({
             onChange={(selectedDivisors) =>
               onChange({ ...config, selectedDivisors })
             }
+            onLastDeselected={onGridLastDeselected}
           />
         </>
       }
@@ -1251,6 +1542,7 @@ type DivisionRemainderSettingsProps = {
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionRemainderConfig) => void;
+  onGridLastDeselected: () => void;
 };
 
 function DivisionRemainderSettings({
@@ -1258,6 +1550,7 @@ function DivisionRemainderSettings({
   advanced,
   onAdvancedChange,
   onChange,
+  onGridLastDeselected,
 }: DivisionRemainderSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -1271,6 +1564,7 @@ function DivisionRemainderSettings({
   return (
     <SettingsSection
       title="Dělení se zbytkem"
+      topicColor="division-remainder"
       advanced={advanced}
       onAdvancedChange={onAdvancedChange}
       simpleFields={
@@ -1308,6 +1602,7 @@ function DivisionRemainderSettings({
             onChange={(selectedDivisors) =>
               onChange({ ...config, selectedDivisors })
             }
+            onLastDeselected={onGridLastDeselected}
           />
         </>
       }
