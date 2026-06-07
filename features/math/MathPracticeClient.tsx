@@ -1,6 +1,11 @@
 "use client";
 
-import { getMathLessonById, getMathLessonsByGrade } from "@/data/math";
+import {
+  getMathLessonById,
+  getMathLessonsByGrade,
+  getMathPracticePresetById,
+  type MathPracticePresetId,
+} from "@/data/math";
 import {
   createDefaultMathPracticeConfig,
   DEFAULT_DIVISION_CONFIG,
@@ -46,12 +51,14 @@ import type {
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
 import {
-  useCallback,
   useEffect,
   useRef,
   useState,
+  type Dispatch,
   type KeyboardEvent,
+  type MutableRefObject,
   type ReactNode,
+  type SetStateAction,
 } from "react";
 
 type Phase = "config" | "practice" | "summary";
@@ -436,6 +443,21 @@ function commitFormState(form: MathConfigFormState): MathConfigFormState {
     numericDrafts: {},
   };
 }
+
+function publishFormState(
+  nextFormState: MathConfigFormState,
+  formStateRef: MutableRefObject<MathConfigFormState>,
+  setFormState: Dispatch<SetStateAction<MathConfigFormState>>,
+) {
+  formStateRef.current = nextFormState;
+  setFormState(nextFormState);
+}
+
+type FormStateChange = (
+  nextOrUpdater:
+    | MathConfigFormState
+    | ((current: MathConfigFormState) => MathConfigFormState),
+) => void;
 
 const GRADE_OPTIONS: SchoolGrade[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -845,37 +867,35 @@ export function MathPracticeClient() {
   );
 
   const toggleTopic = (topic: MathTopic) => {
-    setFormState((current) => {
-      if (current.enabledTopics.includes(topic)) {
-        return {
+    const current = formStateRef.current;
+    const nextFormState = current.enabledTopics.includes(topic)
+      ? {
           ...current,
           enabledTopics: current.enabledTopics.filter((item) => item !== topic),
+        }
+      : {
+          ...current,
+          enabledTopics: [...current.enabledTopics, topic],
+          topicConfigs: {
+            ...current.topicConfigs,
+            ...getDefaultTopicConfigForTopic(topic),
+          },
+          advanced: {
+            ...current.advanced,
+            [topic]: false,
+          },
         };
-      }
 
-      const defaultTopicConfig = getDefaultTopicConfigForTopic(topic);
-      return {
-        ...current,
-        enabledTopics: [...current.enabledTopics, topic],
-        topicConfigs: {
-          ...current.topicConfigs,
-          ...defaultTopicConfig,
-        },
-        advanced: {
-          ...current.advanced,
-          [topic]: false,
-        },
-      };
-    });
+    publishFormState(nextFormState, formStateRef, setFormState);
     setConfigError(null);
   };
 
   const handleGridLastDeselected = (topic: GridTopic) => {
     const { formState: nextFormState, configError } = applyGridLastDeselected(
-      formState,
+      formStateRef.current,
       topic,
     );
-    setFormState(nextFormState);
+    publishFormState(nextFormState, formStateRef, setFormState);
     setConfigError(configError);
   };
 
@@ -940,7 +960,11 @@ export function MathPracticeClient() {
     };
   };
 
-  const applyFormStateChange = (nextFormState: MathConfigFormState) => {
+  const applyFormStateChange: FormStateChange = (nextOrUpdater) => {
+    const nextFormState =
+      typeof nextOrUpdater === "function"
+        ? nextOrUpdater(formStateRef.current)
+        : nextOrUpdater;
     let syncedState = nextFormState;
     let nextError: string | null = null;
 
@@ -960,7 +984,7 @@ export function MathPracticeClient() {
       }
     }
 
-    setFormState(syncedState);
+    publishFormState(syncedState, formStateRef, setFormState);
     if (nextError) {
       setConfigError(nextError);
       return;
@@ -1042,29 +1066,50 @@ export function MathPracticeClient() {
     setConfigError(null);
   };
 
-  const handleNumericDraftChange = useCallback(
-    (fieldKey: string, value: string) => {
-      setFormState((current) => {
-        const nextFormState = {
-          ...current,
-          numericDrafts: { ...current.numericDrafts, [fieldKey]: value },
-        };
-        formStateRef.current = nextFormState;
-        return nextFormState;
-      });
-    },
-    [],
-  );
+  const handleNumericDraftChange = (fieldKey: string, value: string) => {
+    const current = formStateRef.current;
+    publishFormState(
+      {
+        ...current,
+        numericDrafts: { ...current.numericDrafts, [fieldKey]: value },
+      },
+      formStateRef,
+      setFormState,
+    );
+  };
 
-  const handleNumericDraftClear = useCallback((fieldKey: string) => {
-    setFormState((current) => {
-      const rest = { ...current.numericDrafts };
-      delete rest[fieldKey];
-      const nextFormState = { ...current, numericDrafts: rest };
-      formStateRef.current = nextFormState;
-      return nextFormState;
+  const handleNumericDraftClear = (fieldKey: string) => {
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    delete nextDrafts[fieldKey];
+    publishFormState(
+      { ...current, numericDrafts: nextDrafts },
+      formStateRef,
+      setFormState,
+    );
+  };
+
+  const handleApplyDivisionPreset = (presetId: MathPracticePresetId) => {
+    const nextConfig = getDivisionConfigFromPreset(presetId);
+    if (!nextConfig) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    for (const fieldKey of DIVISION_NUMERIC_DRAFT_KEYS) {
+      delete nextDrafts[fieldKey];
+    }
+
+    applyFormStateChange({
+      ...current,
+      numericDrafts: nextDrafts,
+      topicConfigs: {
+        ...current.topicConfigs,
+        division: nextConfig,
+      },
     });
-  }, []);
+  };
 
   const handleStartPractice = () => {
     const currentForm = formStateRef.current;
@@ -1076,8 +1121,7 @@ export function MathPracticeClient() {
 
     setConfigError(null);
     const committedForm = commitFormState(currentForm);
-    formStateRef.current = committedForm;
-    setFormState(committedForm);
+    publishFormState(committedForm, formStateRef, setFormState);
 
     beginPracticeSession(buildPracticeConfig(committedForm), {
       persistConfig: true,
@@ -1260,6 +1304,7 @@ export function MathPracticeClient() {
         numericDrafts={formState.numericDrafts}
         onNumericDraftChange={handleNumericDraftChange}
         onNumericDraftClear={handleNumericDraftClear}
+        onApplyDivisionPreset={handleApplyDivisionPreset}
       />
     );
   }
@@ -1311,10 +1356,11 @@ type ConfigScreenProps = NumericDraftProps & {
   onModeChange: (mode: MathPracticeSetupMode) => void;
   onGradeChange: (grade: SchoolGrade) => void;
   onToggleTopic: (topic: MathTopic) => void;
-  onFormStateChange: (state: MathConfigFormState) => void;
+  onFormStateChange: FormStateChange;
   onGridLastDeselected: (topic: GridTopic) => void;
   onStart: () => void;
   onStartLesson: (lesson: MathLesson) => void;
+  onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function ConfigScreen({
@@ -1333,33 +1379,36 @@ function ConfigScreen({
   numericDrafts,
   onNumericDraftChange,
   onNumericDraftClear,
+  onApplyDivisionPreset,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
     updater: (current: NonNullable<MathTopicConfigs[K]>) => NonNullable<MathTopicConfigs[K]>,
   ) => {
-    const current = formState.topicConfigs[key];
-    if (!current) {
-      return;
-    }
+    onFormStateChange((latest) => {
+      const current = latest.topicConfigs[key];
+      if (!current) {
+        return latest;
+      }
 
-    onFormStateChange({
-      ...formState,
-      topicConfigs: {
-        ...formState.topicConfigs,
-        [key]: updater(current),
-      },
+      return {
+        ...latest,
+        topicConfigs: {
+          ...latest.topicConfigs,
+          [key]: updater(current),
+        },
+      };
     });
   };
 
   const setAdvanced = (topic: MathTopic, enabled: boolean) => {
-    onFormStateChange({
-      ...formState,
+    onFormStateChange((latest) => ({
+      ...latest,
       advanced: {
-        ...formState.advanced,
+        ...latest.advanced,
         [topic]: enabled,
       },
-    });
+    }));
   };
 
   const lessons = getMathLessonsByGrade(selectedGrade);
@@ -1401,6 +1450,7 @@ function ConfigScreen({
           numericDrafts={numericDrafts}
           onNumericDraftChange={onNumericDraftChange}
           onNumericDraftClear={onNumericDraftClear}
+          onApplyDivisionPreset={onApplyDivisionPreset}
         />
       )}
     </div>
@@ -1570,7 +1620,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
   formState: MathConfigFormState;
   configError: string | null;
   onToggleTopic: (topic: MathTopic) => void;
-  onFormStateChange: (state: MathConfigFormState) => void;
+  onFormStateChange: FormStateChange;
   onGridLastDeselected: (topic: GridTopic) => void;
   onStart: () => void;
   updateTopicConfig: <K extends keyof MathTopicConfigs>(
@@ -1580,6 +1630,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
     ) => NonNullable<MathTopicConfigs[K]>,
   ) => void;
   setAdvanced: (topic: MathTopic, enabled: boolean) => void;
+  onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function CustomModeSettings({
@@ -1594,6 +1645,7 @@ function CustomModeSettings({
   numericDrafts,
   onNumericDraftChange,
   onNumericDraftClear,
+  onApplyDivisionPreset,
 }: CustomModeSettingsProps) {
   const numericDraftProps: NumericDraftProps = {
     numericDrafts,
@@ -1625,10 +1677,10 @@ function CustomModeSettings({
           min={MIN_QUESTION_COUNT}
           {...numericDraftProps}
           onChange={(questionCount) =>
-            onFormStateChange({
-              ...formState,
+            onFormStateChange((latest) => ({
+              ...latest,
               questionCount,
-            })
+            }))
           }
         />
       </div>
@@ -1681,6 +1733,7 @@ function CustomModeSettings({
             onAdvancedChange={(value) => setAdvanced("division", value)}
             onChange={(config) => updateTopicConfig("division", () => config)}
             onGridLastDeselected={() => onGridLastDeselected("division")}
+            onApplyPreset={onApplyDivisionPreset}
             {...numericDraftProps}
           />
         )}
@@ -2349,12 +2402,80 @@ function MultiplicationSettings({
   );
 }
 
+const DIVISION_QUICK_PRESETS: {
+  id: MathPracticePresetId;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    id: "math-preset-division-table",
+    label: "Dělení v malé násobilce",
+    helper: "Vhodné pro 2.–3. třídu. Výsledek je nejvýše 10.",
+  },
+  {
+    id: "math-preset-division-advanced",
+    label: "Pokročilejší dělení podle rozsahu",
+    helper:
+      "Vhodné pro pokročilejší dělení, kde může být výsledek větší než 10.",
+  },
+];
+
+const DIVISION_NUMERIC_DRAFT_KEYS = [
+  "division.simple.min",
+  "division.simple.max",
+  "division.dividend.min",
+  "division.dividend.max",
+  "division.divisor.min",
+  "division.divisor.max",
+] as const;
+
+function getDivisionConfigFromPreset(
+  presetId: MathPracticePresetId,
+): DivisionConfig | undefined {
+  const division = getMathPracticePresetById(presetId)?.mathConfig.topicConfigs
+    ?.division;
+
+  if (!division) {
+    return undefined;
+  }
+
+  return { ...division, enabled: true };
+}
+
+type DivisionQuickPresetsProps = {
+  onSelectPreset: (presetId: MathPracticePresetId) => void;
+};
+
+function DivisionQuickPresets({ onSelectPreset }: DivisionQuickPresetsProps) {
+  return (
+    <div className="col-span-full space-y-3">
+      <h3 className="text-base font-semibold">Rychlá volba</h3>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {DIVISION_QUICK_PRESETS.map(({ id, label, helper }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelectPreset(id)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {helper}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type DivisionSettingsProps = NumericDraftProps & {
   config: DivisionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionConfig) => void;
   onGridLastDeselected: () => void;
+  onApplyPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function DivisionSettings({
@@ -2366,6 +2487,7 @@ function DivisionSettings({
   onNumericDraftClear,
   onChange,
   onGridLastDeselected,
+  onApplyPreset,
 }: DivisionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -2384,6 +2506,7 @@ function DivisionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
+          <DivisionQuickPresets onSelectPreset={onApplyPreset} />
           <NumberField
             fieldKey="division.simple.min"
             label="Min hodnota"
