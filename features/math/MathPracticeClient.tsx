@@ -46,6 +46,7 @@ import type {
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -65,9 +66,16 @@ type AdvancedFlags = Record<MathTopic, boolean>;
 
 type MathConfigFormState = {
   enabledTopics: MathTopic[];
-  questionCountInput: string;
+  questionCount: number;
+  numericDrafts: Record<string, string>;
   topicConfigs: MathTopicConfigs;
   advanced: AdvancedFlags;
+};
+
+type NumericDraftProps = {
+  numericDrafts: Record<string, string>;
+  onNumericDraftChange: (fieldKey: string, value: string) => void;
+  onNumericDraftClear: (fieldKey: string) => void;
 };
 
 const TOPIC_OPTIONS: { topic: MathTopic; label: string }[] = [
@@ -82,24 +90,351 @@ const SELECTABLE_TOPICS: MathTopic[] = TOPIC_OPTIONS.map(({ topic }) => topic);
 
 const NO_TOPICS_ERROR = "Vyber alespoň jedno téma.";
 const MIN_QUESTION_COUNT = 1;
+const MIN_RANGE_VALUE = 1;
 const DEFAULT_QUESTION_COUNT = 10;
 
-function normalizeQuestionCountInput(value: string): number {
+function isEditableNumericInput(value: string): boolean {
+  return value === "" || /^\d+$/.test(value);
+}
+
+function normalizeNumericInput(
+  value: string,
+  options: { min: number; fallback: number },
+): number {
   const trimmed = value.trim();
   if (trimmed === "") {
-    return MIN_QUESTION_COUNT;
+    return options.fallback;
   }
 
   const parsed = Number.parseInt(trimmed, 10);
-  if (!Number.isFinite(parsed) || parsed < MIN_QUESTION_COUNT) {
-    return MIN_QUESTION_COUNT;
+  if (!Number.isFinite(parsed) || parsed < options.min) {
+    return options.fallback;
   }
 
   return parsed;
 }
 
-function commitQuestionCountInput(value: string): string {
-  return String(normalizeQuestionCountInput(value));
+function commitNumericValue(value: number, min: number): number {
+  if (!Number.isFinite(value) || value < min) {
+    return min;
+  }
+
+  return value;
+}
+
+function applyRangeMinChange(
+  range: MathRangeConfig,
+  min: number,
+): MathRangeConfig {
+  const nextMin = commitNumericValue(min, MIN_RANGE_VALUE);
+  return {
+    min: nextMin,
+    max: Math.max(nextMin, commitNumericValue(range.max, MIN_RANGE_VALUE)),
+  };
+}
+
+function applyRangeMaxChange(
+  range: MathRangeConfig,
+  max: number,
+): MathRangeConfig {
+  const nextMax = commitNumericValue(max, MIN_RANGE_VALUE);
+  return {
+    min: Math.min(commitNumericValue(range.min, MIN_RANGE_VALUE), nextMax),
+    max: nextMax,
+  };
+}
+
+function commitRange(range: MathRangeConfig): MathRangeConfig {
+  const min = commitNumericValue(range.min, MIN_RANGE_VALUE);
+  const max = Math.max(
+    min,
+    commitNumericValue(range.max, MIN_RANGE_VALUE),
+  );
+
+  return { min, max };
+}
+
+function commitTopicConfigs(topicConfigs: MathTopicConfigs): MathTopicConfigs {
+  const commitMaxResult = (value?: number) =>
+    value === undefined
+      ? undefined
+      : commitNumericValue(value, MIN_RANGE_VALUE);
+
+  return {
+    addition: topicConfigs.addition
+      ? {
+          ...topicConfigs.addition,
+          addendA: commitRange(topicConfigs.addition.addendA),
+          addendB: commitRange(topicConfigs.addition.addendB),
+          maxResult: commitMaxResult(topicConfigs.addition.maxResult),
+        }
+      : undefined,
+    subtraction: topicConfigs.subtraction
+      ? {
+          ...topicConfigs.subtraction,
+          minuend: commitRange(topicConfigs.subtraction.minuend),
+          subtrahend: commitRange(topicConfigs.subtraction.subtrahend),
+        }
+      : undefined,
+    multiplication: topicConfigs.multiplication
+      ? {
+          ...topicConfigs.multiplication,
+          multiplicand: commitRange(topicConfigs.multiplication.multiplicand),
+          multiplier: commitRange(topicConfigs.multiplication.multiplier),
+          maxResult: commitMaxResult(topicConfigs.multiplication.maxResult),
+        }
+      : undefined,
+    division: topicConfigs.division
+      ? {
+          ...topicConfigs.division,
+          dividend: commitRange(topicConfigs.division.dividend),
+          divisor: commitRange(topicConfigs.division.divisor),
+        }
+      : undefined,
+    divisionRemainder: topicConfigs.divisionRemainder
+      ? {
+          ...topicConfigs.divisionRemainder,
+          dividend: commitRange(topicConfigs.divisionRemainder.dividend),
+          divisor: commitRange(topicConfigs.divisionRemainder.divisor),
+        }
+      : undefined,
+  };
+}
+
+function resolveDraftNumber(
+  drafts: Record<string, string>,
+  key: string,
+  fallback: number,
+  min: number,
+): number {
+  if (drafts[key] === undefined) {
+    return fallback;
+  }
+
+  return normalizeNumericInput(drafts[key], { min, fallback });
+}
+
+function resolveDraftRange(
+  drafts: Record<string, string>,
+  minKey: string,
+  maxKey: string,
+  range: MathRangeConfig,
+): MathRangeConfig {
+  return commitRange({
+    min: resolveDraftNumber(drafts, minKey, range.min, MIN_RANGE_VALUE),
+    max: resolveDraftNumber(drafts, maxKey, range.max, MIN_RANGE_VALUE),
+  });
+}
+
+function applyNumericDrafts(form: MathConfigFormState): MathConfigFormState {
+  const drafts = form.numericDrafts;
+  if (Object.keys(drafts).length === 0) {
+    return form;
+  }
+
+  const patchRange = (
+    range: MathRangeConfig,
+    minKey: string,
+    maxKey: string,
+  ) => resolveDraftRange(drafts, minKey, maxKey, range);
+
+  const patchSimpleRange = (prefix: string, range: MathRangeConfig) => {
+    if (
+      drafts[`${prefix}.simple.min`] === undefined &&
+      drafts[`${prefix}.simple.max`] === undefined
+    ) {
+      return range;
+    }
+
+    return patchRange(range, `${prefix}.simple.min`, `${prefix}.simple.max`);
+  };
+
+  const patchMaxResult = (value: number | undefined, key: string) => {
+    if (drafts[key] === undefined) {
+      return value;
+    }
+
+    return resolveDraftNumber(drafts, key, value ?? 100, MIN_RANGE_VALUE);
+  };
+
+  const tc = form.topicConfigs;
+  let topicConfigs = tc;
+
+  if (tc.addition) {
+    const simpleRange = patchSimpleRange("addition", tc.addition.addendA);
+    topicConfigs = {
+      ...topicConfigs,
+      addition: {
+        ...tc.addition,
+        addendA:
+          drafts["addition.simple.min"] !== undefined ||
+          drafts["addition.simple.max"] !== undefined
+            ? simpleRange
+            : patchRange(
+                tc.addition.addendA,
+                "addition.addendA.min",
+                "addition.addendA.max",
+              ),
+        addendB:
+          drafts["addition.simple.min"] !== undefined ||
+          drafts["addition.simple.max"] !== undefined
+            ? { ...simpleRange }
+            : patchRange(
+                tc.addition.addendB,
+                "addition.addendB.min",
+                "addition.addendB.max",
+              ),
+        maxResult: patchMaxResult(tc.addition.maxResult, "addition.maxResult"),
+      },
+    };
+  }
+
+  if (tc.subtraction) {
+    const simpleRange = patchSimpleRange("subtraction", tc.subtraction.minuend);
+    topicConfigs = {
+      ...topicConfigs,
+      subtraction: {
+        ...tc.subtraction,
+        minuend:
+          drafts["subtraction.simple.min"] !== undefined ||
+          drafts["subtraction.simple.max"] !== undefined
+            ? simpleRange
+            : patchRange(
+                tc.subtraction.minuend,
+                "subtraction.minuend.min",
+                "subtraction.minuend.max",
+              ),
+        subtrahend:
+          drafts["subtraction.simple.min"] !== undefined ||
+          drafts["subtraction.simple.max"] !== undefined
+            ? { ...simpleRange }
+            : patchRange(
+                tc.subtraction.subtrahend,
+                "subtraction.subtrahend.min",
+                "subtraction.subtrahend.max",
+              ),
+      },
+    };
+  }
+
+  if (tc.multiplication) {
+    const simpleRange = patchSimpleRange(
+      "multiplication",
+      tc.multiplication.multiplicand,
+    );
+    topicConfigs = {
+      ...topicConfigs,
+      multiplication: {
+        ...tc.multiplication,
+        multiplicand:
+          drafts["multiplication.simple.min"] !== undefined ||
+          drafts["multiplication.simple.max"] !== undefined
+            ? simpleRange
+            : patchRange(
+                tc.multiplication.multiplicand,
+                "multiplication.multiplicand.min",
+                "multiplication.multiplicand.max",
+              ),
+        multiplier:
+          drafts["multiplication.simple.min"] !== undefined ||
+          drafts["multiplication.simple.max"] !== undefined
+            ? { ...simpleRange }
+            : patchRange(
+                tc.multiplication.multiplier,
+                "multiplication.multiplier.min",
+                "multiplication.multiplier.max",
+              ),
+        maxResult: patchMaxResult(
+          tc.multiplication.maxResult,
+          "multiplication.maxResult",
+        ),
+      },
+    };
+  }
+
+  if (tc.division) {
+    const simpleRange = patchSimpleRange("division", tc.division.dividend);
+    topicConfigs = {
+      ...topicConfigs,
+      division: {
+        ...tc.division,
+        dividend:
+          drafts["division.simple.min"] !== undefined ||
+          drafts["division.simple.max"] !== undefined
+            ? simpleRange
+            : patchRange(
+                tc.division.dividend,
+                "division.dividend.min",
+                "division.dividend.max",
+              ),
+        divisor:
+          drafts["division.simple.min"] !== undefined ||
+          drafts["division.simple.max"] !== undefined
+            ? { ...simpleRange }
+            : patchRange(
+                tc.division.divisor,
+                "division.divisor.min",
+                "division.divisor.max",
+              ),
+      },
+    };
+  }
+
+  if (tc.divisionRemainder) {
+    const simpleRange = patchSimpleRange(
+      "divisionRemainder",
+      tc.divisionRemainder.dividend,
+    );
+    topicConfigs = {
+      ...topicConfigs,
+      divisionRemainder: {
+        ...tc.divisionRemainder,
+        dividend:
+          drafts["divisionRemainder.simple.min"] !== undefined ||
+          drafts["divisionRemainder.simple.max"] !== undefined
+            ? simpleRange
+            : patchRange(
+                tc.divisionRemainder.dividend,
+                "divisionRemainder.dividend.min",
+                "divisionRemainder.dividend.max",
+              ),
+        divisor:
+          drafts["divisionRemainder.simple.min"] !== undefined ||
+          drafts["divisionRemainder.simple.max"] !== undefined
+            ? { ...simpleRange }
+            : patchRange(
+                tc.divisionRemainder.divisor,
+                "divisionRemainder.divisor.min",
+                "divisionRemainder.divisor.max",
+              ),
+      },
+    };
+  }
+
+  return {
+    ...form,
+    questionCount: resolveDraftNumber(
+      drafts,
+      "questionCount",
+      form.questionCount,
+      MIN_QUESTION_COUNT,
+    ),
+    topicConfigs,
+  };
+}
+
+function commitFormState(form: MathConfigFormState): MathConfigFormState {
+  const withDrafts = applyNumericDrafts(form);
+
+  return {
+    ...withDrafts,
+    questionCount: commitNumericValue(
+      withDrafts.questionCount,
+      MIN_QUESTION_COUNT,
+    ),
+    topicConfigs: commitTopicConfigs(withDrafts.topicConfigs),
+    numericDrafts: {},
+  };
 }
 
 const GRADE_OPTIONS: SchoolGrade[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -200,7 +535,8 @@ function formStateFromConfig(config: MathPracticeConfig): MathConfigFormState {
     enabledTopics: config.enabledTopics.filter((topic) =>
       SELECTABLE_TOPICS.includes(topic),
     ),
-    questionCountInput: String(config.questionCount ?? DEFAULT_QUESTION_COUNT),
+    questionCount: config.questionCount ?? DEFAULT_QUESTION_COUNT,
+    numericDrafts: {},
     topicConfigs: {
       addition: topicConfigs.addition
         ? { ...topicConfigs.addition }
@@ -323,7 +659,7 @@ function buildPracticeConfig(form: MathConfigFormState): MathPracticeConfig {
   return {
     ...base,
     enabledTopics: form.enabledTopics,
-    questionCount: normalizeQuestionCountInput(form.questionCountInput),
+    questionCount: form.questionCount,
     topicConfigs: {
       addition: topicConfigs.addition
         ? {
@@ -446,6 +782,11 @@ export function MathPracticeClient() {
     }
     return formStateFromConfig(getMathPracticeConfig());
   });
+  const formStateRef = useRef(formState);
+
+  useEffect(() => {
+    formStateRef.current = formState;
+  }, [formState]);
 
   const [sessionCandidates, setSessionCandidates] = useState<MathExercise[]>(
     [],
@@ -701,16 +1042,41 @@ export function MathPracticeClient() {
     setConfigError(null);
   };
 
+  const handleNumericDraftChange = useCallback(
+    (fieldKey: string, value: string) => {
+      setFormState((current) => {
+        const nextFormState = {
+          ...current,
+          numericDrafts: { ...current.numericDrafts, [fieldKey]: value },
+        };
+        formStateRef.current = nextFormState;
+        return nextFormState;
+      });
+    },
+    [],
+  );
+
+  const handleNumericDraftClear = useCallback((fieldKey: string) => {
+    setFormState((current) => {
+      const rest = { ...current.numericDrafts };
+      delete rest[fieldKey];
+      const nextFormState = { ...current, numericDrafts: rest };
+      formStateRef.current = nextFormState;
+      return nextFormState;
+    });
+  }, []);
+
   const handleStartPractice = () => {
-    if (formState.enabledTopics.length === 0) {
+    const currentForm = formStateRef.current;
+
+    if (currentForm.enabledTopics.length === 0) {
       setConfigError(NO_TOPICS_ERROR);
       return;
     }
 
-    const committedForm = {
-      ...formState,
-      questionCountInput: commitQuestionCountInput(formState.questionCountInput),
-    };
+    setConfigError(null);
+    const committedForm = commitFormState(currentForm);
+    formStateRef.current = committedForm;
     setFormState(committedForm);
 
     beginPracticeSession(buildPracticeConfig(committedForm), {
@@ -891,6 +1257,9 @@ export function MathPracticeClient() {
         onGridLastDeselected={handleGridLastDeselected}
         onStart={handleStartPractice}
         onStartLesson={handleStartLesson}
+        numericDrafts={formState.numericDrafts}
+        onNumericDraftChange={handleNumericDraftChange}
+        onNumericDraftClear={handleNumericDraftClear}
       />
     );
   }
@@ -933,7 +1302,7 @@ export function MathPracticeClient() {
   );
 }
 
-type ConfigScreenProps = {
+type ConfigScreenProps = NumericDraftProps & {
   setupMode: MathPracticeSetupMode;
   selectedGrade: SchoolGrade;
   selectedLessonId?: string;
@@ -961,6 +1330,9 @@ function ConfigScreen({
   onGridLastDeselected,
   onStart,
   onStartLesson,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
@@ -1026,6 +1398,9 @@ function ConfigScreen({
           onStart={onStart}
           updateTopicConfig={updateTopicConfig}
           setAdvanced={setAdvanced}
+          numericDrafts={numericDrafts}
+          onNumericDraftChange={onNumericDraftChange}
+          onNumericDraftClear={onNumericDraftClear}
         />
       )}
     </div>
@@ -1191,7 +1566,7 @@ function LessonCard({ lesson, selected, onStartLesson }: LessonCardProps) {
   );
 }
 
-type CustomModeSettingsProps = {
+type CustomModeSettingsProps = NumericDraftProps & {
   formState: MathConfigFormState;
   configError: string | null;
   onToggleTopic: (topic: MathTopic) => void;
@@ -1216,7 +1591,15 @@ function CustomModeSettings({
   onStart,
   updateTopicConfig,
   setAdvanced,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
 }: CustomModeSettingsProps) {
+  const numericDraftProps: NumericDraftProps = {
+    numericDrafts,
+    onNumericDraftChange,
+    onNumericDraftClear,
+  };
   return (
     <div className="space-y-6">
       <fieldset className="space-y-3">
@@ -1234,33 +1617,21 @@ function CustomModeSettings({
         </div>
       </fieldset>
 
-      <label className="block max-w-xs space-y-2">
-        <span className="text-base font-semibold">Počet příkladů</span>
-        <input
-          type="number"
+      <div className="max-w-xs">
+        <NumberField
+          fieldKey="questionCount"
+          label="Počet příkladů"
+          value={formState.questionCount}
           min={MIN_QUESTION_COUNT}
-          inputMode="numeric"
-          value={formState.questionCountInput}
-          onChange={(event) => {
-            const nextValue = event.target.value;
-            if (nextValue === "" || /^\d+$/.test(nextValue)) {
-              onFormStateChange({
-                ...formState,
-                questionCountInput: nextValue,
-              });
-            }
-          }}
-          onBlur={() => {
+          {...numericDraftProps}
+          onChange={(questionCount) =>
             onFormStateChange({
               ...formState,
-              questionCountInput: commitQuestionCountInput(
-                formState.questionCountInput,
-              ),
-            });
-          }}
-          className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
+              questionCount,
+            })
+          }
         />
-      </label>
+      </div>
 
       {formState.enabledTopics.includes("addition") &&
         formState.topicConfigs.addition && (
@@ -1271,6 +1642,7 @@ function CustomModeSettings({
             onChange={(config) =>
               updateTopicConfig("addition", () => config)
             }
+            {...numericDraftProps}
           />
         )}
 
@@ -1283,6 +1655,7 @@ function CustomModeSettings({
             onChange={(config) =>
               updateTopicConfig("subtraction", () => config)
             }
+            {...numericDraftProps}
           />
         )}
 
@@ -1296,6 +1669,7 @@ function CustomModeSettings({
               updateTopicConfig("multiplication", () => config)
             }
             onGridLastDeselected={() => onGridLastDeselected("multiplication")}
+            {...numericDraftProps}
           />
         )}
 
@@ -1307,6 +1681,7 @@ function CustomModeSettings({
             onAdvancedChange={(value) => setAdvanced("division", value)}
             onChange={(config) => updateTopicConfig("division", () => config)}
             onGridLastDeselected={() => onGridLastDeselected("division")}
+            {...numericDraftProps}
           />
         )}
 
@@ -1324,6 +1699,7 @@ function CustomModeSettings({
             onGridLastDeselected={() =>
               onGridLastDeselected("division-remainder")
             }
+            {...numericDraftProps}
           />
         )}
 
@@ -1427,27 +1803,57 @@ function SettingsSection({
   );
 }
 
-type NumberFieldProps = {
+type NumberFieldProps = NumericDraftProps & {
+  fieldKey: string;
   label: string;
   value: number;
+  min?: number;
   onChange: (value: number) => void;
 };
 
-function NumberField({ label, value, onChange }: NumberFieldProps) {
+function NumberField({
+  fieldKey,
+  label,
+  value,
+  min = MIN_RANGE_VALUE,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
+  onChange,
+}: NumberFieldProps) {
+  const displayValue = numericDrafts[fieldKey] ?? String(value);
+
   return (
     <label className="block space-y-2">
       <span className="text-base font-semibold">{label}</span>
       <input
         type="number"
-        value={value}
-        onChange={(event) => onChange(Number(event.target.value))}
+        min={min}
+        inputMode="numeric"
+        value={displayValue}
+        onChange={(event) => {
+          const nextValue = event.target.value;
+          if (isEditableNumericInput(nextValue)) {
+            onNumericDraftChange(fieldKey, nextValue);
+          }
+        }}
+        onBlur={() => {
+          const normalized = normalizeNumericInput(displayValue, {
+            min,
+            fallback: value,
+          });
+          onChange(normalized);
+          onNumericDraftClear(fieldKey);
+        }}
         className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
       />
     </label>
   );
 }
 
-type RangePairFieldsProps = {
+type RangePairFieldsProps = NumericDraftProps & {
+  rangeAKey: string;
+  rangeBKey: string;
   labelA: string;
   labelB: string;
   rangeA: MathRangeConfig;
@@ -1457,10 +1863,15 @@ type RangePairFieldsProps = {
 };
 
 function RangePairFields({
+  rangeAKey,
+  rangeBKey,
   labelA,
   labelB,
   rangeA,
   rangeB,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onRangeAChange,
   onRangeBChange,
 }: RangePairFieldsProps) {
@@ -1470,14 +1881,22 @@ function RangePairFields({
         <p className="text-base font-semibold">{labelA}</p>
         <div className="grid grid-cols-2 gap-3">
           <NumberField
+            fieldKey={`${rangeAKey}.min`}
             label="Min"
             value={rangeA.min}
-            onChange={(min) => onRangeAChange({ ...rangeA, min })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(min) => onRangeAChange(applyRangeMinChange(rangeA, min))}
           />
           <NumberField
+            fieldKey={`${rangeAKey}.max`}
             label="Max"
             value={rangeA.max}
-            onChange={(max) => onRangeAChange({ ...rangeA, max })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(max) => onRangeAChange(applyRangeMaxChange(rangeA, max))}
           />
         </div>
       </div>
@@ -1485,14 +1904,22 @@ function RangePairFields({
         <p className="text-base font-semibold">{labelB}</p>
         <div className="grid grid-cols-2 gap-3">
           <NumberField
+            fieldKey={`${rangeBKey}.min`}
             label="Min"
             value={rangeB.min}
-            onChange={(min) => onRangeBChange({ ...rangeB, min })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(min) => onRangeBChange(applyRangeMinChange(rangeB, min))}
           />
           <NumberField
+            fieldKey={`${rangeBKey}.max`}
             label="Max"
             value={rangeB.max}
-            onChange={(max) => onRangeBChange({ ...rangeB, max })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(max) => onRangeBChange(applyRangeMaxChange(rangeB, max))}
           />
         </div>
       </div>
@@ -1592,7 +2019,7 @@ function buildRangeValues(range: MathRangeConfig): number[] {
   return values;
 }
 
-type AdditionSettingsProps = {
+type AdditionSettingsProps = NumericDraftProps & {
   config: AdditionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
@@ -1603,6 +2030,9 @@ function AdditionSettings({
   config,
   advanced,
   onAdvancedChange,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onChange,
 }: AdditionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
@@ -1622,40 +2052,71 @@ function AdditionSettings({
       simpleFields={
         <>
           <NumberField
+            fieldKey="addition.simple.min"
             label="Min hodnota"
             value={config.addendA.min}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(min) =>
-              updateSimpleRange({ ...config.addendA, min })
+              updateSimpleRange(applyRangeMinChange(config.addendA, min))
             }
           />
           <NumberField
+            fieldKey="addition.simple.max"
             label="Max hodnota"
             value={config.addendA.max}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(max) =>
-              updateSimpleRange({ ...config.addendA, max })
+              updateSimpleRange(applyRangeMaxChange(config.addendA, max))
             }
           />
           <NumberField
+            fieldKey="addition.maxResult"
             label="Max výsledek"
             value={config.maxResult ?? 100}
-            onChange={(maxResult) => onChange({ ...config, maxResult })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(maxResult) =>
+              onChange({
+                ...config,
+                maxResult: commitNumericValue(maxResult, MIN_RANGE_VALUE),
+              })
+            }
           />
         </>
       }
       advancedFields={
         <>
           <RangePairFields
+            rangeAKey="addition.addendA"
+            rangeBKey="addition.addendB"
             labelA="Sčítanec A"
             labelB="Sčítanec B"
             rangeA={config.addendA}
             rangeB={config.addendB}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onRangeAChange={(addendA) => onChange({ ...config, addendA })}
             onRangeBChange={(addendB) => onChange({ ...config, addendB })}
           />
           <NumberField
+            fieldKey="addition.maxResult"
             label="Max výsledek"
             value={config.maxResult ?? 100}
-            onChange={(maxResult) => onChange({ ...config, maxResult })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(maxResult) =>
+              onChange({
+                ...config,
+                maxResult: commitNumericValue(maxResult, MIN_RANGE_VALUE),
+              })
+            }
           />
         </>
       }
@@ -1663,7 +2124,7 @@ function AdditionSettings({
   );
 }
 
-type SubtractionSettingsProps = {
+type SubtractionSettingsProps = NumericDraftProps & {
   config: SubtractionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
@@ -1674,6 +2135,9 @@ function SubtractionSettings({
   config,
   advanced,
   onAdvancedChange,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onChange,
 }: SubtractionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
@@ -1694,17 +2158,25 @@ function SubtractionSettings({
       simpleFields={
         <>
           <NumberField
+            fieldKey="subtraction.simple.min"
             label="Min hodnota"
             value={config.minuend.min}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(min) =>
-              updateSimpleRange({ ...config.minuend, min })
+              updateSimpleRange(applyRangeMinChange(config.minuend, min))
             }
           />
           <NumberField
+            fieldKey="subtraction.simple.max"
             label="Max hodnota"
             value={config.minuend.max}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(max) =>
-              updateSimpleRange({ ...config.minuend, max })
+              updateSimpleRange(applyRangeMaxChange(config.minuend, max))
             }
           />
         </>
@@ -1712,10 +2184,15 @@ function SubtractionSettings({
       advancedFields={
         <>
           <RangePairFields
+            rangeAKey="subtraction.minuend"
+            rangeBKey="subtraction.subtrahend"
             labelA="Menšenec"
             labelB="Menšitel"
             rangeA={config.minuend}
             rangeB={config.subtrahend}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onRangeAChange={(minuend) => onChange({ ...config, minuend })}
             onRangeBChange={(subtrahend) => onChange({ ...config, subtrahend })}
           />
@@ -1739,7 +2216,7 @@ function SubtractionSettings({
   );
 }
 
-type MultiplicationSettingsProps = {
+type MultiplicationSettingsProps = NumericDraftProps & {
   config: MultiplicationConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
@@ -1751,6 +2228,9 @@ function MultiplicationSettings({
   config,
   advanced,
   onAdvancedChange,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onChange,
   onGridLastDeselected,
 }: MultiplicationSettingsProps) {
@@ -1772,42 +2252,73 @@ function MultiplicationSettings({
       simpleFields={
         <>
           <NumberField
+            fieldKey="multiplication.simple.min"
             label="Min hodnota"
             value={config.multiplicand.min}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(min) =>
-              updateSimpleRange({ ...config.multiplicand, min })
+              updateSimpleRange(applyRangeMinChange(config.multiplicand, min))
             }
           />
           <NumberField
+            fieldKey="multiplication.simple.max"
             label="Max hodnota"
             value={config.multiplicand.max}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(max) =>
-              updateSimpleRange({ ...config.multiplicand, max })
+              updateSimpleRange(applyRangeMaxChange(config.multiplicand, max))
             }
           />
           <NumberField
+            fieldKey="multiplication.maxResult"
             label="Max výsledek"
             value={config.maxResult ?? 100}
-            onChange={(maxResult) => onChange({ ...config, maxResult })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(maxResult) =>
+              onChange({
+                ...config,
+                maxResult: commitNumericValue(maxResult, MIN_RANGE_VALUE),
+              })
+            }
           />
         </>
       }
       advancedFields={
         <>
           <RangePairFields
+            rangeAKey="multiplication.multiplicand"
+            rangeBKey="multiplication.multiplier"
             labelA="Násobenec"
             labelB="Násobitel"
             rangeA={config.multiplicand}
             rangeB={config.multiplier}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onRangeAChange={(multiplicand) =>
               onChange({ ...config, multiplicand })
             }
             onRangeBChange={(multiplier) => onChange({ ...config, multiplier })}
           />
           <NumberField
+            fieldKey="multiplication.maxResult"
             label="Max výsledek"
             value={config.maxResult ?? 100}
-            onChange={(maxResult) => onChange({ ...config, maxResult })}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
+            onChange={(maxResult) =>
+              onChange({
+                ...config,
+                maxResult: commitNumericValue(maxResult, MIN_RANGE_VALUE),
+              })
+            }
           />
           <label className="flex min-h-11 items-center gap-3 text-base">
             <input
@@ -1838,7 +2349,7 @@ function MultiplicationSettings({
   );
 }
 
-type DivisionSettingsProps = {
+type DivisionSettingsProps = NumericDraftProps & {
   config: DivisionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
@@ -1850,6 +2361,9 @@ function DivisionSettings({
   config,
   advanced,
   onAdvancedChange,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onChange,
   onGridLastDeselected,
 }: DivisionSettingsProps) {
@@ -1871,17 +2385,25 @@ function DivisionSettings({
       simpleFields={
         <>
           <NumberField
+            fieldKey="division.simple.min"
             label="Min hodnota"
             value={config.dividend.min}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(min) =>
-              updateSimpleRange({ ...config.dividend, min })
+              updateSimpleRange(applyRangeMinChange(config.dividend, min))
             }
           />
           <NumberField
+            fieldKey="division.simple.max"
             label="Max hodnota"
             value={config.dividend.max}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(max) =>
-              updateSimpleRange({ ...config.dividend, max })
+              updateSimpleRange(applyRangeMaxChange(config.dividend, max))
             }
           />
         </>
@@ -1889,10 +2411,15 @@ function DivisionSettings({
       advancedFields={
         <>
           <RangePairFields
+            rangeAKey="division.dividend"
+            rangeBKey="division.divisor"
             labelA="Dělenec"
             labelB="Dělitel"
             rangeA={config.dividend}
             rangeB={config.divisor}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onRangeAChange={(dividend) => onChange({ ...config, dividend })}
             onRangeBChange={(divisor) => onChange({ ...config, divisor })}
           />
@@ -1925,7 +2452,7 @@ function DivisionSettings({
   );
 }
 
-type DivisionRemainderSettingsProps = {
+type DivisionRemainderSettingsProps = NumericDraftProps & {
   config: DivisionRemainderConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
@@ -1937,6 +2464,9 @@ function DivisionRemainderSettings({
   config,
   advanced,
   onAdvancedChange,
+  numericDrafts,
+  onNumericDraftChange,
+  onNumericDraftClear,
   onChange,
   onGridLastDeselected,
 }: DivisionRemainderSettingsProps) {
@@ -1958,17 +2488,25 @@ function DivisionRemainderSettings({
       simpleFields={
         <>
           <NumberField
+            fieldKey="divisionRemainder.simple.min"
             label="Min hodnota"
             value={config.dividend.min}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(min) =>
-              updateSimpleRange({ ...config.dividend, min })
+              updateSimpleRange(applyRangeMinChange(config.dividend, min))
             }
           />
           <NumberField
+            fieldKey="divisionRemainder.simple.max"
             label="Max hodnota"
             value={config.dividend.max}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onChange={(max) =>
-              updateSimpleRange({ ...config.dividend, max })
+              updateSimpleRange(applyRangeMaxChange(config.dividend, max))
             }
           />
         </>
@@ -1976,10 +2514,15 @@ function DivisionRemainderSettings({
       advancedFields={
         <>
           <RangePairFields
+            rangeAKey="divisionRemainder.dividend"
+            rangeBKey="divisionRemainder.divisor"
             labelA="Dělenec"
             labelB="Dělitel"
             rangeA={config.dividend}
             rangeB={config.divisor}
+            numericDrafts={numericDrafts}
+            onNumericDraftChange={onNumericDraftChange}
+            onNumericDraftClear={onNumericDraftClear}
             onRangeAChange={(dividend) => onChange({ ...config, dividend })}
             onRangeBChange={(divisor) => onChange({ ...config, divisor })}
           />
