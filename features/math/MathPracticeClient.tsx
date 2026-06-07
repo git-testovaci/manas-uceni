@@ -45,7 +45,13 @@ import type {
   SubtractionConfig,
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
-import { useState, type KeyboardEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 
 type Phase = "config" | "practice" | "summary";
 
@@ -1995,10 +2001,62 @@ function PracticeScreen({
   onNext,
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
+  const answerInputRef = useRef<HTMLInputElement>(null);
+  const quotientInputRef = useRef<HTMLInputElement>(null);
+  const remainderInputRef = useRef<HTMLInputElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && !hasSubmitted) {
-      event.preventDefault();
+  useEffect(() => {
+    if (hasSubmitted) {
+      nextButtonRef.current?.focus();
+      return;
+    }
+
+    if (isRemainderExercise) {
+      quotientInputRef.current?.focus();
+      return;
+    }
+
+    answerInputRef.current?.focus();
+  }, [exercise.id, hasSubmitted, isRemainderExercise]);
+
+  const handleAnswerKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || hasSubmitted) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (canSubmit) {
+      onSubmit();
+    }
+  };
+
+  const handleQuotientKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || hasSubmitted) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (canSubmit) {
+      onSubmit();
+      return;
+    }
+
+    if (quotientInput.trim().length > 0 && remainderInput.trim().length === 0) {
+      remainderInputRef.current?.focus();
+    }
+  };
+
+  const handleRemainderKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || hasSubmitted) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (canSubmit) {
       onSubmit();
     }
   };
@@ -2019,11 +2077,12 @@ function PracticeScreen({
           <label className="block space-y-2">
             <span className="text-base font-semibold">Výsledek</span>
             <input
+              ref={quotientInputRef}
               type="text"
               inputMode="numeric"
               value={quotientInput}
               onChange={(event) => onQuotientChange(event.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleQuotientKeyDown}
               disabled={hasSubmitted}
               className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
             />
@@ -2031,11 +2090,12 @@ function PracticeScreen({
           <label className="block space-y-2">
             <span className="text-base font-semibold">Zbytek</span>
             <input
+              ref={remainderInputRef}
               type="text"
               inputMode="numeric"
               value={remainderInput}
               onChange={(event) => onRemainderChange(event.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleRemainderKeyDown}
               disabled={hasSubmitted}
               className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
             />
@@ -2045,11 +2105,12 @@ function PracticeScreen({
         <label className="block space-y-2">
           <span className="text-base font-semibold">Tvoje odpověď</span>
           <input
+            ref={answerInputRef}
             type="text"
             inputMode="numeric"
             value={userInput}
             onChange={(event) => onInputChange(event.target.value)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleAnswerKeyDown}
             disabled={hasSubmitted}
             className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
           />
@@ -2091,6 +2152,7 @@ function PracticeScreen({
 
       {hasSubmitted && (
         <button
+          ref={nextButtonRef}
           type="button"
           onClick={onNext}
           className="min-h-12 w-full rounded-2xl border border-foreground/20 px-6 py-3 text-lg font-semibold hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
