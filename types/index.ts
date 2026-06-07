@@ -183,6 +183,9 @@ export interface ReviewState {
   streak: number;
   status: ReviewStatus;
   reviewStep: number;
+  correctInStep?: number;
+  nextReviewQuestionNumber?: number;
+  lastAnsweredQuestionNumber?: number;
   lastAnsweredAt?: string;
   nextReviewAt?: string;
 }
