@@ -1,11 +1,18 @@
 import type {
+  AdditionConfig,
+  DivisionConfig,
+  DivisionRemainderConfig,
   MathExercise,
   MathOperation,
   MathPracticeConfig,
+  MathRangeConfig,
   MathTopic,
+  MathTopicConfigs,
   MathVisualHint,
+  MultiplicationConfig,
   ReviewState,
   ReviewStateMap,
+  SubtractionConfig,
 } from "@/types";
 
 const DEFAULT_MIN_VALUE = 1;
@@ -163,6 +170,10 @@ export function createMathExercise(
 export function generateMathExercises(
   config: MathPracticeConfig,
 ): MathExercise[] {
+  if (config.topicConfigs) {
+    return generateFromTopicConfigs(config.topicConfigs);
+  }
+
   const operations = resolveOperations(config);
   if (operations.length === 0) {
     return [];
@@ -178,6 +189,210 @@ export function generateMathExercises(
   }
 
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
+function generateFromTopicConfigs(
+  topicConfigs: MathTopicConfigs,
+): MathExercise[] {
+  const byId = new Map<string, MathExercise>();
+
+  if (topicConfigs.addition?.enabled) {
+    for (const exercise of generateAdditionFromTopicConfig(
+      topicConfigs.addition,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.subtraction?.enabled) {
+    for (const exercise of generateSubtractionFromTopicConfig(
+      topicConfigs.subtraction,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.multiplication?.enabled) {
+    for (const exercise of generateMultiplicationFromTopicConfig(
+      topicConfigs.multiplication,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.division?.enabled) {
+    for (const exercise of generateDivisionFromTopicConfig(
+      topicConfigs.division,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.divisionRemainder?.enabled) {
+    for (const exercise of generateDivisionRemainderFromTopicConfig(
+      topicConfigs.divisionRemainder,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
+function buildRangePool(range: MathRangeConfig): number[] {
+  const values: number[] = [];
+
+  for (let value = range.min; value <= range.max; value += 1) {
+    values.push(value);
+  }
+
+  return values;
+}
+
+function passesTopicMaxResult(maxResult: number | undefined, value: number): boolean {
+  if (maxResult === undefined) {
+    return true;
+  }
+
+  return value <= maxResult;
+}
+
+function generateAdditionFromTopicConfig(
+  config: AdditionConfig,
+): MathExercise[] {
+  const addendsA = buildRangePool(config.addendA);
+  const addendsB = buildRangePool(config.addendB);
+  const exercises: MathExercise[] = [];
+
+  for (const operandA of addendsA) {
+    for (const operandB of addendsB) {
+      const result = operandA + operandB;
+      if (!passesTopicMaxResult(config.maxResult, result)) {
+        continue;
+      }
+      exercises.push(createMathExercise("add", operandA, operandB));
+    }
+  }
+
+  return exercises;
+}
+
+function generateSubtractionFromTopicConfig(
+  config: SubtractionConfig,
+): MathExercise[] {
+  const minuends = buildRangePool(config.minuend);
+  const subtrahends = buildRangePool(config.subtrahend);
+  const allowNegativeResults = config.allowNegativeResults ?? false;
+  const exercises: MathExercise[] = [];
+
+  for (const minuend of minuends) {
+    for (const subtrahend of subtrahends) {
+      if (!allowNegativeResults && minuend < subtrahend) {
+        continue;
+      }
+      exercises.push(createMathExercise("subtract", minuend, subtrahend));
+    }
+  }
+
+  return exercises;
+}
+
+function generateMultiplicationFromTopicConfig(
+  config: MultiplicationConfig,
+): MathExercise[] {
+  const multiplicands = buildRangePool(config.multiplicand);
+  const multipliers = buildRangePool(config.multiplier);
+  const selectedMultipliers =
+    config.selectedMultipliers && config.selectedMultipliers.length > 0
+      ? config.selectedMultipliers
+      : multipliers;
+  const exercises: MathExercise[] = [];
+
+  for (const multiplicand of multiplicands) {
+    for (const multiplier of selectedMultipliers) {
+      if (multiplier < config.multiplier.min || multiplier > config.multiplier.max) {
+        continue;
+      }
+
+      const product = multiplicand * multiplier;
+      if (!passesTopicMaxResult(config.maxResult, product)) {
+        continue;
+      }
+
+      exercises.push(createMathExercise("multiply", multiplicand, multiplier));
+    }
+  }
+
+  return exercises;
+}
+
+function generateDivisionFromTopicConfig(
+  config: DivisionConfig,
+): MathExercise[] {
+  const dividends = buildRangePool(config.dividend);
+  const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
+  const wholeNumbersOnly = config.wholeNumbersOnly ?? true;
+  const exercises: MathExercise[] = [];
+
+  for (const dividend of dividends) {
+    for (const divisor of divisors) {
+      if (divisor === 0) {
+        continue;
+      }
+
+      if (wholeNumbersOnly && dividend % divisor !== 0) {
+        continue;
+      }
+
+      exercises.push(createMathExercise("divide", dividend, divisor));
+    }
+  }
+
+  return exercises;
+}
+
+function generateDivisionRemainderFromTopicConfig(
+  config: DivisionRemainderConfig,
+): MathExercise[] {
+  const dividends = buildRangePool(config.dividend);
+  const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
+  const requireRemainder = config.requireRemainder ?? true;
+  const exercises: MathExercise[] = [];
+
+  for (const dividend of dividends) {
+    for (const divisor of divisors) {
+      if (divisor === 0) {
+        continue;
+      }
+
+      const remainder = dividend % divisor;
+      if (requireRemainder && remainder === 0) {
+        continue;
+      }
+
+      exercises.push(
+        createMathExercise("divide-with-remainder", dividend, divisor),
+      );
+    }
+  }
+
+  return exercises;
+}
+
+function getTopicDivisors(
+  divisorRange: MathRangeConfig,
+  selectedDivisors?: number[],
+): number[] {
+  if (selectedDivisors && selectedDivisors.length > 0) {
+    return selectedDivisors.filter(
+      (divisor) =>
+        divisor !== 0 &&
+        divisor >= divisorRange.min &&
+        divisor <= divisorRange.max,
+    );
+  }
+
+  return buildRangePool(divisorRange).filter((divisor) => divisor !== 0);
 }
 
 export function selectMathExercises(

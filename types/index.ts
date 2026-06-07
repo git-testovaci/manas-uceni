@@ -81,6 +81,63 @@ export interface DivisionRemainderAnswer {
   remainder: number;
 }
 
+export interface MathRangeConfig {
+  min: number;
+  max: number;
+}
+
+export interface AdditionConfig {
+  enabled: boolean;
+  addendA: MathRangeConfig;
+  addendB: MathRangeConfig;
+  maxResult?: number;
+  questionCount?: number;
+}
+
+export interface SubtractionConfig {
+  enabled: boolean;
+  minuend: MathRangeConfig;
+  subtrahend: MathRangeConfig;
+  allowNegativeResults?: boolean;
+  questionCount?: number;
+}
+
+export interface MultiplicationConfig {
+  enabled: boolean;
+  multiplicand: MathRangeConfig;
+  multiplier: MathRangeConfig;
+  selectedMultipliers?: number[];
+  maxResult?: number;
+  wholeNumbersOnly?: boolean;
+  questionCount?: number;
+}
+
+export interface DivisionConfig {
+  enabled: boolean;
+  dividend: MathRangeConfig;
+  divisor: MathRangeConfig;
+  selectedDivisors?: number[];
+  wholeNumbersOnly?: boolean;
+  questionCount?: number;
+}
+
+export interface DivisionRemainderConfig {
+  enabled: boolean;
+  dividend: MathRangeConfig;
+  divisor: MathRangeConfig;
+  selectedDivisors?: number[];
+  requireRemainder?: boolean;
+  questionCount?: number;
+}
+
+export interface MathTopicConfigs {
+  addition?: AdditionConfig;
+  subtraction?: SubtractionConfig;
+  multiplication?: MultiplicationConfig;
+  division?: DivisionConfig;
+  divisionRemainder?: DivisionRemainderConfig;
+}
+
 export interface MathPracticeConfig {
   enabledTopics: MathTopic[];
   minValue?: number;
@@ -91,6 +148,7 @@ export interface MathPracticeConfig {
   selectedDivisors?: number[];
   questionCount?: number;
   allowRemainders?: boolean;
+  topicConfigs?: MathTopicConfigs;
 }
 
 export interface MathExercise extends ExerciseBase {
