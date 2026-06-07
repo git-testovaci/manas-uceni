@@ -326,9 +326,17 @@ function generateMultiplicationFromTopicConfig(
   return exercises;
 }
 
+function isWithinRange(value: number, range: MathRangeConfig): boolean {
+  return value >= range.min && value <= range.max;
+}
+
 function generateDivisionFromTopicConfig(
   config: DivisionConfig,
 ): MathExercise[] {
+  if (config.quotient) {
+    return generateDivisionFromQuotientRange(config);
+  }
+
   const dividends = buildRangePool(config.dividend);
   const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
   const wholeNumbersOnly = config.wholeNumbersOnly ?? true;
@@ -351,9 +359,38 @@ function generateDivisionFromTopicConfig(
   return exercises;
 }
 
+function generateDivisionFromQuotientRange(
+  config: DivisionConfig,
+): MathExercise[] {
+  const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
+  const quotients = buildRangePool(config.quotient!);
+  const exercises: MathExercise[] = [];
+
+  for (const divisor of divisors) {
+    if (divisor <= 0) {
+      continue;
+    }
+
+    for (const quotient of quotients) {
+      const dividend = divisor * quotient;
+      if (!isWithinRange(dividend, config.dividend)) {
+        continue;
+      }
+
+      exercises.push(createMathExercise("divide", dividend, divisor));
+    }
+  }
+
+  return exercises;
+}
+
 function generateDivisionRemainderFromTopicConfig(
   config: DivisionRemainderConfig,
 ): MathExercise[] {
+  if (config.quotient) {
+    return generateDivisionRemainderFromQuotientRange(config);
+  }
+
   const dividends = buildRangePool(config.dividend);
   const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
   const requireRemainder = config.requireRemainder ?? true;
@@ -373,6 +410,43 @@ function generateDivisionRemainderFromTopicConfig(
       exercises.push(
         createMathExercise("divide-with-remainder", dividend, divisor),
       );
+    }
+  }
+
+  return exercises;
+}
+
+function generateDivisionRemainderFromQuotientRange(
+  config: DivisionRemainderConfig,
+): MathExercise[] {
+  const divisors = getTopicDivisors(config.divisor, config.selectedDivisors);
+  const quotients = buildRangePool(config.quotient!);
+  const exercises: MathExercise[] = [];
+
+  for (const divisor of divisors) {
+    if (divisor <= 0) {
+      continue;
+    }
+
+    for (const quotient of quotients) {
+      if (quotient < 1) {
+        continue;
+      }
+
+      for (let remainder = 1; remainder < divisor; remainder += 1) {
+        const dividend = divisor * quotient + remainder;
+        if (!isWithinRange(dividend, config.dividend)) {
+          continue;
+        }
+
+        if (!isValidDivisionRemainderExample(dividend, divisor)) {
+          continue;
+        }
+
+        exercises.push(
+          createMathExercise("divide-with-remainder", dividend, divisor),
+        );
+      }
     }
   }
 

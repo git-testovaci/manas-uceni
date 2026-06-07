@@ -116,6 +116,7 @@ export interface DivisionConfig {
   enabled: boolean;
   dividend: MathRangeConfig;
   divisor: MathRangeConfig;
+  quotient?: MathRangeConfig;
   selectedDivisors?: number[];
   wholeNumbersOnly?: boolean;
   questionCount?: number;
@@ -125,6 +126,7 @@ export interface DivisionRemainderConfig {
   enabled: boolean;
   dividend: MathRangeConfig;
   divisor: MathRangeConfig;
+  quotient?: MathRangeConfig;
   selectedDivisors?: number[];
   requireRemainder?: boolean;
   questionCount?: number;

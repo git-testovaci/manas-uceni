@@ -5,6 +5,7 @@ import {
   DEFAULT_MULTIPLICATION_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
+  DivisionConfig,
   MathCurriculumArea,
   MathDifficultyProfile,
   MathGradeCurriculum,
@@ -25,11 +26,67 @@ const DISABLED_TOPIC_CONFIGS = {
   },
 };
 
+type Range = { min: number; max: number };
+
+function buildRangeValues(range: Range): number[] {
+  const values: number[] = [];
+  for (let value = range.min; value <= range.max; value += 1) {
+    values.push(value);
+  }
+  return values;
+}
+
+function additionPreset(
+  addendRange: Range,
+  maxResult: number,
+): MathLessonPreset {
+  return {
+    recommendedTopics: ["addition"],
+    mathConfig: {
+      enabledTopics: ["addition"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        addition: {
+          enabled: true,
+          addendA: { ...addendRange },
+          addendB: { ...addendRange },
+          maxResult,
+        },
+      },
+    },
+  };
+}
+
+function subtractionPreset(
+  minuendRange: Range,
+  subtrahendRange: Range = minuendRange,
+): MathLessonPreset {
+  return {
+    recommendedTopics: ["subtraction"],
+    mathConfig: {
+      enabledTopics: ["subtraction"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        subtraction: {
+          enabled: true,
+          minuend: { ...minuendRange },
+          subtrahend: { ...subtrahendRange },
+          allowNegativeResults: false,
+        },
+      },
+    },
+  };
+}
+
 function additionSubtractionPreset(
   max: number,
   topics: ("addition" | "subtraction")[] = ["addition", "subtraction"],
+  maxResult: number = max,
 ): MathLessonPreset {
   const enabledTopics: MathTopic[] = [...topics];
+  const range = { min: 1, max };
 
   return {
     recommendedTopics: enabledTopics,
@@ -38,19 +95,19 @@ function additionSubtractionPreset(
       questionCount: 10,
       minValue: 1,
       maxValue: max,
-      maxResult: max,
+      maxResult,
       topicConfigs: {
         ...DISABLED_TOPIC_CONFIGS,
         addition: {
           enabled: topics.includes("addition"),
-          addendA: { min: 1, max },
-          addendB: { min: 1, max },
-          maxResult: max,
+          addendA: { ...range },
+          addendB: { ...range },
+          maxResult,
         },
         subtraction: {
           enabled: topics.includes("subtraction"),
-          minuend: { min: 1, max },
-          subtrahend: { min: 1, max },
+          minuend: { ...range },
+          subtrahend: { ...range },
           allowNegativeResults: false,
         },
       },
@@ -60,11 +117,18 @@ function additionSubtractionPreset(
 
 function multiplicationPreset(
   multipliers: number[],
-  multiplicandMax = 10,
+  options: {
+    multiplicandMin?: number;
+    multiplicandMax?: number;
+    maxResult?: number;
+  } = {},
 ): MathLessonPreset {
+  const multiplicandMin = options.multiplicandMin ?? 1;
+  const multiplicandMax = options.multiplicandMax ?? 10;
   const multiplierMin = Math.min(...multipliers);
   const multiplierMax = Math.max(...multipliers);
-  const maxResult = Math.max(100, multiplicandMax * multiplierMax);
+  const maxResult =
+    options.maxResult ?? Math.max(100, multiplicandMax * multiplierMax);
 
   return {
     recommendedTopics: ["multiplication"],
@@ -75,7 +139,7 @@ function multiplicationPreset(
         ...DISABLED_TOPIC_CONFIGS,
         multiplication: {
           enabled: true,
-          multiplicand: { min: 1, max: multiplicandMax },
+          multiplicand: { min: multiplicandMin, max: multiplicandMax },
           multiplier: { min: multiplierMin, max: multiplierMax },
           selectedMultipliers: multipliers,
           maxResult,
@@ -89,19 +153,29 @@ function multiplicationPreset(
 function multiplicationTablePreset(
   multiplierMin = 1,
   multiplierMax = 10,
+  multiplicandMax = 10,
+  maxResult = 100,
 ): MathLessonPreset {
-  const multipliers = Array.from(
-    { length: multiplierMax - multiplierMin + 1 },
-    (_, index) => multiplierMin + index,
-  );
+  const multipliers = buildRangeValues({ min: multiplierMin, max: multiplierMax });
 
-  return multiplicationPreset(multipliers);
+  return multiplicationPreset(multipliers, {
+    multiplicandMax,
+    maxResult,
+  });
 }
 
-function divisionFactsPreset(
-  divisors: number[],
-  dividendMax = 100,
+function divisionPreset(
+  options: {
+    divisors?: number[];
+    divisorRange?: Range;
+    dividendRange: Range;
+  },
 ): MathLessonPreset {
+  const divisors =
+    options.divisors ??
+    buildRangeValues(
+      options.divisorRange ?? { min: 2, max: 9 },
+    );
   const divisorMin = Math.min(...divisors);
   const divisorMax = Math.max(...divisors);
 
@@ -114,9 +188,9 @@ function divisionFactsPreset(
         ...DISABLED_TOPIC_CONFIGS,
         division: {
           enabled: true,
-          dividend: { min: 1, max: dividendMax },
+          dividend: { ...options.dividendRange },
           divisor: { min: divisorMin, max: divisorMax },
-          selectedDivisors: divisors,
+          selectedDivisors: options.divisors,
           wholeNumbersOnly: true,
         },
       },
@@ -124,12 +198,74 @@ function divisionFactsPreset(
   };
 }
 
-function divisionRemainderPreset(
-  dividendMin = 1,
-  dividendMax = 100,
-  divisorMin = 2,
-  divisorMax = 10,
+function tableDivisionConfig(
+  divisors: number[],
+  options: {
+    dividendMin?: number;
+    dividendMax: number;
+    quotientMin?: number;
+    quotientMax?: number;
+  },
+): DivisionConfig {
+  const minDivisor = Math.min(...divisors);
+  const maxDivisor = Math.max(...divisors);
+  const quotientMin = options.quotientMin ?? 1;
+  const quotientMax = options.quotientMax ?? 10;
+
+  return {
+    enabled: true,
+    dividend: {
+      min: options.dividendMin ?? 1,
+      max: options.dividendMax,
+    },
+    divisor: { min: minDivisor, max: maxDivisor },
+    quotient: { min: quotientMin, max: quotientMax },
+    selectedDivisors: divisors,
+    wholeNumbersOnly: true,
+  };
+}
+
+const TABLE_DIVISION_NOTES = [
+  "Dělení z malé násobilky: dělenec = dělitel × podíl, podíl 1–10.",
+];
+
+function tableDivisionFactsPreset(
+  divisors: number[],
+  dividendMax: number,
+  quotientMax = 10,
 ): MathLessonPreset {
+  const division = tableDivisionConfig(divisors, { dividendMax, quotientMax });
+
+  return {
+    recommendedTopics: ["division"],
+    notes: [
+      `Podíl 1–${quotientMax}, dělenec 1–${dividendMax}.`,
+      ...TABLE_DIVISION_NOTES,
+    ],
+    mathConfig: {
+      enabledTopics: ["division"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        division,
+      },
+    },
+  };
+}
+
+function divisionRemainderPreset(
+  dividendRange: Range,
+  divisorRange: Range,
+  options?: {
+    selectedDivisors?: number[];
+    quotientRange?: Range;
+  },
+): MathLessonPreset {
+  const divisors =
+    options?.selectedDivisors ?? buildRangeValues(divisorRange);
+  const divisorMin = Math.min(...divisors);
+  const divisorMax = Math.max(...divisors);
+
   return {
     recommendedTopics: ["division-remainder"],
     mathConfig: {
@@ -139,8 +275,10 @@ function divisionRemainderPreset(
         ...DISABLED_TOPIC_CONFIGS,
         divisionRemainder: {
           enabled: true,
-          dividend: { min: dividendMin, max: dividendMax },
+          dividend: { ...dividendRange },
           divisor: { min: divisorMin, max: divisorMax },
+          quotient: options?.quotientRange,
+          selectedDivisors: options?.selectedDivisors,
           requireRemainder: true,
         },
       },
@@ -148,11 +286,33 @@ function divisionRemainderPreset(
   };
 }
 
-function twoDigitByOneDigitDivisionPreset(): MathLessonPreset {
+function divisionRemainderFactsPreset(
+  dividendRange: Range,
+  divisorRange: Range,
+  quotientRange: Range,
+): MathLessonPreset {
+  const divisors = buildRangeValues(divisorRange);
+
+  return divisionRemainderPreset(dividendRange, divisorRange, {
+    selectedDivisors: divisors,
+    quotientRange,
+  });
+}
+
+function twoDigitByOneDigitDivisionPreset(
+  dividendRange: Range = { min: 10, max: 99 },
+): MathLessonPreset {
+  return divisionPreset({
+    divisorRange: { min: 2, max: 9 },
+    dividendRange,
+  });
+}
+
+function decompositionDivisionPreset(): MathLessonPreset {
   return {
     recommendedTopics: ["division"],
     notes: [
-      "Procvičujeme dělení dvojciferných čísel jednociferným dělitelem, například 96 ÷ 4.",
+      "Procvičujeme dělení rozkladem na desítky a jednotky, například 96 ÷ 4.",
     ],
     mathConfig: {
       enabledTopics: ["division"],
@@ -161,10 +321,83 @@ function twoDigitByOneDigitDivisionPreset(): MathLessonPreset {
         ...DISABLED_TOPIC_CONFIGS,
         division: {
           enabled: true,
-          dividend: { min: 20, max: 99 },
+          dividend: { min: 20, max: 120 },
           divisor: { min: 2, max: 9 },
           wholeNumbersOnly: true,
         },
+      },
+    },
+  };
+}
+
+function smallFactsMultiplyDividePreset(): MathLessonPreset {
+  const multipliers = buildRangeValues({ min: 1, max: 10 });
+  const divisors = buildRangeValues({ min: 1, max: 10 });
+
+  return {
+    recommendedTopics: ["multiplication", "division"],
+    notes: TABLE_DIVISION_NOTES,
+    mathConfig: {
+      enabledTopics: ["multiplication", "division"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        multiplication: {
+          enabled: true,
+          multiplicand: { min: 1, max: 10 },
+          multiplier: { min: 1, max: 10 },
+          selectedMultipliers: multipliers,
+          maxResult: 100,
+          wholeNumbersOnly: true,
+        },
+        division: tableDivisionConfig(divisors, { dividendMax: 100 }),
+      },
+    },
+  };
+}
+
+function grade3MixedOperationsPreset(): MathLessonPreset {
+  const divisors = buildRangeValues({ min: 1, max: 10 });
+
+  return {
+    recommendedTopics: [
+      "addition",
+      "subtraction",
+      "multiplication",
+      "division",
+    ],
+    notes: TABLE_DIVISION_NOTES,
+    mathConfig: {
+      enabledTopics: [
+        "addition",
+        "subtraction",
+        "multiplication",
+        "division",
+      ],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        addition: {
+          enabled: true,
+          addendA: { min: 1, max: 100 },
+          addendB: { min: 1, max: 100 },
+          maxResult: 100,
+        },
+        subtraction: {
+          enabled: true,
+          minuend: { min: 1, max: 100 },
+          subtrahend: { min: 1, max: 100 },
+          allowNegativeResults: false,
+        },
+        multiplication: {
+          enabled: true,
+          multiplicand: { min: 1, max: 10 },
+          multiplier: { min: 1, max: 10 },
+          selectedMultipliers: buildRangeValues({ min: 1, max: 10 }),
+          maxResult: 100,
+          wholeNumbersOnly: true,
+        },
+        division: tableDivisionConfig(divisors, { dividendMax: 100 }),
       },
     },
   };
@@ -237,7 +470,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-10",
-    preset: additionSubtractionPreset(10, ["addition"]),
+    preset: additionPreset({ min: 1, max: 9 }, 10),
   },
   {
     order: 6,
@@ -246,7 +479,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-10",
-    preset: additionSubtractionPreset(10, ["subtraction"]),
+    preset: subtractionPreset({ min: 1, max: 10 }),
   },
   {
     order: 7,
@@ -255,7 +488,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-10",
-    preset: additionSubtractionPreset(10, ["addition"]),
+    preset: additionSubtractionPreset(10, ["addition", "subtraction"], 10),
   },
   {
     order: 8,
@@ -289,7 +522,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-20",
-    preset: additionSubtractionPreset(20, ["addition"]),
+    preset: additionPreset({ min: 1, max: 20 }, 20),
   },
   {
     order: 12,
@@ -298,7 +531,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-20",
-    preset: additionSubtractionPreset(20, ["subtraction"]),
+    preset: subtractionPreset({ min: 1, max: 20 }),
   },
   {
     order: 13,
@@ -307,7 +540,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-20",
-    preset: additionSubtractionPreset(20, ["addition"]),
+    preset: additionPreset({ min: 1, max: 20 }, 20),
   },
   {
     order: 14,
@@ -316,7 +549,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-20",
-    preset: additionSubtractionPreset(20, ["subtraction"]),
+    preset: subtractionPreset({ min: 1, max: 20 }),
   },
   {
     order: 15,
@@ -421,7 +654,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "basic-facts",
-    preset: multiplicationPreset([2, 3]),
+    preset: multiplicationPreset([2, 3], { multiplicandMax: 10, maxResult: 30 }),
   },
   {
     order: 11,
@@ -430,7 +663,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationPreset([2]),
+    preset: multiplicationPreset([2], { multiplicandMax: 10, maxResult: 20 }),
   },
   {
     order: 12,
@@ -439,7 +672,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationPreset([3]),
+    preset: multiplicationPreset([3], { multiplicandMax: 10, maxResult: 30 }),
   },
   {
     order: 13,
@@ -448,7 +681,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationPreset([4]),
+    preset: multiplicationPreset([4], { multiplicandMax: 10, maxResult: 40 }),
   },
   {
     order: 14,
@@ -457,7 +690,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationPreset([5]),
+    preset: multiplicationPreset([5], { multiplicandMax: 10, maxResult: 50 }),
   },
   {
     order: 15,
@@ -466,7 +699,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "basic-facts",
-    preset: divisionFactsPreset([2, 3, 4, 5], 50),
+    preset: tableDivisionFactsPreset([2, 3, 4, 5], 50),
   },
   {
     order: 16,
@@ -475,7 +708,7 @@ const grade2Lessons = buildGradeLessons(2, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "division-facts",
-    preset: divisionFactsPreset([2, 3, 4, 5], 50),
+    preset: tableDivisionFactsPreset([2, 3, 4, 5], 50),
   },
   {
     order: 17,
@@ -495,6 +728,7 @@ const grade2Lessons = buildGradeLessons(2, [
     difficultyProfile: "basic-facts",
     preset: {
       recommendedTopics: ["multiplication", "division"],
+      notes: TABLE_DIVISION_NOTES,
       mathConfig: {
         enabledTopics: ["multiplication", "division"],
         questionCount: 10,
@@ -508,13 +742,7 @@ const grade2Lessons = buildGradeLessons(2, [
             maxResult: 50,
             wholeNumbersOnly: true,
           },
-          division: {
-            enabled: true,
-            dividend: { min: 1, max: 50 },
-            divisor: { min: 2, max: 5 },
-            selectedDivisors: [2, 3, 4, 5],
-            wholeNumbersOnly: true,
-          },
+          division: tableDivisionConfig([2, 3, 4, 5], { dividendMax: 50 }),
         },
       },
     },
@@ -613,7 +841,7 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationTablePreset(1, 10),
+    preset: multiplicationTablePreset(1, 10, 10, 100),
   },
   {
     order: 10,
@@ -622,7 +850,10 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "times-table",
-    preset: multiplicationTablePreset(1, 10),
+    preset: multiplicationPreset([3, 4, 6, 7, 8, 9], {
+      multiplicandMax: 10,
+      maxResult: 100,
+    }),
   },
   {
     order: 11,
@@ -631,7 +862,10 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "division-facts",
-    preset: divisionFactsPreset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 100),
+    preset: tableDivisionFactsPreset(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      100,
+    ),
   },
   {
     order: 12,
@@ -640,29 +874,7 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["multiplication", "division"],
     difficultyProfile: "division-facts",
-    preset: {
-      recommendedTopics: ["multiplication", "division"],
-      mathConfig: {
-        enabledTopics: ["multiplication", "division"],
-        questionCount: 10,
-        topicConfigs: {
-          ...DISABLED_TOPIC_CONFIGS,
-          multiplication: {
-            enabled: true,
-            multiplicand: { min: 1, max: 10 },
-            multiplier: { min: 1, max: 10 },
-            maxResult: 100,
-            wholeNumbersOnly: true,
-          },
-          division: {
-            enabled: true,
-            dividend: { min: 1, max: 100 },
-            divisor: { min: 1, max: 10 },
-            wholeNumbersOnly: true,
-          },
-        },
-      },
-    },
+    preset: smallFactsMultiplyDividePreset(),
   },
   {
     order: 13,
@@ -671,7 +883,11 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["division-remainder"],
     difficultyProfile: "division-remainder-basic",
-    preset: divisionRemainderPreset(1, 50, 2, 5),
+    preset: divisionRemainderFactsPreset(
+      { min: 1, max: 60 },
+      { min: 2, max: 10 },
+      { min: 1, max: 5 },
+    ),
   },
   {
     order: 14,
@@ -680,7 +896,11 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["division-remainder"],
     difficultyProfile: "division-remainder-basic",
-    preset: divisionRemainderPreset(1, 100, 2, 10),
+    preset: divisionRemainderFactsPreset(
+      { min: 1, max: 100 },
+      { min: 2, max: 10 },
+      { min: 1, max: 10 },
+    ),
   },
   {
     order: 15,
@@ -689,7 +909,11 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "word-problems",
     topics: ["division-remainder"],
     difficultyProfile: "division-remainder-basic",
-    preset: divisionRemainderPreset(1, 100, 2, 10),
+    preset: divisionRemainderFactsPreset(
+      { min: 1, max: 100 },
+      { min: 2, max: 10 },
+      { min: 1, max: 10 },
+    ),
   },
   {
     order: 16,
@@ -698,51 +922,7 @@ const grade3Lessons = buildGradeLessons(3, [
     area: "number-operations",
     topics: ["addition", "subtraction", "multiplication", "division"],
     difficultyProfile: "basic-facts",
-    preset: {
-      recommendedTopics: [
-        "addition",
-        "subtraction",
-        "multiplication",
-        "division",
-      ],
-      mathConfig: {
-        enabledTopics: [
-          "addition",
-          "subtraction",
-          "multiplication",
-          "division",
-        ],
-        questionCount: 10,
-        topicConfigs: {
-          ...DISABLED_TOPIC_CONFIGS,
-          addition: {
-            enabled: true,
-            addendA: { min: 1, max: 100 },
-            addendB: { min: 1, max: 100 },
-            maxResult: 100,
-          },
-          subtraction: {
-            enabled: true,
-            minuend: { min: 1, max: 100 },
-            subtrahend: { min: 1, max: 100 },
-            allowNegativeResults: false,
-          },
-          multiplication: {
-            enabled: true,
-            multiplicand: { min: 1, max: 10 },
-            multiplier: { min: 1, max: 10 },
-            maxResult: 100,
-            wholeNumbersOnly: true,
-          },
-          division: {
-            enabled: true,
-            dividend: { min: 1, max: 100 },
-            divisor: { min: 1, max: 10 },
-            wholeNumbersOnly: true,
-          },
-        },
-      },
-    },
+    preset: grade3MixedOperationsPreset(),
   },
   {
     order: 17,
@@ -828,7 +1008,10 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "two-digit-by-one-digit",
-    preset: multiplicationPreset([2, 3, 4, 5, 6, 7, 8, 9], 100),
+    preset: multiplicationPreset([2, 3, 4, 5, 6, 7, 8, 9], {
+      multiplicandMax: 100,
+      maxResult: 900,
+    }),
   },
   {
     order: 7,
@@ -837,7 +1020,11 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "written-algorithms",
-    preset: multiplicationPreset([10, 100, 1000], 1000),
+    preset: multiplicationPreset([10, 100, 1000], {
+      multiplicandMin: 1,
+      multiplicandMax: 99,
+      maxResult: 99000,
+    }),
   },
   {
     order: 8,
@@ -846,7 +1033,10 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "division-facts",
-    preset: divisionFactsPreset([2, 3, 4, 5, 6, 7, 8, 9], 100),
+    preset: divisionPreset({
+      divisorRange: { min: 2, max: 9 },
+      dividendRange: { min: 1, max: 900 },
+    }),
   },
   {
     order: 9,
@@ -855,7 +1045,10 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["division-remainder"],
     difficultyProfile: "division-remainder-basic",
-    preset: divisionRemainderPreset(1, 100, 2, 9),
+    preset: divisionRemainderPreset(
+      { min: 10, max: 900 },
+      { min: 2, max: 9 },
+    ),
   },
   {
     order: 10,
@@ -864,7 +1057,7 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "two-digit-by-one-digit",
-    preset: twoDigitByOneDigitDivisionPreset(),
+    preset: twoDigitByOneDigitDivisionPreset({ min: 10, max: 99 }),
   },
   {
     order: 11,
@@ -873,7 +1066,7 @@ const grade4Lessons = buildGradeLessons(4, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "two-digit-by-one-digit",
-    preset: twoDigitByOneDigitDivisionPreset(),
+    preset: decompositionDivisionPreset(),
   },
   {
     order: 12,
@@ -966,7 +1159,10 @@ const grade5Lessons = buildGradeLessons(5, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "two-digit-by-one-digit",
-    preset: multiplicationPreset([2, 3, 4, 5, 6, 7, 8, 9], 1000),
+    preset: multiplicationPreset(
+      buildRangeValues({ min: 2, max: 9 }),
+      { multiplicandMin: 10, multiplicandMax: 999, maxResult: 8991 },
+    ),
   },
   {
     order: 4,
@@ -975,7 +1171,10 @@ const grade5Lessons = buildGradeLessons(5, [
     area: "number-operations",
     topics: ["multiplication"],
     difficultyProfile: "written-algorithms",
-    preset: multiplicationPreset([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 1000),
+    preset: multiplicationPreset(
+      buildRangeValues({ min: 10, max: 99 }),
+      { multiplicandMin: 10, multiplicandMax: 999, maxResult: 98901 },
+    ),
   },
   {
     order: 5,
@@ -984,7 +1183,10 @@ const grade5Lessons = buildGradeLessons(5, [
     area: "number-operations",
     topics: ["division"],
     difficultyProfile: "two-digit-by-one-digit",
-    preset: twoDigitByOneDigitDivisionPreset(),
+    preset: divisionPreset({
+      divisorRange: { min: 2, max: 9 },
+      dividendRange: { min: 10, max: 999 },
+    }),
   },
   {
     order: 6,
@@ -993,7 +1195,10 @@ const grade5Lessons = buildGradeLessons(5, [
     area: "number-operations",
     topics: ["division-remainder"],
     difficultyProfile: "division-remainder-basic",
-    preset: divisionRemainderPreset(10, 200, 2, 12),
+    preset: divisionRemainderPreset(
+      { min: 10, max: 999 },
+      { min: 2, max: 9 },
+    ),
   },
   {
     order: 7,
