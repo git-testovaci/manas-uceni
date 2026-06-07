@@ -35,3 +35,9 @@ export {
   resetPracticeHistory,
   savePracticeHistory,
 } from "@/lib/storage/practiceHistory";
+
+export {
+  getMathPracticeConfig,
+  resetMathPracticeConfig,
+  saveMathPracticeConfig,
+} from "@/lib/storage/mathPracticeConfig";

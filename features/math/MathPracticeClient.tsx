@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  createDefaultMathPracticeConfig,
+  DEFAULT_MATH_TOPIC_CONFIGS,
+} from "@/lib/math/mathDefaults";
 import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
 import {
@@ -7,16 +11,25 @@ import {
   getReviewPriority,
 } from "@/lib/review/selectors";
 import {
+  getMathPracticeConfig,
   getReviewStateMap,
+  saveMathPracticeConfig,
   saveReviewState,
-} from "@/lib/storage/reviewState";
+} from "@/lib/storage";
 import type {
+  AdditionConfig,
+  DivisionConfig,
+  DivisionRemainderConfig,
   MathExercise,
   MathPracticeConfig,
+  MathRangeConfig,
   MathTopic,
+  MathTopicConfigs,
+  MultiplicationConfig,
   ReviewStateMap,
+  SubtractionConfig,
 } from "@/types";
-import { useState, type KeyboardEvent } from "react";
+import { useState, type KeyboardEvent, type ReactNode } from "react";
 
 type Phase = "config" | "practice" | "summary";
 
@@ -24,6 +37,15 @@ type SessionStats = {
   correct: number;
   wrong: number;
   fixedMistakes: number;
+};
+
+type AdvancedFlags = Record<MathTopic, boolean>;
+
+type MathConfigFormState = {
+  enabledTopics: MathTopic[];
+  questionCount: number;
+  topicConfigs: MathTopicConfigs;
+  advanced: AdvancedFlags;
 };
 
 const TOPIC_OPTIONS: { topic: MathTopic; label: string }[] = [
@@ -34,7 +56,208 @@ const TOPIC_OPTIONS: { topic: MathTopic; label: string }[] = [
   { topic: "division-remainder", label: "Dělení se zbytkem" },
 ];
 
-const DEFAULT_TOPICS: MathTopic[] = ["multiplication"];
+const SELECTABLE_TOPICS: MathTopic[] = TOPIC_OPTIONS.map(({ topic }) => topic);
+
+function createDefaultAdvancedFlags(): AdvancedFlags {
+  return {
+    addition: false,
+    subtraction: false,
+    multiplication: false,
+    division: false,
+    "division-remainder": false,
+    mixed: false,
+  };
+}
+
+function createDefaultFormState(): MathConfigFormState {
+  const config = createDefaultMathPracticeConfig();
+  return formStateFromConfig(config);
+}
+
+function formStateFromConfig(config: MathPracticeConfig): MathConfigFormState {
+  const topicConfigs = config.topicConfigs ?? DEFAULT_MATH_TOPIC_CONFIGS;
+  const advanced = createDefaultAdvancedFlags();
+
+  if (topicConfigs.addition) {
+    advanced.addition = rangesDiffer(
+      topicConfigs.addition.addendA,
+      topicConfigs.addition.addendB,
+    );
+  }
+
+  if (topicConfigs.subtraction) {
+    advanced.subtraction = rangesDiffer(
+      topicConfigs.subtraction.minuend,
+      topicConfigs.subtraction.subtrahend,
+    );
+  }
+
+  if (topicConfigs.multiplication) {
+    advanced.multiplication = rangesDiffer(
+      topicConfigs.multiplication.multiplicand,
+      topicConfigs.multiplication.multiplier,
+    );
+  }
+
+  if (topicConfigs.division) {
+    advanced.division = rangesDiffer(
+      topicConfigs.division.dividend,
+      topicConfigs.division.divisor,
+    );
+  }
+
+  if (topicConfigs.divisionRemainder) {
+    advanced["division-remainder"] = rangesDiffer(
+      topicConfigs.divisionRemainder.dividend,
+      topicConfigs.divisionRemainder.divisor,
+    );
+  }
+
+  return {
+    enabledTopics: config.enabledTopics.filter((topic) =>
+      SELECTABLE_TOPICS.includes(topic),
+    ),
+    questionCount: config.questionCount ?? 10,
+    topicConfigs: {
+      addition: topicConfigs.addition
+        ? { ...topicConfigs.addition }
+        : { ...DEFAULT_MATH_TOPIC_CONFIGS.addition! },
+      subtraction: topicConfigs.subtraction
+        ? { ...topicConfigs.subtraction }
+        : { ...DEFAULT_MATH_TOPIC_CONFIGS.subtraction! },
+      multiplication: topicConfigs.multiplication
+        ? { ...topicConfigs.multiplication }
+        : { ...DEFAULT_MATH_TOPIC_CONFIGS.multiplication! },
+      division: topicConfigs.division
+        ? { ...topicConfigs.division }
+        : { ...DEFAULT_MATH_TOPIC_CONFIGS.division! },
+      divisionRemainder: topicConfigs.divisionRemainder
+        ? { ...topicConfigs.divisionRemainder }
+        : { ...DEFAULT_MATH_TOPIC_CONFIGS.divisionRemainder! },
+    },
+    advanced,
+  };
+}
+
+function rangesDiffer(a: MathRangeConfig, b: MathRangeConfig): boolean {
+  return a.min !== b.min || a.max !== b.max;
+}
+
+function buildPracticeConfig(form: MathConfigFormState): MathPracticeConfig {
+  const base = createDefaultMathPracticeConfig();
+  const topicConfigs = applySimpleModeOverrides(form);
+
+  return {
+    ...base,
+    enabledTopics: form.enabledTopics,
+    questionCount: form.questionCount,
+    topicConfigs: {
+      addition: topicConfigs.addition
+        ? {
+            ...topicConfigs.addition,
+            enabled: form.enabledTopics.includes("addition"),
+          }
+        : undefined,
+      subtraction: topicConfigs.subtraction
+        ? {
+            ...topicConfigs.subtraction,
+            enabled: form.enabledTopics.includes("subtraction"),
+          }
+        : undefined,
+      multiplication: topicConfigs.multiplication
+        ? {
+            ...topicConfigs.multiplication,
+            enabled: form.enabledTopics.includes("multiplication"),
+          }
+        : undefined,
+      division: topicConfigs.division
+        ? {
+            ...topicConfigs.division,
+            enabled: form.enabledTopics.includes("division"),
+          }
+        : undefined,
+      divisionRemainder: topicConfigs.divisionRemainder
+        ? {
+            ...topicConfigs.divisionRemainder,
+            enabled: form.enabledTopics.includes("division-remainder"),
+          }
+        : undefined,
+    },
+  };
+}
+
+function applySimpleModeOverrides(
+  form: MathConfigFormState,
+): MathTopicConfigs {
+  const configs = {
+    addition: form.topicConfigs.addition
+      ? { ...form.topicConfigs.addition }
+      : undefined,
+    subtraction: form.topicConfigs.subtraction
+      ? { ...form.topicConfigs.subtraction }
+      : undefined,
+    multiplication: form.topicConfigs.multiplication
+      ? { ...form.topicConfigs.multiplication }
+      : undefined,
+    division: form.topicConfigs.division
+      ? { ...form.topicConfigs.division }
+      : undefined,
+    divisionRemainder: form.topicConfigs.divisionRemainder
+      ? { ...form.topicConfigs.divisionRemainder }
+      : undefined,
+  };
+
+  if (configs.addition && !form.advanced.addition) {
+    const range = configs.addition.addendA;
+    configs.addition = {
+      ...configs.addition,
+      addendA: { ...range },
+      addendB: { ...range },
+    };
+  }
+
+  if (configs.subtraction && !form.advanced.subtraction) {
+    const range = configs.subtraction.minuend;
+    configs.subtraction = {
+      ...configs.subtraction,
+      minuend: { ...range },
+      subtrahend: { ...range },
+      allowNegativeResults: false,
+    };
+  }
+
+  if (configs.multiplication && !form.advanced.multiplication) {
+    const range = configs.multiplication.multiplicand;
+    configs.multiplication = {
+      ...configs.multiplication,
+      multiplicand: { ...range },
+      multiplier: { ...range },
+      wholeNumbersOnly: true,
+    };
+  }
+
+  if (configs.division && !form.advanced.division) {
+    const range = configs.division.dividend;
+    configs.division = {
+      ...configs.division,
+      dividend: { ...range },
+      divisor: { ...range },
+      wholeNumbersOnly: true,
+    };
+  }
+
+  if (configs.divisionRemainder && !form.advanced["division-remainder"]) {
+    const range = configs.divisionRemainder.dividend;
+    configs.divisionRemainder = {
+      ...configs.divisionRemainder,
+      dividend: { ...range },
+      divisor: { ...range },
+      requireRemainder: true,
+    };
+  }
+
+  return configs;
+}
 
 export function MathPracticeClient() {
   const [phase, setPhase] = useState<Phase>("config");
@@ -44,13 +267,12 @@ export function MathPracticeClient() {
     }
     return getReviewStateMap();
   });
-  const [minValue, setMinValue] = useState(1);
-  const [maxValue, setMaxValue] = useState(12);
-  const [maxResult, setMaxResult] = useState(100);
-  const [questionCount, setQuestionCount] = useState(10);
-  const [allowRemainders, setAllowRemainders] = useState(false);
-  const [multipliersText, setMultipliersText] = useState("");
-  const [divisorsText, setDivisorsText] = useState("");
+  const [formState, setFormState] = useState<MathConfigFormState>(() => {
+    if (typeof window === "undefined") {
+      return createDefaultFormState();
+    }
+    return formStateFromConfig(getMathPracticeConfig());
+  });
 
   const [sessionCandidates, setSessionCandidates] = useState<MathExercise[]>(
     [],
@@ -74,6 +296,8 @@ export function MathPracticeClient() {
   });
 
   const [userInput, setUserInput] = useState("");
+  const [quotientInput, setQuotientInput] = useState("");
+  const [remainderInput, setRemainderInput] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [feedback, setFeedback] = useState<{
     message: string;
@@ -81,41 +305,39 @@ export function MathPracticeClient() {
     expectedAnswer?: string;
     explanation?: string;
   } | null>(null);
-  const [enabledTopics, setEnabledTopics] = useState<MathTopic[]>(DEFAULT_TOPICS);
   const [configError, setConfigError] = useState<string | null>(null);
 
   const toggleTopic = (topic: MathTopic) => {
-    setEnabledTopics((current) =>
-      current.includes(topic)
-        ? current.filter((item) => item !== topic)
-        : [...current, topic],
-    );
+    setFormState((current) => ({
+      ...current,
+      enabledTopics: current.enabledTopics.includes(topic)
+        ? current.enabledTopics.filter((item) => item !== topic)
+        : [...current.enabledTopics, topic],
+    }));
+  };
+
+  const clearAnswerInputs = () => {
+    setUserInput("");
+    setQuotientInput("");
+    setRemainderInput("");
   };
 
   const handleStartPractice = () => {
     setConfigError(null);
 
-    if (enabledTopics.length === 0) {
+    if (formState.enabledTopics.length === 0) {
       setConfigError("Vyber alespoň jedno téma.");
       return;
     }
 
-    const config = buildPracticeConfig({
-      enabledTopics,
-      minValue,
-      maxValue,
-      maxResult,
-      questionCount,
-      allowRemainders,
-      multipliersText,
-      divisorsText,
-    });
-
+    const config = buildPracticeConfig(formState);
     const candidates = generateMathExercises(config);
     if (candidates.length === 0) {
       setConfigError("Pro tato nastavení nejsou k dispozici žádné příklady.");
       return;
     }
+
+    saveMathPracticeConfig(config);
 
     const queue = fisherYatesShuffle(candidates);
     const selection = selectNextExercise({
@@ -141,20 +363,43 @@ export function MathPracticeClient() {
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionStats({ correct: 0, wrong: 0, fixedMistakes: 0 });
-    setUserInput("");
+    clearAnswerInputs();
     setHasSubmitted(false);
     setFeedback(null);
     setPhase("practice");
   };
 
+  const getAnswerInput = (): string => {
+    if (currentExercise?.operation === "divide-with-remainder") {
+      return `${quotientInput.trim()} r ${remainderInput.trim()}`;
+    }
+
+    return userInput;
+  };
+
+  const canSubmitAnswer = (): boolean => {
+    if (!currentExercise || hasSubmitted) {
+      return false;
+    }
+
+    if (currentExercise.operation === "divide-with-remainder") {
+      return (
+        quotientInput.trim().length > 0 && remainderInput.trim().length > 0
+      );
+    }
+
+    return userInput.trim().length > 0;
+  };
+
   const handleSubmitAnswer = () => {
-    if (!currentExercise || hasSubmitted || userInput.trim().length === 0) {
+    if (!currentExercise || !canSubmitAnswer()) {
       return;
     }
 
+    const input = getAnswerInput();
     const result = processMathAnswer({
       exercise: currentExercise,
-      input: userInput,
+      input,
       currentQuestionNumber,
       reviewState: reviewMap[currentExercise.id],
     });
@@ -197,7 +442,9 @@ export function MathPracticeClient() {
     }
 
     const nextQuestionNumber = currentQuestionNumber + 1;
-    const answeredSet = new Set([...answeredExerciseIds, currentExercise?.id].filter(Boolean) as string[]);
+    const answeredSet = new Set(
+      [...answeredExerciseIds, currentExercise?.id].filter(Boolean) as string[],
+    );
     const selection = selectNextExercise({
       candidates: sessionCandidates,
       sessionQueue,
@@ -217,7 +464,7 @@ export function MathPracticeClient() {
     setSessionQueue(selection.sessionQueue);
     setQueueIndex(selection.queueIndex);
     setCurrentExercise(selection.exercise);
-    setUserInput("");
+    clearAnswerInputs();
     setHasSubmitted(false);
     setFeedback(null);
   };
@@ -253,7 +500,7 @@ export function MathPracticeClient() {
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionStats({ correct: 0, wrong: 0, fixedMistakes: 0 });
-    setUserInput("");
+    clearAnswerInputs();
     setHasSubmitted(false);
     setFeedback(null);
     setPhase("practice");
@@ -267,23 +514,10 @@ export function MathPracticeClient() {
   if (phase === "config") {
     return (
       <ConfigScreen
-        enabledTopics={enabledTopics}
-        minValue={minValue}
-        maxValue={maxValue}
-        maxResult={maxResult}
-        questionCount={questionCount}
-        allowRemainders={allowRemainders}
-        multipliersText={multipliersText}
-        divisorsText={divisorsText}
+        formState={formState}
         configError={configError}
         onToggleTopic={toggleTopic}
-        onMinValueChange={setMinValue}
-        onMaxValueChange={setMaxValue}
-        onMaxResultChange={setMaxResult}
-        onQuestionCountChange={setQuestionCount}
-        onAllowRemaindersChange={setAllowRemainders}
-        onMultipliersTextChange={setMultipliersText}
-        onDivisorsTextChange={setDivisorsText}
+        onFormStateChange={setFormState}
         onStart={handleStartPractice}
       />
     );
@@ -311,10 +545,15 @@ export function MathPracticeClient() {
       exercise={currentExercise}
       progressLabel={`Příklad ${Math.min(answeredInSession + (hasSubmitted ? 0 : 1), totalQuestions)} z ${totalQuestions}`}
       userInput={userInput}
+      quotientInput={quotientInput}
+      remainderInput={remainderInput}
       hasSubmitted={hasSubmitted}
       feedback={feedback}
       isSessionComplete={isSessionComplete}
+      canSubmit={canSubmitAnswer()}
       onInputChange={setUserInput}
+      onQuotientChange={setQuotientInput}
+      onRemainderChange={setRemainderInput}
       onSubmit={handleSubmitAnswer}
       onNext={handleNextQuestion}
     />
@@ -322,46 +561,48 @@ export function MathPracticeClient() {
 }
 
 type ConfigScreenProps = {
-  enabledTopics: MathTopic[];
-  minValue: number;
-  maxValue: number;
-  maxResult: number;
-  questionCount: number;
-  allowRemainders: boolean;
-  multipliersText: string;
-  divisorsText: string;
+  formState: MathConfigFormState;
   configError: string | null;
   onToggleTopic: (topic: MathTopic) => void;
-  onMinValueChange: (value: number) => void;
-  onMaxValueChange: (value: number) => void;
-  onMaxResultChange: (value: number) => void;
-  onQuestionCountChange: (value: number) => void;
-  onAllowRemaindersChange: (value: boolean) => void;
-  onMultipliersTextChange: (value: string) => void;
-  onDivisorsTextChange: (value: string) => void;
+  onFormStateChange: (state: MathConfigFormState) => void;
   onStart: () => void;
 };
 
 function ConfigScreen({
-  enabledTopics,
-  minValue,
-  maxValue,
-  maxResult,
-  questionCount,
-  allowRemainders,
-  multipliersText,
-  divisorsText,
+  formState,
   configError,
   onToggleTopic,
-  onMinValueChange,
-  onMaxValueChange,
-  onMaxResultChange,
-  onQuestionCountChange,
-  onAllowRemaindersChange,
-  onMultipliersTextChange,
-  onDivisorsTextChange,
+  onFormStateChange,
   onStart,
 }: ConfigScreenProps) {
+  const updateTopicConfig = <K extends keyof MathTopicConfigs>(
+    key: K,
+    updater: (current: NonNullable<MathTopicConfigs[K]>) => NonNullable<MathTopicConfigs[K]>,
+  ) => {
+    const current = formState.topicConfigs[key];
+    if (!current) {
+      return;
+    }
+
+    onFormStateChange({
+      ...formState,
+      topicConfigs: {
+        ...formState.topicConfigs,
+        [key]: updater(current),
+      },
+    });
+  };
+
+  const setAdvanced = (topic: MathTopic, enabled: boolean) => {
+    onFormStateChange({
+      ...formState,
+      advanced: {
+        ...formState.advanced,
+        [topic]: enabled,
+      },
+    });
+  };
+
   return (
     <div className="space-y-6">
       <header>
@@ -375,92 +616,94 @@ function ConfigScreen({
 
       <fieldset className="space-y-3">
         <legend className="text-base font-semibold">Témata</legend>
-        {TOPIC_OPTIONS.map(({ topic, label }) => (
-          <label key={topic} className="flex min-h-11 items-center gap-3 text-lg">
-            <input
-              type="checkbox"
-              checked={enabledTopics.includes(topic)}
-              onChange={() => onToggleTopic(topic)}
-              className="h-5 w-5 rounded border-foreground/30"
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {TOPIC_OPTIONS.map(({ topic, label }) => (
+            <TopicCard
+              key={topic}
+              topic={topic}
+              label={label}
+              selected={formState.enabledTopics.includes(topic)}
+              onToggle={onToggleTopic}
             />
-            <span>{label}</span>
-          </label>
-        ))}
+          ))}
+        </div>
       </fieldset>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label className="block space-y-2">
-          <span className="text-base font-semibold">Min hodnota</span>
-          <input
-            type="number"
-            value={minValue}
-            onChange={(event) => onMinValueChange(Number(event.target.value))}
-            className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
-          />
-        </label>
-        <label className="block space-y-2">
-          <span className="text-base font-semibold">Max hodnota</span>
-          <input
-            type="number"
-            value={maxValue}
-            onChange={(event) => onMaxValueChange(Number(event.target.value))}
-            className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
-          />
-        </label>
-        <label className="block space-y-2">
-          <span className="text-base font-semibold">Max výsledek</span>
-          <input
-            type="number"
-            value={maxResult}
-            onChange={(event) => onMaxResultChange(Number(event.target.value))}
-            className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
-          />
-        </label>
-        <label className="block space-y-2">
-          <span className="text-base font-semibold">Počet příkladů</span>
-          <input
-            type="number"
-            min={1}
-            value={questionCount}
-            onChange={(event) =>
-              onQuestionCountChange(Number(event.target.value))
+      <label className="block max-w-xs space-y-2">
+        <span className="text-base font-semibold">Počet příkladů</span>
+        <input
+          type="number"
+          min={1}
+          value={formState.questionCount}
+          onChange={(event) =>
+            onFormStateChange({
+              ...formState,
+              questionCount: Number(event.target.value),
+            })
+          }
+          className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
+        />
+      </label>
+
+      {formState.enabledTopics.includes("addition") &&
+        formState.topicConfigs.addition && (
+          <AdditionSettings
+            config={formState.topicConfigs.addition}
+            advanced={formState.advanced.addition}
+            onAdvancedChange={(value) => setAdvanced("addition", value)}
+            onChange={(config) =>
+              updateTopicConfig("addition", () => config)
             }
-            className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
           />
-        </label>
-      </div>
+        )}
 
-      <label className="block space-y-2">
-        <span className="text-base font-semibold">Vybrané násobitele</span>
-        <input
-          type="text"
-          value={multipliersText}
-          onChange={(event) => onMultipliersTextChange(event.target.value)}
-          placeholder="3, 7, 9"
-          className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
-        />
-      </label>
+      {formState.enabledTopics.includes("subtraction") &&
+        formState.topicConfigs.subtraction && (
+          <SubtractionSettings
+            config={formState.topicConfigs.subtraction}
+            advanced={formState.advanced.subtraction}
+            onAdvancedChange={(value) => setAdvanced("subtraction", value)}
+            onChange={(config) =>
+              updateTopicConfig("subtraction", () => config)
+            }
+          />
+        )}
 
-      <label className="block space-y-2">
-        <span className="text-base font-semibold">Vybraní dělitelé</span>
-        <input
-          type="text"
-          value={divisorsText}
-          onChange={(event) => onDivisorsTextChange(event.target.value)}
-          placeholder="2, 4, 5"
-          className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
-        />
-      </label>
+      {formState.enabledTopics.includes("multiplication") &&
+        formState.topicConfigs.multiplication && (
+          <MultiplicationSettings
+            config={formState.topicConfigs.multiplication}
+            advanced={formState.advanced.multiplication}
+            onAdvancedChange={(value) => setAdvanced("multiplication", value)}
+            onChange={(config) =>
+              updateTopicConfig("multiplication", () => config)
+            }
+          />
+        )}
 
-      <label className="flex min-h-11 items-center gap-3 text-lg">
-        <input
-          type="checkbox"
-          checked={allowRemainders}
-          onChange={(event) => onAllowRemaindersChange(event.target.checked)}
-          className="h-5 w-5 rounded border-foreground/30"
-        />
-        <span>Povolit zbytky</span>
-      </label>
+      {formState.enabledTopics.includes("division") &&
+        formState.topicConfigs.division && (
+          <DivisionSettings
+            config={formState.topicConfigs.division}
+            advanced={formState.advanced.division}
+            onAdvancedChange={(value) => setAdvanced("division", value)}
+            onChange={(config) => updateTopicConfig("division", () => config)}
+          />
+        )}
+
+      {formState.enabledTopics.includes("division-remainder") &&
+        formState.topicConfigs.divisionRemainder && (
+          <DivisionRemainderSettings
+            config={formState.topicConfigs.divisionRemainder}
+            advanced={formState.advanced["division-remainder"]}
+            onAdvancedChange={(value) =>
+              setAdvanced("division-remainder", value)
+            }
+            onChange={(config) =>
+              updateTopicConfig("divisionRemainder", () => config)
+            }
+          />
+        )}
 
       {configError && (
         <p className="rounded-xl bg-orange-100 px-4 py-3 text-orange-900">
@@ -479,11 +722,607 @@ function ConfigScreen({
   );
 }
 
+type TopicCardProps = {
+  topic: MathTopic;
+  label: string;
+  selected: boolean;
+  onToggle: (topic: MathTopic) => void;
+};
+
+function TopicCard({ topic, label, selected, onToggle }: TopicCardProps) {
+  return (
+    <label
+      className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-lg transition-colors focus-within:ring-2 focus-within:ring-foreground focus-within:ring-offset-2 ${
+        selected
+          ? "border-math bg-math/10 font-semibold text-math"
+          : "border-foreground/20 hover:bg-foreground/5"
+      }`}
+    >
+      <input
+        type="checkbox"
+        checked={selected}
+        onChange={() => onToggle(topic)}
+        className="h-5 w-5 rounded border-foreground/30"
+      />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+type SettingsSectionProps = {
+  title: string;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  simpleFields: ReactNode;
+  advancedFields: ReactNode;
+};
+
+function SettingsSection({
+  title,
+  advanced,
+  onAdvancedChange,
+  simpleFields,
+  advancedFields,
+}: SettingsSectionProps) {
+  return (
+    <section className="space-y-4 rounded-2xl border border-foreground/15 p-4 sm:p-5">
+      <h2 className="text-xl font-semibold">{title}</h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{simpleFields}</div>
+      <label className="flex min-h-11 items-center gap-3 text-base">
+        <input
+          type="checkbox"
+          checked={advanced}
+          onChange={(event) => onAdvancedChange(event.target.checked)}
+          className="h-5 w-5 rounded border-foreground/30"
+        />
+        <span>Rozšířené nastavení</span>
+      </label>
+      {advanced && <div className="space-y-4">{advancedFields}</div>}
+    </section>
+  );
+}
+
+type NumberFieldProps = {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+};
+
+function NumberField({ label, value, onChange }: NumberFieldProps) {
+  return (
+    <label className="block space-y-2">
+      <span className="text-base font-semibold">{label}</span>
+      <input
+        type="number"
+        value={value}
+        onChange={(event) => onChange(Number(event.target.value))}
+        className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
+      />
+    </label>
+  );
+}
+
+type RangePairFieldsProps = {
+  labelA: string;
+  labelB: string;
+  rangeA: MathRangeConfig;
+  rangeB: MathRangeConfig;
+  onRangeAChange: (range: MathRangeConfig) => void;
+  onRangeBChange: (range: MathRangeConfig) => void;
+};
+
+function RangePairFields({
+  labelA,
+  labelB,
+  rangeA,
+  rangeB,
+  onRangeAChange,
+  onRangeBChange,
+}: RangePairFieldsProps) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="space-y-3">
+        <p className="text-base font-semibold">{labelA}</p>
+        <div className="grid grid-cols-2 gap-3">
+          <NumberField
+            label="Min"
+            value={rangeA.min}
+            onChange={(min) => onRangeAChange({ ...rangeA, min })}
+          />
+          <NumberField
+            label="Max"
+            value={rangeA.max}
+            onChange={(max) => onRangeAChange({ ...rangeA, max })}
+          />
+        </div>
+      </div>
+      <div className="space-y-3">
+        <p className="text-base font-semibold">{labelB}</p>
+        <div className="grid grid-cols-2 gap-3">
+          <NumberField
+            label="Min"
+            value={rangeB.min}
+            onChange={(min) => onRangeBChange({ ...rangeB, min })}
+          />
+          <NumberField
+            label="Max"
+            value={rangeB.max}
+            onChange={(max) => onRangeBChange({ ...rangeB, max })}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type NumberGridProps = {
+  label: string;
+  range: MathRangeConfig;
+  selected: number[] | undefined;
+  onChange: (selected: number[] | undefined) => void;
+};
+
+function NumberGrid({ label, range, selected, onChange }: NumberGridProps) {
+  const numbers = buildRangeValues(range);
+
+  const toggleNumber = (value: number) => {
+    const current = selected ?? [];
+    if (current.length === 0) {
+      onChange([value]);
+      return;
+    }
+
+    if (current.includes(value)) {
+      const next = current.filter((item) => item !== value);
+      onChange(next.length > 0 ? next : undefined);
+      return;
+    }
+
+    onChange([...current, value].sort((a, b) => a - b));
+  };
+
+  return (
+    <div className="space-y-3">
+      <p className="text-base font-semibold">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {numbers.map((value) => {
+          const isPressed =
+            selected !== undefined &&
+            selected.length > 0 &&
+            selected.includes(value);
+
+          return (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={isPressed}
+              onClick={() => toggleNumber(value)}
+              className={`min-h-10 min-w-10 rounded-xl border px-3 text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
+                isPressed
+                  ? "border-math bg-math text-white"
+                  : "border-foreground/20 hover:bg-foreground/5"
+              }`}
+            >
+              {value}
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-sm text-foreground/60">
+        Žádné tlačítko není vybrané = použijí se všechna čísla v rozsahu.
+      </p>
+    </div>
+  );
+}
+
+function buildRangeValues(range: MathRangeConfig): number[] {
+  const values: number[] = [];
+  for (let value = range.min; value <= range.max; value += 1) {
+    values.push(value);
+  }
+  return values;
+}
+
+type AdditionSettingsProps = {
+  config: AdditionConfig;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  onChange: (config: AdditionConfig) => void;
+};
+
+function AdditionSettings({
+  config,
+  advanced,
+  onAdvancedChange,
+  onChange,
+}: AdditionSettingsProps) {
+  const updateSimpleRange = (range: MathRangeConfig) => {
+    onChange({
+      ...config,
+      addendA: { ...range },
+      addendB: { ...range },
+    });
+  };
+
+  return (
+    <SettingsSection
+      title="Sčítání"
+      advanced={advanced}
+      onAdvancedChange={onAdvancedChange}
+      simpleFields={
+        <>
+          <NumberField
+            label="Min hodnota"
+            value={config.addendA.min}
+            onChange={(min) =>
+              updateSimpleRange({ ...config.addendA, min })
+            }
+          />
+          <NumberField
+            label="Max hodnota"
+            value={config.addendA.max}
+            onChange={(max) =>
+              updateSimpleRange({ ...config.addendA, max })
+            }
+          />
+          <NumberField
+            label="Max výsledek"
+            value={config.maxResult ?? 100}
+            onChange={(maxResult) => onChange({ ...config, maxResult })}
+          />
+        </>
+      }
+      advancedFields={
+        <>
+          <RangePairFields
+            labelA="Sčítanec A"
+            labelB="Sčítanec B"
+            rangeA={config.addendA}
+            rangeB={config.addendB}
+            onRangeAChange={(addendA) => onChange({ ...config, addendA })}
+            onRangeBChange={(addendB) => onChange({ ...config, addendB })}
+          />
+          <NumberField
+            label="Max výsledek"
+            value={config.maxResult ?? 100}
+            onChange={(maxResult) => onChange({ ...config, maxResult })}
+          />
+        </>
+      }
+    />
+  );
+}
+
+type SubtractionSettingsProps = {
+  config: SubtractionConfig;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  onChange: (config: SubtractionConfig) => void;
+};
+
+function SubtractionSettings({
+  config,
+  advanced,
+  onAdvancedChange,
+  onChange,
+}: SubtractionSettingsProps) {
+  const updateSimpleRange = (range: MathRangeConfig) => {
+    onChange({
+      ...config,
+      minuend: { ...range },
+      subtrahend: { ...range },
+      allowNegativeResults: false,
+    });
+  };
+
+  return (
+    <SettingsSection
+      title="Odčítání"
+      advanced={advanced}
+      onAdvancedChange={onAdvancedChange}
+      simpleFields={
+        <>
+          <NumberField
+            label="Min hodnota"
+            value={config.minuend.min}
+            onChange={(min) =>
+              updateSimpleRange({ ...config.minuend, min })
+            }
+          />
+          <NumberField
+            label="Max hodnota"
+            value={config.minuend.max}
+            onChange={(max) =>
+              updateSimpleRange({ ...config.minuend, max })
+            }
+          />
+        </>
+      }
+      advancedFields={
+        <>
+          <RangePairFields
+            labelA="Menšenec"
+            labelB="Menšitel"
+            rangeA={config.minuend}
+            rangeB={config.subtrahend}
+            onRangeAChange={(minuend) => onChange({ ...config, minuend })}
+            onRangeBChange={(subtrahend) => onChange({ ...config, subtrahend })}
+          />
+          <label className="flex min-h-11 items-center gap-3 text-base">
+            <input
+              type="checkbox"
+              checked={config.allowNegativeResults ?? false}
+              onChange={(event) =>
+                onChange({
+                  ...config,
+                  allowNegativeResults: event.target.checked,
+                })
+              }
+              className="h-5 w-5 rounded border-foreground/30"
+            />
+            <span>Povolit záporný výsledek</span>
+          </label>
+        </>
+      }
+    />
+  );
+}
+
+type MultiplicationSettingsProps = {
+  config: MultiplicationConfig;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  onChange: (config: MultiplicationConfig) => void;
+};
+
+function MultiplicationSettings({
+  config,
+  advanced,
+  onAdvancedChange,
+  onChange,
+}: MultiplicationSettingsProps) {
+  const updateSimpleRange = (range: MathRangeConfig) => {
+    onChange({
+      ...config,
+      multiplicand: { ...range },
+      multiplier: { ...range },
+      wholeNumbersOnly: true,
+    });
+  };
+
+  return (
+    <SettingsSection
+      title="Násobení"
+      advanced={advanced}
+      onAdvancedChange={onAdvancedChange}
+      simpleFields={
+        <>
+          <NumberField
+            label="Min hodnota"
+            value={config.multiplicand.min}
+            onChange={(min) =>
+              updateSimpleRange({ ...config.multiplicand, min })
+            }
+          />
+          <NumberField
+            label="Max hodnota"
+            value={config.multiplicand.max}
+            onChange={(max) =>
+              updateSimpleRange({ ...config.multiplicand, max })
+            }
+          />
+          <NumberField
+            label="Max výsledek"
+            value={config.maxResult ?? 144}
+            onChange={(maxResult) => onChange({ ...config, maxResult })}
+          />
+        </>
+      }
+      advancedFields={
+        <>
+          <RangePairFields
+            labelA="Násobenec"
+            labelB="Násobitel"
+            rangeA={config.multiplicand}
+            rangeB={config.multiplier}
+            onRangeAChange={(multiplicand) =>
+              onChange({ ...config, multiplicand })
+            }
+            onRangeBChange={(multiplier) => onChange({ ...config, multiplier })}
+          />
+          <NumberField
+            label="Max výsledek"
+            value={config.maxResult ?? 144}
+            onChange={(maxResult) => onChange({ ...config, maxResult })}
+          />
+          <label className="flex min-h-11 items-center gap-3 text-base">
+            <input
+              type="checkbox"
+              checked={config.wholeNumbersOnly ?? true}
+              onChange={(event) =>
+                onChange({
+                  ...config,
+                  wholeNumbersOnly: event.target.checked,
+                })
+              }
+              className="h-5 w-5 rounded border-foreground/30"
+            />
+            <span>Celá čísla only</span>
+          </label>
+          <NumberGrid
+            label="Vybrané násobitele"
+            range={config.multiplier}
+            selected={config.selectedMultipliers}
+            onChange={(selectedMultipliers) =>
+              onChange({ ...config, selectedMultipliers })
+            }
+          />
+        </>
+      }
+    />
+  );
+}
+
+type DivisionSettingsProps = {
+  config: DivisionConfig;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  onChange: (config: DivisionConfig) => void;
+};
+
+function DivisionSettings({
+  config,
+  advanced,
+  onAdvancedChange,
+  onChange,
+}: DivisionSettingsProps) {
+  const updateSimpleRange = (range: MathRangeConfig) => {
+    onChange({
+      ...config,
+      dividend: { ...range },
+      divisor: { ...range },
+      wholeNumbersOnly: true,
+    });
+  };
+
+  return (
+    <SettingsSection
+      title="Dělení"
+      advanced={advanced}
+      onAdvancedChange={onAdvancedChange}
+      simpleFields={
+        <>
+          <NumberField
+            label="Min hodnota"
+            value={config.dividend.min}
+            onChange={(min) =>
+              updateSimpleRange({ ...config.dividend, min })
+            }
+          />
+          <NumberField
+            label="Max hodnota"
+            value={config.dividend.max}
+            onChange={(max) =>
+              updateSimpleRange({ ...config.dividend, max })
+            }
+          />
+        </>
+      }
+      advancedFields={
+        <>
+          <RangePairFields
+            labelA="Dělenec"
+            labelB="Dělitel"
+            rangeA={config.dividend}
+            rangeB={config.divisor}
+            onRangeAChange={(dividend) => onChange({ ...config, dividend })}
+            onRangeBChange={(divisor) => onChange({ ...config, divisor })}
+          />
+          <label className="flex min-h-11 items-center gap-3 text-base">
+            <input
+              type="checkbox"
+              checked={config.wholeNumbersOnly ?? true}
+              onChange={(event) =>
+                onChange({
+                  ...config,
+                  wholeNumbersOnly: event.target.checked,
+                })
+              }
+              className="h-5 w-5 rounded border-foreground/30"
+            />
+            <span>Pouze beze zbytku</span>
+          </label>
+          <NumberGrid
+            label="Vybraní dělitelé"
+            range={config.divisor}
+            selected={config.selectedDivisors}
+            onChange={(selectedDivisors) =>
+              onChange({ ...config, selectedDivisors })
+            }
+          />
+        </>
+      }
+    />
+  );
+}
+
+type DivisionRemainderSettingsProps = {
+  config: DivisionRemainderConfig;
+  advanced: boolean;
+  onAdvancedChange: (value: boolean) => void;
+  onChange: (config: DivisionRemainderConfig) => void;
+};
+
+function DivisionRemainderSettings({
+  config,
+  advanced,
+  onAdvancedChange,
+  onChange,
+}: DivisionRemainderSettingsProps) {
+  const updateSimpleRange = (range: MathRangeConfig) => {
+    onChange({
+      ...config,
+      dividend: { ...range },
+      divisor: { ...range },
+      requireRemainder: true,
+    });
+  };
+
+  return (
+    <SettingsSection
+      title="Dělení se zbytkem"
+      advanced={advanced}
+      onAdvancedChange={onAdvancedChange}
+      simpleFields={
+        <>
+          <NumberField
+            label="Min hodnota"
+            value={config.dividend.min}
+            onChange={(min) =>
+              updateSimpleRange({ ...config.dividend, min })
+            }
+          />
+          <NumberField
+            label="Max hodnota"
+            value={config.dividend.max}
+            onChange={(max) =>
+              updateSimpleRange({ ...config.dividend, max })
+            }
+          />
+        </>
+      }
+      advancedFields={
+        <>
+          <RangePairFields
+            labelA="Dělenec"
+            labelB="Dělitel"
+            rangeA={config.dividend}
+            rangeB={config.divisor}
+            onRangeAChange={(dividend) => onChange({ ...config, dividend })}
+            onRangeBChange={(divisor) => onChange({ ...config, divisor })}
+          />
+          <NumberGrid
+            label="Vybraní dělitelé"
+            range={config.divisor}
+            selected={config.selectedDivisors}
+            onChange={(selectedDivisors) =>
+              onChange({ ...config, selectedDivisors })
+            }
+          />
+        </>
+      }
+    />
+  );
+}
+
 type PracticeScreenProps = {
   exercise: MathExercise;
   progressLabel: string;
   userInput: string;
+  quotientInput: string;
+  remainderInput: string;
   hasSubmitted: boolean;
+  canSubmit: boolean;
   feedback: {
     message: string;
     tone: "success" | "wrong" | "fixed";
@@ -492,6 +1331,8 @@ type PracticeScreenProps = {
   } | null;
   isSessionComplete: boolean;
   onInputChange: (value: string) => void;
+  onQuotientChange: (value: string) => void;
+  onRemainderChange: (value: string) => void;
   onSubmit: () => void;
   onNext: () => void;
 };
@@ -500,13 +1341,20 @@ function PracticeScreen({
   exercise,
   progressLabel,
   userInput,
+  quotientInput,
+  remainderInput,
   hasSubmitted,
+  canSubmit,
   feedback,
   isSessionComplete,
   onInputChange,
+  onQuotientChange,
+  onRemainderChange,
   onSubmit,
   onNext,
 }: PracticeScreenProps) {
+  const isRemainderExercise = exercise.operation === "divide-with-remainder";
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && !hasSubmitted) {
       event.preventDefault();
@@ -522,24 +1370,53 @@ function PracticeScreen({
         {exercise.prompt}
       </p>
 
-      <label className="block space-y-2">
-        <span className="text-base font-semibold">Tvoje odpověď</span>
-        <input
-          type="text"
-          inputMode="numeric"
-          value={userInput}
-          onChange={(event) => onInputChange(event.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={hasSubmitted}
-          className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-        />
-      </label>
+      {isRemainderExercise ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <label className="block space-y-2">
+            <span className="text-base font-semibold">Výsledek</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={quotientInput}
+              onChange={(event) => onQuotientChange(event.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={hasSubmitted}
+              className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            />
+          </label>
+          <label className="block space-y-2">
+            <span className="text-base font-semibold">Zbytek</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={remainderInput}
+              onChange={(event) => onRemainderChange(event.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={hasSubmitted}
+              className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            />
+          </label>
+        </div>
+      ) : (
+        <label className="block space-y-2">
+          <span className="text-base font-semibold">Tvoje odpověď</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            value={userInput}
+            onChange={(event) => onInputChange(event.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={hasSubmitted}
+            className="min-h-12 w-full rounded-xl border border-foreground/20 px-4 text-2xl text-center focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          />
+        </label>
+      )}
 
       {!hasSubmitted && (
         <button
           type="button"
           onClick={onSubmit}
-          disabled={userInput.trim().length === 0}
+          disabled={!canSubmit}
           className="min-h-12 w-full rounded-2xl bg-math px-6 py-3 text-lg font-semibold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
         >
           Zkontrolovat
@@ -628,48 +1505,6 @@ function SummaryScreen({
       </button>
     </div>
   );
-}
-
-function buildPracticeConfig(input: {
-  enabledTopics: MathTopic[];
-  minValue: number;
-  maxValue: number;
-  maxResult: number;
-  questionCount: number;
-  allowRemainders: boolean;
-  multipliersText: string;
-  divisorsText: string;
-}): MathPracticeConfig {
-  const selectedMultipliers = parseCommaSeparatedNumbers(input.multipliersText);
-  const selectedDivisors = parseCommaSeparatedNumbers(input.divisorsText);
-
-  const config: MathPracticeConfig = {
-    enabledTopics: input.enabledTopics,
-    minValue: input.minValue,
-    maxValue: input.maxValue,
-    maxResult: input.maxResult,
-    questionCount: input.questionCount,
-    allowRemainders: input.allowRemainders,
-  };
-
-  if (selectedMultipliers.length > 0) {
-    config.selectedMultipliers = selectedMultipliers;
-  }
-
-  if (selectedDivisors.length > 0) {
-    config.selectedDivisors = selectedDivisors;
-  }
-
-  return config;
-}
-
-function parseCommaSeparatedNumbers(value: string): number[] {
-  return value
-    .split(",")
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0)
-    .map((part) => Number(part))
-    .filter((number) => Number.isInteger(number) && number > 0);
 }
 
 function fisherYatesShuffle<T>(items: T[]): T[] {
