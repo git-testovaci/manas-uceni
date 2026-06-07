@@ -41,3 +41,19 @@ export {
   resetMathPracticeConfig,
   saveMathPracticeConfig,
 } from "@/lib/storage/mathPracticeConfig";
+
+export {
+  DEFAULT_MATH_PRACTICE_MODE,
+  getMathPracticeMode,
+  resetMathPracticeMode,
+  saveMathPracticeMode,
+  type MathPracticeSetupMode,
+} from "@/lib/storage/mathPracticeMode";
+
+export {
+  DEFAULT_MATH_LESSON_SELECTION,
+  getMathLessonSelection,
+  resetMathLessonSelection,
+  saveMathLessonSelection,
+  type MathLessonSelection,
+} from "@/lib/storage/mathLessonSelection";

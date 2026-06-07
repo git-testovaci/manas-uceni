@@ -1,5 +1,6 @@
 "use client";
 
+import { getMathLessonById, getMathLessonsByGrade } from "@/data/math";
 import {
   createDefaultMathPracticeConfig,
   DEFAULT_DIVISION_CONFIG,
@@ -14,22 +15,33 @@ import {
   getReviewPriority,
 } from "@/lib/review/selectors";
 import {
+  DEFAULT_MATH_LESSON_SELECTION,
+  DEFAULT_MATH_PRACTICE_MODE,
+  getMathLessonSelection,
   getMathPracticeConfig,
+  getMathPracticeMode,
   getReviewStateMap,
+  saveMathLessonSelection,
   saveMathPracticeConfig,
+  saveMathPracticeMode,
   saveReviewState,
+  type MathLessonSelection,
+  type MathPracticeSetupMode,
 } from "@/lib/storage";
 import type {
   AdditionConfig,
   DivisionConfig,
   DivisionRemainderConfig,
+  MathCurriculumArea,
   MathExercise,
+  MathLesson,
   MathPracticeConfig,
   MathRangeConfig,
   MathTopic,
   MathTopicConfigs,
   MultiplicationConfig,
   ReviewStateMap,
+  SchoolGrade,
   SubtractionConfig,
 } from "@/types";
 import { useState, type KeyboardEvent, type ReactNode } from "react";
@@ -63,6 +75,19 @@ const SELECTABLE_TOPICS: MathTopic[] = TOPIC_OPTIONS.map(({ topic }) => topic);
 
 const NO_TOPICS_ERROR = "Vyber alespoň jedno téma.";
 
+const GRADE_OPTIONS: SchoolGrade[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const AREA_LABELS: Record<MathCurriculumArea, string> = {
+  "number-operations": "Početní operace",
+  geometry: "Geometrie",
+  measurement: "Měření",
+  "fractions-decimals": "Zlomky a desetinná čísla",
+  algebra: "Algebra",
+  "data-statistics": "Data a statistika",
+  "word-problems": "Slovní úlohy",
+  "entrance-exam": "Přijímačky",
+};
+
 type GridTopic = "multiplication" | "division" | "division-remainder";
 
 const GRID_TOPIC_CONFIG_KEY: Record<
@@ -88,6 +113,21 @@ function createDefaultAdvancedFlags(): AdvancedFlags {
 function createDefaultFormState(): MathConfigFormState {
   const config = createDefaultMathPracticeConfig();
   return formStateFromConfig(config);
+}
+
+function loadSavedLessonSelection(): MathLessonSelection {
+  const saved = getMathLessonSelection();
+
+  if (!saved.lessonId) {
+    return saved;
+  }
+
+  const lesson = getMathLessonById(saved.lessonId);
+  if (!lesson || lesson.grade !== saved.grade) {
+    return { grade: saved.grade };
+  }
+
+  return saved;
 }
 
 function formStateFromConfig(config: MathPracticeConfig): MathConfigFormState {
@@ -412,6 +452,29 @@ export function MathPracticeClient() {
     explanation?: string;
   } | null>(null);
   const [configError, setConfigError] = useState<string | null>(null);
+  const [setupMode, setSetupMode] = useState<MathPracticeSetupMode>(() => {
+    if (typeof window === "undefined") {
+      return DEFAULT_MATH_PRACTICE_MODE;
+    }
+    return getMathPracticeMode();
+  });
+  const [selectedGrade, setSelectedGrade] = useState<SchoolGrade>(() => {
+    if (typeof window === "undefined") {
+      return DEFAULT_MATH_LESSON_SELECTION.grade;
+    }
+    return loadSavedLessonSelection().grade;
+  });
+  const [selectedLessonId, setSelectedLessonId] = useState<string | undefined>(
+    () => {
+      if (typeof window === "undefined") {
+        return undefined;
+      }
+      return loadSavedLessonSelection().lessonId;
+    },
+  );
+  const [sessionLessonLabel, setSessionLessonLabel] = useState<string | null>(
+    null,
+  );
 
   const toggleTopic = (topic: MathTopic) => {
     setFormState((current) => {
@@ -548,22 +611,24 @@ export function MathPracticeClient() {
     setRemainderInput("");
   };
 
-  const handleStartPractice = () => {
+  const beginPracticeSession = (
+    config: MathPracticeConfig,
+    options: {
+      lessonLabel?: string | null;
+      persistConfig?: boolean;
+    } = {},
+  ): boolean => {
     setConfigError(null);
 
-    if (formState.enabledTopics.length === 0) {
-      setConfigError(NO_TOPICS_ERROR);
-      return;
-    }
-
-    const config = buildPracticeConfig(formState);
     const candidates = generateMathExercises(config);
     if (candidates.length === 0) {
       setConfigError("Pro tato nastavení nejsou k dispozici žádné příklady.");
-      return;
+      return false;
     }
 
-    saveMathPracticeConfig(config);
+    if (options.persistConfig !== false) {
+      saveMathPracticeConfig(config);
+    }
 
     const queue = fisherYatesShuffle(candidates);
     const selection = selectNextExercise({
@@ -577,7 +642,7 @@ export function MathPracticeClient() {
 
     if (!selection) {
       setConfigError("Nepodařilo se vybrat první příklad.");
-      return;
+      return false;
     }
 
     setPracticeConfig(config);
@@ -592,7 +657,48 @@ export function MathPracticeClient() {
     clearAnswerInputs();
     setHasSubmitted(false);
     setFeedback(null);
+    setSessionLessonLabel(options.lessonLabel ?? null);
     setPhase("practice");
+    return true;
+  };
+
+  const handleGradeChange = (grade: SchoolGrade) => {
+    setSelectedGrade(grade);
+    setSelectedLessonId(undefined);
+    saveMathLessonSelection({ grade });
+  };
+
+  const handleModeChange = (mode: MathPracticeSetupMode) => {
+    setSetupMode(mode);
+    saveMathPracticeMode(mode);
+    setConfigError(null);
+  };
+
+  const handleStartPractice = () => {
+    if (formState.enabledTopics.length === 0) {
+      setConfigError(NO_TOPICS_ERROR);
+      return;
+    }
+
+    beginPracticeSession(buildPracticeConfig(formState), {
+      persistConfig: true,
+    });
+  };
+
+  const handleStartLesson = (lesson: MathLesson) => {
+    const config = lesson.preset?.mathConfig;
+    if (!config) {
+      return;
+    }
+
+    setSelectedGrade(lesson.grade);
+    setSelectedLessonId(lesson.id);
+    saveMathLessonSelection({ grade: lesson.grade, lessonId: lesson.id });
+
+    beginPracticeSession(config, {
+      lessonLabel: `${lesson.grade}. třída · ${lesson.title}`,
+      persistConfig: false,
+    });
   };
 
   const getAnswerInput = (): string => {
@@ -740,12 +846,18 @@ export function MathPracticeClient() {
   if (phase === "config") {
     return (
       <ConfigScreen
+        setupMode={setupMode}
+        selectedGrade={selectedGrade}
+        selectedLessonId={selectedLessonId}
         formState={formState}
         configError={configError}
+        onModeChange={handleModeChange}
+        onGradeChange={handleGradeChange}
         onToggleTopic={toggleTopic}
         onFormStateChange={applyFormStateChange}
         onGridLastDeselected={handleGridLastDeselected}
         onStart={handleStartPractice}
+        onStartLesson={handleStartLesson}
       />
     );
   }
@@ -770,6 +882,7 @@ export function MathPracticeClient() {
   return (
     <PracticeScreen
       exercise={currentExercise}
+      lessonLabel={sessionLessonLabel}
       progressLabel={`Příklad ${Math.min(answeredInSession + (hasSubmitted ? 0 : 1), totalQuestions)} z ${totalQuestions}`}
       userInput={userInput}
       quotientInput={quotientInput}
@@ -788,21 +901,33 @@ export function MathPracticeClient() {
 }
 
 type ConfigScreenProps = {
+  setupMode: MathPracticeSetupMode;
+  selectedGrade: SchoolGrade;
+  selectedLessonId?: string;
   formState: MathConfigFormState;
   configError: string | null;
+  onModeChange: (mode: MathPracticeSetupMode) => void;
+  onGradeChange: (grade: SchoolGrade) => void;
   onToggleTopic: (topic: MathTopic) => void;
   onFormStateChange: (state: MathConfigFormState) => void;
   onGridLastDeselected: (topic: GridTopic) => void;
   onStart: () => void;
+  onStartLesson: (lesson: MathLesson) => void;
 };
 
 function ConfigScreen({
+  setupMode,
+  selectedGrade,
+  selectedLessonId,
   formState,
   configError,
+  onModeChange,
+  onGradeChange,
   onToggleTopic,
   onFormStateChange,
   onGridLastDeselected,
   onStart,
+  onStartLesson,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
@@ -832,6 +957,8 @@ function ConfigScreen({
     });
   };
 
+  const lessons = getMathLessonsByGrade(selectedGrade);
+
   return (
     <div className="space-y-6">
       <header>
@@ -839,10 +966,226 @@ function ConfigScreen({
           Matematika
         </h1>
         <p className="mt-3 text-lg text-foreground/70">
-          Vyber, co chceš procvičovat.
+          {setupMode === "grade"
+            ? "Vyber ročník a lekci, kterou chceš procvičovat."
+            : "Vyber, co chceš procvičovat."}
         </p>
       </header>
 
+      <SetupModeSwitch mode={setupMode} onModeChange={onModeChange} />
+
+      {setupMode === "grade" ? (
+        <GradeLessonMode
+          selectedGrade={selectedGrade}
+          selectedLessonId={selectedLessonId}
+          lessons={lessons}
+          configError={configError}
+          onGradeChange={onGradeChange}
+          onStartLesson={onStartLesson}
+        />
+      ) : (
+        <CustomModeSettings
+          formState={formState}
+          configError={configError}
+          onToggleTopic={onToggleTopic}
+          onFormStateChange={onFormStateChange}
+          onGridLastDeselected={onGridLastDeselected}
+          onStart={onStart}
+          updateTopicConfig={updateTopicConfig}
+          setAdvanced={setAdvanced}
+        />
+      )}
+    </div>
+  );
+}
+
+type SetupModeSwitchProps = {
+  mode: MathPracticeSetupMode;
+  onModeChange: (mode: MathPracticeSetupMode) => void;
+};
+
+function SetupModeSwitch({ mode, onModeChange }: SetupModeSwitchProps) {
+  const options: { value: MathPracticeSetupMode; label: string }[] = [
+    { value: "grade", label: "Podle ročníku" },
+    { value: "custom", label: "Vlastní nastavení" },
+  ];
+
+  return (
+    <fieldset>
+      <legend className="sr-only">Způsob nastavení procvičování</legend>
+      <div
+        role="radiogroup"
+        aria-label="Způsob nastavení procvičování"
+        className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+      >
+        {options.map(({ value, label }) => {
+          const selected = mode === value;
+
+          return (
+            <label
+              key={value}
+              className={`flex min-h-12 cursor-pointer items-center justify-center rounded-2xl border px-4 py-3 text-base font-semibold transition-colors focus-within:ring-2 focus-within:ring-foreground focus-within:ring-offset-2 ${
+                selected
+                  ? "border-math bg-math text-white"
+                  : "border-foreground/20 hover:bg-foreground/5"
+              }`}
+            >
+              <input
+                type="radio"
+                name="math-setup-mode"
+                value={value}
+                checked={selected}
+                onChange={() => onModeChange(value)}
+                className="sr-only"
+              />
+              <span>{label}</span>
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
+type GradeLessonModeProps = {
+  selectedGrade: SchoolGrade;
+  selectedLessonId?: string;
+  lessons: MathLesson[];
+  configError: string | null;
+  onGradeChange: (grade: SchoolGrade) => void;
+  onStartLesson: (lesson: MathLesson) => void;
+};
+
+function GradeLessonMode({
+  selectedGrade,
+  selectedLessonId,
+  lessons,
+  configError,
+  onGradeChange,
+  onStartLesson,
+}: GradeLessonModeProps) {
+  return (
+    <div className="space-y-6">
+      <section className="space-y-3">
+        <h2 className="text-xl font-semibold">Vyber ročník a lekci</h2>
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-9">
+          {GRADE_OPTIONS.map((grade) => {
+            const selected = selectedGrade === grade;
+
+            return (
+              <button
+                key={grade}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onGradeChange(grade)}
+                className={`min-h-12 rounded-2xl border px-3 py-2 text-base font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
+                  selected
+                    ? "border-math bg-math/10 text-math"
+                    : "border-foreground/20 hover:bg-foreground/5"
+                }`}
+              >
+                {grade}. třída
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-lg font-semibold">Lekce</h3>
+        <div className="space-y-3">
+          {lessons.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              selected={lesson.id === selectedLessonId}
+              onStartLesson={onStartLesson}
+            />
+          ))}
+        </div>
+      </section>
+
+      {configError && (
+        <p className="rounded-xl bg-orange-100 px-4 py-3 text-orange-900">
+          {configError}
+        </p>
+      )}
+    </div>
+  );
+}
+
+type LessonCardProps = {
+  lesson: MathLesson;
+  selected: boolean;
+  onStartLesson: (lesson: MathLesson) => void;
+};
+
+function LessonCard({ lesson, selected, onStartLesson }: LessonCardProps) {
+  const hasPreset = Boolean(lesson.preset?.mathConfig);
+
+  return (
+    <article
+      className={`rounded-2xl border p-4 sm:p-5 ${
+        selected
+          ? "border-math bg-math/5"
+          : "border-foreground/15"
+      }`}
+    >
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-2">
+          <h4 className="text-lg font-semibold">{lesson.title}</h4>
+          <p className="text-base text-foreground/70">{lesson.description}</p>
+          <p className="text-sm font-medium text-foreground/60">
+            {AREA_LABELS[lesson.area]}
+          </p>
+        </div>
+
+        {hasPreset ? (
+          <button
+            type="button"
+            onClick={() => onStartLesson(lesson)}
+            className="min-h-11 shrink-0 rounded-2xl bg-math px-5 py-2 text-base font-semibold text-white hover:opacity-90 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            Procvičovat
+          </button>
+        ) : (
+          <p className="shrink-0 rounded-2xl border border-foreground/15 px-5 py-2 text-base text-foreground/50">
+            Tuto lekci připravíme později.
+          </p>
+        )}
+      </div>
+    </article>
+  );
+}
+
+type CustomModeSettingsProps = {
+  formState: MathConfigFormState;
+  configError: string | null;
+  onToggleTopic: (topic: MathTopic) => void;
+  onFormStateChange: (state: MathConfigFormState) => void;
+  onGridLastDeselected: (topic: GridTopic) => void;
+  onStart: () => void;
+  updateTopicConfig: <K extends keyof MathTopicConfigs>(
+    key: K,
+    updater: (
+      current: NonNullable<MathTopicConfigs[K]>,
+    ) => NonNullable<MathTopicConfigs[K]>,
+  ) => void;
+  setAdvanced: (topic: MathTopic, enabled: boolean) => void;
+};
+
+function CustomModeSettings({
+  formState,
+  configError,
+  onToggleTopic,
+  onFormStateChange,
+  onGridLastDeselected,
+  onStart,
+  updateTopicConfig,
+  setAdvanced,
+}: CustomModeSettingsProps) {
+  return (
+    <div className="space-y-6">
       <fieldset className="space-y-3">
         <legend className="text-base font-semibold">Témata</legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -1612,6 +1955,7 @@ function DivisionRemainderSettings({
 
 type PracticeScreenProps = {
   exercise: MathExercise;
+  lessonLabel: string | null;
   progressLabel: string;
   userInput: string;
   quotientInput: string;
@@ -1634,6 +1978,7 @@ type PracticeScreenProps = {
 
 function PracticeScreen({
   exercise,
+  lessonLabel,
   progressLabel,
   userInput,
   quotientInput,
@@ -1659,6 +2004,9 @@ function PracticeScreen({
 
   return (
     <div className="space-y-6">
+      {lessonLabel && (
+        <p className="text-sm font-medium text-foreground/70">{lessonLabel}</p>
+      )}
       <p className="text-base font-medium text-foreground/70">{progressLabel}</p>
 
       <p className="text-3xl font-bold tracking-tight sm:text-4xl">
