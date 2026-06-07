@@ -44,6 +44,7 @@ import type {
   SchoolGrade,
   SubtractionConfig,
 } from "@/types";
+import { MathExplanation } from "@/features/math/MathExplanation";
 import { useState, type KeyboardEvent, type ReactNode } from "react";
 
 type Phase = "config" | "practice" | "summary";
@@ -2082,8 +2083,8 @@ function PracticeScreen({
               Správná odpověď: {feedback.expectedAnswer}
             </p>
           )}
-          {feedback.explanation && (
-            <p className="mt-2 text-base">{feedback.explanation}</p>
+          {feedback.tone === "wrong" && (
+            <MathExplanation exercise={exercise} />
           )}
         </div>
       )}
