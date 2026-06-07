@@ -151,6 +151,63 @@ export interface MathPracticeConfig {
   topicConfigs?: MathTopicConfigs;
 }
 
+export type SchoolGrade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export type MathCurriculumArea =
+  | "number-operations"
+  | "geometry"
+  | "measurement"
+  | "fractions-decimals"
+  | "algebra"
+  | "data-statistics"
+  | "word-problems"
+  | "entrance-exam";
+
+export type MathDifficultyProfile =
+  | "early-counting"
+  | "within-10"
+  | "within-20"
+  | "within-100"
+  | "within-1000"
+  | "basic-facts"
+  | "times-table"
+  | "division-facts"
+  | "division-remainder-basic"
+  | "two-digit-by-one-digit"
+  | "written-algorithms"
+  | "fractions-basic"
+  | "decimals-basic"
+  | "integers"
+  | "rational-numbers"
+  | "algebra-basic"
+  | "geometry-basic"
+  | "exam-practice";
+
+export interface MathLessonPreset {
+  mathConfig?: MathPracticeConfig;
+  recommendedTopics?: MathTopic[];
+  notes?: string[];
+}
+
+export interface MathLesson {
+  id: string;
+  grade: SchoolGrade;
+  order: number;
+  title: string;
+  description: string;
+  area: MathCurriculumArea;
+  topics: MathTopic[];
+  difficultyProfile: MathDifficultyProfile;
+  preset?: MathLessonPreset;
+}
+
+export interface MathGradeCurriculum {
+  grade: SchoolGrade;
+  title: string;
+  description: string;
+  lessons: MathLesson[];
+}
+
 export interface MathExercise extends ExerciseBase {
   subject: "math";
   topic: MathTopic;
