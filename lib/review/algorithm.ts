@@ -47,6 +47,9 @@ function handleWrongAnswer(
   correctAnswer: string,
   currentQuestionNumber: number,
 ): { state: ReviewState; answerResult: AnswerResult } {
+  const feedbackKey =
+    state.wrongCount > 0 ? "feedback.repeatedMistake" : "feedback.wrong";
+
   return {
     state: {
       ...state,
@@ -62,7 +65,7 @@ function handleWrongAnswer(
     answerResult: {
       isCorrect: false,
       wasPreviouslyWrong: false,
-      feedbackKey: "feedback.wrong",
+      feedbackKey,
       correctAnswer,
     },
   };
@@ -74,15 +77,19 @@ function handleCorrectAnswer(
   currentQuestionNumber: number,
 ): { state: ReviewState; answerResult: AnswerResult } {
   const previousStatus = state.status;
+  const previousCorrectInStep = state.correctInStep ?? 0;
   const wasWeakOrImproving =
     previousStatus === "weak" || previousStatus === "improving";
 
+  const { feedbackKey, wasPreviouslyWrong } = resolveCorrectFeedback(
+    previousStatus,
+    previousCorrectInStep,
+  );
+
   const answerResult: AnswerResult = {
     isCorrect: true,
-    wasPreviouslyWrong: wasWeakOrImproving,
-    feedbackKey: wasWeakOrImproving
-      ? "feedback.fixedMistake"
-      : "feedback.correct",
+    wasPreviouslyWrong,
+    feedbackKey,
     correctAnswer,
   };
 
@@ -151,6 +158,33 @@ function handleCorrectAnswer(
         currentQuestionNumber + REVIEW_INTERVALS[advancedReviewStep],
     },
     answerResult,
+  };
+}
+
+function resolveCorrectFeedback(
+  previousStatus: ReviewStatus,
+  previousCorrectInStep: number,
+): { feedbackKey: string; wasPreviouslyWrong: boolean } {
+  const wasWeakOrImproving =
+    previousStatus === "weak" || previousStatus === "improving";
+
+  if (wasWeakOrImproving && previousCorrectInStep === 0) {
+    return {
+      feedbackKey: "feedback.fixedMistake",
+      wasPreviouslyWrong: true,
+    };
+  }
+
+  if (wasWeakOrImproving && previousCorrectInStep > 0) {
+    return {
+      feedbackKey: "feedback.correctReview",
+      wasPreviouslyWrong: false,
+    };
+  }
+
+  return {
+    feedbackKey: "feedback.correct",
+    wasPreviouslyWrong: false,
   };
 }
 

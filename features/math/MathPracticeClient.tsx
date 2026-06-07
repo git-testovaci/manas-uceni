@@ -4,7 +4,7 @@ import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
 import {
   getDueReviewItems,
-  sortItemsForReview,
+  getReviewPriority,
 } from "@/lib/review/selectors";
 import {
   getReviewStateMap,
@@ -51,6 +51,13 @@ export function MathPracticeClient() {
   const [allowRemainders, setAllowRemainders] = useState(false);
   const [multipliersText, setMultipliersText] = useState("");
   const [divisorsText, setDivisorsText] = useState("");
+
+  const [sessionCandidates, setSessionCandidates] = useState<MathExercise[]>(
+    [],
+  );
+  const [sessionQueue, setSessionQueue] = useState<MathExercise[]>([]);
+  const [queueIndex, setQueueIndex] = useState(0);
+  const [answeredExerciseIds, setAnsweredExerciseIds] = useState<string[]>([]);
 
   const [practiceConfig, setPracticeConfig] = useState<MathPracticeConfig | null>(
     null,
@@ -110,14 +117,27 @@ export function MathPracticeClient() {
       return;
     }
 
-    const firstExercise = pickNextExercise(config, reviewMap, 1);
-    if (!firstExercise) {
+    const queue = fisherYatesShuffle(candidates);
+    const selection = selectNextExercise({
+      candidates,
+      sessionQueue: queue,
+      queueIndex: 0,
+      reviewMap,
+      currentQuestionNumber: 1,
+      answeredExerciseIds: new Set(),
+    });
+
+    if (!selection) {
       setConfigError("Nepodařilo se vybrat první příklad.");
       return;
     }
 
     setPracticeConfig(config);
-    setCurrentExercise(firstExercise);
+    setSessionCandidates(candidates);
+    setSessionQueue(selection.sessionQueue);
+    setQueueIndex(selection.queueIndex);
+    setAnsweredExerciseIds([]);
+    setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionStats({ correct: 0, wrong: 0, fixedMistakes: 0 });
@@ -153,8 +173,16 @@ export function MathPracticeClient() {
         (result.isCorrect && result.answerResult.wasPreviouslyWrong ? 1 : 0),
     }));
 
+    setAnsweredExerciseIds((current) => [...current, currentExercise.id]);
     setAnsweredInSession((current) => current + 1);
-    setFeedback(buildFeedback(result.isCorrect, result.answerResult.wasPreviouslyWrong, result.expectedAnswer, currentExercise.explanation));
+    setFeedback(
+      buildFeedback(
+        result.isCorrect,
+        result.answerResult.feedbackKey,
+        result.expectedAnswer,
+        currentExercise.explanation,
+      ),
+    );
     setHasSubmitted(true);
   };
 
@@ -169,21 +197,26 @@ export function MathPracticeClient() {
     }
 
     const nextQuestionNumber = currentQuestionNumber + 1;
-    const nextExercise = pickNextExercise(
-      practiceConfig,
+    const answeredSet = new Set([...answeredExerciseIds, currentExercise?.id].filter(Boolean) as string[]);
+    const selection = selectNextExercise({
+      candidates: sessionCandidates,
+      sessionQueue,
+      queueIndex,
       reviewMap,
-      nextQuestionNumber,
-      currentExercise?.id,
-    );
+      currentQuestionNumber: nextQuestionNumber,
+      answeredExerciseIds: answeredSet,
+    });
 
-    if (!nextExercise) {
+    if (!selection) {
       setConfigError("Nepodařilo se vybrat další příklad.");
       setPhase("summary");
       return;
     }
 
     setCurrentQuestionNumber(nextQuestionNumber);
-    setCurrentExercise(nextExercise);
+    setSessionQueue(selection.sessionQueue);
+    setQueueIndex(selection.queueIndex);
+    setCurrentExercise(selection.exercise);
     setUserInput("");
     setHasSubmitted(false);
     setFeedback(null);
@@ -196,15 +229,27 @@ export function MathPracticeClient() {
     }
 
     setReviewMap(getReviewStateMap());
+    const freshReviewMap = getReviewStateMap();
+    const queue = fisherYatesShuffle(sessionCandidates);
+    const selection = selectNextExercise({
+      candidates: sessionCandidates,
+      sessionQueue: queue,
+      queueIndex: 0,
+      reviewMap: freshReviewMap,
+      currentQuestionNumber: 1,
+      answeredExerciseIds: new Set(),
+    });
 
-    const firstExercise = pickNextExercise(practiceConfig, getReviewStateMap(), 1);
-    if (!firstExercise) {
+    if (!selection) {
       setConfigError("Nepodařilo se spustit procvičování.");
       setPhase("config");
       return;
     }
 
-    setCurrentExercise(firstExercise);
+    setSessionQueue(selection.sessionQueue);
+    setQueueIndex(selection.queueIndex);
+    setAnsweredExerciseIds([]);
+    setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionStats({ correct: 0, wrong: 0, fixedMistakes: 0 });
@@ -627,53 +672,145 @@ function parseCommaSeparatedNumbers(value: string): number[] {
     .filter((number) => Number.isInteger(number) && number > 0);
 }
 
-function pickNextExercise(
-  config: MathPracticeConfig,
-  reviewMap: ReviewStateMap,
-  currentQuestionNumber: number,
-  excludeId?: string,
-): MathExercise | null {
-  const candidates = generateMathExercises(config);
+function fisherYatesShuffle<T>(items: T[]): T[] {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
+type ExerciseSelection = {
+  exercise: MathExercise;
+  sessionQueue: MathExercise[];
+  queueIndex: number;
+};
+
+function selectNextExercise(params: {
+  candidates: MathExercise[];
+  sessionQueue: MathExercise[];
+  queueIndex: number;
+  reviewMap: ReviewStateMap;
+  currentQuestionNumber: number;
+  answeredExerciseIds: Set<string>;
+}): ExerciseSelection | null {
+  const {
+    candidates,
+    reviewMap,
+    currentQuestionNumber,
+    answeredExerciseIds,
+  } = params;
+
   if (candidates.length === 0) {
     return null;
   }
 
-  const dueItems = getDueReviewItems(
-    candidates,
-    reviewMap,
-    currentQuestionNumber,
-  ).sort((a, b) => a.id.localeCompare(b.id));
-
-  if (dueItems.length > 0) {
-    return dueItems.find((item) => item.id !== excludeId) ?? dueItems[0];
-  }
-
-  const sorted = sortItemsForReview(
-    candidates,
+  const dueItems = sortDueReviewItems(
+    getDueReviewItems(candidates, reviewMap, currentQuestionNumber),
     reviewMap,
     currentQuestionNumber,
   );
 
-  return sorted.find((item) => item.id !== excludeId) ?? sorted[0] ?? null;
+  if (dueItems.length > 0) {
+    return {
+      exercise: dueItems[0],
+      sessionQueue: params.sessionQueue,
+      queueIndex: params.queueIndex,
+    };
+  }
+
+  const queueResult = pickFromQueue(
+    params.sessionQueue,
+    params.queueIndex,
+    answeredExerciseIds,
+  );
+
+  if (queueResult) {
+    return queueResult;
+  }
+
+  const reshuffledQueue = fisherYatesShuffle(candidates);
+  return pickFromQueue(reshuffledQueue, 0, new Set(), reshuffledQueue);
+}
+
+function sortDueReviewItems(
+  items: MathExercise[],
+  reviewMap: ReviewStateMap,
+  currentQuestionNumber: number,
+): MathExercise[] {
+  return [...items].sort((a, b) => {
+    const priorityDiff =
+      getReviewPriority(reviewMap[a.id], currentQuestionNumber) -
+      getReviewPriority(reviewMap[b.id], currentQuestionNumber);
+
+    if (priorityDiff !== 0) {
+      return priorityDiff;
+    }
+
+    return a.id.localeCompare(b.id);
+  });
+}
+
+function pickFromQueue(
+  sessionQueue: MathExercise[],
+  startIndex: number,
+  answeredExerciseIds: Set<string>,
+  nextSessionQueue?: MathExercise[],
+): ExerciseSelection | null {
+  let searchIndex = startIndex;
+
+  while (searchIndex < sessionQueue.length) {
+    const exercise = sessionQueue[searchIndex];
+    searchIndex += 1;
+
+    if (!answeredExerciseIds.has(exercise.id)) {
+      return {
+        exercise,
+        sessionQueue: nextSessionQueue ?? sessionQueue,
+        queueIndex: searchIndex,
+      };
+    }
+  }
+
+  return null;
 }
 
 function buildFeedback(
   isCorrect: boolean,
-  wasPreviouslyWrong: boolean,
+  feedbackKey: string,
   expectedAnswer: string,
   explanation?: string,
 ) {
-  if (isCorrect && wasPreviouslyWrong) {
-    return {
-      message: "Paráda! Opravená chyba.",
-      tone: "fixed" as const,
-    };
-  }
-
   if (isCorrect) {
+    if (feedbackKey === "feedback.fixedMistake") {
+      return {
+        message: "Paráda! Opravená chyba.",
+        tone: "fixed" as const,
+      };
+    }
+
+    if (feedbackKey === "feedback.correctReview") {
+      return {
+        message: "Správně, upevňujeme to.",
+        tone: "success" as const,
+      };
+    }
+
     return {
       message: "Výborně!",
       tone: "success" as const,
+    };
+  }
+
+  if (feedbackKey === "feedback.repeatedMistake") {
+    return {
+      message: "Tohle si ještě procvičíme.",
+      tone: "wrong" as const,
+      expectedAnswer,
+      explanation,
     };
   }
 
