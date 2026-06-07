@@ -65,7 +65,7 @@ type AdvancedFlags = Record<MathTopic, boolean>;
 
 type MathConfigFormState = {
   enabledTopics: MathTopic[];
-  questionCount: number;
+  questionCountInput: string;
   topicConfigs: MathTopicConfigs;
   advanced: AdvancedFlags;
 };
@@ -81,6 +81,26 @@ const TOPIC_OPTIONS: { topic: MathTopic; label: string }[] = [
 const SELECTABLE_TOPICS: MathTopic[] = TOPIC_OPTIONS.map(({ topic }) => topic);
 
 const NO_TOPICS_ERROR = "Vyber alespoň jedno téma.";
+const MIN_QUESTION_COUNT = 1;
+const DEFAULT_QUESTION_COUNT = 10;
+
+function normalizeQuestionCountInput(value: string): number {
+  const trimmed = value.trim();
+  if (trimmed === "") {
+    return MIN_QUESTION_COUNT;
+  }
+
+  const parsed = Number.parseInt(trimmed, 10);
+  if (!Number.isFinite(parsed) || parsed < MIN_QUESTION_COUNT) {
+    return MIN_QUESTION_COUNT;
+  }
+
+  return parsed;
+}
+
+function commitQuestionCountInput(value: string): string {
+  return String(normalizeQuestionCountInput(value));
+}
 
 const GRADE_OPTIONS: SchoolGrade[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -180,7 +200,7 @@ function formStateFromConfig(config: MathPracticeConfig): MathConfigFormState {
     enabledTopics: config.enabledTopics.filter((topic) =>
       SELECTABLE_TOPICS.includes(topic),
     ),
-    questionCount: config.questionCount ?? 10,
+    questionCountInput: String(config.questionCount ?? DEFAULT_QUESTION_COUNT),
     topicConfigs: {
       addition: topicConfigs.addition
         ? { ...topicConfigs.addition }
@@ -303,7 +323,7 @@ function buildPracticeConfig(form: MathConfigFormState): MathPracticeConfig {
   return {
     ...base,
     enabledTopics: form.enabledTopics,
-    questionCount: form.questionCount,
+    questionCount: normalizeQuestionCountInput(form.questionCountInput),
     topicConfigs: {
       addition: topicConfigs.addition
         ? {
@@ -687,7 +707,13 @@ export function MathPracticeClient() {
       return;
     }
 
-    beginPracticeSession(buildPracticeConfig(formState), {
+    const committedForm = {
+      ...formState,
+      questionCountInput: commitQuestionCountInput(formState.questionCountInput),
+    };
+    setFormState(committedForm);
+
+    beginPracticeSession(buildPracticeConfig(committedForm), {
       persistConfig: true,
     });
   };
@@ -1212,14 +1238,26 @@ function CustomModeSettings({
         <span className="text-base font-semibold">Počet příkladů</span>
         <input
           type="number"
-          min={1}
-          value={formState.questionCount}
-          onChange={(event) =>
+          min={MIN_QUESTION_COUNT}
+          inputMode="numeric"
+          value={formState.questionCountInput}
+          onChange={(event) => {
+            const nextValue = event.target.value;
+            if (nextValue === "" || /^\d+$/.test(nextValue)) {
+              onFormStateChange({
+                ...formState,
+                questionCountInput: nextValue,
+              });
+            }
+          }}
+          onBlur={() => {
             onFormStateChange({
               ...formState,
-              questionCount: Number(event.target.value),
-            })
-          }
+              questionCountInput: commitQuestionCountInput(
+                formState.questionCountInput,
+              ),
+            });
+          }}
           className="min-h-11 w-full rounded-xl border border-foreground/20 px-4 text-lg"
         />
       </label>
