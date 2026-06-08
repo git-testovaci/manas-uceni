@@ -822,11 +822,9 @@ export function MathPracticeClient() {
   const [sessionCandidates, setSessionCandidates] = useState<MathExercise[]>(
     [],
   );
-  const [sessionQueue, setSessionQueue] = useState<MathExercise[]>([]);
-  const [queueIndex, setQueueIndex] = useState(0);
-  const [normalCycleAnsweredIds, setNormalCycleAnsweredIds] = useState<
-    Set<string>
-  >(() => new Set());
+  const [sessionDisplayCounts, setSessionDisplayCounts] = useState<
+    Record<string, number>
+  >({});
 
   const [practiceConfig, setPracticeConfig] = useState<MathPracticeConfig | null>(
     null,
@@ -1029,14 +1027,11 @@ export function MathPracticeClient() {
       saveMathPracticeConfig(config);
     }
 
-    const queue = fisherYatesShuffle(candidates);
     const selection = selectNextExercise({
       candidates,
-      sessionQueue: queue,
-      queueIndex: 0,
       reviewMap,
       currentQuestionNumber: 1,
-      normalCycleAnsweredIds: new Set(),
+      sessionDisplayCounts: {},
     });
 
     if (!selection) {
@@ -1046,9 +1041,7 @@ export function MathPracticeClient() {
 
     setPracticeConfig(config);
     setSessionCandidates(candidates);
-    setSessionQueue(selection.sessionQueue);
-    setQueueIndex(selection.queueIndex);
-    setNormalCycleAnsweredIds(selection.normalCycleAnsweredIds);
+    setSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
@@ -1338,11 +1331,9 @@ export function MathPracticeClient() {
     const nextQuestionNumber = currentQuestionNumber + 1;
     const selection = selectNextExercise({
       candidates: sessionCandidates,
-      sessionQueue,
-      queueIndex,
       reviewMap,
       currentQuestionNumber: nextQuestionNumber,
-      normalCycleAnsweredIds,
+      sessionDisplayCounts,
       lastExerciseId: currentExercise?.id,
     });
 
@@ -1353,9 +1344,7 @@ export function MathPracticeClient() {
     }
 
     setCurrentQuestionNumber(nextQuestionNumber);
-    setSessionQueue(selection.sessionQueue);
-    setQueueIndex(selection.queueIndex);
-    setNormalCycleAnsweredIds(selection.normalCycleAnsweredIds);
+    setSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     clearAnswerInputs();
     setHasSubmitted(false);
@@ -1370,14 +1359,11 @@ export function MathPracticeClient() {
 
     setReviewMap(getReviewStateMap());
     const freshReviewMap = getReviewStateMap();
-    const queue = fisherYatesShuffle(sessionCandidates);
     const selection = selectNextExercise({
       candidates: sessionCandidates,
-      sessionQueue: queue,
-      queueIndex: 0,
       reviewMap: freshReviewMap,
       currentQuestionNumber: 1,
-      normalCycleAnsweredIds: new Set(),
+      sessionDisplayCounts: {},
     });
 
     if (!selection) {
@@ -1386,9 +1372,7 @@ export function MathPracticeClient() {
       return;
     }
 
-    setSessionQueue(selection.sessionQueue);
-    setQueueIndex(selection.queueIndex);
-    setNormalCycleAnsweredIds(selection.normalCycleAnsweredIds);
+    setSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
@@ -3565,18 +3549,17 @@ function SummaryResultGroup({
             Žádné příklady v této skupině.
           </p>
         ) : (
-          records.map((record) => (
-            <div
-              key={`${record.questionNumber}-${record.exerciseId}`}
-              className="space-y-1 text-sm"
-            >
-              <p className="font-semibold">{record.exampleText}</p>
-              <p className="text-foreground/80">
-                Tvoje odpověď: {record.userAnswer}
-              </p>
-              <p className="text-foreground/80">Správně: {record.expectedAnswer}</p>
-            </div>
-          ))
+          <ul className="space-y-2 text-sm">
+            {records.map((record) => {
+              const row = formatSummaryRow(record);
+              return (
+                <li key={`${record.questionNumber}-${record.exerciseId}`}>
+                  <span aria-hidden="true">{row.visible}</span>
+                  <span className="sr-only">{row.accessible}</span>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
     </details>
@@ -3594,27 +3577,92 @@ function fisherYatesShuffle<T>(items: T[]): T[] {
   return shuffled;
 }
 
+type SessionDisplayCounts = Record<string, number>;
+
 type ExerciseSelection = {
   exercise: MathExercise;
-  sessionQueue: MathExercise[];
-  queueIndex: number;
-  normalCycleAnsweredIds: Set<string>;
+  sessionDisplayCounts: SessionDisplayCounts;
 };
+
+function incrementSessionDisplayCount(
+  counts: SessionDisplayCounts,
+  exerciseId: string,
+): SessionDisplayCounts {
+  return {
+    ...counts,
+    [exerciseId]: (counts[exerciseId] ?? 0) + 1,
+  };
+}
+
+function getSessionDisplayCount(
+  counts: SessionDisplayCounts,
+  exerciseId: string,
+): number {
+  return counts[exerciseId] ?? 0;
+}
+
+function pickBalancedExercise(
+  pool: MathExercise[],
+  sessionDisplayCounts: SessionDisplayCounts,
+  lastExerciseId?: string,
+): MathExercise | null {
+  if (pool.length === 0) {
+    return null;
+  }
+
+  const minCount = Math.min(
+    ...pool.map((item) => getSessionDisplayCount(sessionDisplayCounts, item.id)),
+  );
+  let lowest = pool.filter(
+    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === minCount,
+  );
+
+  if (lastExerciseId && lowest.length > 1) {
+    const withoutLast = lowest.filter((item) => item.id !== lastExerciseId);
+    if (withoutLast.length > 0) {
+      lowest = withoutLast;
+    }
+  }
+
+  const shuffled = fisherYatesShuffle(lowest);
+  return shuffled[0] ?? null;
+}
+
+function pickDueExercise(
+  dueItems: MathExercise[],
+  reviewMap: ReviewStateMap,
+  currentQuestionNumber: number,
+  sessionDisplayCounts: SessionDisplayCounts,
+  lastExerciseId?: string,
+): MathExercise {
+  const topPriority = getReviewPriority(
+    reviewMap[dueItems[0].id],
+    currentQuestionNumber,
+  );
+  const topTier = dueItems.filter(
+    (item) =>
+      getReviewPriority(reviewMap[item.id], currentQuestionNumber) ===
+      topPriority,
+  );
+
+  return (
+    pickBalancedExercise(topTier, sessionDisplayCounts, lastExerciseId) ??
+    dueItems[0]
+  );
+}
 
 function selectNextExercise(params: {
   candidates: MathExercise[];
-  sessionQueue: MathExercise[];
-  queueIndex: number;
   reviewMap: ReviewStateMap;
   currentQuestionNumber: number;
-  normalCycleAnsweredIds: Set<string>;
+  sessionDisplayCounts: SessionDisplayCounts;
   lastExerciseId?: string;
 }): ExerciseSelection | null {
   const {
     candidates,
     reviewMap,
     currentQuestionNumber,
-    normalCycleAnsweredIds,
+    sessionDisplayCounts,
     lastExerciseId,
   } = params;
 
@@ -3626,43 +3674,38 @@ function selectNextExercise(params: {
     getDueReviewItems(candidates, reviewMap, currentQuestionNumber),
     reviewMap,
     currentQuestionNumber,
+    sessionDisplayCounts,
   );
 
-  if (dueItems.length > 0) {
-    return {
-      exercise: dueItems[0],
-      sessionQueue: params.sessionQueue,
-      queueIndex: params.queueIndex,
-      normalCycleAnsweredIds,
-    };
+  const exercise =
+    dueItems.length > 0
+      ? pickDueExercise(
+          dueItems,
+          reviewMap,
+          currentQuestionNumber,
+          sessionDisplayCounts,
+          lastExerciseId,
+        )
+      : pickBalancedExercise(candidates, sessionDisplayCounts, lastExerciseId);
+
+  if (!exercise) {
+    return null;
   }
 
-  const queueResult = pickFromQueue({
-    sessionQueue: params.sessionQueue,
-    startIndex: params.queueIndex,
-    cycleAnsweredIds: normalCycleAnsweredIds,
-    candidates,
-    lastExerciseId,
-  });
-
-  if (queueResult) {
-    return queueResult;
-  }
-
-  const reshuffledQueue = fisherYatesShuffle(candidates);
-  return pickFromQueue({
-    sessionQueue: reshuffledQueue,
-    startIndex: 0,
-    cycleAnsweredIds: new Set(),
-    candidates,
-    lastExerciseId,
-  });
+  return {
+    exercise,
+    sessionDisplayCounts: incrementSessionDisplayCount(
+      sessionDisplayCounts,
+      exercise.id,
+    ),
+  };
 }
 
 function sortDueReviewItems(
   items: MathExercise[],
   reviewMap: ReviewStateMap,
   currentQuestionNumber: number,
+  sessionDisplayCounts: SessionDisplayCounts,
 ): MathExercise[] {
   return [...items].sort((a, b) => {
     const priorityDiff =
@@ -3673,66 +3716,31 @@ function sortDueReviewItems(
       return priorityDiff;
     }
 
+    const countDiff =
+      getSessionDisplayCount(sessionDisplayCounts, a.id) -
+      getSessionDisplayCount(sessionDisplayCounts, b.id);
+    if (countDiff !== 0) {
+      return countDiff;
+    }
+
     return a.id.localeCompare(b.id);
   });
 }
 
-type PickFromQueueParams = {
-  sessionQueue: MathExercise[];
-  startIndex: number;
-  cycleAnsweredIds: Set<string>;
-  candidates: MathExercise[];
-  lastExerciseId?: string;
-};
-
-function pickFromQueue({
-  sessionQueue,
-  startIndex,
-  cycleAnsweredIds,
-  candidates,
-  lastExerciseId,
-}: PickFromQueueParams): ExerciseSelection | null {
-  let fallback: { exercise: MathExercise; queueIndex: number } | null = null;
-
-  for (let searchIndex = startIndex; searchIndex < sessionQueue.length; searchIndex += 1) {
-    const exercise = sessionQueue[searchIndex];
-
-    if (cycleAnsweredIds.has(exercise.id)) {
-      continue;
-    }
-
-    const isConsecutiveRepeat =
-      lastExerciseId !== undefined &&
-      exercise.id === lastExerciseId &&
-      candidates.length > 1;
-
-    if (!isConsecutiveRepeat) {
-      const nextCycleAnsweredIds = new Set(cycleAnsweredIds);
-      nextCycleAnsweredIds.add(exercise.id);
-      return {
-        exercise,
-        sessionQueue,
-        queueIndex: searchIndex + 1,
-        normalCycleAnsweredIds: nextCycleAnsweredIds,
-      };
-    }
-
-    if (!fallback) {
-      fallback = { exercise, queueIndex: searchIndex + 1 };
-    }
+function formatSummaryRow(record: SessionAnswerRecord): {
+  visible: string;
+  accessible: string;
+} {
+  if (record.result === "needsPractice") {
+    return {
+      visible: `${record.questionNumber}. ${record.exampleText} = ${record.userAnswer} ❌ správně ${record.expectedAnswer}`,
+      accessible: `Otázka ${record.questionNumber}, ${record.exampleText}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`,
+    };
   }
 
-  if (!fallback) {
-    return null;
-  }
-
-  const nextCycleAnsweredIds = new Set(cycleAnsweredIds);
-  nextCycleAnsweredIds.add(fallback.exercise.id);
   return {
-    exercise: fallback.exercise,
-    sessionQueue,
-    queueIndex: fallback.queueIndex,
-    normalCycleAnsweredIds: nextCycleAnsweredIds,
+    visible: `${record.questionNumber}. ${record.exampleText} = ${record.userAnswer} ✅`,
+    accessible: `Otázka ${record.questionNumber}, ${record.exampleText}, tvoje odpověď ${record.userAnswer}, správně`,
   };
 }
 
