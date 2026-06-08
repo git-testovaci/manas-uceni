@@ -44,6 +44,7 @@ import type {
   MathCurriculumArea,
   MathExercise,
   MathLesson,
+  MathOperation,
   MathPracticeConfig,
   MathRangeConfig,
   MathTopic,
@@ -72,7 +73,9 @@ type SessionAnswerResult = "correct" | "needsPractice" | "corrected";
 type SessionAnswerRecord = {
   questionNumber: number;
   exerciseId: string;
-  exampleText: string;
+  operation: MathOperation;
+  operandA: number;
+  operandB: number;
   userAnswer: string;
   expectedAnswer: string;
   result: SessionAnswerResult;
@@ -822,9 +825,11 @@ export function MathPracticeClient() {
   const [sessionCandidates, setSessionCandidates] = useState<MathExercise[]>(
     [],
   );
-  const [sessionDisplayCounts, setSessionDisplayCounts] = useState<
-    Record<string, number>
-  >({});
+  const sessionDisplayCountsRef = useRef<SessionDisplayCounts>({});
+
+  const commitSessionDisplayCounts = (counts: SessionDisplayCounts) => {
+    sessionDisplayCountsRef.current = counts;
+  };
 
   const [practiceConfig, setPracticeConfig] = useState<MathPracticeConfig | null>(
     null,
@@ -1027,11 +1032,12 @@ export function MathPracticeClient() {
       saveMathPracticeConfig(config);
     }
 
+    sessionDisplayCountsRef.current = {};
     const selection = selectNextExercise({
       candidates,
       reviewMap,
       currentQuestionNumber: 1,
-      sessionDisplayCounts: {},
+      sessionDisplayCounts: sessionDisplayCountsRef.current,
     });
 
     if (!selection) {
@@ -1041,7 +1047,7 @@ export function MathPracticeClient() {
 
     setPracticeConfig(config);
     setSessionCandidates(candidates);
-    setSessionDisplayCounts(selection.sessionDisplayCounts);
+    commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
@@ -1299,7 +1305,9 @@ export function MathPracticeClient() {
       {
         questionNumber: currentQuestionNumber,
         exerciseId: currentExercise.id,
-        exampleText: currentExercise.prompt,
+        operation: currentExercise.operation,
+        operandA: currentExercise.operandA,
+        operandB: currentExercise.operandB,
         userAnswer: input,
         expectedAnswer: result.expectedAnswer,
         result: answerResult,
@@ -1333,7 +1341,7 @@ export function MathPracticeClient() {
       candidates: sessionCandidates,
       reviewMap,
       currentQuestionNumber: nextQuestionNumber,
-      sessionDisplayCounts,
+      sessionDisplayCounts: sessionDisplayCountsRef.current,
       lastExerciseId: currentExercise?.id,
     });
 
@@ -1344,7 +1352,7 @@ export function MathPracticeClient() {
     }
 
     setCurrentQuestionNumber(nextQuestionNumber);
-    setSessionDisplayCounts(selection.sessionDisplayCounts);
+    commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     clearAnswerInputs();
     setHasSubmitted(false);
@@ -1359,11 +1367,12 @@ export function MathPracticeClient() {
 
     setReviewMap(getReviewStateMap());
     const freshReviewMap = getReviewStateMap();
+    sessionDisplayCountsRef.current = {};
     const selection = selectNextExercise({
       candidates: sessionCandidates,
       reviewMap: freshReviewMap,
       currentQuestionNumber: 1,
-      sessionDisplayCounts: {},
+      sessionDisplayCounts: sessionDisplayCountsRef.current,
     });
 
     if (!selection) {
@@ -1372,7 +1381,7 @@ export function MathPracticeClient() {
       return;
     }
 
-    setSessionDisplayCounts(selection.sessionDisplayCounts);
+    commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
@@ -3549,16 +3558,13 @@ function SummaryResultGroup({
             Žádné příklady v této skupině.
           </p>
         ) : (
-          <ul className="space-y-2 text-sm">
-            {records.map((record) => {
-              const row = formatSummaryRow(record);
-              return (
-                <li key={`${record.questionNumber}-${record.exerciseId}`}>
-                  <span aria-hidden="true">{row.visible}</span>
-                  <span className="sr-only">{row.accessible}</span>
-                </li>
-              );
-            })}
+          <ul className="space-y-2">
+            {records.map((record) => (
+              <SummaryAnswerRow
+                key={`${record.questionNumber}-${record.exerciseId}`}
+                record={record}
+              />
+            ))}
           </ul>
         )}
       </div>
@@ -3601,31 +3607,52 @@ function getSessionDisplayCount(
   return counts[exerciseId] ?? 0;
 }
 
-function pickBalancedExercise(
+function pickFromLowestCountPool(
   pool: MathExercise[],
-  sessionDisplayCounts: SessionDisplayCounts,
   lastExerciseId?: string,
 ): MathExercise | null {
   if (pool.length === 0) {
     return null;
   }
 
-  const minCount = Math.min(
-    ...pool.map((item) => getSessionDisplayCount(sessionDisplayCounts, item.id)),
-  );
-  let lowest = pool.filter(
-    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === minCount,
-  );
-
-  if (lastExerciseId && lowest.length > 1) {
-    const withoutLast = lowest.filter((item) => item.id !== lastExerciseId);
+  let choices = pool;
+  if (lastExerciseId && choices.length > 1) {
+    const withoutLast = choices.filter((item) => item.id !== lastExerciseId);
     if (withoutLast.length > 0) {
-      lowest = withoutLast;
+      choices = withoutLast;
     }
   }
 
-  const shuffled = fisherYatesShuffle(lowest);
+  const shuffled = fisherYatesShuffle(choices);
   return shuffled[0] ?? null;
+}
+
+function pickNormalExercise(
+  candidates: MathExercise[],
+  sessionDisplayCounts: SessionDisplayCounts,
+  lastExerciseId?: string,
+): MathExercise | null {
+  if (candidates.length === 0) {
+    return null;
+  }
+
+  const unshown = candidates.filter(
+    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === 0,
+  );
+  if (unshown.length > 0) {
+    return pickFromLowestCountPool(unshown, lastExerciseId);
+  }
+
+  const minCount = Math.min(
+    ...candidates.map((item) =>
+      getSessionDisplayCount(sessionDisplayCounts, item.id),
+    ),
+  );
+  const lowest = candidates.filter(
+    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === minCount,
+  );
+
+  return pickFromLowestCountPool(lowest, lastExerciseId);
 }
 
 function pickDueExercise(
@@ -3645,9 +3672,13 @@ function pickDueExercise(
       topPriority,
   );
 
+  const unshownDue = topTier.filter(
+    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === 0,
+  );
+  const duePool = unshownDue.length > 0 ? unshownDue : topTier;
+
   return (
-    pickBalancedExercise(topTier, sessionDisplayCounts, lastExerciseId) ??
-    dueItems[0]
+    pickFromLowestCountPool(duePool, lastExerciseId) ?? dueItems[0]
   );
 }
 
@@ -3686,7 +3717,7 @@ function selectNextExercise(params: {
           sessionDisplayCounts,
           lastExerciseId,
         )
-      : pickBalancedExercise(candidates, sessionDisplayCounts, lastExerciseId);
+      : pickNormalExercise(candidates, sessionDisplayCounts, lastExerciseId);
 
   if (!exercise) {
     return null;
@@ -3727,21 +3758,63 @@ function sortDueReviewItems(
   });
 }
 
-function formatSummaryRow(record: SessionAnswerRecord): {
-  visible: string;
-  accessible: string;
-} {
+function getMathOperatorSymbol(operation: MathOperation): string {
+  switch (operation) {
+    case "add":
+      return "+";
+    case "subtract":
+      return "−";
+    case "multiply":
+      return "×";
+    case "divide":
+    case "divide-with-remainder":
+      return "÷";
+    default:
+      return "?";
+  }
+}
+
+function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
+  const operator = getMathOperatorSymbol(record.operation);
+  const example = `${record.operandA} ${operator} ${record.operandB}`;
+
   if (record.result === "needsPractice") {
-    return {
-      visible: `${record.questionNumber}. ${record.exampleText} = ${record.userAnswer} ❌ správně ${record.expectedAnswer}`,
-      accessible: `Otázka ${record.questionNumber}, ${record.exampleText}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`,
-    };
+    return `Otázka ${record.questionNumber}, ${example}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
   }
 
-  return {
-    visible: `${record.questionNumber}. ${record.exampleText} = ${record.userAnswer} ✅`,
-    accessible: `Otázka ${record.questionNumber}, ${record.exampleText}, tvoje odpověď ${record.userAnswer}, správně`,
-  };
+  return `Otázka ${record.questionNumber}, ${example}, tvoje odpověď ${record.userAnswer}, správně`;
+}
+
+function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
+  const isWrong = record.result === "needsPractice";
+  const operator = getMathOperatorSymbol(record.operation);
+
+  return (
+    <li>
+      <div
+        aria-hidden="true"
+        className="grid items-center gap-x-2 text-sm tabular-nums max-sm:grid-cols-[auto_1fr] sm:grid-cols-[2rem_2.5rem_1.5rem_2.5rem_1rem_minmax(3rem,auto)_auto_minmax(0,1fr)]"
+      >
+        <span className="text-foreground/70">{record.questionNumber}.</span>
+        <span className="flex flex-wrap items-baseline gap-x-2 sm:contents">
+          <span className="text-right">{record.operandA}</span>
+          <span className="text-center">{operator}</span>
+          <span className="text-right">{record.operandB}</span>
+          <span>=</span>
+          <span className="font-medium">{record.userAnswer}</span>
+        </span>
+        <span className="flex flex-wrap items-center gap-x-2 sm:justify-self-start">
+          <span>{isWrong ? "❌" : "✅"}</span>
+          {isWrong && (
+            <span className="text-foreground/80">
+              správně {record.expectedAnswer}
+            </span>
+          )}
+        </span>
+      </div>
+      <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+    </li>
+  );
 }
 
 function buildFeedback(
