@@ -1,9 +1,13 @@
 "use client";
 
 import {
+  getCustomMathGradePresetByGrade,
+  getCustomMathGradePresets,
   getMathLessonById,
   getMathLessonsByGrade,
   getMathPracticePresetById,
+  type CustomMathGradePreset,
+  type CustomMathGradeTopic,
   type MathPracticePresetId,
 } from "@/data/math";
 import {
@@ -1201,6 +1205,19 @@ export function MathPracticeClient() {
     });
   };
 
+  const handleApplyGradePreset = (grade: SchoolGrade) => {
+    const gradePreset = getCustomMathGradePresetByGrade(grade);
+    if (!gradePreset) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    applyFormStateChange(
+      applyCustomGradePresetToFormState(current, gradePreset),
+    );
+    setConfigError(null);
+  };
+
   const handleStartPractice = () => {
     const currentForm = formStateRef.current;
 
@@ -1399,6 +1416,7 @@ export function MathPracticeClient() {
         onApplyDivisionPreset={handleApplyDivisionPreset}
         onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
         onApplyDivisionRemainderPreset={handleApplyDivisionRemainderPreset}
+        onApplyGradePreset={handleApplyGradePreset}
       />
     );
   }
@@ -1459,6 +1477,7 @@ type ConfigScreenProps = NumericDraftProps & {
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
+  onApplyGradePreset: (grade: SchoolGrade) => void;
 };
 
 function ConfigScreen({
@@ -1482,6 +1501,7 @@ function ConfigScreen({
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
+  onApplyGradePreset,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
@@ -1557,6 +1577,7 @@ function ConfigScreen({
           onApplyDivisionPreset={onApplyDivisionPreset}
           onApplyMultiplicationPreset={onApplyMultiplicationPreset}
           onApplyDivisionRemainderPreset={onApplyDivisionRemainderPreset}
+          onApplyGradePreset={onApplyGradePreset}
         />
       )}
     </div>
@@ -1741,6 +1762,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
+  onApplyGradePreset: (grade: SchoolGrade) => void;
 };
 
 function CustomModeSettings({
@@ -1760,6 +1782,7 @@ function CustomModeSettings({
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
+  onApplyGradePreset,
 }: CustomModeSettingsProps) {
   const numericDraftProps: NumericDraftProps = {
     numericDrafts,
@@ -1768,6 +1791,8 @@ function CustomModeSettings({
   };
   return (
     <div className="space-y-6">
+      <CustomGradePresets onSelectGrade={onApplyGradePreset} />
+
       <fieldset className="space-y-3">
         <legend className="text-base font-semibold">Témata</legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -2959,6 +2984,158 @@ function getDivisionRemainderConfigFromPreset(
   }
 
   return { ...divisionRemainder, enabled: true };
+}
+
+type GradePresetTopicApplyResult = {
+  mathTopic: MathTopic;
+  configKey: keyof MathTopicConfigs;
+  config: NonNullable<MathTopicConfigs[keyof MathTopicConfigs]>;
+  draftKeys: readonly string[];
+};
+
+function resolveGradePresetTopic(
+  gradeTopic: CustomMathGradeTopic,
+  presetId: MathPracticePresetId,
+): GradePresetTopicApplyResult | undefined {
+  switch (gradeTopic) {
+    case "addition": {
+      const config = getAdditionConfigFromPreset(presetId);
+      if (!config) {
+        return undefined;
+      }
+      return {
+        mathTopic: "addition",
+        configKey: "addition",
+        config,
+        draftKeys: ADDITION_NUMERIC_DRAFT_KEYS,
+      };
+    }
+    case "subtraction": {
+      const config = getSubtractionConfigFromPreset(presetId);
+      if (!config) {
+        return undefined;
+      }
+      return {
+        mathTopic: "subtraction",
+        configKey: "subtraction",
+        config,
+        draftKeys: SUBTRACTION_NUMERIC_DRAFT_KEYS,
+      };
+    }
+    case "multiplication": {
+      const config = getMultiplicationConfigFromPreset(presetId);
+      if (!config) {
+        return undefined;
+      }
+      return {
+        mathTopic: "multiplication",
+        configKey: "multiplication",
+        config,
+        draftKeys: MULTIPLICATION_NUMERIC_DRAFT_KEYS,
+      };
+    }
+    case "division": {
+      const config = getDivisionConfigFromPreset(presetId);
+      if (!config) {
+        return undefined;
+      }
+      return {
+        mathTopic: "division",
+        configKey: "division",
+        config,
+        draftKeys: DIVISION_NUMERIC_DRAFT_KEYS,
+      };
+    }
+    case "division-remainder": {
+      const config = getDivisionRemainderConfigFromPreset(presetId);
+      if (!config) {
+        return undefined;
+      }
+      return {
+        mathTopic: "division-remainder",
+        configKey: "divisionRemainder",
+        config,
+        draftKeys: DIVISION_REMAINDER_NUMERIC_DRAFT_KEYS,
+      };
+    }
+    default:
+      return undefined;
+  }
+}
+
+function applyCustomGradePresetToFormState(
+  current: MathConfigFormState,
+  gradePreset: CustomMathGradePreset,
+): MathConfigFormState {
+  const nextDrafts = { ...current.numericDrafts };
+  let nextTopicConfigs: MathTopicConfigs = { ...current.topicConfigs };
+  let nextEnabledTopics = [...current.enabledTopics];
+
+  for (const [gradeTopic, presetId] of Object.entries(
+    gradePreset.recommendedPresets,
+  ) as [CustomMathGradeTopic, MathPracticePresetId][]) {
+    const resolved = resolveGradePresetTopic(gradeTopic, presetId);
+    if (!resolved) {
+      continue;
+    }
+
+    const { mathTopic, configKey, config, draftKeys } = resolved;
+    for (const fieldKey of draftKeys) {
+      delete nextDrafts[fieldKey];
+    }
+
+    if (!nextEnabledTopics.includes(mathTopic)) {
+      nextEnabledTopics = [...nextEnabledTopics, mathTopic];
+      nextTopicConfigs = {
+        ...nextTopicConfigs,
+        ...getDefaultTopicConfigForTopic(mathTopic),
+      };
+    }
+
+    nextTopicConfigs = {
+      ...nextTopicConfigs,
+      [configKey]: config,
+    };
+  }
+
+  return {
+    ...current,
+    numericDrafts: nextDrafts,
+    enabledTopics: nextEnabledTopics,
+    topicConfigs: nextTopicConfigs,
+  };
+}
+
+type CustomGradePresetsProps = {
+  onSelectGrade: (grade: SchoolGrade) => void;
+};
+
+function CustomGradePresets({ onSelectGrade }: CustomGradePresetsProps) {
+  const gradePresets = getCustomMathGradePresets();
+
+  return (
+    <section className="space-y-3">
+      <h2 className="text-base font-semibold">Přizpůsobit pro ročník</h2>
+      <p className="text-sm text-foreground/70">
+        Nastaví rozumný začátek. Všechno můžeš dál upravit.
+      </p>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {gradePresets.map(({ grade, label, description }) => (
+          <button
+            key={grade}
+            type="button"
+            onClick={() => onSelectGrade(grade)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {description}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 type DivisionRemainderQuickPresetsProps = {
