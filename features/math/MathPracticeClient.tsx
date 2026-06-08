@@ -1111,6 +1111,28 @@ export function MathPracticeClient() {
     });
   };
 
+  const handleApplySubtractionPreset = (presetId: MathPracticePresetId) => {
+    const nextConfig = getSubtractionConfigFromPreset(presetId);
+    if (!nextConfig) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    for (const fieldKey of SUBTRACTION_NUMERIC_DRAFT_KEYS) {
+      delete nextDrafts[fieldKey];
+    }
+
+    applyFormStateChange({
+      ...current,
+      numericDrafts: nextDrafts,
+      topicConfigs: {
+        ...current.topicConfigs,
+        subtraction: nextConfig,
+      },
+    });
+  };
+
   const handleApplyDivisionPreset = (presetId: MathPracticePresetId) => {
     const nextConfig = getDivisionConfigFromPreset(presetId);
     if (!nextConfig) {
@@ -1373,6 +1395,7 @@ export function MathPracticeClient() {
         onNumericDraftChange={handleNumericDraftChange}
         onNumericDraftClear={handleNumericDraftClear}
         onApplyAdditionPreset={handleApplyAdditionPreset}
+        onApplySubtractionPreset={handleApplySubtractionPreset}
         onApplyDivisionPreset={handleApplyDivisionPreset}
         onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
         onApplyDivisionRemainderPreset={handleApplyDivisionRemainderPreset}
@@ -1432,6 +1455,7 @@ type ConfigScreenProps = NumericDraftProps & {
   onStart: () => void;
   onStartLesson: (lesson: MathLesson) => void;
   onApplyAdditionPreset: (presetId: MathPracticePresetId) => void;
+  onApplySubtractionPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
@@ -1454,6 +1478,7 @@ function ConfigScreen({
   onNumericDraftChange,
   onNumericDraftClear,
   onApplyAdditionPreset,
+  onApplySubtractionPreset,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
@@ -1528,6 +1553,7 @@ function ConfigScreen({
           onNumericDraftChange={onNumericDraftChange}
           onNumericDraftClear={onNumericDraftClear}
           onApplyAdditionPreset={onApplyAdditionPreset}
+          onApplySubtractionPreset={onApplySubtractionPreset}
           onApplyDivisionPreset={onApplyDivisionPreset}
           onApplyMultiplicationPreset={onApplyMultiplicationPreset}
           onApplyDivisionRemainderPreset={onApplyDivisionRemainderPreset}
@@ -1711,6 +1737,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
   ) => void;
   setAdvanced: (topic: MathTopic, enabled: boolean) => void;
   onApplyAdditionPreset: (presetId: MathPracticePresetId) => void;
+  onApplySubtractionPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
@@ -1729,6 +1756,7 @@ function CustomModeSettings({
   onNumericDraftChange,
   onNumericDraftClear,
   onApplyAdditionPreset,
+  onApplySubtractionPreset,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
@@ -1794,6 +1822,7 @@ function CustomModeSettings({
             onChange={(config) =>
               updateTopicConfig("subtraction", () => config)
             }
+            onApplyPreset={onApplySubtractionPreset}
             {...numericDraftProps}
           />
         )}
@@ -2341,11 +2370,85 @@ function AdditionSettings({
   );
 }
 
+const SUBTRACTION_QUICK_PRESETS: {
+  id: MathPracticePresetId;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    id: "math-preset-subtraction-20",
+    label: "Odčítání do 20",
+    helper: "Vhodné pro začátek odčítání.",
+  },
+  {
+    id: "math-preset-subtraction-100",
+    label: "Odčítání do 100",
+    helper: "Procvičuje odčítání v běžném rozsahu do 100.",
+  },
+  {
+    id: "math-preset-subtraction-1000",
+    label: "Odčítání do 1000",
+    helper: "Vhodné pro větší čísla ve 3. třídě a výše.",
+  },
+];
+
+const SUBTRACTION_NUMERIC_DRAFT_KEYS = [
+  "subtraction.simple.min",
+  "subtraction.simple.max",
+  "subtraction.minuend.min",
+  "subtraction.minuend.max",
+  "subtraction.subtrahend.min",
+  "subtraction.subtrahend.max",
+] as const;
+
+function getSubtractionConfigFromPreset(
+  presetId: MathPracticePresetId,
+): SubtractionConfig | undefined {
+  const subtraction = getMathPracticePresetById(presetId)?.mathConfig
+    .topicConfigs?.subtraction;
+
+  if (!subtraction) {
+    return undefined;
+  }
+
+  return { ...subtraction, enabled: true };
+}
+
+type SubtractionQuickPresetsProps = {
+  onSelectPreset: (presetId: MathPracticePresetId) => void;
+};
+
+function SubtractionQuickPresets({
+  onSelectPreset,
+}: SubtractionQuickPresetsProps) {
+  return (
+    <div className="col-span-full space-y-3">
+      <h3 className="text-base font-semibold">Rychlá volba</h3>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {SUBTRACTION_QUICK_PRESETS.map(({ id, label, helper }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelectPreset(id)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {helper}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type SubtractionSettingsProps = NumericDraftProps & {
   config: SubtractionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: SubtractionConfig) => void;
+  onApplyPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function SubtractionSettings({
@@ -2356,6 +2459,7 @@ function SubtractionSettings({
   onNumericDraftChange,
   onNumericDraftClear,
   onChange,
+  onApplyPreset,
 }: SubtractionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -2374,6 +2478,7 @@ function SubtractionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
+          <SubtractionQuickPresets onSelectPreset={onApplyPreset} />
           <NumberField
             fieldKey="subtraction.simple.min"
             label="Min hodnota"
