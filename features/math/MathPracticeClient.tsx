@@ -1089,6 +1089,28 @@ export function MathPracticeClient() {
     );
   };
 
+  const handleApplyAdditionPreset = (presetId: MathPracticePresetId) => {
+    const nextConfig = getAdditionConfigFromPreset(presetId);
+    if (!nextConfig) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    for (const fieldKey of ADDITION_NUMERIC_DRAFT_KEYS) {
+      delete nextDrafts[fieldKey];
+    }
+
+    applyFormStateChange({
+      ...current,
+      numericDrafts: nextDrafts,
+      topicConfigs: {
+        ...current.topicConfigs,
+        addition: nextConfig,
+      },
+    });
+  };
+
   const handleApplyDivisionPreset = (presetId: MathPracticePresetId) => {
     const nextConfig = getDivisionConfigFromPreset(presetId);
     if (!nextConfig) {
@@ -1350,6 +1372,7 @@ export function MathPracticeClient() {
         numericDrafts={formState.numericDrafts}
         onNumericDraftChange={handleNumericDraftChange}
         onNumericDraftClear={handleNumericDraftClear}
+        onApplyAdditionPreset={handleApplyAdditionPreset}
         onApplyDivisionPreset={handleApplyDivisionPreset}
         onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
         onApplyDivisionRemainderPreset={handleApplyDivisionRemainderPreset}
@@ -1408,6 +1431,7 @@ type ConfigScreenProps = NumericDraftProps & {
   onGridLastDeselected: (topic: GridTopic) => void;
   onStart: () => void;
   onStartLesson: (lesson: MathLesson) => void;
+  onApplyAdditionPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
@@ -1429,6 +1453,7 @@ function ConfigScreen({
   numericDrafts,
   onNumericDraftChange,
   onNumericDraftClear,
+  onApplyAdditionPreset,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
@@ -1502,6 +1527,7 @@ function ConfigScreen({
           numericDrafts={numericDrafts}
           onNumericDraftChange={onNumericDraftChange}
           onNumericDraftClear={onNumericDraftClear}
+          onApplyAdditionPreset={onApplyAdditionPreset}
           onApplyDivisionPreset={onApplyDivisionPreset}
           onApplyMultiplicationPreset={onApplyMultiplicationPreset}
           onApplyDivisionRemainderPreset={onApplyDivisionRemainderPreset}
@@ -1684,6 +1710,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
     ) => NonNullable<MathTopicConfigs[K]>,
   ) => void;
   setAdvanced: (topic: MathTopic, enabled: boolean) => void;
+  onApplyAdditionPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
@@ -1701,6 +1728,7 @@ function CustomModeSettings({
   numericDrafts,
   onNumericDraftChange,
   onNumericDraftClear,
+  onApplyAdditionPreset,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
@@ -1752,6 +1780,7 @@ function CustomModeSettings({
             onChange={(config) =>
               updateTopicConfig("addition", () => config)
             }
+            onApplyPreset={onApplyAdditionPreset}
             {...numericDraftProps}
           />
         )}
@@ -2132,11 +2161,84 @@ function buildRangeValues(range: MathRangeConfig): number[] {
   return values;
 }
 
+const ADDITION_QUICK_PRESETS: {
+  id: MathPracticePresetId;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    id: "math-preset-addition-20",
+    label: "Sčítání do 20",
+    helper: "Vhodné pro začátek počítání.",
+  },
+  {
+    id: "math-preset-addition-100",
+    label: "Sčítání do 100",
+    helper: "Procvičuje sčítání v běžném rozsahu do 100.",
+  },
+  {
+    id: "math-preset-addition-1000",
+    label: "Sčítání do 1000",
+    helper: "Vhodné pro větší čísla ve 3. třídě a výše.",
+  },
+];
+
+const ADDITION_NUMERIC_DRAFT_KEYS = [
+  "addition.simple.min",
+  "addition.simple.max",
+  "addition.maxResult",
+  "addition.addendA.min",
+  "addition.addendA.max",
+  "addition.addendB.min",
+  "addition.addendB.max",
+] as const;
+
+function getAdditionConfigFromPreset(
+  presetId: MathPracticePresetId,
+): AdditionConfig | undefined {
+  const addition = getMathPracticePresetById(presetId)?.mathConfig.topicConfigs
+    ?.addition;
+
+  if (!addition) {
+    return undefined;
+  }
+
+  return { ...addition, enabled: true };
+}
+
+type AdditionQuickPresetsProps = {
+  onSelectPreset: (presetId: MathPracticePresetId) => void;
+};
+
+function AdditionQuickPresets({ onSelectPreset }: AdditionQuickPresetsProps) {
+  return (
+    <div className="col-span-full space-y-3">
+      <h3 className="text-base font-semibold">Rychlá volba</h3>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {ADDITION_QUICK_PRESETS.map(({ id, label, helper }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelectPreset(id)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {helper}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type AdditionSettingsProps = NumericDraftProps & {
   config: AdditionConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: AdditionConfig) => void;
+  onApplyPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function AdditionSettings({
@@ -2147,6 +2249,7 @@ function AdditionSettings({
   onNumericDraftChange,
   onNumericDraftClear,
   onChange,
+  onApplyPreset,
 }: AdditionSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -2164,6 +2267,7 @@ function AdditionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
+          <AdditionQuickPresets onSelectPreset={onApplyPreset} />
           <NumberField
             fieldKey="addition.simple.min"
             label="Min hodnota"
