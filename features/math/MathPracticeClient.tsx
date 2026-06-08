@@ -1111,6 +1111,28 @@ export function MathPracticeClient() {
     });
   };
 
+  const handleApplyMultiplicationPreset = (presetId: MathPracticePresetId) => {
+    const nextConfig = getMultiplicationConfigFromPreset(presetId);
+    if (!nextConfig) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    for (const fieldKey of MULTIPLICATION_NUMERIC_DRAFT_KEYS) {
+      delete nextDrafts[fieldKey];
+    }
+
+    applyFormStateChange({
+      ...current,
+      numericDrafts: nextDrafts,
+      topicConfigs: {
+        ...current.topicConfigs,
+        multiplication: nextConfig,
+      },
+    });
+  };
+
   const handleStartPractice = () => {
     const currentForm = formStateRef.current;
 
@@ -1305,6 +1327,7 @@ export function MathPracticeClient() {
         onNumericDraftChange={handleNumericDraftChange}
         onNumericDraftClear={handleNumericDraftClear}
         onApplyDivisionPreset={handleApplyDivisionPreset}
+        onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
       />
     );
   }
@@ -1361,6 +1384,7 @@ type ConfigScreenProps = NumericDraftProps & {
   onStart: () => void;
   onStartLesson: (lesson: MathLesson) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
+  onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function ConfigScreen({
@@ -1380,6 +1404,7 @@ function ConfigScreen({
   onNumericDraftChange,
   onNumericDraftClear,
   onApplyDivisionPreset,
+  onApplyMultiplicationPreset,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
@@ -1451,6 +1476,7 @@ function ConfigScreen({
           onNumericDraftChange={onNumericDraftChange}
           onNumericDraftClear={onNumericDraftClear}
           onApplyDivisionPreset={onApplyDivisionPreset}
+          onApplyMultiplicationPreset={onApplyMultiplicationPreset}
         />
       )}
     </div>
@@ -1631,6 +1657,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
   ) => void;
   setAdvanced: (topic: MathTopic, enabled: boolean) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
+  onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function CustomModeSettings({
@@ -1646,6 +1673,7 @@ function CustomModeSettings({
   onNumericDraftChange,
   onNumericDraftClear,
   onApplyDivisionPreset,
+  onApplyMultiplicationPreset,
 }: CustomModeSettingsProps) {
   const numericDraftProps: NumericDraftProps = {
     numericDrafts,
@@ -1721,6 +1749,7 @@ function CustomModeSettings({
               updateTopicConfig("multiplication", () => config)
             }
             onGridLastDeselected={() => onGridLastDeselected("multiplication")}
+            onApplyPreset={onApplyMultiplicationPreset}
             {...numericDraftProps}
           />
         )}
@@ -2275,6 +2304,7 @@ type MultiplicationSettingsProps = NumericDraftProps & {
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: MultiplicationConfig) => void;
   onGridLastDeselected: () => void;
+  onApplyPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function MultiplicationSettings({
@@ -2286,6 +2316,7 @@ function MultiplicationSettings({
   onNumericDraftClear,
   onChange,
   onGridLastDeselected,
+  onApplyPreset,
 }: MultiplicationSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -2304,6 +2335,7 @@ function MultiplicationSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
+          <MultiplicationQuickPresets onSelectPreset={onApplyPreset} />
           <NumberField
             fieldKey="multiplication.simple.min"
             label="Min hodnota"
@@ -2399,6 +2431,80 @@ function MultiplicationSettings({
         </>
       }
     />
+  );
+}
+
+const MULTIPLICATION_QUICK_PRESETS: {
+  id: MathPracticePresetId;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    id: "math-preset-multiplication-1-5",
+    label: "Násobilka 1–5",
+    helper: "Vhodné pro začátek násobilky.",
+  },
+  {
+    id: "math-preset-multiplication-table-1-10",
+    label: "Malá násobilka 1–10",
+    helper: "Procvičuje celou malou násobilku.",
+  },
+  {
+    id: "math-preset-multiplication-selected",
+    label: "Vybraná čísla násobilky",
+    helper: "Vhodné, když chcete trénovat jen některé řady.",
+  },
+];
+
+const MULTIPLICATION_NUMERIC_DRAFT_KEYS = [
+  "multiplication.simple.min",
+  "multiplication.simple.max",
+  "multiplication.maxResult",
+  "multiplication.multiplicand.min",
+  "multiplication.multiplicand.max",
+  "multiplication.multiplier.min",
+  "multiplication.multiplier.max",
+] as const;
+
+function getMultiplicationConfigFromPreset(
+  presetId: MathPracticePresetId,
+): MultiplicationConfig | undefined {
+  const multiplication = getMathPracticePresetById(presetId)?.mathConfig
+    .topicConfigs?.multiplication;
+
+  if (!multiplication) {
+    return undefined;
+  }
+
+  return { ...multiplication, enabled: true };
+}
+
+type MultiplicationQuickPresetsProps = {
+  onSelectPreset: (presetId: MathPracticePresetId) => void;
+};
+
+function MultiplicationQuickPresets({
+  onSelectPreset,
+}: MultiplicationQuickPresetsProps) {
+  return (
+    <div className="col-span-full space-y-3">
+      <h3 className="text-base font-semibold">Rychlá volba</h3>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {MULTIPLICATION_QUICK_PRESETS.map(({ id, label, helper }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelectPreset(id)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {helper}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
