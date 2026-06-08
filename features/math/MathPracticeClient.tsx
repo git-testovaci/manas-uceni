@@ -1133,6 +1133,30 @@ export function MathPracticeClient() {
     });
   };
 
+  const handleApplyDivisionRemainderPreset = (
+    presetId: MathPracticePresetId,
+  ) => {
+    const nextConfig = getDivisionRemainderConfigFromPreset(presetId);
+    if (!nextConfig) {
+      return;
+    }
+
+    const current = formStateRef.current;
+    const nextDrafts = { ...current.numericDrafts };
+    for (const fieldKey of DIVISION_REMAINDER_NUMERIC_DRAFT_KEYS) {
+      delete nextDrafts[fieldKey];
+    }
+
+    applyFormStateChange({
+      ...current,
+      numericDrafts: nextDrafts,
+      topicConfigs: {
+        ...current.topicConfigs,
+        divisionRemainder: nextConfig,
+      },
+    });
+  };
+
   const handleStartPractice = () => {
     const currentForm = formStateRef.current;
 
@@ -1328,6 +1352,7 @@ export function MathPracticeClient() {
         onNumericDraftClear={handleNumericDraftClear}
         onApplyDivisionPreset={handleApplyDivisionPreset}
         onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
+        onApplyDivisionRemainderPreset={handleApplyDivisionRemainderPreset}
       />
     );
   }
@@ -1385,6 +1410,7 @@ type ConfigScreenProps = NumericDraftProps & {
   onStartLesson: (lesson: MathLesson) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
+  onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function ConfigScreen({
@@ -1405,6 +1431,7 @@ function ConfigScreen({
   onNumericDraftClear,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
+  onApplyDivisionRemainderPreset,
 }: ConfigScreenProps) {
   const updateTopicConfig = <K extends keyof MathTopicConfigs>(
     key: K,
@@ -1477,6 +1504,7 @@ function ConfigScreen({
           onNumericDraftClear={onNumericDraftClear}
           onApplyDivisionPreset={onApplyDivisionPreset}
           onApplyMultiplicationPreset={onApplyMultiplicationPreset}
+          onApplyDivisionRemainderPreset={onApplyDivisionRemainderPreset}
         />
       )}
     </div>
@@ -1658,6 +1686,7 @@ type CustomModeSettingsProps = NumericDraftProps & {
   setAdvanced: (topic: MathTopic, enabled: boolean) => void;
   onApplyDivisionPreset: (presetId: MathPracticePresetId) => void;
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
+  onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function CustomModeSettings({
@@ -1674,6 +1703,7 @@ function CustomModeSettings({
   onNumericDraftClear,
   onApplyDivisionPreset,
   onApplyMultiplicationPreset,
+  onApplyDivisionRemainderPreset,
 }: CustomModeSettingsProps) {
   const numericDraftProps: NumericDraftProps = {
     numericDrafts,
@@ -1781,6 +1811,7 @@ function CustomModeSettings({
             onGridLastDeselected={() =>
               onGridLastDeselected("division-remainder")
             }
+            onApplyPreset={onApplyDivisionRemainderPreset}
             {...numericDraftProps}
           />
         )}
@@ -2681,12 +2712,82 @@ function DivisionSettings({
   );
 }
 
+const DIVISION_REMAINDER_QUICK_PRESETS: {
+  id: MathPracticePresetId;
+  label: string;
+  helper: string;
+}[] = [
+  {
+    id: "math-preset-division-remainder-intro",
+    label: "Dělení se zbytkem – úvod",
+    helper: "Vhodné pro první seznámení se zbytkem v malých číslech.",
+  },
+  {
+    id: "math-preset-division-remainder-table",
+    label: "Dělení se zbytkem v malé násobilce",
+    helper:
+      "Vhodné po zvládnutí násobilky a dělení v malé násobilce.",
+  },
+];
+
+const DIVISION_REMAINDER_NUMERIC_DRAFT_KEYS = [
+  "divisionRemainder.simple.min",
+  "divisionRemainder.simple.max",
+  "divisionRemainder.dividend.min",
+  "divisionRemainder.dividend.max",
+  "divisionRemainder.divisor.min",
+  "divisionRemainder.divisor.max",
+] as const;
+
+function getDivisionRemainderConfigFromPreset(
+  presetId: MathPracticePresetId,
+): DivisionRemainderConfig | undefined {
+  const divisionRemainder = getMathPracticePresetById(presetId)?.mathConfig
+    .topicConfigs?.divisionRemainder;
+
+  if (!divisionRemainder) {
+    return undefined;
+  }
+
+  return { ...divisionRemainder, enabled: true };
+}
+
+type DivisionRemainderQuickPresetsProps = {
+  onSelectPreset: (presetId: MathPracticePresetId) => void;
+};
+
+function DivisionRemainderQuickPresets({
+  onSelectPreset,
+}: DivisionRemainderQuickPresetsProps) {
+  return (
+    <div className="col-span-full space-y-3">
+      <h3 className="text-base font-semibold">Rychlá volba</h3>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {DIVISION_REMAINDER_QUICK_PRESETS.map(({ id, label, helper }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelectPreset(id)}
+            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            <span className="block text-base font-semibold">{label}</span>
+            <span className="mt-2 block text-sm text-foreground/70">
+              {helper}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 type DivisionRemainderSettingsProps = NumericDraftProps & {
   config: DivisionRemainderConfig;
   advanced: boolean;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionRemainderConfig) => void;
   onGridLastDeselected: () => void;
+  onApplyPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function DivisionRemainderSettings({
@@ -2698,6 +2799,7 @@ function DivisionRemainderSettings({
   onNumericDraftClear,
   onChange,
   onGridLastDeselected,
+  onApplyPreset,
 }: DivisionRemainderSettingsProps) {
   const updateSimpleRange = (range: MathRangeConfig) => {
     onChange({
@@ -2716,6 +2818,7 @@ function DivisionRemainderSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
+          <DivisionRemainderQuickPresets onSelectPreset={onApplyPreset} />
           <NumberField
             fieldKey="divisionRemainder.simple.min"
             label="Min hodnota"
