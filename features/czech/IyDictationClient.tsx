@@ -184,10 +184,10 @@ function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
 }
 
 const BLANK_PRACTICE_BASE =
-  "inline-flex min-h-7 min-w-[1.35rem] touch-manipulation items-center justify-center rounded border-b-2 px-0.5 align-baseline text-sm font-semibold transition-colors";
+  "inline-flex h-[1.5rem] min-w-[1.15rem] touch-manipulation items-center justify-center rounded-sm border-b px-0 align-baseline text-xs font-medium transition-colors";
 
 const BLANK_RESULT_BASE =
-  "inline-flex min-w-[1.25rem] items-center justify-center rounded border-b-2 px-0.5 align-baseline text-sm font-semibold";
+  "inline-flex h-[1.45rem] min-w-[1.1rem] items-center justify-center rounded-sm border-b px-0 align-baseline text-xs font-medium";
 
 function DictationTextDisplay({
   tokens,
@@ -258,10 +258,10 @@ function DictationTextDisplay({
         }
         className={`${BLANK_PRACTICE_BASE} ${
           isActive
-            ? "border-czech bg-czech/15 text-czech ring-2 ring-czech/40"
+            ? "border-czech bg-czech/10 text-czech ring-1 ring-czech/35"
             : chosen
-              ? "border-czech/50 bg-czech/10 text-foreground"
-              : "border-czech/40 bg-czech/5 text-foreground/40"
+              ? "border-czech/40 bg-czech/5 text-foreground"
+              : "border-czech/30 bg-czech/[0.03] text-foreground/35"
         }`}
       >
         {chosen ?? "·"}
@@ -270,26 +270,18 @@ function DictationTextDisplay({
   }
 
   return (
-    <p className="text-lg leading-relaxed">
+    <p className="text-base leading-relaxed">
       {units.map((unit, unitIndex) => {
         if (unit.type === "space") {
           return (
-            <span
-              key={`space-${unitIndex}`}
-              className="inline-block min-w-[0.55em] whitespace-pre"
-              aria-hidden="true"
-            >
+            <span key={`space-${unitIndex}`} className="whitespace-pre-wrap">
               {unit.value}
             </span>
           );
         }
 
         return (
-          <span
-            key={`word-${unitIndex}`}
-            className="inline-flex items-baseline whitespace-nowrap [word-spacing:normal]"
-            style={{ gap: "1px" }}
-          >
+          <span key={`word-${unitIndex}`} className="whitespace-nowrap">
             {unit.parts.map((part, partIndex) => {
               const partKey = `${unitIndex}-${partIndex}`;
 
