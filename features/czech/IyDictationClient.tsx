@@ -183,22 +183,22 @@ function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
   return units;
 }
 
-const BLANK_TAP =
-  "touch-manipulation align-baseline border-0 border-b border-solid leading-[inherit] transition-colors";
+const BLANK_SLOT_BASE =
+  "inline-flex h-[1.45rem] w-[1.05rem] min-w-[1rem] max-w-[1.15rem] touch-manipulation items-center justify-center rounded-sm border border-solid px-px align-middle text-sm leading-none transition-colors";
 
 function getPracticeBlankClassName(
   isActive: boolean,
   chosen: string | undefined,
 ): string {
   if (isActive) {
-    return `${BLANK_TAP} inline-flex w-[1em] min-w-[0.9em] max-w-[1.05em] justify-center border-b-2 border-czech bg-czech/20 px-0 py-0.5 -my-0.5 font-medium text-czech`;
+    return `${BLANK_SLOT_BASE} border-czech bg-czech/25 py-px -my-px font-semibold text-czech`;
   }
 
   if (chosen) {
-    return `${BLANK_TAP} inline border-czech/35 bg-czech/[0.06] px-0 py-0 text-inherit font-normal`;
+    return `${BLANK_SLOT_BASE} border-czech/40 bg-czech/10 py-px -my-px font-medium text-foreground`;
   }
 
-  return `${BLANK_TAP} inline-flex w-[1em] min-w-[0.9em] max-w-[1.05em] justify-center border-b-2 border-czech/50 bg-czech/12 px-0 py-0.5 -my-0.5 text-czech/75`;
+  return `${BLANK_SLOT_BASE} border-czech/35 bg-czech/12 py-px -my-px text-czech/65`;
 }
 
 function DictationTextDisplay({
@@ -229,12 +229,12 @@ function DictationTextDisplay({
 
     if (phase === "results") {
       return (
-        <span key={key} className="inline">
+        <span key={key} className="inline align-middle">
           <span
-            className={`${BLANK_TAP} inline px-0 py-0 ${
+            className={`${BLANK_SLOT_BASE} ${
               isMistake
-                ? "border-b-2 border-red-500 text-red-700"
-                : "border-b border-green-600/45 text-foreground"
+                ? "border-red-400 bg-red-50 font-medium text-red-700"
+                : "border-green-500/45 bg-green-50 font-medium text-green-900"
             }`}
             aria-label={
               isMistake
@@ -268,8 +268,8 @@ function DictationTextDisplay({
         className={getPracticeBlankClassName(isActive, chosen)}
       >
         {chosen ?? (
-          <span aria-hidden="true" className="text-[0.7em] leading-none">
-            …
+          <span aria-hidden="true" className="text-xs leading-none">
+            ·
           </span>
         )}
       </button>
