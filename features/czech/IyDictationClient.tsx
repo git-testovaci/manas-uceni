@@ -184,7 +184,7 @@ function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
 }
 
 const BLANK_SLOT_BASE =
-  "inline-flex h-[1.45rem] w-[1.05rem] min-w-[1rem] max-w-[1.15rem] touch-manipulation items-center justify-center rounded-sm border border-solid px-px align-middle text-sm leading-none transition-colors";
+  "inline-flex h-[1.6rem] w-[1.15rem] min-w-[1.05rem] max-w-[1.25rem] touch-manipulation items-center justify-center rounded-sm border border-solid px-px align-middle text-inherit leading-none transition-colors";
 
 function getPracticeBlankClassName(
   isActive: boolean,
@@ -268,7 +268,7 @@ function DictationTextDisplay({
         className={getPracticeBlankClassName(isActive, chosen)}
       >
         {chosen ?? (
-          <span aria-hidden="true" className="text-xs leading-none">
+          <span aria-hidden="true" className="text-[0.85em] leading-none">
             ·
           </span>
         )}
@@ -277,7 +277,7 @@ function DictationTextDisplay({
   }
 
   return (
-    <p className="text-base leading-relaxed">
+    <p className="text-[19px] leading-[1.65]">
       {units.map((unit, unitIndex) => {
         if (unit.type === "space") {
           return (
