@@ -3,6 +3,12 @@ import type { MathExercise } from "@/types";
 const MAX_DOTS = 36;
 const MAX_GROUPS = 10;
 const MAX_ROW_DOTS = MAX_DOTS / 2;
+const MULT_SMALL_MAX_ROWS = 10;
+const MULT_SMALL_MAX_COLS = 6;
+const MULT_SMALL_MAX_PRODUCT = 60;
+const MULT_COMPACT_PRODUCT = 150;
+const MULT_COMPACT_FACTOR = 15;
+const MULT_CHUNK_PREVIEW_ROWS = 5;
 
 function exceedsRowLimit(value: number): boolean {
   return value > MAX_ROW_DOTS;
@@ -159,6 +165,228 @@ function SubtractionVisual({ a, b }: { a: number; b: number }) {
   );
 }
 
+type MultiplicationVisualMode =
+  | "cumulative"
+  | "chunked"
+  | "chunked-compact"
+  | "text";
+
+function getMultiplicationChunks(total: number): number[] {
+  if (total <= 5) {
+    return [total];
+  }
+
+  if (total <= 10) {
+    const chunks: number[] = [];
+    let remaining = total;
+    while (remaining > 5) {
+      chunks.push(5);
+      remaining -= 5;
+    }
+    if (remaining > 0) {
+      chunks.push(remaining);
+    }
+    return chunks;
+  }
+
+  if (total >= 100) {
+    const leading = Math.floor(total / 100) * 100;
+    const rest = total - leading;
+    return rest > 0 ? [leading, rest] : [leading];
+  }
+
+  const tens = Math.floor(total / 10) * 10;
+  const rest = total - tens;
+  return rest > 0 ? [tens, rest] : [tens];
+}
+
+function getMultiplicationVisualMode(
+  rows: number,
+  cols: number,
+  product: number,
+): MultiplicationVisualMode {
+  if (
+    product > MULT_COMPACT_PRODUCT ||
+    rows > MULT_COMPACT_FACTOR ||
+    cols > MULT_COMPACT_FACTOR
+  ) {
+    return "text";
+  }
+
+  if (
+    rows <= MULT_SMALL_MAX_ROWS &&
+    cols <= MULT_SMALL_MAX_COLS &&
+    product <= MULT_SMALL_MAX_PRODUCT
+  ) {
+    return "cumulative";
+  }
+
+  if (
+    product <= MAX_DOTS &&
+    rows <= MAX_ROW_DOTS &&
+    cols <= MAX_ROW_DOTS
+  ) {
+    return "chunked";
+  }
+
+  return "chunked-compact";
+}
+
+function MultiplicationCumulativeVisual({
+  rows,
+  cols,
+}: {
+  rows: number;
+  cols: number;
+}) {
+  const product = rows * cols;
+
+  return (
+    <figure className="space-y-2">
+      <figcaption className="sr-only">
+        {rows} řádků po {cols}, postupně {cols}, {cols * 2}, až {product}
+      </figcaption>
+      <p className="text-sm text-foreground/70">Každý řádek přidá {cols}:</p>
+      <ol className="space-y-2">
+        {Array.from({ length: rows }, (_, index) => {
+          const rowNumber = index + 1;
+          const runningTotal = rowNumber * cols;
+
+          return (
+            <li
+              key={rowNumber}
+              className="flex flex-wrap items-center gap-x-2 gap-y-1"
+            >
+              <span className="min-w-[4.5rem] text-xs font-medium text-foreground/60">
+                Řádek {rowNumber}
+              </span>
+              <DotRow count={cols} />
+              <span className="text-sm font-semibold tabular-nums">
+                → {runningTotal}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="text-sm font-medium tabular-nums">
+        Celkem {rows} × {cols} = {product}
+      </p>
+    </figure>
+  );
+}
+
+function MultiplicationChunkGroup({
+  chunkRows,
+  cols,
+  compact,
+}: {
+  chunkRows: number;
+  cols: number;
+  compact: boolean;
+}) {
+  const subtotal = chunkRows * cols;
+  const displayRows = compact
+    ? Math.min(chunkRows, MULT_CHUNK_PREVIEW_ROWS)
+    : chunkRows;
+
+  return (
+    <div className="rounded-lg border border-foreground/15 border-l-4 border-l-math/70 bg-white/60 px-2 py-2">
+      <div className="space-y-1" aria-hidden="true">
+        <DotGrid rows={displayRows} cols={cols} />
+        {compact && chunkRows > displayRows && (
+          <p className="text-xs text-foreground/60">
+            … dalších {chunkRows - displayRows} řádků po {cols}
+          </p>
+        )}
+      </div>
+      <p className="mt-2 text-sm font-semibold tabular-nums">
+        {chunkRows} × {cols} = {subtotal}
+      </p>
+    </div>
+  );
+}
+
+function MultiplicationChunkedVisual({
+  rows,
+  cols,
+  compact,
+}: {
+  rows: number;
+  cols: number;
+  compact: boolean;
+}) {
+  const chunks = getMultiplicationChunks(rows);
+  const subtotals = chunks.map((chunkRows) => chunkRows * cols);
+  const product = rows * cols;
+
+  return (
+    <figure className="space-y-3">
+      <figcaption className="sr-only">
+        {rows} krát {cols} rozděleno na části, celkem {product}
+      </figcaption>
+      <p className="text-sm text-foreground/70">
+        Rozdělíme {rows} na menší části:
+      </p>
+      <div className="flex flex-wrap items-end gap-2">
+        {chunks.map((chunkRows, index) => (
+          <div key={`${chunkRows}-${index}`} className="flex items-end gap-2">
+            {index > 0 && (
+              <span
+                className="pb-6 text-lg font-semibold text-foreground/80"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            )}
+            <MultiplicationChunkGroup
+              chunkRows={chunkRows}
+              cols={cols}
+              compact={compact}
+            />
+          </div>
+        ))}
+      </div>
+      <p className="text-sm font-semibold tabular-nums">
+        {subtotals.join(" + ")} = {product}
+      </p>
+    </figure>
+  );
+}
+
+function MultiplicationTextVisual({
+  rows,
+  cols,
+}: {
+  rows: number;
+  cols: number;
+}) {
+  const product = rows * cols;
+  const chunks = getMultiplicationChunks(rows);
+  const subtotals = chunks.map((chunkRows) => chunkRows * cols);
+  const parts = chunks.map((chunkRows) => `${chunkRows} × ${cols}`);
+
+  return (
+    <figure className="space-y-2">
+      <figcaption className="sr-only">
+        {rows} krát {cols} je {product}
+      </figcaption>
+      <p className="text-sm tabular-nums">
+        {rows} krát {cols} je {product}.
+      </p>
+      {chunks.length > 1 && (
+        <>
+          <p className="text-sm">
+            Můžeme to rozdělit: {parts.join(" a ")}.
+          </p>
+          <p className="text-sm font-semibold tabular-nums">
+            {subtotals.join(" + ")} = {product}.
+          </p>
+        </>
+      )}
+    </figure>
+  );
+}
+
 function MultiplicationVisual({
   exercise,
   a,
@@ -168,29 +396,25 @@ function MultiplicationVisual({
   a: number;
   b: number;
 }) {
-  const product = a * b;
   const rows = exercise.visualHint?.rows ?? a;
   const cols = exercise.visualHint?.cols ?? b;
+  const product = rows * cols;
+  const mode = getMultiplicationVisualMode(rows, cols, product);
 
-  if (
-    exceedsTotalLimit(product) ||
-    exceedsRowLimit(rows) ||
-    exceedsRowLimit(cols)
-  ) {
-    return <CompactFormula>{`${a} × ${b} = ${product}`}</CompactFormula>;
+  switch (mode) {
+    case "cumulative":
+      return <MultiplicationCumulativeVisual rows={rows} cols={cols} />;
+    case "chunked":
+      return (
+        <MultiplicationChunkedVisual rows={rows} cols={cols} compact={false} />
+      );
+    case "chunked-compact":
+      return (
+        <MultiplicationChunkedVisual rows={rows} cols={cols} compact={true} />
+      );
+    case "text":
+      return <MultiplicationTextVisual rows={rows} cols={cols} />;
   }
-
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        {rows} řádků po {cols} tečkách, celkem {product} teček
-      </figcaption>
-      <p className="text-sm font-medium text-foreground/70">
-        {rows} řádků po {cols} tečkách
-      </p>
-      <DotGrid rows={rows} cols={cols} />
-    </figure>
-  );
 }
 
 function DivisionVisual({
