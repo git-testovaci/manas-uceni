@@ -143,6 +143,169 @@ function saveCustomDictations(dictations: IyDictation[]): void {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(dictations));
 }
 
+type DisplayUnit =
+  | { type: "word"; parts: DictationToken[] }
+  | { type: "space"; value: string };
+
+function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
+  const units: DisplayUnit[] = [];
+  let currentWord: DictationToken[] = [];
+
+  const flushWord = () => {
+    if (currentWord.length > 0) {
+      units.push({ type: "word", parts: currentWord });
+      currentWord = [];
+    }
+  };
+
+  for (const token of tokens) {
+    if (token.type === "blank") {
+      currentWord.push(token);
+      continue;
+    }
+
+    const segments = token.value.split(/(\s+)/);
+    for (const segment of segments) {
+      if (!segment) {
+        continue;
+      }
+
+      if (/^\s+$/.test(segment)) {
+        flushWord();
+        units.push({ type: "space", value: segment });
+      } else {
+        currentWord.push({ type: "text", value: segment });
+      }
+    }
+  }
+
+  flushWord();
+  return units;
+}
+
+const BLANK_PRACTICE_BASE =
+  "inline-flex min-h-7 min-w-[1.35rem] touch-manipulation items-center justify-center rounded border-b-2 px-0.5 align-baseline text-sm font-semibold transition-colors";
+
+const BLANK_RESULT_BASE =
+  "inline-flex min-w-[1.25rem] items-center justify-center rounded border-b-2 px-0.5 align-baseline text-sm font-semibold";
+
+function DictationTextDisplay({
+  tokens,
+  phase,
+  answers,
+  activeBlankId,
+  evaluation,
+  onBlankSelect,
+}: {
+  tokens: DictationToken[];
+  phase: Phase;
+  answers: Record<number, string>;
+  activeBlankId: number | null;
+  evaluation: { mistakeIds: Set<number> } | null;
+  onBlankSelect: (blankId: number) => void;
+}) {
+  const units = groupTokensForDisplay(tokens);
+
+  function renderBlank(token: BlankToken, key: string) {
+    const chosen = answers[token.id];
+    const isActive = phase === "practice" && activeBlankId === token.id;
+    const isMistake = evaluation?.mistakeIds.has(token.id) ?? false;
+    const isCorrect =
+      phase === "results" &&
+      chosen !== undefined &&
+      isIyAnswerCorrect(chosen, token.correct);
+
+    if (phase === "results") {
+      return (
+        <span
+          key={key}
+          className="inline-flex flex-col items-center align-baseline"
+        >
+          <span
+            className={`${BLANK_RESULT_BASE} ${
+              isMistake
+                ? "border-red-500 bg-red-50 text-red-700"
+                : "border-green-600/50 bg-green-50 text-green-800"
+            }`}
+            aria-label={
+              isMistake
+                ? `Chyba: napsal jsi ${chosen}, správně ${token.correct.toLowerCase()}`
+                : `Správně ${chosen}`
+            }
+          >
+            {chosen}
+          </span>
+          {isMistake && (
+            <span className="mt-0.5 text-[0.65rem] font-medium leading-tight text-red-700">
+              správně: {token.correct.toLowerCase()}
+            </span>
+          )}
+          {isCorrect && <span className="sr-only">Správně</span>}
+        </span>
+      );
+    }
+
+    return (
+      <button
+        key={key}
+        type="button"
+        onClick={() => onBlankSelect(token.id)}
+        aria-current={isActive ? "true" : undefined}
+        aria-label={
+          chosen
+            ? `Místo ${token.id + 1}, zvoleno ${chosen}. Klepni pro změnu.`
+            : `Místo ${token.id + 1}, zatím prázdné`
+        }
+        className={`${BLANK_PRACTICE_BASE} ${
+          isActive
+            ? "border-czech bg-czech/15 text-czech ring-2 ring-czech/40"
+            : chosen
+              ? "border-czech/50 bg-czech/10 text-foreground"
+              : "border-czech/40 bg-czech/5 text-foreground/40"
+        }`}
+      >
+        {chosen ?? "·"}
+      </button>
+    );
+  }
+
+  return (
+    <p className="text-lg leading-relaxed">
+      {units.map((unit, unitIndex) => {
+        if (unit.type === "space") {
+          return (
+            <span
+              key={`space-${unitIndex}`}
+              className="inline-block min-w-[0.55em] whitespace-pre"
+              aria-hidden="true"
+            >
+              {unit.value}
+            </span>
+          );
+        }
+
+        return (
+          <span
+            key={`word-${unitIndex}`}
+            className="inline-flex items-baseline whitespace-nowrap [word-spacing:normal]"
+            style={{ gap: "1px" }}
+          >
+            {unit.parts.map((part, partIndex) => {
+              const partKey = `${unitIndex}-${partIndex}`;
+
+              if (part.type === "text") {
+                return <span key={partKey}>{part.value}</span>;
+              }
+
+              return renderBlank(part, partKey);
+            })}
+          </span>
+        );
+      })}
+    </p>
+  );
+}
+
 function SetupModeSwitch({
   mode,
   onModeChange,
@@ -561,77 +724,14 @@ export function IyDictationClient() {
         aria-label="Text diktátu"
         className="rounded-2xl border border-foreground/15 bg-white/70 p-4"
       >
-        <p className="text-lg leading-8">
-          {parsed.tokens.map((token, index) => {
-            if (token.type === "text") {
-              return <span key={`text-${index}`}>{token.value}</span>;
-            }
-
-            const chosen = answers[token.id];
-            const isActive =
-              phase === "practice" && activeBlankId === token.id;
-            const isMistake = evaluation?.mistakeIds.has(token.id) ?? false;
-            const isCorrect =
-              phase === "results" &&
-              chosen !== undefined &&
-              isIyAnswerCorrect(chosen, token.correct);
-
-            if (phase === "results") {
-              return (
-                <span
-                  key={`blank-${token.id}`}
-                  className="mx-0.5 inline-flex flex-col items-center align-middle"
-                >
-                  <span
-                    className={`inline-flex min-w-[1.6rem] items-center justify-center rounded-md border-b-2 px-1 font-semibold ${
-                      isMistake
-                        ? "border-red-500 bg-red-50 text-red-700"
-                        : "border-green-600/50 bg-green-50 text-green-800"
-                    }`}
-                    aria-label={
-                      isMistake
-                        ? `Chyba: napsal jsi ${chosen}, správně ${token.correct.toLowerCase()}`
-                        : `Správně ${chosen}`
-                    }
-                  >
-                    {chosen}
-                  </span>
-                  {isMistake && (
-                    <span className="mt-0.5 text-xs font-medium text-red-700">
-                      správně: {token.correct.toLowerCase()}
-                    </span>
-                  )}
-                  {isCorrect && (
-                    <span className="sr-only">Správně</span>
-                  )}
-                </span>
-              );
-            }
-
-            return (
-              <button
-                key={`blank-${token.id}`}
-                type="button"
-                onClick={() => setActiveBlankId(token.id)}
-                aria-current={isActive ? "true" : undefined}
-                aria-label={
-                  chosen
-                    ? `Místo ${token.id + 1}, zvoleno ${chosen}. Klepni pro změnu.`
-                    : `Místo ${token.id + 1}, zatím prázdné`
-                }
-                className={`mx-0.5 inline-flex min-h-8 min-w-[1.75rem] items-center justify-center rounded-md border-b-2 px-1 align-middle text-base font-semibold transition-colors ${
-                  isActive
-                    ? "border-czech bg-czech/15 text-czech ring-2 ring-czech/40"
-                    : chosen
-                      ? "border-czech/50 bg-czech/10 text-foreground"
-                      : "border-czech/40 bg-czech/5 text-foreground/40"
-                }`}
-              >
-                {chosen ?? "···"}
-              </button>
-            );
-          })}
-        </p>
+        <DictationTextDisplay
+          tokens={parsed.tokens}
+          phase={phase}
+          answers={answers}
+          activeBlankId={activeBlankId}
+          evaluation={evaluation}
+          onBlankSelect={setActiveBlankId}
+        />
       </section>
 
       {phase === "practice" && (
