@@ -1,6 +1,7 @@
 "use client";
 
 import { PREDEFINED_IY_DICTATIONS, type IyDictation } from "@/data/czech";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
 const IY_LETTERS = ["i", "í", "y", "ý"] as const;
@@ -141,6 +142,44 @@ function loadCustomDictations(): IyDictation[] {
 
 function saveCustomDictations(dictations: IyDictation[]): void {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(dictations));
+}
+
+function findPredefinedDictation(id: string): IyDictation | undefined {
+  return PREDEFINED_IY_DICTATIONS.find((dictation) => dictation.id === id);
+}
+
+function isPredefinedDictation(dictation: IyDictation): boolean {
+  return findPredefinedDictation(dictation.id) !== undefined;
+}
+
+function parseSetupMode(value: string | null): SetupMode {
+  return value === "custom" ? "custom" : "predefined";
+}
+
+function buildIyPageHref(
+  pathname: string,
+  options: { mode?: SetupMode; dictationId?: string | null },
+): string {
+  const params = new URLSearchParams();
+
+  if (options.dictationId) {
+    params.set("dictation", options.dictationId);
+  } else if (options.mode) {
+    params.set("mode", options.mode);
+  }
+
+  const query = params.toString();
+  return query ? `${pathname}?${query}` : pathname;
+}
+
+function getDictationShareUrl(dictationId: string): string {
+  const path = `/czech/iy?dictation=${encodeURIComponent(dictationId)}`;
+
+  if (typeof window === "undefined") {
+    return path;
+  }
+
+  return `${window.location.origin}${path}`;
 }
 
 type DisplayUnit =
@@ -358,14 +397,39 @@ function DictationCard({
   dictation,
   onStart,
   onDelete,
+  shareUrl,
 }: {
   dictation: IyDictation;
   onStart: () => void;
   onDelete?: () => void;
+  shareUrl?: string;
 }) {
+  const [copyMessage, setCopyMessage] = useState<string | null>(null);
+  const [showUrlFallback, setShowUrlFallback] = useState(false);
   const meta = [dictation.page && `Strana ${dictation.page}`, dictation.exercise && `Cvičení ${dictation.exercise}`]
     .filter(Boolean)
     .join(" · ");
+
+  async function handleCopyLink() {
+    if (!shareUrl) {
+      return;
+    }
+
+    setShowUrlFallback(false);
+    setCopyMessage(null);
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        setCopyMessage("Odkaz zkopírován.");
+        return;
+      }
+    } catch {
+      // Fall through to manual copy fallback.
+    }
+
+    setShowUrlFallback(true);
+  }
 
   return (
     <article className="rounded-2xl border border-foreground/15 bg-white/70 p-4 shadow-sm">
@@ -382,6 +446,15 @@ function DictationCard({
         >
           Začít diktát
         </button>
+        {shareUrl && (
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="rounded-xl border border-foreground/20 px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-foreground/5"
+          >
+            Zkopírovat odkaz
+          </button>
+        )}
         {onDelete && (
           <button
             type="button"
@@ -392,30 +465,105 @@ function DictationCard({
           </button>
         )}
       </div>
+      {copyMessage && (
+        <p className="mt-2 text-sm font-medium text-foreground/70" role="status">
+          {copyMessage}
+        </p>
+      )}
+      {showUrlFallback && shareUrl && (
+        <div className="mt-2 space-y-1">
+          <p className="text-sm text-foreground/70">
+            Odkaz se nepodařilo zkopírovat. Zkopíruj ho ručně:
+          </p>
+          <input
+            type="text"
+            readOnly
+            value={shareUrl}
+            className="w-full rounded-lg border border-foreground/20 bg-white px-2 py-1 text-sm"
+            onFocus={(event) => event.target.select()}
+          />
+        </div>
+      )}
     </article>
   );
 }
 
-export function IyDictationClient() {
-  const [setupMode, setSetupMode] = useState<SetupMode>("predefined");
-  const [phase, setPhase] = useState<Phase>("setup");
+type SessionInitialState = {
+  phase: Phase;
+  setupMode: SetupMode;
+  unknownDictationId: string | null;
+  activeDictation: IyDictation | null;
+};
+
+function getInitialSessionState(
+  dictationParam: string | null,
+  modeParam: string | null,
+): SessionInitialState {
+  if (dictationParam) {
+    const predefined = findPredefinedDictation(dictationParam);
+
+    if (!predefined) {
+      return {
+        phase: "setup",
+        setupMode: "predefined",
+        unknownDictationId: dictationParam,
+        activeDictation: null,
+      };
+    }
+
+    return {
+      phase: "practice",
+      setupMode: "predefined",
+      unknownDictationId: null,
+      activeDictation: predefined,
+    };
+  }
+
+  return {
+    phase: "setup",
+    setupMode: parseSetupMode(modeParam),
+    unknownDictationId: null,
+    activeDictation: null,
+  };
+}
+
+function IyDictationClientSession({
+  dictationParam,
+  modeParam,
+}: {
+  dictationParam: string | null;
+  modeParam: string | null;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const initialSession = getInitialSessionState(dictationParam, modeParam);
+  const { setupMode, unknownDictationId } = initialSession;
+
+  const [phase, setPhase] = useState<Phase>(initialSession.phase);
   const [activeDictation, setActiveDictation] = useState<IyDictation | null>(
-    null,
+    initialSession.activeDictation,
   );
-  const [customDictations, setCustomDictations] = useState<IyDictation[]>([]);
-  const [customDictationsLoaded, setCustomDictationsLoaded] = useState(false);
+  const [customDictations, setCustomDictations] = useState<IyDictation[]>(() =>
+    setupMode === "custom" ? loadCustomDictations() : [],
+  );
   const [form, setForm] = useState<CustomDictationForm>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
-  const [activeBlankId, setActiveBlankId] = useState<number | null>(null);
+  const [activeBlankId, setActiveBlankId] = useState<number | null>(() => {
+    if (!initialSession.activeDictation) {
+      return null;
+    }
+
+    const initialParsed = parseDictationText(initialSession.activeDictation.text);
+    return initialParsed.blanks[0]?.id ?? null;
+  });
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
-  function handleSetupModeChange(mode: SetupMode) {
-    setSetupMode(mode);
+  function syncUrl(options: { mode?: SetupMode; dictationId?: string | null }) {
+    router.replace(buildIyPageHref(pathname, options), { scroll: false });
+  }
 
-    if (mode === "custom" && !customDictationsLoaded) {
-      setCustomDictations(loadCustomDictations());
-      setCustomDictationsLoaded(true);
-    }
+  function handleSetupModeChange(mode: SetupMode) {
+    syncUrl({ mode });
   }
 
   const parsed = useMemo(() => {
@@ -450,25 +598,27 @@ export function IyDictationClient() {
 
   function persistCustomDictations(next: IyDictation[]) {
     setCustomDictations(next);
-    setCustomDictationsLoaded(true);
     saveCustomDictations(next);
   }
 
-  function startDictation(dictation: IyDictation) {
+  function startDictationInternal(dictation: IyDictation) {
     const nextParsed = parseDictationText(dictation.text);
-
-    if (nextParsed.blanks.length === 0) {
-      setActiveDictation(dictation);
-      setPhase("practice");
-      setAnswers({});
-      setActiveBlankId(null);
-      return;
-    }
 
     setActiveDictation(dictation);
     setPhase("practice");
     setAnswers({});
-    setActiveBlankId(nextParsed.blanks[0]?.id ?? null);
+    setActiveBlankId(
+      nextParsed.blanks.length > 0 ? (nextParsed.blanks[0]?.id ?? null) : null,
+    );
+  }
+
+  function startDictation(dictation: IyDictation) {
+    if (isPredefinedDictation(dictation)) {
+      syncUrl({ dictationId: dictation.id });
+      return;
+    }
+
+    startDictationInternal(dictation);
   }
 
   function handleAnswer(letter: string) {
@@ -499,16 +649,16 @@ export function IyDictationClient() {
       return;
     }
 
-    startDictation(activeDictation);
-    setPhase("practice");
+    startDictationInternal(activeDictation);
   }
 
   function handleBackToSetup() {
-    setPhase("setup");
-    setActiveDictation(null);
-    setAnswers({});
-    setActiveBlankId(null);
-    setFormError(null);
+    const returnMode: SetupMode =
+      activeDictation && isPredefinedDictation(activeDictation)
+        ? "predefined"
+        : setupMode;
+
+    syncUrl({ mode: returnMode });
   }
 
   function handleSaveCustomDictation() {
@@ -560,6 +710,24 @@ export function IyDictationClient() {
 
         <SetupModeSwitch mode={setupMode} onModeChange={handleSetupModeChange} />
 
+        {unknownDictationId && (
+          <div
+            className="rounded-2xl border border-red-200 bg-red-50/80 p-4"
+            role="alert"
+          >
+            <p className="text-sm font-medium text-red-800">
+              Tento diktát se nepodařilo najít.
+            </p>
+            <button
+              type="button"
+              onClick={() => handleSetupModeChange("predefined")}
+              className="mt-3 rounded-xl border border-foreground/20 bg-white px-4 py-2 text-sm font-medium hover:bg-foreground/5"
+            >
+              Zpět na výběr diktátu
+            </button>
+          </div>
+        )}
+
         {setupMode === "predefined" && (
           <section aria-label="Předpřipravené diktáty" className="space-y-4">
             {PREDEFINED_IY_DICTATIONS.map((dictation) => (
@@ -567,6 +735,7 @@ export function IyDictationClient() {
                 key={dictation.id}
                 dictation={dictation}
                 onStart={() => startDictation(dictation)}
+                shareUrl={getDictationShareUrl(dictation.id)}
               />
             ))}
           </section>
@@ -821,5 +990,20 @@ export function IyDictationClient() {
         </button>
       )}
     </div>
+  );
+}
+
+export function IyDictationClient() {
+  const searchParams = useSearchParams();
+  const dictationParam = searchParams.get("dictation");
+  const modeParam = searchParams.get("mode");
+  const sessionKey = dictationParam ?? modeParam ?? "default";
+
+  return (
+    <IyDictationClientSession
+      key={sessionKey}
+      dictationParam={dictationParam}
+      modeParam={modeParam}
+    />
   );
 }
