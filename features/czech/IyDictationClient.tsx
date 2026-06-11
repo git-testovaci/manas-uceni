@@ -183,11 +183,23 @@ function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
   return units;
 }
 
-const BLANK_HIT_PADDING =
-  "-mx-px -my-1 inline min-w-[0.85em] touch-manipulation border-0 border-b border-solid align-baseline px-px py-1 text-center text-inherit leading-none transition-colors";
+const BLANK_TAP =
+  "touch-manipulation align-baseline border-0 border-b border-solid leading-[inherit] transition-colors";
 
-const BLANK_RESULT_SLOT =
-  "inline min-w-[0.85em] border-0 border-b border-solid align-baseline px-px text-inherit leading-none";
+function getPracticeBlankClassName(
+  isActive: boolean,
+  chosen: string | undefined,
+): string {
+  if (isActive) {
+    return `${BLANK_TAP} inline-flex w-[1em] min-w-[0.9em] max-w-[1.05em] justify-center border-b-2 border-czech bg-czech/20 px-0 py-0.5 -my-0.5 font-medium text-czech`;
+  }
+
+  if (chosen) {
+    return `${BLANK_TAP} inline border-czech/35 bg-czech/[0.06] px-0 py-0 text-inherit font-normal`;
+  }
+
+  return `${BLANK_TAP} inline-flex w-[1em] min-w-[0.9em] max-w-[1.05em] justify-center border-b-2 border-czech/50 bg-czech/12 px-0 py-0.5 -my-0.5 text-czech/75`;
+}
 
 function DictationTextDisplay({
   tokens,
@@ -217,12 +229,12 @@ function DictationTextDisplay({
 
     if (phase === "results") {
       return (
-        <span key={key} className="inline whitespace-nowrap">
+        <span key={key} className="inline">
           <span
-            className={`${BLANK_RESULT_SLOT} ${
+            className={`${BLANK_TAP} inline px-0 py-0 ${
               isMistake
-                ? "border-red-500 bg-red-50/60 text-red-700"
-                : "border-green-600/50 bg-green-50/50 text-green-800"
+                ? "border-b-2 border-red-500 text-red-700"
+                : "border-b border-green-600/45 text-foreground"
             }`}
             aria-label={
               isMistake
@@ -233,7 +245,7 @@ function DictationTextDisplay({
             {chosen}
           </span>
           {isMistake && (
-            <span className="ml-px text-[0.65rem] font-medium text-red-700">
+            <span className="ml-px text-[0.65rem] font-medium text-red-600">
               ({token.correct.toLowerCase()})
             </span>
           )}
@@ -253,17 +265,11 @@ function DictationTextDisplay({
             ? `Místo ${token.id + 1}, zvoleno ${chosen}. Klepni pro změnu.`
             : `Místo ${token.id + 1}, zatím prázdné`
         }
-        className={`${BLANK_HIT_PADDING} ${
-          isActive
-            ? "border-b-2 border-czech bg-czech/8 font-medium text-czech"
-            : chosen
-              ? "border-foreground/35 bg-transparent text-foreground"
-              : "border-foreground/30 bg-transparent text-foreground/25"
-        }`}
+        className={getPracticeBlankClassName(isActive, chosen)}
       >
         {chosen ?? (
-          <span aria-hidden="true" className="text-[0.55em] leading-none">
-            ·
+          <span aria-hidden="true" className="text-[0.7em] leading-none">
+            …
           </span>
         )}
       </button>
