@@ -183,11 +183,11 @@ function groupTokensForDisplay(tokens: DictationToken[]): DisplayUnit[] {
   return units;
 }
 
-const BLANK_PRACTICE_BASE =
-  "inline-flex h-[1.5rem] min-w-[1.15rem] touch-manipulation items-center justify-center rounded-sm border-b px-0 align-baseline text-xs font-medium transition-colors";
+const BLANK_HIT_PADDING =
+  "-mx-px -my-1 inline min-w-[0.85em] touch-manipulation border-0 border-b border-solid align-baseline px-px py-1 text-center text-inherit leading-none transition-colors";
 
-const BLANK_RESULT_BASE =
-  "inline-flex h-[1.45rem] min-w-[1.1rem] items-center justify-center rounded-sm border-b px-0 align-baseline text-xs font-medium";
+const BLANK_RESULT_SLOT =
+  "inline min-w-[0.85em] border-0 border-b border-solid align-baseline px-px text-inherit leading-none";
 
 function DictationTextDisplay({
   tokens,
@@ -217,15 +217,12 @@ function DictationTextDisplay({
 
     if (phase === "results") {
       return (
-        <span
-          key={key}
-          className="inline-flex flex-col items-center align-baseline"
-        >
+        <span key={key} className="inline whitespace-nowrap">
           <span
-            className={`${BLANK_RESULT_BASE} ${
+            className={`${BLANK_RESULT_SLOT} ${
               isMistake
-                ? "border-red-500 bg-red-50 text-red-700"
-                : "border-green-600/50 bg-green-50 text-green-800"
+                ? "border-red-500 bg-red-50/60 text-red-700"
+                : "border-green-600/50 bg-green-50/50 text-green-800"
             }`}
             aria-label={
               isMistake
@@ -236,8 +233,8 @@ function DictationTextDisplay({
             {chosen}
           </span>
           {isMistake && (
-            <span className="mt-0.5 text-[0.65rem] font-medium leading-tight text-red-700">
-              správně: {token.correct.toLowerCase()}
+            <span className="ml-px text-[0.65rem] font-medium text-red-700">
+              ({token.correct.toLowerCase()})
             </span>
           )}
           {isCorrect && <span className="sr-only">Správně</span>}
@@ -256,15 +253,19 @@ function DictationTextDisplay({
             ? `Místo ${token.id + 1}, zvoleno ${chosen}. Klepni pro změnu.`
             : `Místo ${token.id + 1}, zatím prázdné`
         }
-        className={`${BLANK_PRACTICE_BASE} ${
+        className={`${BLANK_HIT_PADDING} ${
           isActive
-            ? "border-czech bg-czech/10 text-czech ring-1 ring-czech/35"
+            ? "border-b-2 border-czech bg-czech/8 font-medium text-czech"
             : chosen
-              ? "border-czech/40 bg-czech/5 text-foreground"
-              : "border-czech/30 bg-czech/[0.03] text-foreground/35"
+              ? "border-foreground/35 bg-transparent text-foreground"
+              : "border-foreground/30 bg-transparent text-foreground/25"
         }`}
       >
-        {chosen ?? "·"}
+        {chosen ?? (
+          <span aria-hidden="true" className="text-[0.55em] leading-none">
+            ·
+          </span>
+        )}
       </button>
     );
   }
