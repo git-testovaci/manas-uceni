@@ -10,6 +10,74 @@ const MULT_COMPACT_PRODUCT = 150;
 const MULT_COMPACT_FACTOR = 15;
 const MULT_CHUNK_PREVIEW_ROWS = 5;
 
+type ChunkOrigin = "first" | "second" | "neutral";
+
+const ORIGIN_STYLE = {
+  first: {
+    border: "border-l-math/70",
+    bg: "bg-math/5",
+    text: "text-math",
+    dot: "bg-math/80",
+  },
+  second: {
+    border: "border-l-amber-500",
+    bg: "bg-amber-50",
+    text: "text-amber-800",
+    dot: "bg-amber-500/90",
+  },
+  neutral: {
+    border: "border-l-foreground/25",
+    bg: "bg-white/60",
+    text: "text-foreground",
+    dot: "bg-math/80",
+  },
+} as const;
+
+function getChunkOrigin(
+  chunkIndex: number,
+  chunkCount: number,
+): ChunkOrigin {
+  if (chunkCount === 2) {
+    return chunkIndex === 0 ? "first" : "second";
+  }
+
+  return "neutral";
+}
+
+type BridgeToTen = {
+  gap: number;
+  remainder: number;
+  roundedFirst: number;
+};
+
+function getBridgeToTen(first: number, second: number): BridgeToTen | null {
+  if (second <= 0) {
+    return null;
+  }
+
+  const ones = first % 10;
+  if (ones === 0) {
+    return null;
+  }
+
+  const gap = 10 - ones;
+  if (gap <= 0 || gap > second) {
+    return null;
+  }
+
+  const crossesTen =
+    Math.floor((first + second) / 10) > Math.floor(first / 10);
+  if (!crossesTen) {
+    return null;
+  }
+
+  return {
+    gap,
+    remainder: second - gap,
+    roundedFirst: first + gap,
+  };
+}
+
 function exceedsRowLimit(value: number): boolean {
   return value > MAX_ROW_DOTS;
 }
@@ -100,12 +168,219 @@ function DotRow({ count, className = "" }: { count: number; className?: string }
   );
 }
 
-function DotGrid({ rows, cols }: { rows: number; cols: number }) {
+function ColoredValue({
+  value,
+  color,
+}: {
+  value: number;
+  color: "a" | "b" | "neutral";
+}) {
+  const className =
+    color === "a"
+      ? `${ORIGIN_STYLE.first.text} font-semibold`
+      : color === "b"
+        ? `${ORIGIN_STYLE.second.text} font-semibold`
+        : "font-semibold text-foreground";
+
+  return <span className={`tabular-nums ${className}`}>{value}</span>;
+}
+
+function DotRowWithRunningTotal({
+  count,
+  runningTotal,
+  dotClassName = "",
+}: {
+  count: number;
+  runningTotal: number;
+  dotClassName?: string;
+}) {
   return (
-    <div className="space-y-1" aria-hidden="true">
-      {Array.from({ length: rows }, (_, rowIndex) => (
-        <DotRow key={rowIndex} count={cols} />
-      ))}
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+      <DotRow count={count} className={dotClassName} />
+      <span className="text-xs font-semibold tabular-nums text-foreground/75">
+        → {runningTotal}
+      </span>
+    </div>
+  );
+}
+
+function DotRowsWithRunningTotals({
+  displayRows,
+  cols,
+  startRowIndex,
+  dotClassName = "",
+}: {
+  displayRows: number;
+  cols: number;
+  startRowIndex: number;
+  dotClassName?: string;
+}) {
+  return (
+    <div className="space-y-1">
+      {Array.from({ length: displayRows }, (_, index) => {
+        const globalRow = startRowIndex + index + 1;
+        return (
+          <DotRowWithRunningTotal
+            key={globalRow}
+            count={cols}
+            runningTotal={globalRow * cols}
+            dotClassName={dotClassName}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function MakeTenStrip({
+  onesDigit,
+  gap,
+}: {
+  onesDigit: number;
+  gap: number;
+}) {
+  if (onesDigit <= 0 || gap <= 0 || onesDigit + gap !== 10) {
+    return null;
+  }
+
+  return (
+    <div
+      className="flex flex-wrap items-center gap-2"
+      role="img"
+      aria-label={`Z ${onesDigit} doplníme ${gap} do desítky`}
+    >
+      <div
+        className="inline-flex gap-px rounded border border-foreground/20 p-0.5"
+        aria-hidden="true"
+      >
+        {Array.from({ length: 10 }, (_, index) => {
+          let cellClass = "bg-white";
+          if (index < onesDigit) {
+            cellClass = "bg-math/55";
+          } else if (index < onesDigit + gap) {
+            cellClass = "bg-amber-400/85";
+          }
+
+          return (
+            <span
+              key={index}
+              className={`h-3 w-3 border border-foreground/10 ${cellClass}`}
+            />
+          );
+        })}
+      </div>
+      <span className="text-xs text-foreground/70">
+        Doplníme do další desítky:{" "}
+        <span className={ORIGIN_STYLE.second.text}>{gap}</span>
+      </span>
+    </div>
+  );
+}
+
+function BridgeToTenAddition({
+  first,
+  second,
+  total,
+}: {
+  first: number;
+  second: number;
+  total: number;
+}) {
+  const bridge = getBridgeToTen(first, second);
+
+  if (!bridge) {
+    return (
+      <p className="text-sm font-semibold tabular-nums">
+        <ColoredValue value={first} color="a" /> +{" "}
+        <ColoredValue value={second} color="b" /> = {total}
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-1.5">
+      <p className="text-sm tabular-nums">
+        <ColoredValue value={first} color="a" /> +{" "}
+        <ColoredValue value={second} color="b" />
+      </p>
+      <p className="text-sm tabular-nums">
+        <ColoredValue value={second} color="b" /> rozdělíme na{" "}
+        <ColoredValue value={bridge.gap} color="b" />
+        {bridge.remainder > 0 && (
+          <>
+            {" "}
+            + <ColoredValue value={bridge.remainder} color="b" />
+          </>
+        )}
+      </p>
+      <p className="text-sm tabular-nums">
+        <ColoredValue value={first} color="a" /> +{" "}
+        <ColoredValue value={bridge.gap} color="b" /> ={" "}
+        <ColoredValue value={bridge.roundedFirst} color="neutral" />
+      </p>
+      {bridge.remainder > 0 && (
+        <p className="text-sm tabular-nums">
+          <ColoredValue value={bridge.roundedFirst} color="neutral" /> +{" "}
+          <ColoredValue value={bridge.remainder} color="b" /> = {total}
+        </p>
+      )}
+      <MakeTenStrip onesDigit={first % 10} gap={bridge.gap} />
+      {bridge.remainder === 0 && (
+        <p className="text-sm font-semibold tabular-nums">= {total}</p>
+      )}
+    </div>
+  );
+}
+
+function ChunkSubtotalAddition({ subtotals }: { subtotals: number[] }) {
+  const total = subtotals.reduce((sum, value) => sum + value, 0);
+
+  if (subtotals.length < 2) {
+    return (
+      <p className="text-sm font-semibold tabular-nums">
+        <ColoredValue value={subtotals[0] ?? total} color="neutral" /> = {total}
+      </p>
+    );
+  }
+
+  if (subtotals.length === 2) {
+    const [first, second] = subtotals;
+    const bridge = getBridgeToTen(first, second);
+
+    return (
+      <div className="space-y-1.5">
+        <p className="text-sm text-foreground/70">Sečteme části:</p>
+        {bridge ? (
+          <BridgeToTenAddition first={first} second={second} total={total} />
+        ) : (
+          <p className="text-sm font-semibold tabular-nums">
+            <ColoredValue value={first} color="a" /> +{" "}
+            <ColoredValue value={second} color="b" /> = {total}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-1.5">
+      <p className="text-sm text-foreground/70">Sečteme části:</p>
+      <ul className="space-y-0.5 text-sm tabular-nums">
+        {subtotals.map((value, index) => (
+          <li key={`${value}-${index}`}>
+            Část {index + 1}: <ColoredValue value={value} color="neutral" />
+          </li>
+        ))}
+      </ul>
+      <p className="text-sm font-semibold tabular-nums">
+        {subtotals.map((value, index) => (
+          <span key={`sum-${value}-${index}`}>
+            {index > 0 && " + "}
+            <ColoredValue value={value} color="neutral" />
+          </span>
+        ))}{" "}
+        = {total}
+      </p>
     </div>
   );
 }
@@ -232,6 +507,96 @@ function getMultiplicationVisualMode(
   return "chunked-compact";
 }
 
+function formatCzechTens(count: number): string {
+  if (count === 1) {
+    return "desítku";
+  }
+  if (count >= 2 && count <= 4) {
+    return `${count} desítky`;
+  }
+  return `${count} desítek`;
+}
+
+function formatCzechHundreds(count: number): string {
+  if (count === 1) {
+    return "stovku";
+  }
+  if (count >= 2 && count <= 4) {
+    return `${count} stovky`;
+  }
+  return `${count} stovek`;
+}
+
+function getSymbolicMultiplicationSteps(
+  rows: number,
+  cols: number,
+): string[] {
+  const product = rows * cols;
+  const steps = [`${rows} × ${cols}`];
+
+  if (cols >= 100 && cols % 100 === 0) {
+    const hundreds = cols / 100;
+    const partial = rows * hundreds;
+    steps.push(`${rows} × ${formatCzechHundreds(hundreds)}`);
+    steps.push(`${rows} × ${hundreds} = ${partial}`);
+    steps.push(`${partial} stovek = ${product}`);
+    return steps;
+  }
+
+  if (cols >= 10 && cols % 10 === 0) {
+    const tens = cols / 10;
+    const partial = rows * tens;
+    steps.push(`${rows} × ${formatCzechTens(tens)}`);
+    steps.push(`${rows} × ${tens} = ${partial}`);
+    steps.push(`${partial} desítek = ${product}`);
+    return steps;
+  }
+
+  if (rows >= 100 && rows % 100 === 0) {
+    const hundreds = rows / 100;
+    const partial = hundreds * cols;
+    steps.push(`${formatCzechHundreds(hundreds)} × ${cols}`);
+    steps.push(`${hundreds} × ${cols} = ${partial}`);
+    steps.push(`${partial} stovek = ${product}`);
+    return steps;
+  }
+
+  if (rows >= 10 && rows % 10 === 0) {
+    const tens = rows / 10;
+    const partial = tens * cols;
+    steps.push(`${formatCzechTens(tens)} × ${cols}`);
+    steps.push(`${tens} × ${cols} = ${partial}`);
+    steps.push(`${partial} desítek = ${product}`);
+    return steps;
+  }
+
+  const rowChunks = getMultiplicationChunks(rows);
+  if (rowChunks.length > 1) {
+    steps.push("Rozdělíme si to na části.");
+    const parts = rowChunks.map(
+      (chunkRows) => `${chunkRows} × ${cols} = ${chunkRows * cols}`,
+    );
+    steps.push(parts.join(", "));
+    const subtotals = rowChunks.map((chunkRows) => chunkRows * cols);
+    steps.push(`${subtotals.join(" + ")} = ${product}`);
+    return steps;
+  }
+
+  const colTens = Math.floor(cols / 10) * 10;
+  const colRest = cols - colTens;
+  if (colTens > 0 && colRest > 0) {
+    steps.push("Rozdělíme si to na části.");
+    steps.push(
+      `${rows} × ${colTens} + ${rows} × ${colRest} = ${rows * colTens} + ${rows * colRest}`,
+    );
+    steps.push(`${rows * colTens} + ${rows * colRest} = ${product}`);
+    return steps;
+  }
+
+  steps.push(`= ${product}`);
+  return steps;
+}
+
 function MultiplicationCumulativeVisual({
   rows,
   cols,
@@ -253,17 +618,14 @@ function MultiplicationCumulativeVisual({
           const runningTotal = rowNumber * cols;
 
           return (
-            <li
-              key={rowNumber}
-              className="flex flex-wrap items-center gap-x-2 gap-y-1"
-            >
-              <span className="min-w-[4.5rem] text-xs font-medium text-foreground/60">
+            <li key={rowNumber} className="space-y-0.5">
+              <span className="text-xs font-medium text-foreground/60">
                 Řádek {rowNumber}
               </span>
-              <DotRow count={cols} />
-              <span className="text-sm font-semibold tabular-nums">
-                → {runningTotal}
-              </span>
+              <DotRowWithRunningTotal
+                count={cols}
+                runningTotal={runningTotal}
+              />
             </li>
           );
         })}
@@ -279,27 +641,46 @@ function MultiplicationChunkGroup({
   chunkRows,
   cols,
   compact,
+  startRowIndex,
+  chunkIndex,
+  chunkCount,
 }: {
   chunkRows: number;
   cols: number;
   compact: boolean;
+  startRowIndex: number;
+  chunkIndex: number;
+  chunkCount: number;
 }) {
   const subtotal = chunkRows * cols;
   const displayRows = compact
     ? Math.min(chunkRows, MULT_CHUNK_PREVIEW_ROWS)
     : chunkRows;
+  const origin = getChunkOrigin(chunkIndex, chunkCount);
+  const style = ORIGIN_STYLE[origin];
+  const hiddenRows = chunkRows - displayRows;
 
   return (
-    <div className="rounded-lg border border-foreground/15 border-l-4 border-l-math/70 bg-white/60 px-2 py-2">
-      <div className="space-y-1" aria-hidden="true">
-        <DotGrid rows={displayRows} cols={cols} />
-        {compact && chunkRows > displayRows && (
+    <div
+      className={`rounded-lg border border-foreground/15 border-l-4 ${style.border} ${style.bg} px-2 py-2`}
+    >
+      <p className="mb-1 text-xs font-medium text-foreground/60">
+        Část {chunkIndex + 1}
+      </p>
+      <div className="space-y-1">
+        <DotRowsWithRunningTotals
+          displayRows={displayRows}
+          cols={cols}
+          startRowIndex={startRowIndex}
+          dotClassName={style.dot}
+        />
+        {compact && hiddenRows > 0 && (
           <p className="text-xs text-foreground/60">
-            … dalších {chunkRows - displayRows} řádků po {cols}
+            … dalších {hiddenRows} řádků po {cols} (mezisoučet {subtotal})
           </p>
         )}
       </div>
-      <p className="mt-2 text-sm font-semibold tabular-nums">
+      <p className={`mt-2 text-sm font-semibold tabular-nums ${style.text}`}>
         {chunkRows} × {cols} = {subtotal}
       </p>
     </div>
@@ -318,15 +699,16 @@ function MultiplicationChunkedVisual({
   const chunks = getMultiplicationChunks(rows);
   const subtotals = chunks.map((chunkRows) => chunkRows * cols);
   const product = rows * cols;
+  const rowOffsets = chunks.map((_, index) =>
+    chunks.slice(0, index).reduce((sum, chunkRows) => sum + chunkRows, 0),
+  );
 
   return (
     <figure className="space-y-3">
       <figcaption className="sr-only">
         {rows} krát {cols} rozděleno na části, celkem {product}
       </figcaption>
-      <p className="text-sm text-foreground/70">
-        Rozdělíme {rows} na menší části:
-      </p>
+      <p className="text-sm text-foreground/70">Rozdělíme si to na části.</p>
       <div className="flex flex-wrap items-end gap-2">
         {chunks.map((chunkRows, index) => (
           <div key={`${chunkRows}-${index}`} className="flex items-end gap-2">
@@ -342,13 +724,14 @@ function MultiplicationChunkedVisual({
               chunkRows={chunkRows}
               cols={cols}
               compact={compact}
+              startRowIndex={rowOffsets[index] ?? 0}
+              chunkIndex={index}
+              chunkCount={chunks.length}
             />
           </div>
         ))}
       </div>
-      <p className="text-sm font-semibold tabular-nums">
-        {subtotals.join(" + ")} = {product}
-      </p>
+      <ChunkSubtotalAddition subtotals={subtotals} />
     </figure>
   );
 }
@@ -361,27 +744,35 @@ function MultiplicationTextVisual({
   cols: number;
 }) {
   const product = rows * cols;
-  const chunks = getMultiplicationChunks(rows);
-  const subtotals = chunks.map((chunkRows) => chunkRows * cols);
-  const parts = chunks.map((chunkRows) => `${chunkRows} × ${cols}`);
+  const steps = getSymbolicMultiplicationSteps(rows, cols);
+  const rowChunks = getMultiplicationChunks(rows);
+  const subtotals = rowChunks.map((chunkRows) => chunkRows * cols);
+  const showBridge =
+    rowChunks.length === 2 &&
+    steps.some((step) => step.startsWith("Rozdělíme"));
 
   return (
     <figure className="space-y-2">
       <figcaption className="sr-only">
         {rows} krát {cols} je {product}
       </figcaption>
-      <p className="text-sm tabular-nums">
-        {rows} krát {cols} je {product}.
+      <p className="text-sm text-foreground/70">
+        U velkých čísel už je lepší počítat rozkladem.
       </p>
-      {chunks.length > 1 && (
-        <>
-          <p className="text-sm">
-            Můžeme to rozdělit: {parts.join(" a ")}.
-          </p>
-          <p className="text-sm font-semibold tabular-nums">
-            {subtotals.join(" + ")} = {product}.
-          </p>
-        </>
+      <ol className="space-y-1 text-sm tabular-nums">
+        {steps.map((step, index) => (
+          <li key={`${step}-${index}`}>{step}</li>
+        ))}
+      </ol>
+      {showBridge && (
+        <div className="space-y-1.5 border-t border-foreground/10 pt-2">
+          <p className="text-sm text-foreground/70">Sečteme části:</p>
+          <BridgeToTenAddition
+            first={subtotals[0] ?? 0}
+            second={subtotals[1] ?? 0}
+            total={product}
+          />
+        </div>
       )}
     </figure>
   );
