@@ -194,96 +194,8 @@ function ColoredValue({
   return <span className={`tabular-nums ${className}`}>{value}</span>;
 }
 
-function DotRowWithRunningTotal({
-  count,
-  runningTotal,
-  dotClassName = "",
-}: {
-  count: number;
-  runningTotal: number;
-  dotClassName?: string;
-}) {
-  return (
-    <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-      <DotRow count={count} className={dotClassName} />
-      <span className="text-xs font-semibold tabular-nums text-foreground/75">
-        → {runningTotal}
-      </span>
-    </div>
-  );
-}
-
-function DotRowsWithRunningTotals({
-  displayRows,
-  cols,
-  startRowIndex,
-  dotClassName = "",
-}: {
-  displayRows: number;
-  cols: number;
-  startRowIndex: number;
-  dotClassName?: string;
-}) {
-  return (
-    <div className="space-y-1">
-      {Array.from({ length: displayRows }, (_, index) => {
-        const globalRow = startRowIndex + index + 1;
-        return (
-          <DotRowWithRunningTotal
-            key={globalRow}
-            count={cols}
-            runningTotal={globalRow * cols}
-            dotClassName={dotClassName}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-function MakeTenStrip({
-  onesDigit,
-  gap,
-}: {
-  onesDigit: number;
-  gap: number;
-}) {
-  if (onesDigit <= 0 || gap <= 0 || onesDigit + gap !== 10) {
-    return null;
-  }
-
-  return (
-    <div
-      className="flex flex-wrap items-center gap-2"
-      role="img"
-      aria-label={`Z ${onesDigit} doplníme ${gap} do desítky`}
-    >
-      <div
-        className="inline-flex gap-px rounded border border-foreground/20 p-0.5"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 10 }, (_, index) => {
-          let cellClass = "bg-white";
-          if (index < onesDigit) {
-            cellClass = "bg-math/55";
-          } else if (index < onesDigit + gap) {
-            cellClass = "bg-amber-400/85";
-          }
-
-          return (
-            <span
-              key={index}
-              className={`h-3 w-3 border border-foreground/10 ${cellClass}`}
-            />
-          );
-        })}
-      </div>
-      <span className="text-xs text-foreground/70">
-        Doplníme do další desítky:{" "}
-        <span className={ORIGIN_STYLE.second.text}>{gap}</span>
-      </span>
-    </div>
-  );
+function getGroupCellColor(groupIndex: number): string {
+  return GROUP_CELL_COLORS[groupIndex % GROUP_CELL_COLORS.length];
 }
 
 function BridgeToTenAddition({
@@ -307,13 +219,13 @@ function BridgeToTenAddition({
   }
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       <p className="text-sm tabular-nums">
         <ColoredValue value={first} color="a" /> +{" "}
         <ColoredValue value={second} color="b" />
       </p>
       <p className="text-sm tabular-nums">
-        <ColoredValue value={second} color="b" /> rozdělíme na{" "}
+        <ColoredValue value={first} color="a" /> +{" "}
         <ColoredValue value={bridge.gap} color="b" />
         {bridge.remainder > 0 && (
           <>
@@ -323,20 +235,15 @@ function BridgeToTenAddition({
         )}
       </p>
       <p className="text-sm tabular-nums">
-        <ColoredValue value={first} color="a" /> +{" "}
-        <ColoredValue value={bridge.gap} color="b" /> ={" "}
         <ColoredValue value={bridge.roundedFirst} color="neutral" />
+        {bridge.remainder > 0 && (
+          <>
+            {" "}
+            + <ColoredValue value={bridge.remainder} color="b" />
+          </>
+        )}
       </p>
-      {bridge.remainder > 0 && (
-        <p className="text-sm tabular-nums">
-          <ColoredValue value={bridge.roundedFirst} color="neutral" /> +{" "}
-          <ColoredValue value={bridge.remainder} color="b" /> = {total}
-        </p>
-      )}
-      <MakeTenStrip onesDigit={first % 10} gap={bridge.gap} />
-      {bridge.remainder === 0 && (
-        <p className="text-sm font-semibold tabular-nums">= {total}</p>
-      )}
+      <p className="text-sm font-semibold tabular-nums">= {total}</p>
     </div>
   );
 }
@@ -449,11 +356,34 @@ function SubtractionVisual({ a, b }: { a: number; b: number }) {
   );
 }
 
-type MultiplicationVisualMode =
-  | "cumulative"
-  | "chunked"
-  | "chunked-compact"
-  | "text";
+type MultiplicationVisualMode = "board" | "text";
+
+type BoardCell = {
+  groupIndex: number;
+  groupLabel: string;
+  isGroupEnd: boolean;
+  runningTotal: number;
+};
+
+function buildBoardCells(rows: number, cols: number): BoardCell[] {
+  const cells: BoardCell[] = [];
+
+  for (let groupIndex = 0; groupIndex < rows; groupIndex += 1) {
+    const groupLabel = `Skupina ${groupIndex + 1}`;
+    const runningTotal = (groupIndex + 1) * cols;
+
+    for (let position = 0; position < cols; position += 1) {
+      cells.push({
+        groupIndex,
+        groupLabel,
+        isGroupEnd: position === cols - 1,
+        runningTotal,
+      });
+    }
+  }
+
+  return cells;
+}
 
 function getMultiplicationChunks(total: number): number[] {
   if (total <= 5) {
@@ -490,30 +420,18 @@ function getMultiplicationVisualMode(
   product: number,
 ): MultiplicationVisualMode {
   if (
-    product > MULT_COMPACT_PRODUCT ||
-    rows > MULT_COMPACT_FACTOR ||
-    cols > MULT_COMPACT_FACTOR
+    product > MULT_TEXT_PRODUCT ||
+    rows > MULT_TEXT_FACTOR ||
+    cols > MULT_TEXT_FACTOR
   ) {
     return "text";
   }
 
-  if (
-    rows <= MULT_SMALL_MAX_ROWS &&
-    cols <= MULT_SMALL_MAX_COLS &&
-    product <= MULT_SMALL_MAX_PRODUCT
-  ) {
-    return "cumulative";
+  if (product > MULT_BOARD_MAX_PRODUCT) {
+    return "text";
   }
 
-  if (
-    product <= MAX_DOTS &&
-    rows <= MAX_ROW_DOTS &&
-    cols <= MAX_ROW_DOTS
-  ) {
-    return "chunked";
-  }
-
-  return "chunked-compact";
+  return "board";
 }
 
 function formatCzechTens(count: number): string {
@@ -606,141 +524,112 @@ function getSymbolicMultiplicationSteps(
   return steps;
 }
 
-function MultiplicationCumulativeVisual({
+function MultiplicationCumulativeBoard({
   rows,
   cols,
 }: {
   rows: number;
   cols: number;
 }) {
-  const product = rows * cols;
+  const cells = buildBoardCells(rows, cols);
+  const runningTotals = Array.from({ length: rows }, (_, index) => (index + 1) * cols);
 
   return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        {rows} řádků po {cols}, postupně {cols}, {cols * 2}, až {product}
-      </figcaption>
-      <p className="text-sm text-foreground/70">Každý řádek přidá {cols}:</p>
-      <ol className="space-y-2">
-        {Array.from({ length: rows }, (_, index) => {
-          const rowNumber = index + 1;
-          const runningTotal = rowNumber * cols;
+    <div className="space-y-2">
+      <p className="text-sm text-foreground/70">
+        {rows} skupin po {cols} — v posledním políčku každé skupiny je mezisoučet.
+      </p>
+      <div
+        className="grid max-w-full gap-0.5"
+        style={{ gridTemplateColumns: `repeat(${BOARD_COLUMNS}, minmax(0, 1fr))` }}
+        role="img"
+        aria-label={`${rows} skupin po ${cols}, mezisoučty ${runningTotals.join(", ")}`}
+      >
+        {cells.map((cell, index) => {
+          const colorClass = getGroupCellColor(cell.groupIndex);
 
           return (
-            <li key={rowNumber} className="space-y-0.5">
-              <span className="text-xs font-medium text-foreground/60">
-                Řádek {rowNumber}
-              </span>
-              <DotRowWithRunningTotal
-                count={cols}
-                runningTotal={runningTotal}
-              />
-            </li>
+            <div
+              key={`${cell.groupIndex}-${index}`}
+              title={cell.groupLabel}
+              className={`flex h-7 min-w-0 items-center justify-center rounded-sm border text-[0.7rem] font-semibold leading-none tabular-nums sm:text-xs ${colorClass} ${
+                cell.isGroupEnd ? "text-foreground" : "text-foreground/25"
+              }`}
+              aria-hidden={!cell.isGroupEnd}
+            >
+              {cell.isGroupEnd ? cell.runningTotal : "·"}
+            </div>
           );
         })}
-      </ol>
-      <p className="text-sm font-medium tabular-nums">
-        Celkem {rows} × {cols} = {product}
-      </p>
-    </figure>
-  );
-}
-
-function MultiplicationChunkGroup({
-  chunkRows,
-  cols,
-  compact,
-  startRowIndex,
-  chunkIndex,
-  chunkCount,
-}: {
-  chunkRows: number;
-  cols: number;
-  compact: boolean;
-  startRowIndex: number;
-  chunkIndex: number;
-  chunkCount: number;
-}) {
-  const subtotal = chunkRows * cols;
-  const displayRows = compact
-    ? Math.min(chunkRows, MULT_CHUNK_PREVIEW_ROWS)
-    : chunkRows;
-  const origin = getChunkOrigin(chunkIndex, chunkCount);
-  const style = ORIGIN_STYLE[origin];
-  const hiddenRows = chunkRows - displayRows;
-
-  return (
-    <div
-      className={`rounded-lg border border-foreground/15 border-l-4 ${style.border} ${style.bg} px-2 py-2`}
-    >
-      <p className="mb-1 text-xs font-medium text-foreground/60">
-        Část {chunkIndex + 1}
-      </p>
-      <div className="space-y-1">
-        <DotRowsWithRunningTotals
-          displayRows={displayRows}
-          cols={cols}
-          startRowIndex={startRowIndex}
-          dotClassName={style.dot}
-        />
-        {compact && hiddenRows > 0 && (
-          <p className="text-xs text-foreground/60">
-            … dalších {hiddenRows} řádků po {cols} (mezisoučet {subtotal})
-          </p>
-        )}
       </div>
-      <p className={`mt-2 text-sm font-semibold tabular-nums ${style.text}`}>
-        {chunkRows} × {cols} = {subtotal}
+      <p className="text-xs text-foreground/60">
+        Mezisoučty: {runningTotals.join(", ")}
       </p>
     </div>
   );
 }
 
-function MultiplicationChunkedVisual({
+function MultiplicationChunkSteps({
   rows,
   cols,
-  compact,
 }: {
   rows: number;
   cols: number;
-  compact: boolean;
 }) {
   const chunks = getMultiplicationChunks(rows);
   const subtotals = chunks.map((chunkRows) => chunkRows * cols);
   const product = rows * cols;
-  const rowOffsets = chunks.map((_, index) =>
-    chunks.slice(0, index).reduce((sum, chunkRows) => sum + chunkRows, 0),
+
+  if (chunks.length < 2) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-2 border-t border-foreground/10 pt-3">
+      <p className="text-sm text-foreground/70">Rozdělíme si to na části:</p>
+      <ul className="space-y-1 text-sm tabular-nums">
+        {chunks.map((chunkRows, index) => {
+          const origin = getChunkOrigin(index, chunks.length);
+          const style = ORIGIN_STYLE[origin];
+
+          return (
+            <li key={`${chunkRows}-${index}`}>
+              <span className={style.text}>
+                {chunkRows} × {cols} = {subtotals[index]}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <ChunkSubtotalAddition subtotals={subtotals} />
+      <p className="text-sm font-medium tabular-nums">
+        Celkem {rows} × {cols} = {product}
+      </p>
+    </div>
   );
+}
+
+function MultiplicationBoardVisual({
+  rows,
+  cols,
+}: {
+  rows: number;
+  cols: number;
+}) {
+  const product = rows * cols;
 
   return (
     <figure className="space-y-3">
       <figcaption className="sr-only">
-        {rows} krát {cols} rozděleno na části, celkem {product}
+        {rows} krát {cols}, postupně {cols}, {cols * 2}, až {product}
       </figcaption>
-      <p className="text-sm text-foreground/70">Rozdělíme si to na části.</p>
-      <div className="flex flex-wrap items-end gap-2">
-        {chunks.map((chunkRows, index) => (
-          <div key={`${chunkRows}-${index}`} className="flex items-end gap-2">
-            {index > 0 && (
-              <span
-                className="pb-6 text-lg font-semibold text-foreground/80"
-                aria-hidden="true"
-              >
-                +
-              </span>
-            )}
-            <MultiplicationChunkGroup
-              chunkRows={chunkRows}
-              cols={cols}
-              compact={compact}
-              startRowIndex={rowOffsets[index] ?? 0}
-              chunkIndex={index}
-              chunkCount={chunks.length}
-            />
-          </div>
-        ))}
-      </div>
-      <ChunkSubtotalAddition subtotals={subtotals} />
+      <MultiplicationCumulativeBoard rows={rows} cols={cols} />
+      <MultiplicationChunkSteps rows={rows} cols={cols} />
+      {getMultiplicationChunks(rows).length < 2 && (
+        <p className="text-sm font-medium tabular-nums">
+          Celkem {rows} × {cols} = {product}
+        </p>
+      )}
     </figure>
   );
 }
@@ -802,16 +691,8 @@ function MultiplicationVisual({
   const mode = getMultiplicationVisualMode(rows, cols, product);
 
   switch (mode) {
-    case "cumulative":
-      return <MultiplicationCumulativeVisual rows={rows} cols={cols} />;
-    case "chunked":
-      return (
-        <MultiplicationChunkedVisual rows={rows} cols={cols} compact={false} />
-      );
-    case "chunked-compact":
-      return (
-        <MultiplicationChunkedVisual rows={rows} cols={cols} compact={true} />
-      );
+    case "board":
+      return <MultiplicationBoardVisual rows={rows} cols={cols} />;
     case "text":
       return <MultiplicationTextVisual rows={rows} cols={cols} />;
   }
