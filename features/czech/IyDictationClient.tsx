@@ -316,7 +316,7 @@ function DictationTextDisplay({
   }
 
   return (
-    <p className="text-[19px] leading-[1.65]">
+    <p className="text-[22px] leading-[1.65]">
       {units.map((unit, unitIndex) => {
         if (unit.type === "space") {
           return (
