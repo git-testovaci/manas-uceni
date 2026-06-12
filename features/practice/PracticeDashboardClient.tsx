@@ -66,16 +66,8 @@ function loadReviewStates(): ReviewState[] {
   }
 }
 
-function isWeakSpot(state: ReviewState): boolean {
-  if (state.status === "mastered") {
-    return true;
-  }
-
-  if (state.wrongCount > 0) {
-    return true;
-  }
-
-  return state.status === "weak" || state.status === "improving";
+function isRealWeakSpot(state: ReviewState): boolean {
+  return typeof state.wrongCount === "number" && state.wrongCount > 0;
 }
 
 function parseMathExerciseDisplay(itemId: string): string | null {
@@ -149,16 +141,18 @@ function getReviewStatusLabel(state: ReviewState): string | null {
   return null;
 }
 
-function getMasteredIndicator(state: ReviewState): string | null {
-  if (state.status !== "mastered") {
-    return null;
+function buildWeakSpotStatsLine(state: ReviewState): string {
+  const parts: string[] = [`Chyby ${state.wrongCount}×`];
+
+  if (state.correctCount > 0) {
+    parts.push(`Správně ${state.correctCount}×`);
   }
 
-  if (state.streak >= 10) {
-    return `${state.streak}× správně v řadě`;
+  if (state.streak > 0) {
+    parts.push(`Série ${state.streak}×`);
   }
 
-  return "Zvládnuté";
+  return parts.join(" · ");
 }
 
 function compareWeakSpots(a: ReviewState, b: ReviewState): number {
@@ -189,7 +183,7 @@ type SubjectStats = {
 };
 
 function computeSubjectStats(states: ReviewState[]): SubjectStats {
-  const weakSpots = states.filter(isWeakSpot);
+  const weakSpots = states.filter(isRealWeakSpot);
 
   if (weakSpots.length === 0) {
     return {
@@ -278,79 +272,59 @@ function StatCard({ label, value }: StatCardProps) {
 
 type WeakSpotCardProps = {
   state: ReviewState;
-  subjectLabel: string;
   exerciseDisplay: string | null;
   topicLabel: string | null;
   statusLabel: string | null;
-  masteredIndicator: string | null;
   onRemove?: () => void;
 };
 
 function WeakSpotCard({
   state,
-  subjectLabel,
   exerciseDisplay,
   topicLabel,
   statusLabel,
-  masteredIndicator,
   onRemove,
 }: WeakSpotCardProps) {
   return (
-    <article className="rounded-2xl border border-foreground/15 bg-white/70 p-4">
-      <div className="space-y-2">
-        <p className="text-lg font-semibold leading-snug">
-          {exerciseDisplay ?? state.itemId}
-        </p>
-        <p className="text-sm font-medium text-foreground/60">{subjectLabel}</p>
-        {topicLabel && (
-          <p className="text-sm text-foreground/70">{topicLabel}</p>
+    <article className="rounded-xl border border-foreground/15 bg-white/70 px-3 py-2.5">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <p className="text-base font-semibold leading-snug">
+              {exerciseDisplay ?? state.itemId}
+            </p>
+            {topicLabel && (
+              <span className="text-xs font-medium text-foreground/55">
+                {topicLabel}
+              </span>
+            )}
+          </div>
+          <p className="mt-1 text-xs tabular-nums text-foreground/70">
+            {buildWeakSpotStatsLine(state)}
+          </p>
+        </div>
+        {statusLabel && (
+          <span
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[0.7rem] font-semibold leading-tight ${
+              state.status === "mastered"
+                ? "bg-green-100 text-green-800"
+                : "bg-orange-100 text-orange-900"
+            }`}
+          >
+            {statusLabel}
+          </span>
         )}
       </div>
-
-      <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-        {state.wrongCount > 0 && (
-          <div>
-            <dt className="text-foreground/60">Chybně</dt>
-            <dd className="font-semibold tabular-nums">{state.wrongCount}×</dd>
-          </div>
-        )}
-        {state.correctCount > 0 && (
-          <div>
-            <dt className="text-foreground/60">Správně</dt>
-            <dd className="font-semibold tabular-nums">{state.correctCount}×</dd>
-          </div>
-        )}
-        {state.streak > 0 && (
-          <div>
-            <dt className="text-foreground/60">Správně v řadě</dt>
-            <dd className="font-semibold tabular-nums">{state.streak}×</dd>
-          </div>
-        )}
-      </dl>
-
-      {(statusLabel || masteredIndicator) && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {masteredIndicator && (
-            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-              {masteredIndicator}
-            </span>
-          )}
-          {statusLabel && state.status !== "mastered" && (
-            <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-900">
-              {statusLabel}
-            </span>
-          )}
-        </div>
-      )}
-
       {onRemove && (
-        <button
-          type="button"
-          onClick={onRemove}
-          className="mt-4 min-h-10 w-full rounded-xl border border-foreground/20 px-4 py-2 text-sm font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-        >
-          Odebrat ze slabých míst
-        </button>
+        <div className="mt-2 flex justify-end">
+          <button
+            type="button"
+            onClick={onRemove}
+            className="min-h-8 rounded-lg border border-foreground/20 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+          >
+            Odebrat ze slabých míst
+          </button>
+        </div>
       )}
     </article>
   );
@@ -395,7 +369,7 @@ export function PracticeDashboardClient() {
     () =>
       reviewStates
         .filter((state) => state.subject === "math")
-        .filter(isWeakSpot)
+        .filter(isRealWeakSpot)
         .sort(compareWeakSpots),
     [reviewStates],
   );
@@ -404,7 +378,7 @@ export function PracticeDashboardClient() {
     () =>
       reviewStates
         .filter((state) => state.subject === "czech")
-        .filter(isWeakSpot),
+        .filter(isRealWeakSpot),
     [reviewStates],
   );
 
@@ -491,16 +465,14 @@ export function PracticeDashboardClient() {
               Zatím tu nejsou žádná slabá místa z matematiky.
             </p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {mathWeakSpots.map((state) => (
                 <WeakSpotCard
                   key={state.itemId}
                   state={state}
-                  subjectLabel="Matematika"
                   exerciseDisplay={parseMathExerciseDisplay(state.itemId)}
                   topicLabel={getMathTopicLabel(state.topic)}
                   statusLabel={getReviewStatusLabel(state)}
-                  masteredIndicator={getMasteredIndicator(state)}
                   onRemove={
                     state.status === "mastered"
                       ? () => handleRemoveWeakSpot(state.itemId)
@@ -521,16 +493,14 @@ export function PracticeDashboardClient() {
               Slabá místa z češtiny zatím sbíráme až v další verzi.
             </p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {czechWeakSpots.map((state) => (
                 <WeakSpotCard
                   key={state.itemId}
                   state={state}
-                  subjectLabel="Český jazyk"
                   exerciseDisplay={null}
                   topicLabel={null}
                   statusLabel={getReviewStatusLabel(state)}
-                  masteredIndicator={getMasteredIndicator(state)}
                   onRemove={
                     state.status === "mastered"
                       ? () => handleRemoveWeakSpot(state.itemId)
