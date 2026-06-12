@@ -2,7 +2,7 @@
 
 import { PREDEFINED_IY_DICTATIONS, type IyDictation } from "@/data/czech";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const IY_LETTERS = ["i", "í", "y", "ý"] as const;
 const IY_PATTERN = /[iíyýIÍYÝ]/g;
@@ -42,6 +42,45 @@ const EMPTY_FORM: CustomDictationForm = {
   exercise: "",
   text: "",
 };
+
+const MOBILE_MAX_WIDTH_PX = 767;
+const WORKING_ZONE_RATIO = 0.4;
+const WORKING_ZONE_TOLERANCE_PX = 28;
+const FAR_ABOVE_THRESHOLD_PX = 96;
+
+function isMobileViewport(): boolean {
+  return typeof window !== "undefined" && window.innerWidth <= MOBILE_MAX_WIDTH_PX;
+}
+
+function contentFitsViewport(stickyPanel: HTMLElement | null): boolean {
+  const stickyHeight = stickyPanel?.getBoundingClientRect().height ?? 0;
+  return document.documentElement.scrollHeight <= window.innerHeight + stickyHeight + 8;
+}
+
+function scrollBlankIntoWorkingZone(
+  blankElement: HTMLElement,
+  stickyPanel: HTMLElement | null,
+  gentle: boolean,
+): void {
+  const stickyHeight = stickyPanel?.getBoundingClientRect().height ?? 0;
+  const availableHeight = window.innerHeight - stickyHeight;
+  const targetCenterY = availableHeight * WORKING_ZONE_RATIO;
+  const rect = blankElement.getBoundingClientRect();
+  const blankCenterY = rect.top + rect.height / 2;
+  const delta = blankCenterY - targetCenterY;
+
+  if (Math.abs(delta) <= WORKING_ZONE_TOLERANCE_PX) {
+    return;
+  }
+
+  if (delta < 0) {
+    if (gentle || Math.abs(delta) < FAR_ABOVE_THRESHOLD_PX) {
+      return;
+    }
+  }
+
+  window.scrollBy({ top: delta, behavior: "smooth" });
+}
 
 function parseDictationText(text: string): ParsedDictation {
   const tokens: DictationToken[] = [];
@@ -247,6 +286,7 @@ function DictationTextDisplay({
   activeBlankId,
   evaluation,
   onBlankSelect,
+  blankRefs,
 }: {
   tokens: DictationToken[];
   phase: Phase;
@@ -254,6 +294,7 @@ function DictationTextDisplay({
   activeBlankId: number | null;
   evaluation: { mistakeIds: Set<number> } | null;
   onBlankSelect: (blankId: number) => void;
+  blankRefs: React.MutableRefObject<Map<number, HTMLButtonElement>>;
 }) {
   const units = groupTokensForDisplay(tokens);
 
@@ -296,6 +337,13 @@ function DictationTextDisplay({
     return (
       <button
         key={key}
+        ref={(element) => {
+          if (element) {
+            blankRefs.current.set(token.id, element);
+          } else {
+            blankRefs.current.delete(token.id);
+          }
+        }}
         type="button"
         onClick={() => onBlankSelect(token.id)}
         aria-current={isActive ? "true" : undefined}
@@ -341,6 +389,66 @@ function DictationTextDisplay({
         );
       })}
     </p>
+  );
+}
+
+function PracticeAnswerControls({
+  panelRef,
+  activeBlankId,
+  blankCount,
+  answeredCount,
+  allAnswered,
+  onAnswer,
+  onEvaluate,
+}: {
+  panelRef: React.RefObject<HTMLElement | null>;
+  activeBlankId: number | null;
+  blankCount: number;
+  answeredCount: number;
+  allAnswered: boolean;
+  onAnswer: (letter: string) => void;
+  onEvaluate: () => void;
+}) {
+  return (
+    <section
+      ref={panelRef}
+      aria-label="Výběr písmene"
+      className="max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:z-20 max-md:border-t max-md:border-foreground/10 max-md:bg-background/95 max-md:px-4 max-md:pb-[max(0.75rem,env(safe-area-inset-bottom))] max-md:pt-3 max-md:shadow-[0_-4px_16px_rgba(0,0,0,0.06)] max-md:backdrop-blur-sm md:static md:border-0 md:bg-transparent md:px-0 md:pb-0 md:pt-0 md:shadow-none"
+    >
+      <div className="mx-auto w-full max-w-lg space-y-3">
+        <p className="text-sm font-medium text-foreground/70">
+          Vyber správné písmenko
+          {activeBlankId !== null && (
+            <span className="block text-xs font-normal text-foreground/60 sm:inline sm:pl-2">
+              Místo {activeBlankId + 1} z {blankCount} · Vyplněno {answeredCount}{" "}
+              z {blankCount}
+            </span>
+          )}
+        </p>
+        <div className="grid grid-cols-4 gap-2">
+          {IY_LETTERS.map((letter) => (
+            <button
+              key={letter}
+              type="button"
+              onClick={() => onAnswer(letter)}
+              disabled={activeBlankId === null}
+              className="min-h-12 rounded-2xl border border-foreground/20 bg-white text-xl font-semibold transition-colors hover:bg-czech/10 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+        {allAnswered && (
+          <button
+            type="button"
+            onClick={onEvaluate}
+            className="w-full rounded-2xl bg-czech px-4 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Vyhodnotit
+          </button>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -557,6 +665,10 @@ function IyDictationClientSession({
     return initialParsed.blanks[0]?.id ?? null;
   });
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const blankRefs = useRef(new Map<number, HTMLButtonElement>());
+  const stickyControlsRef = useRef<HTMLElement | null>(null);
+  const prevActiveBlankIdRef = useRef<number | null>(activeBlankId);
+  const scrollOnActiveChangeRef = useRef<"answer" | "manual" | null>(null);
 
   function syncUrl(options: { mode?: SetupMode; dictationId?: string | null }) {
     router.replace(buildIyPageHref(pathname, options), { scroll: false });
@@ -621,6 +733,11 @@ function IyDictationClientSession({
     startDictationInternal(dictation);
   }
 
+  function handleBlankSelect(blankId: number) {
+    scrollOnActiveChangeRef.current = "manual";
+    setActiveBlankId(blankId);
+  }
+
   function handleAnswer(letter: string) {
     if (phase !== "practice" || activeBlankId === null || !parsed) {
       return;
@@ -632,8 +749,49 @@ function IyDictationClientSession({
     const nextUnanswered = parsed.blanks.find(
       (blank) => nextAnswers[blank.id] === undefined,
     );
+    scrollOnActiveChangeRef.current = "answer";
     setActiveBlankId(nextUnanswered?.id ?? null);
   }
+
+  useEffect(() => {
+    if (phase !== "practice" || activeBlankId === null) {
+      prevActiveBlankIdRef.current = activeBlankId;
+      return;
+    }
+
+    if (activeBlankId === prevActiveBlankIdRef.current) {
+      return;
+    }
+
+    const scrollCause = scrollOnActiveChangeRef.current ?? "answer";
+    scrollOnActiveChangeRef.current = null;
+    prevActiveBlankIdRef.current = activeBlankId;
+
+    if (!isMobileViewport()) {
+      return;
+    }
+
+    const blankElement = blankRefs.current.get(activeBlankId);
+    if (!blankElement) {
+      return;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      if (contentFitsViewport(stickyControlsRef.current)) {
+        return;
+      }
+
+      scrollBlankIntoWorkingZone(
+        blankElement,
+        stickyControlsRef.current,
+        scrollCause === "manual",
+      );
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [activeBlankId, phase]);
 
   function handleEvaluate() {
     if (!allAnswered) {
@@ -876,7 +1034,9 @@ function IyDictationClientSession({
   }
 
   return (
-    <div className="space-y-6">
+    <div
+      className={`space-y-6 ${phase === "practice" ? "max-md:pb-[calc(12rem+env(safe-area-inset-bottom))]" : ""}`}
+    >
       <header>
         <h1 className="text-2xl font-bold sm:text-3xl">
           {activeDictation.title}
@@ -898,47 +1058,21 @@ function IyDictationClientSession({
           answers={answers}
           activeBlankId={activeBlankId}
           evaluation={evaluation}
-          onBlankSelect={setActiveBlankId}
+          onBlankSelect={handleBlankSelect}
+          blankRefs={blankRefs}
         />
       </section>
 
       {phase === "practice" && (
-        <section aria-label="Výběr písmene" className="space-y-3">
-          <p className="text-sm font-medium text-foreground/70">
-            Vyber správné písmenko
-            {activeBlankId !== null && (
-              <span className="text-foreground/50">
-                {" "}
-                (místo {activeBlankId + 1} z {blankCount})
-              </span>
-            )}
-          </p>
-          <div className="grid grid-cols-4 gap-2">
-            {IY_LETTERS.map((letter) => (
-              <button
-                key={letter}
-                type="button"
-                onClick={() => handleAnswer(letter)}
-                disabled={activeBlankId === null}
-                className="min-h-12 rounded-2xl border border-foreground/20 bg-white text-xl font-semibold transition-colors hover:bg-czech/10 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {letter}
-              </button>
-            ))}
-          </div>
-          <p className="text-sm text-foreground/60">
-            Vyplněno {answeredCount} z {blankCount}
-          </p>
-          {allAnswered && (
-            <button
-              type="button"
-              onClick={handleEvaluate}
-              className="w-full rounded-2xl bg-czech px-4 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
-            >
-              Vyhodnotit
-            </button>
-          )}
-        </section>
+        <PracticeAnswerControls
+          panelRef={stickyControlsRef}
+          activeBlankId={activeBlankId}
+          blankCount={blankCount}
+          answeredCount={answeredCount}
+          allAnswered={allAnswered}
+          onAnswer={handleAnswer}
+          onEvaluate={handleEvaluate}
+        />
       )}
 
       {phase === "results" && evaluation && (
