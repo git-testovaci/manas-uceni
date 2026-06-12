@@ -112,6 +112,32 @@ const MIN_QUESTION_COUNT = 1;
 const MIN_RANGE_VALUE = 1;
 const DEFAULT_QUESTION_COUNT = 10;
 
+type ActiveTopicPresets = Partial<Record<MathTopic, MathPracticePresetId>>;
+
+const CONFIG_KEY_TO_TOPIC: Partial<
+  Record<keyof MathTopicConfigs, MathTopic>
+> = {
+  addition: "addition",
+  subtraction: "subtraction",
+  multiplication: "multiplication",
+  division: "division",
+  divisionRemainder: "division-remainder",
+};
+
+function buildActiveTopicPresetsFromGrade(
+  gradePreset: CustomMathGradePreset,
+): ActiveTopicPresets {
+  const presets: ActiveTopicPresets = {};
+
+  for (const [gradeTopic, presetId] of Object.entries(
+    gradePreset.recommendedPresets,
+  ) as [CustomMathGradeTopic, MathPracticePresetId][]) {
+    presets[gradeTopic] = presetId;
+  }
+
+  return presets;
+}
+
 function isEditableNumericInput(value: string): boolean {
   return value === "" || /^\d+$/.test(value);
 }
@@ -816,6 +842,10 @@ export function MathPracticeClient() {
     }
     return formStateFromConfig(getMathPracticeConfig());
   });
+  const [activeTopicPresets, setActiveTopicPresets] =
+    useState<ActiveTopicPresets>({});
+  const [activeGradePreset, setActiveGradePreset] =
+    useState<SchoolGrade | null>(null);
   const formStateRef = useRef(formState);
 
   useEffect(() => {
@@ -876,7 +906,31 @@ export function MathPracticeClient() {
     null,
   );
 
+  const clearActiveGradePreset = () => {
+    setActiveGradePreset(null);
+  };
+
+  const clearActiveTopicPreset = (topic: MathTopic) => {
+    setActiveTopicPresets((current) => {
+      if (!current[topic]) {
+        return current;
+      }
+
+      const next = { ...current };
+      delete next[topic];
+      return next;
+    });
+  };
+
+  const markTopicConfigManualChange = (topic: MathTopic) => {
+    clearActiveTopicPreset(topic);
+    clearActiveGradePreset();
+  };
+
   const toggleTopic = (topic: MathTopic) => {
+    clearActiveGradePreset();
+    clearActiveTopicPreset(topic);
+
     const current = formStateRef.current;
     const nextFormState = current.enabledTopics.includes(topic)
       ? {
@@ -901,6 +955,8 @@ export function MathPracticeClient() {
   };
 
   const handleGridLastDeselected = (topic: GridTopic) => {
+    markTopicConfigManualChange(topic);
+
     const { formState: nextFormState, configError } = applyGridLastDeselected(
       formStateRef.current,
       topic,
@@ -1005,6 +1061,45 @@ export function MathPracticeClient() {
         current === NO_TOPICS_ERROR ? null : current,
       );
     }
+  };
+
+  const updateTopicConfig = <K extends keyof MathTopicConfigs>(
+    key: K,
+    updater: (
+      current: NonNullable<MathTopicConfigs[K]>,
+    ) => NonNullable<MathTopicConfigs[K]>,
+  ) => {
+    const topic = CONFIG_KEY_TO_TOPIC[key];
+    if (topic) {
+      markTopicConfigManualChange(topic);
+    }
+
+    applyFormStateChange((latest) => {
+      const current = latest.topicConfigs[key];
+      if (!current) {
+        return latest;
+      }
+
+      return {
+        ...latest,
+        topicConfigs: {
+          ...latest.topicConfigs,
+          [key]: updater(current),
+        },
+      };
+    });
+  };
+
+  const setAdvanced = (topic: MathTopic, enabled: boolean) => {
+    markTopicConfigManualChange(topic);
+
+    applyFormStateChange((latest) => ({
+      ...latest,
+      advanced: {
+        ...latest.advanced,
+        [topic]: enabled,
+      },
+    }));
   };
 
   const clearAnswerInputs = () => {
@@ -1115,6 +1210,11 @@ export function MathPracticeClient() {
         addition: nextConfig,
       },
     });
+    setActiveTopicPresets((currentPresets) => ({
+      ...currentPresets,
+      addition: presetId,
+    }));
+    clearActiveGradePreset();
   };
 
   const handleApplySubtractionPreset = (presetId: MathPracticePresetId) => {
@@ -1137,6 +1237,11 @@ export function MathPracticeClient() {
         subtraction: nextConfig,
       },
     });
+    setActiveTopicPresets((currentPresets) => ({
+      ...currentPresets,
+      subtraction: presetId,
+    }));
+    clearActiveGradePreset();
   };
 
   const handleApplyDivisionPreset = (presetId: MathPracticePresetId) => {
@@ -1159,6 +1264,11 @@ export function MathPracticeClient() {
         division: nextConfig,
       },
     });
+    setActiveTopicPresets((currentPresets) => ({
+      ...currentPresets,
+      division: presetId,
+    }));
+    clearActiveGradePreset();
   };
 
   const handleApplyMultiplicationPreset = (presetId: MathPracticePresetId) => {
@@ -1181,6 +1291,11 @@ export function MathPracticeClient() {
         multiplication: nextConfig,
       },
     });
+    setActiveTopicPresets((currentPresets) => ({
+      ...currentPresets,
+      multiplication: presetId,
+    }));
+    clearActiveGradePreset();
   };
 
   const handleApplyDivisionRemainderPreset = (
@@ -1205,6 +1320,11 @@ export function MathPracticeClient() {
         divisionRemainder: nextConfig,
       },
     });
+    setActiveTopicPresets((currentPresets) => ({
+      ...currentPresets,
+      "division-remainder": presetId,
+    }));
+    clearActiveGradePreset();
   };
 
   const handleApplyGradePreset = (grade: SchoolGrade) => {
@@ -1217,6 +1337,8 @@ export function MathPracticeClient() {
     applyFormStateChange(
       applyCustomGradePresetToFormState(current, gradePreset),
     );
+    setActiveTopicPresets(buildActiveTopicPresetsFromGrade(gradePreset));
+    setActiveGradePreset(grade);
     setConfigError(null);
   };
 
@@ -1421,6 +1543,10 @@ export function MathPracticeClient() {
         onApplyMultiplicationPreset={handleApplyMultiplicationPreset}
         onApplyDivisionRemainderPreset={handleApplyDivisionRemainderPreset}
         onApplyGradePreset={handleApplyGradePreset}
+        activeTopicPresets={activeTopicPresets}
+        activeGradePreset={activeGradePreset}
+        updateTopicConfig={updateTopicConfig}
+        setAdvanced={setAdvanced}
       />
     );
   }
@@ -1482,6 +1608,15 @@ type ConfigScreenProps = NumericDraftProps & {
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
   onApplyGradePreset: (grade: SchoolGrade) => void;
+  activeTopicPresets: ActiveTopicPresets;
+  activeGradePreset: SchoolGrade | null;
+  updateTopicConfig: <K extends keyof MathTopicConfigs>(
+    key: K,
+    updater: (
+      current: NonNullable<MathTopicConfigs[K]>,
+    ) => NonNullable<MathTopicConfigs[K]>,
+  ) => void;
+  setAdvanced: (topic: MathTopic, enabled: boolean) => void;
 };
 
 function ConfigScreen({
@@ -1506,37 +1641,11 @@ function ConfigScreen({
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
   onApplyGradePreset,
+  activeTopicPresets,
+  activeGradePreset,
+  updateTopicConfig,
+  setAdvanced,
 }: ConfigScreenProps) {
-  const updateTopicConfig = <K extends keyof MathTopicConfigs>(
-    key: K,
-    updater: (current: NonNullable<MathTopicConfigs[K]>) => NonNullable<MathTopicConfigs[K]>,
-  ) => {
-    onFormStateChange((latest) => {
-      const current = latest.topicConfigs[key];
-      if (!current) {
-        return latest;
-      }
-
-      return {
-        ...latest,
-        topicConfigs: {
-          ...latest.topicConfigs,
-          [key]: updater(current),
-        },
-      };
-    });
-  };
-
-  const setAdvanced = (topic: MathTopic, enabled: boolean) => {
-    onFormStateChange((latest) => ({
-      ...latest,
-      advanced: {
-        ...latest.advanced,
-        [topic]: enabled,
-      },
-    }));
-  };
-
   const lessons = getMathLessonsByGrade(selectedGrade);
 
   return (
@@ -1582,6 +1691,8 @@ function ConfigScreen({
           onApplyMultiplicationPreset={onApplyMultiplicationPreset}
           onApplyDivisionRemainderPreset={onApplyDivisionRemainderPreset}
           onApplyGradePreset={onApplyGradePreset}
+          activeTopicPresets={activeTopicPresets}
+          activeGradePreset={activeGradePreset}
         />
       )}
     </div>
@@ -1767,6 +1878,8 @@ type CustomModeSettingsProps = NumericDraftProps & {
   onApplyMultiplicationPreset: (presetId: MathPracticePresetId) => void;
   onApplyDivisionRemainderPreset: (presetId: MathPracticePresetId) => void;
   onApplyGradePreset: (grade: SchoolGrade) => void;
+  activeTopicPresets: ActiveTopicPresets;
+  activeGradePreset: SchoolGrade | null;
 };
 
 function CustomModeSettings({
@@ -1787,6 +1900,8 @@ function CustomModeSettings({
   onApplyMultiplicationPreset,
   onApplyDivisionRemainderPreset,
   onApplyGradePreset,
+  activeTopicPresets,
+  activeGradePreset,
 }: CustomModeSettingsProps) {
   const numericDraftProps: NumericDraftProps = {
     numericDrafts,
@@ -1795,7 +1910,10 @@ function CustomModeSettings({
   };
   return (
     <div className="space-y-6">
-      <CustomGradePresets onSelectGrade={onApplyGradePreset} />
+      <CustomGradePresets
+        activeGrade={activeGradePreset}
+        onSelectGrade={onApplyGradePreset}
+      />
 
       <fieldset className="space-y-3">
         <legend className="text-base font-semibold">Témata</legend>
@@ -1833,6 +1951,7 @@ function CustomModeSettings({
           <AdditionSettings
             config={formState.topicConfigs.addition}
             advanced={formState.advanced.addition}
+            activePresetId={activeTopicPresets.addition}
             onAdvancedChange={(value) => setAdvanced("addition", value)}
             onChange={(config) =>
               updateTopicConfig("addition", () => config)
@@ -1847,6 +1966,7 @@ function CustomModeSettings({
           <SubtractionSettings
             config={formState.topicConfigs.subtraction}
             advanced={formState.advanced.subtraction}
+            activePresetId={activeTopicPresets.subtraction}
             onAdvancedChange={(value) => setAdvanced("subtraction", value)}
             onChange={(config) =>
               updateTopicConfig("subtraction", () => config)
@@ -1861,6 +1981,7 @@ function CustomModeSettings({
           <MultiplicationSettings
             config={formState.topicConfigs.multiplication}
             advanced={formState.advanced.multiplication}
+            activePresetId={activeTopicPresets.multiplication}
             onAdvancedChange={(value) => setAdvanced("multiplication", value)}
             onChange={(config) =>
               updateTopicConfig("multiplication", () => config)
@@ -1876,6 +1997,7 @@ function CustomModeSettings({
           <DivisionSettings
             config={formState.topicConfigs.division}
             advanced={formState.advanced.division}
+            activePresetId={activeTopicPresets.division}
             onAdvancedChange={(value) => setAdvanced("division", value)}
             onChange={(config) => updateTopicConfig("division", () => config)}
             onGridLastDeselected={() => onGridLastDeselected("division")}
@@ -1889,6 +2011,7 @@ function CustomModeSettings({
           <DivisionRemainderSettings
             config={formState.topicConfigs.divisionRemainder}
             advanced={formState.advanced["division-remainder"]}
+            activePresetId={activeTopicPresets["division-remainder"]}
             onAdvancedChange={(value) =>
               setAdvanced("division-remainder", value)
             }
@@ -1917,6 +2040,53 @@ function CustomModeSettings({
         Spustit procvičování
       </button>
     </div>
+  );
+}
+
+type SelectablePresetCardProps = {
+  selected: boolean;
+  label: string;
+  description: string;
+  onClick: () => void;
+};
+
+function SelectablePresetCard({
+  selected,
+  label,
+  description,
+  onClick,
+}: SelectablePresetCardProps) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={`rounded-2xl border p-4 text-left transition-colors focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 ${
+        selected
+          ? "border-math bg-math/10 shadow-sm"
+          : "border-foreground/15 bg-white/60 hover:bg-foreground/5"
+      }`}
+    >
+      <span className="flex items-start justify-between gap-2">
+        <span
+          className={`block text-base font-semibold ${selected ? "text-math" : ""}`}
+        >
+          {label}
+        </span>
+        {selected && (
+          <span
+            className="shrink-0 rounded-full bg-math/15 px-2 py-0.5 text-xs font-semibold text-math"
+            aria-hidden="true"
+          >
+            ✓ Vybráno
+          </span>
+        )}
+      </span>
+      <span className="mt-2 block text-sm text-foreground/70">
+        {description}
+      </span>
+      {selected && <span className="sr-only">Vybráno</span>}
+    </button>
   );
 }
 
@@ -2265,26 +2435,26 @@ function getAdditionConfigFromPreset(
 }
 
 type AdditionQuickPresetsProps = {
+  activePresetId?: MathPracticePresetId;
   onSelectPreset: (presetId: MathPracticePresetId) => void;
 };
 
-function AdditionQuickPresets({ onSelectPreset }: AdditionQuickPresetsProps) {
+function AdditionQuickPresets({
+  activePresetId,
+  onSelectPreset,
+}: AdditionQuickPresetsProps) {
   return (
     <div className="col-span-full space-y-3">
       <h3 className="text-base font-semibold">Rychlá volba</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {ADDITION_QUICK_PRESETS.map(({ id, label, helper }) => (
-          <button
+          <SelectablePresetCard
             key={id}
-            type="button"
+            selected={activePresetId === id}
+            label={label}
+            description={helper}
             onClick={() => onSelectPreset(id)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {helper}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -2294,6 +2464,7 @@ function AdditionQuickPresets({ onSelectPreset }: AdditionQuickPresetsProps) {
 type AdditionSettingsProps = NumericDraftProps & {
   config: AdditionConfig;
   advanced: boolean;
+  activePresetId?: MathPracticePresetId;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: AdditionConfig) => void;
   onApplyPreset: (presetId: MathPracticePresetId) => void;
@@ -2302,6 +2473,7 @@ type AdditionSettingsProps = NumericDraftProps & {
 function AdditionSettings({
   config,
   advanced,
+  activePresetId,
   onAdvancedChange,
   numericDrafts,
   onNumericDraftChange,
@@ -2325,7 +2497,10 @@ function AdditionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
-          <AdditionQuickPresets onSelectPreset={onApplyPreset} />
+          <AdditionQuickPresets
+            activePresetId={activePresetId}
+            onSelectPreset={onApplyPreset}
+          />
           <NumberField
             fieldKey="addition.simple.min"
             label="Min hodnota"
@@ -2444,10 +2619,12 @@ function getSubtractionConfigFromPreset(
 }
 
 type SubtractionQuickPresetsProps = {
+  activePresetId?: MathPracticePresetId;
   onSelectPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function SubtractionQuickPresets({
+  activePresetId,
   onSelectPreset,
 }: SubtractionQuickPresetsProps) {
   return (
@@ -2455,17 +2632,13 @@ function SubtractionQuickPresets({
       <h3 className="text-base font-semibold">Rychlá volba</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {SUBTRACTION_QUICK_PRESETS.map(({ id, label, helper }) => (
-          <button
+          <SelectablePresetCard
             key={id}
-            type="button"
+            selected={activePresetId === id}
+            label={label}
+            description={helper}
             onClick={() => onSelectPreset(id)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {helper}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -2475,6 +2648,7 @@ function SubtractionQuickPresets({
 type SubtractionSettingsProps = NumericDraftProps & {
   config: SubtractionConfig;
   advanced: boolean;
+  activePresetId?: MathPracticePresetId;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: SubtractionConfig) => void;
   onApplyPreset: (presetId: MathPracticePresetId) => void;
@@ -2483,6 +2657,7 @@ type SubtractionSettingsProps = NumericDraftProps & {
 function SubtractionSettings({
   config,
   advanced,
+  activePresetId,
   onAdvancedChange,
   numericDrafts,
   onNumericDraftChange,
@@ -2507,7 +2682,10 @@ function SubtractionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
-          <SubtractionQuickPresets onSelectPreset={onApplyPreset} />
+          <SubtractionQuickPresets
+            activePresetId={activePresetId}
+            onSelectPreset={onApplyPreset}
+          />
           <NumberField
             fieldKey="subtraction.simple.min"
             label="Min hodnota"
@@ -2570,6 +2748,7 @@ function SubtractionSettings({
 type MultiplicationSettingsProps = NumericDraftProps & {
   config: MultiplicationConfig;
   advanced: boolean;
+  activePresetId?: MathPracticePresetId;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: MultiplicationConfig) => void;
   onGridLastDeselected: () => void;
@@ -2579,6 +2758,7 @@ type MultiplicationSettingsProps = NumericDraftProps & {
 function MultiplicationSettings({
   config,
   advanced,
+  activePresetId,
   onAdvancedChange,
   numericDrafts,
   onNumericDraftChange,
@@ -2604,7 +2784,10 @@ function MultiplicationSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
-          <MultiplicationQuickPresets onSelectPreset={onApplyPreset} />
+          <MultiplicationQuickPresets
+            activePresetId={activePresetId}
+            onSelectPreset={onApplyPreset}
+          />
           <NumberField
             fieldKey="multiplication.simple.min"
             label="Min hodnota"
@@ -2749,10 +2932,12 @@ function getMultiplicationConfigFromPreset(
 }
 
 type MultiplicationQuickPresetsProps = {
+  activePresetId?: MathPracticePresetId;
   onSelectPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function MultiplicationQuickPresets({
+  activePresetId,
   onSelectPreset,
 }: MultiplicationQuickPresetsProps) {
   return (
@@ -2760,17 +2945,13 @@ function MultiplicationQuickPresets({
       <h3 className="text-base font-semibold">Rychlá volba</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {MULTIPLICATION_QUICK_PRESETS.map(({ id, label, helper }) => (
-          <button
+          <SelectablePresetCard
             key={id}
-            type="button"
+            selected={activePresetId === id}
+            label={label}
+            description={helper}
             onClick={() => onSelectPreset(id)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {helper}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -2818,26 +2999,26 @@ function getDivisionConfigFromPreset(
 }
 
 type DivisionQuickPresetsProps = {
+  activePresetId?: MathPracticePresetId;
   onSelectPreset: (presetId: MathPracticePresetId) => void;
 };
 
-function DivisionQuickPresets({ onSelectPreset }: DivisionQuickPresetsProps) {
+function DivisionQuickPresets({
+  activePresetId,
+  onSelectPreset,
+}: DivisionQuickPresetsProps) {
   return (
     <div className="col-span-full space-y-3">
       <h3 className="text-base font-semibold">Rychlá volba</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {DIVISION_QUICK_PRESETS.map(({ id, label, helper }) => (
-          <button
+          <SelectablePresetCard
             key={id}
-            type="button"
+            selected={activePresetId === id}
+            label={label}
+            description={helper}
             onClick={() => onSelectPreset(id)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {helper}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -2847,6 +3028,7 @@ function DivisionQuickPresets({ onSelectPreset }: DivisionQuickPresetsProps) {
 type DivisionSettingsProps = NumericDraftProps & {
   config: DivisionConfig;
   advanced: boolean;
+  activePresetId?: MathPracticePresetId;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionConfig) => void;
   onGridLastDeselected: () => void;
@@ -2856,6 +3038,7 @@ type DivisionSettingsProps = NumericDraftProps & {
 function DivisionSettings({
   config,
   advanced,
+  activePresetId,
   onAdvancedChange,
   numericDrafts,
   onNumericDraftChange,
@@ -2881,7 +3064,10 @@ function DivisionSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
-          <DivisionQuickPresets onSelectPreset={onApplyPreset} />
+          <DivisionQuickPresets
+            activePresetId={activePresetId}
+            onSelectPreset={onApplyPreset}
+          />
           <NumberField
             fieldKey="division.simple.min"
             label="Min hodnota"
@@ -3128,10 +3314,14 @@ function applyCustomGradePresetToFormState(
 }
 
 type CustomGradePresetsProps = {
+  activeGrade: SchoolGrade | null;
   onSelectGrade: (grade: SchoolGrade) => void;
 };
 
-function CustomGradePresets({ onSelectGrade }: CustomGradePresetsProps) {
+function CustomGradePresets({
+  activeGrade,
+  onSelectGrade,
+}: CustomGradePresetsProps) {
   const gradePresets = getCustomMathGradePresets();
 
   return (
@@ -3142,17 +3332,13 @@ function CustomGradePresets({ onSelectGrade }: CustomGradePresetsProps) {
       </p>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {gradePresets.map(({ grade, label, description }) => (
-          <button
+          <SelectablePresetCard
             key={grade}
-            type="button"
+            selected={activeGrade === grade}
+            label={label}
+            description={description}
             onClick={() => onSelectGrade(grade)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {description}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </section>
@@ -3160,10 +3346,12 @@ function CustomGradePresets({ onSelectGrade }: CustomGradePresetsProps) {
 }
 
 type DivisionRemainderQuickPresetsProps = {
+  activePresetId?: MathPracticePresetId;
   onSelectPreset: (presetId: MathPracticePresetId) => void;
 };
 
 function DivisionRemainderQuickPresets({
+  activePresetId,
   onSelectPreset,
 }: DivisionRemainderQuickPresetsProps) {
   return (
@@ -3171,17 +3359,13 @@ function DivisionRemainderQuickPresets({
       <h3 className="text-base font-semibold">Rychlá volba</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {DIVISION_REMAINDER_QUICK_PRESETS.map(({ id, label, helper }) => (
-          <button
+          <SelectablePresetCard
             key={id}
-            type="button"
+            selected={activePresetId === id}
+            label={label}
+            description={helper}
             onClick={() => onSelectPreset(id)}
-            className="rounded-2xl border border-foreground/15 bg-white/60 p-4 text-left transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            <span className="block text-base font-semibold">{label}</span>
-            <span className="mt-2 block text-sm text-foreground/70">
-              {helper}
-            </span>
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -3191,6 +3375,7 @@ function DivisionRemainderQuickPresets({
 type DivisionRemainderSettingsProps = NumericDraftProps & {
   config: DivisionRemainderConfig;
   advanced: boolean;
+  activePresetId?: MathPracticePresetId;
   onAdvancedChange: (value: boolean) => void;
   onChange: (config: DivisionRemainderConfig) => void;
   onGridLastDeselected: () => void;
@@ -3200,6 +3385,7 @@ type DivisionRemainderSettingsProps = NumericDraftProps & {
 function DivisionRemainderSettings({
   config,
   advanced,
+  activePresetId,
   onAdvancedChange,
   numericDrafts,
   onNumericDraftChange,
@@ -3225,7 +3411,10 @@ function DivisionRemainderSettings({
       onAdvancedChange={onAdvancedChange}
       simpleFields={
         <>
-          <DivisionRemainderQuickPresets onSelectPreset={onApplyPreset} />
+          <DivisionRemainderQuickPresets
+            activePresetId={activePresetId}
+            onSelectPreset={onApplyPreset}
+          />
           <NumberField
             fieldKey="divisionRemainder.simple.min"
             label="Min hodnota"
