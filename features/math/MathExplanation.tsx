@@ -3,12 +3,21 @@ import type { MathExercise } from "@/types";
 const MAX_DOTS = 36;
 const MAX_GROUPS = 10;
 const MAX_ROW_DOTS = MAX_DOTS / 2;
-const MULT_SMALL_MAX_ROWS = 10;
-const MULT_SMALL_MAX_COLS = 6;
-const MULT_SMALL_MAX_PRODUCT = 60;
-const MULT_COMPACT_PRODUCT = 150;
-const MULT_COMPACT_FACTOR = 15;
-const MULT_CHUNK_PREVIEW_ROWS = 5;
+const MULT_BOARD_MAX_PRODUCT = 100;
+const MULT_TEXT_PRODUCT = 150;
+const MULT_TEXT_FACTOR = 15;
+const BOARD_COLUMNS = 10;
+
+const GROUP_CELL_COLORS = [
+  "bg-sky-100 border-sky-300/80",
+  "bg-violet-100 border-violet-300/80",
+  "bg-amber-100 border-amber-300/80",
+  "bg-emerald-100 border-emerald-300/80",
+  "bg-rose-100 border-rose-300/80",
+  "bg-cyan-100 border-cyan-300/80",
+  "bg-orange-100 border-orange-300/80",
+  "bg-indigo-100 border-indigo-300/80",
+] as const;
 
 type ChunkOrigin = "first" | "second" | "neutral";
 

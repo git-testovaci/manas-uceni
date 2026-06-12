@@ -3067,13 +3067,40 @@ function resolveGradePresetTopic(
   }
 }
 
+function createBaselineTopicConfigs(): MathTopicConfigs {
+  return {
+    addition: { ...DEFAULT_MATH_TOPIC_CONFIGS.addition! },
+    subtraction: { ...DEFAULT_MATH_TOPIC_CONFIGS.subtraction! },
+    multiplication: { ...DEFAULT_MULTIPLICATION_CONFIG },
+    division: { ...DEFAULT_DIVISION_CONFIG },
+    divisionRemainder: { ...DEFAULT_DIVISION_REMAINDER_CONFIG },
+  };
+}
+
+function clearGradePresetNumericDrafts(
+  numericDrafts: Record<string, string>,
+): Record<string, string> {
+  const nextDrafts = { ...numericDrafts };
+
+  for (const fieldKey of [
+    ...ADDITION_NUMERIC_DRAFT_KEYS,
+    ...SUBTRACTION_NUMERIC_DRAFT_KEYS,
+    ...MULTIPLICATION_NUMERIC_DRAFT_KEYS,
+    ...DIVISION_NUMERIC_DRAFT_KEYS,
+    ...DIVISION_REMAINDER_NUMERIC_DRAFT_KEYS,
+  ]) {
+    delete nextDrafts[fieldKey];
+  }
+
+  return nextDrafts;
+}
+
 function applyCustomGradePresetToFormState(
   current: MathConfigFormState,
   gradePreset: CustomMathGradePreset,
 ): MathConfigFormState {
-  const nextDrafts = { ...current.numericDrafts };
-  let nextTopicConfigs: MathTopicConfigs = { ...current.topicConfigs };
-  let nextEnabledTopics = [...current.enabledTopics];
+  const nextEnabledTopics: MathTopic[] = [];
+  let nextTopicConfigs = createBaselineTopicConfigs();
 
   for (const [gradeTopic, presetId] of Object.entries(
     gradePreset.recommendedPresets,
@@ -3083,19 +3110,8 @@ function applyCustomGradePresetToFormState(
       continue;
     }
 
-    const { mathTopic, configKey, config, draftKeys } = resolved;
-    for (const fieldKey of draftKeys) {
-      delete nextDrafts[fieldKey];
-    }
-
-    if (!nextEnabledTopics.includes(mathTopic)) {
-      nextEnabledTopics = [...nextEnabledTopics, mathTopic];
-      nextTopicConfigs = {
-        ...nextTopicConfigs,
-        ...getDefaultTopicConfigForTopic(mathTopic),
-      };
-    }
-
+    const { mathTopic, configKey, config } = resolved;
+    nextEnabledTopics.push(mathTopic);
     nextTopicConfigs = {
       ...nextTopicConfigs,
       [configKey]: config,
@@ -3104,9 +3120,10 @@ function applyCustomGradePresetToFormState(
 
   return {
     ...current,
-    numericDrafts: nextDrafts,
+    numericDrafts: clearGradePresetNumericDrafts(current.numericDrafts),
     enabledTopics: nextEnabledTopics,
     topicConfigs: nextTopicConfigs,
+    advanced: createDefaultAdvancedFlags(),
   };
 }
 
