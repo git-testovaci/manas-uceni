@@ -125,34 +125,31 @@ function getMathTopicLabel(topic: string): string | null {
   return null;
 }
 
-function getReviewStatusLabel(state: ReviewState): string | null {
-  if (state.status === "mastered") {
-    return "Zvládnuté";
-  }
-
-  if (state.status === "weak") {
-    return "Čeká na zopakování";
-  }
-
-  if (state.status === "improving" || state.status === "learning") {
-    return "Procvičuje se";
-  }
-
-  return null;
+function isFixedWeakSpot(state: ReviewState): boolean {
+  return state.streak >= 10;
 }
 
-function buildWeakSpotStatsLine(state: ReviewState): string {
-  const parts: string[] = [`Chyby ${state.wrongCount}×`];
-
-  if (state.correctCount > 0) {
-    parts.push(`Správně ${state.correctCount}×`);
-  }
-
-  if (state.streak > 0) {
-    parts.push(`Série ${state.streak}×`);
-  }
-
-  return parts.join(" · ");
+function WeakSpotStats({ state }: { state: ReviewState }) {
+  return (
+    <p className="mt-1 text-xs tabular-nums text-foreground/70">
+      Chyby{" "}
+      <span className="font-semibold text-red-600">{state.wrongCount}×</span>
+      {state.correctCount > 0 && (
+        <>
+          {" · Správně "}
+          <span className="font-semibold text-green-700">
+            {state.correctCount}×
+          </span>
+        </>
+      )}
+      {state.streak > 0 && (
+        <>
+          {" · Série "}
+          <span className="font-semibold text-blue-600">{state.streak}×</span>
+        </>
+      )}
+    </p>
+  );
 }
 
 function compareWeakSpots(a: ReviewState, b: ReviewState): number {
@@ -274,17 +271,18 @@ type WeakSpotCardProps = {
   state: ReviewState;
   exerciseDisplay: string | null;
   topicLabel: string | null;
-  statusLabel: string | null;
-  onRemove?: () => void;
+  onRemove: () => void;
 };
 
 function WeakSpotCard({
   state,
   exerciseDisplay,
   topicLabel,
-  statusLabel,
   onRemove,
 }: WeakSpotCardProps) {
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+  const fixed = isFixedWeakSpot(state);
+
   return (
     <article className="rounded-xl border border-foreground/15 bg-white/70 px-3 py-2.5">
       <div className="flex items-start justify-between gap-2">
@@ -299,31 +297,54 @@ function WeakSpotCard({
               </span>
             )}
           </div>
-          <p className="mt-1 text-xs tabular-nums text-foreground/70">
-            {buildWeakSpotStatsLine(state)}
-          </p>
+          <WeakSpotStats state={state} />
         </div>
-        {statusLabel && (
-          <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-[0.7rem] font-semibold leading-tight ${
-              state.status === "mastered"
-                ? "bg-green-100 text-green-800"
-                : "bg-orange-100 text-orange-900"
-            }`}
-          >
-            {statusLabel}
+        {fixed && (
+          <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[0.7rem] font-semibold leading-tight text-green-800">
+            Opraveno
           </span>
         )}
       </div>
-      {onRemove && (
+
+      {fixed && !showRemoveConfirm && (
         <div className="mt-2 flex justify-end">
           <button
             type="button"
-            onClick={onRemove}
+            onClick={() => setShowRemoveConfirm(true)}
             className="min-h-8 rounded-lg border border-foreground/20 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
           >
-            Odebrat ze slabých míst
+            Odebrat
           </button>
+        </div>
+      )}
+
+      {fixed && showRemoveConfirm && (
+        <div className="mt-2 space-y-2 rounded-lg border border-foreground/10 bg-foreground/[0.03] px-3 py-2">
+          <p className="text-sm font-semibold">
+            Odebrat toto slabé místo z procvičování?
+          </p>
+          <p className="text-xs text-foreground/70">
+            Už se nebude cíleně opakovat jako slabé místo.
+          </p>
+          <div className="flex flex-wrap justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setShowRemoveConfirm(false)}
+              className="min-h-8 rounded-lg border border-foreground/20 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            >
+              Zrušit
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                onRemove();
+                setShowRemoveConfirm(false);
+              }}
+              className="min-h-8 rounded-lg border border-foreground/20 bg-foreground/5 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/10 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            >
+              Odebrat
+            </button>
+          </div>
         </div>
       )}
     </article>
@@ -472,12 +493,7 @@ export function PracticeDashboardClient() {
                   state={state}
                   exerciseDisplay={parseMathExerciseDisplay(state.itemId)}
                   topicLabel={getMathTopicLabel(state.topic)}
-                  statusLabel={getReviewStatusLabel(state)}
-                  onRemove={
-                    state.status === "mastered"
-                      ? () => handleRemoveWeakSpot(state.itemId)
-                      : undefined
-                  }
+                  onRemove={() => handleRemoveWeakSpot(state.itemId)}
                 />
               ))}
             </div>
@@ -500,12 +516,7 @@ export function PracticeDashboardClient() {
                   state={state}
                   exerciseDisplay={null}
                   topicLabel={null}
-                  statusLabel={getReviewStatusLabel(state)}
-                  onRemove={
-                    state.status === "mastered"
-                      ? () => handleRemoveWeakSpot(state.itemId)
-                      : undefined
-                  }
+                  onRemove={() => handleRemoveWeakSpot(state.itemId)}
                 />
               ))}
             </div>
