@@ -2067,20 +2067,10 @@ function SelectablePresetCard({
           : "border-foreground/15 bg-white/60 hover:bg-foreground/5"
       }`}
     >
-      <span className="flex items-start justify-between gap-2">
-        <span
-          className={`block text-base font-semibold ${selected ? "text-math" : ""}`}
-        >
-          {label}
-        </span>
-        {selected && (
-          <span
-            className="shrink-0 rounded-full bg-math/15 px-2 py-0.5 text-xs font-semibold text-math"
-            aria-hidden="true"
-          >
-            ✓ Vybráno
-          </span>
-        )}
+      <span
+        className={`block text-base font-semibold ${selected ? "text-math" : ""}`}
+      >
+        {label}
       </span>
       <span className="mt-2 block text-sm text-foreground/70">
         {description}
