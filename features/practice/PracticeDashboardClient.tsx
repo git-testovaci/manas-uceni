@@ -218,35 +218,23 @@ function sortWeakSpots(
   });
 }
 
+function isNeedsPractice(state: ReviewState): boolean {
+  return isRealWeakSpot(state) && state.streak < 10;
+}
+
 type SubjectStats = {
   totalWeakSpots: number;
-  dueCount: number | null;
-  masteredCount: number | null;
+  practiceCount: number;
+  fixedCount: number;
 };
 
 function computeSubjectStats(states: ReviewState[]): SubjectStats {
   const weakSpots = states.filter(isRealWeakSpot);
 
-  if (weakSpots.length === 0) {
-    return {
-      totalWeakSpots: 0,
-      dueCount: null,
-      masteredCount: null,
-    };
-  }
-
-  const dueCount = weakSpots.filter(
-    (state) => state.status === "weak" || state.status === "improving",
-  ).length;
-
-  const masteredCount = weakSpots.filter(
-    (state) => state.status === "mastered",
-  ).length;
-
   return {
     totalWeakSpots: weakSpots.length,
-    dueCount: dueCount > 0 ? dueCount : null,
-    masteredCount: masteredCount > 0 ? masteredCount : null,
+    practiceCount: weakSpots.filter(isNeedsPractice).length,
+    fixedCount: weakSpots.filter(isFixedWeakSpot).length,
   };
 }
 
@@ -505,27 +493,15 @@ export function PracticeDashboardClient() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <StatCard
             label="Slabá místa"
-            value={
-              activeStats.totalWeakSpots > 0
-                ? String(activeStats.totalWeakSpots)
-                : "0"
-            }
+            value={String(activeStats.totalWeakSpots)}
           />
           <StatCard
-            label="Čeká na opakování"
-            value={
-              activeStats.dueCount !== null
-                ? String(activeStats.dueCount)
-                : "Zatím není dost dat."
-            }
+            label="K procvičení"
+            value={String(activeStats.practiceCount)}
           />
           <StatCard
-            label="Zvládnuté"
-            value={
-              activeStats.masteredCount !== null
-                ? String(activeStats.masteredCount)
-                : "Zatím není dost dat."
-            }
+            label="Opraveno"
+            value={String(activeStats.fixedCount)}
           />
         </div>
       </section>
