@@ -144,7 +144,7 @@ function WeakSpotStats({ state }: { state: ReviewState }) {
       )}
       {state.streak > 0 && (
         <>
-          {" · Série "}
+          {" · V řadě "}
           <span className="font-semibold text-blue-600">{state.streak}×</span>
         </>
       )}
@@ -152,25 +152,70 @@ function WeakSpotStats({ state }: { state: ReviewState }) {
   );
 }
 
-function compareWeakSpots(a: ReviewState, b: ReviewState): number {
-  const statusOrder: Record<ReviewState["status"], number> = {
-    weak: 0,
-    improving: 1,
-    learning: 2,
-    new: 3,
-    mastered: 4,
-  };
+type WeakSpotSortMode =
+  | "best-streak"
+  | "worst-streak"
+  | "most-mistakes"
+  | "fewest-mistakes";
 
-  const statusDiff = statusOrder[a.status] - statusOrder[b.status];
-  if (statusDiff !== 0) {
-    return statusDiff;
-  }
+const WEAK_SPOT_SORT_OPTIONS: {
+  value: WeakSpotSortMode;
+  label: string;
+}[] = [
+  { value: "best-streak", label: "Nejlepší série" },
+  { value: "worst-streak", label: "Nejnižší série" },
+  { value: "most-mistakes", label: "Nejvíc chyb" },
+  { value: "fewest-mistakes", label: "Nejméně chyb" },
+];
 
-  if (b.wrongCount !== a.wrongCount) {
-    return b.wrongCount - a.wrongCount;
-  }
+function sortWeakSpots(
+  items: ReviewState[],
+  mode: WeakSpotSortMode,
+  getDisplayKey: (state: ReviewState) => string,
+): ReviewState[] {
+  return [...items].sort((a, b) => {
+    const displayA = getDisplayKey(a);
+    const displayB = getDisplayKey(b);
 
-  return a.itemId.localeCompare(b.itemId);
+    switch (mode) {
+      case "best-streak": {
+        if (b.streak !== a.streak) {
+          return b.streak - a.streak;
+        }
+        if (b.wrongCount !== a.wrongCount) {
+          return b.wrongCount - a.wrongCount;
+        }
+        return displayA.localeCompare(displayB, "cs");
+      }
+      case "worst-streak": {
+        if (a.streak !== b.streak) {
+          return a.streak - b.streak;
+        }
+        if (b.wrongCount !== a.wrongCount) {
+          return b.wrongCount - a.wrongCount;
+        }
+        return displayA.localeCompare(displayB, "cs");
+      }
+      case "most-mistakes": {
+        if (b.wrongCount !== a.wrongCount) {
+          return b.wrongCount - a.wrongCount;
+        }
+        if (b.streak !== a.streak) {
+          return b.streak - a.streak;
+        }
+        return displayA.localeCompare(displayB, "cs");
+      }
+      case "fewest-mistakes": {
+        if (a.wrongCount !== b.wrongCount) {
+          return a.wrongCount - b.wrongCount;
+        }
+        if (a.streak !== b.streak) {
+          return a.streak - b.streak;
+        }
+        return displayA.localeCompare(displayB, "cs");
+      }
+    }
+  });
 }
 
 type SubjectStats = {
@@ -267,6 +312,57 @@ function StatCard({ label, value }: StatCardProps) {
   );
 }
 
+type FixedWeakSpotChipProps = {
+  onRemove: () => void;
+};
+
+function FixedWeakSpotChip({ onRemove }: FixedWeakSpotChipProps) {
+  const [confirming, setConfirming] = useState(false);
+
+  if (confirming) {
+    return (
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-[0.7rem] font-semibold leading-tight text-green-800">
+        <span>Odebrat?</span>
+        <button
+          type="button"
+          aria-label="Potvrdit odebrání"
+          onClick={() => {
+            onRemove();
+            setConfirming(false);
+          }}
+          className="inline-flex h-4 w-4 items-center justify-center rounded-full hover:bg-green-200 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1"
+        >
+          ✓
+        </button>
+        <button
+          type="button"
+          aria-label="Zrušit odebrání"
+          onClick={() => setConfirming(false)}
+          className="inline-flex h-4 w-4 items-center justify-center rounded-full hover:bg-green-200 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1"
+        >
+          ×
+        </button>
+      </span>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setConfirming(true)}
+      aria-label="Opraveno. Klepnutím odeberete ze slabých míst."
+      className="group min-w-[4.75rem] shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-center text-[0.7rem] font-semibold leading-tight text-green-800 transition-colors hover:bg-green-200 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+    >
+      <span className="group-hover:hidden group-focus-visible:hidden">
+        Opraveno
+      </span>
+      <span className="hidden group-hover:inline group-focus-visible:inline">
+        Odebrat
+      </span>
+    </button>
+  );
+}
+
 type WeakSpotCardProps = {
   state: ReviewState;
   exerciseDisplay: string | null;
@@ -280,7 +376,6 @@ function WeakSpotCard({
   topicLabel,
   onRemove,
 }: WeakSpotCardProps) {
-  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
   const fixed = isFixedWeakSpot(state);
 
   return (
@@ -299,54 +394,8 @@ function WeakSpotCard({
           </div>
           <WeakSpotStats state={state} />
         </div>
-        {fixed && (
-          <span className="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-[0.7rem] font-semibold leading-tight text-green-800">
-            Opraveno
-          </span>
-        )}
+        {fixed && <FixedWeakSpotChip onRemove={onRemove} />}
       </div>
-
-      {fixed && !showRemoveConfirm && (
-        <div className="mt-2 flex justify-end">
-          <button
-            type="button"
-            onClick={() => setShowRemoveConfirm(true)}
-            className="min-h-8 rounded-lg border border-foreground/20 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-          >
-            Odebrat
-          </button>
-        </div>
-      )}
-
-      {fixed && showRemoveConfirm && (
-        <div className="mt-2 space-y-2 rounded-lg border border-foreground/10 bg-foreground/[0.03] px-3 py-2">
-          <p className="text-sm font-semibold">
-            Odebrat toto slabé místo z procvičování?
-          </p>
-          <p className="text-xs text-foreground/70">
-            Už se nebude cíleně opakovat jako slabé místo.
-          </p>
-          <div className="flex flex-wrap justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => setShowRemoveConfirm(false)}
-              className="min-h-8 rounded-lg border border-foreground/20 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-            >
-              Zrušit
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                onRemove();
-                setShowRemoveConfirm(false);
-              }}
-              className="min-h-8 rounded-lg border border-foreground/20 bg-foreground/5 px-3 py-1 text-xs font-semibold transition-colors hover:bg-foreground/10 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-            >
-              Odebrat
-            </button>
-          </div>
-        </div>
-      )}
     </article>
   );
 }
@@ -354,6 +403,8 @@ function WeakSpotCard({
 export function PracticeDashboardClient() {
   const [selectedSubject, setSelectedSubject] =
     useState<DashboardSubject>("math");
+  const [mathWeakSpotSort, setMathWeakSpotSort] =
+    useState<WeakSpotSortMode>("best-streak");
   const [reviewStates, setReviewStates] = useState<ReviewState[]>(() => {
     if (typeof window === "undefined") {
       return [];
@@ -386,14 +437,15 @@ export function PracticeDashboardClient() {
     };
   }, [refresh]);
 
-  const mathWeakSpots = useMemo(
-    () =>
-      reviewStates
-        .filter((state) => state.subject === "math")
-        .filter(isRealWeakSpot)
-        .sort(compareWeakSpots),
-    [reviewStates],
-  );
+  const mathWeakSpots = useMemo(() => {
+    const filtered = reviewStates
+      .filter((state) => state.subject === "math")
+      .filter(isRealWeakSpot);
+
+    return sortWeakSpots(filtered, mathWeakSpotSort, (state) =>
+      parseMathExerciseDisplay(state.itemId) ?? state.itemId,
+    );
+  }, [reviewStates, mathWeakSpotSort]);
 
   const czechWeakSpots = useMemo(
     () =>
@@ -480,7 +532,27 @@ export function PracticeDashboardClient() {
 
       {selectedSubject === "math" && (
         <section aria-label="Slabá místa z matematiky" className="space-y-3">
-          <h2 className="text-base font-semibold">Slabá místa z matematiky</h2>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-base font-semibold">Slabá místa z matematiky</h2>
+            {mathWeakSpots.length > 0 && (
+              <label className="flex items-center gap-2 text-sm text-foreground/70">
+                <span>Řadit</span>
+                <select
+                  value={mathWeakSpotSort}
+                  onChange={(event) =>
+                    setMathWeakSpotSort(event.target.value as WeakSpotSortMode)
+                  }
+                  className="min-h-9 rounded-lg border border-foreground/20 bg-white px-2 py-1 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+                >
+                  {WEAK_SPOT_SORT_OPTIONS.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+          </div>
           {mathWeakSpots.length === 0 ? (
             <p className="rounded-2xl border border-foreground/15 bg-white/70 px-4 py-5 text-base text-foreground/70">
               Zatím tu nejsou žádná slabá místa z matematiky.
