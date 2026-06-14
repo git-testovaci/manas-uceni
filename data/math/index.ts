@@ -1,8 +1,11 @@
 export {
+  buildLessonPracticeCandidates,
+  getLessonExerciseFilter,
   getMathGradeCurriculum,
   getMathLessonById,
   getMathLessonsByGrade,
   mathCurriculum,
+  type LessonExerciseFilter,
 } from "@/data/math/curriculum";
 export {
   CUSTOM_MATH_GRADE_PRESETS,

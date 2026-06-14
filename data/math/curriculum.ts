@@ -8,9 +8,11 @@ import type {
   DivisionConfig,
   MathCurriculumArea,
   MathDifficultyProfile,
+  MathExercise,
   MathGradeCurriculum,
   MathLesson,
   MathLessonPreset,
+  MathPracticeConfig,
   MathTopic,
   SchoolGrade,
 } from "@/types";
@@ -466,20 +468,20 @@ const grade1Lessons = buildGradeLessons(1, [
   {
     order: 5,
     title: "Sčítání do 10 bez přechodu",
-    description: "Sčítáme malá čísla, kde výsledek nepřesáhne 10.",
+    description: "Sčítáme čísla od 0 do 10, kde výsledek nepřesáhne 10.",
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-10",
-    preset: additionPreset({ min: 1, max: 9 }, 10),
+    preset: additionPreset({ min: 0, max: 10 }, 10),
   },
   {
     order: 6,
     title: "Odčítání do 10 bez přechodu",
-    description: "Odčítáme malá čísla bez přechodu přes 10.",
+    description: "Odčítáme čísla od 0 do 10 bez přechodu přes 10.",
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-10",
-    preset: subtractionPreset({ min: 1, max: 10 }),
+    preset: subtractionPreset({ min: 0, max: 10 }),
   },
   {
     order: 7,
@@ -488,7 +490,6 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-10",
-    preset: additionSubtractionPreset(10, ["addition", "subtraction"], 10),
   },
   {
     order: 8,
@@ -522,7 +523,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-20",
-    preset: additionPreset({ min: 1, max: 20 }, 20),
+    preset: additionPreset({ min: 0, max: 20 }, 20),
   },
   {
     order: 12,
@@ -531,7 +532,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-20",
-    preset: subtractionPreset({ min: 1, max: 20 }),
+    preset: subtractionPreset({ min: 0, max: 20 }),
   },
   {
     order: 13,
@@ -540,7 +541,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-20",
-    preset: additionPreset({ min: 1, max: 20 }, 20),
+    preset: additionPreset({ min: 0, max: 20 }, 20),
   },
   {
     order: 14,
@@ -549,7 +550,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["subtraction"],
     difficultyProfile: "within-20",
-    preset: subtractionPreset({ min: 1, max: 20 }),
+    preset: subtractionPreset({ min: 0, max: 20 }),
   },
   {
     order: 15,
@@ -2143,4 +2144,62 @@ const lessonById = new Map<string, MathLesson>(
 
 export function getMathLessonById(id: string): MathLesson | undefined {
   return lessonById.get(id);
+}
+
+export type LessonExerciseFilter = (exercise: MathExercise) => boolean;
+
+function additionOnesDoNotCrossTen(exercise: MathExercise): boolean {
+  if (exercise.operation !== "add") {
+    return true;
+  }
+
+  return (exercise.operandA % 10) + (exercise.operandB % 10) < 10;
+}
+
+function additionOnesCrossTen(exercise: MathExercise): boolean {
+  if (exercise.operation !== "add") {
+    return false;
+  }
+
+  return (exercise.operandA % 10) + (exercise.operandB % 10) >= 10;
+}
+
+function subtractionNoBorrowOnes(exercise: MathExercise): boolean {
+  if (exercise.operation !== "subtract") {
+    return true;
+  }
+
+  return exercise.operandA % 10 >= exercise.operandB % 10;
+}
+
+function subtractionBorrowOnes(exercise: MathExercise): boolean {
+  if (exercise.operation !== "subtract") {
+    return false;
+  }
+
+  return exercise.operandA % 10 < exercise.operandB % 10;
+}
+
+const LESSON_EXERCISE_FILTERS: Record<string, LessonExerciseFilter> = {
+  "math-g1-06": subtractionNoBorrowOnes,
+  "math-g1-11": additionOnesDoNotCrossTen,
+  "math-g1-12": subtractionNoBorrowOnes,
+  "math-g1-13": additionOnesCrossTen,
+  "math-g1-14": subtractionBorrowOnes,
+};
+
+export function getLessonExerciseFilter(
+  lessonId: string,
+): LessonExerciseFilter | undefined {
+  return LESSON_EXERCISE_FILTERS[lessonId];
+}
+
+export function buildLessonPracticeCandidates(
+  config: MathPracticeConfig,
+  lessonFilter: LessonExerciseFilter,
+  generateExercises: (config: MathPracticeConfig) => MathExercise[],
+): MathExercise[] {
+  return generateExercises(config)
+    .filter(lessonFilter)
+    .sort((a, b) => a.id.localeCompare(b.id));
 }

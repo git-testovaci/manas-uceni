@@ -1,8 +1,10 @@
 "use client";
 
 import {
+  buildLessonPracticeCandidates,
   getCustomMathGradePresetByGrade,
   getCustomMathGradePresets,
+  getLessonExerciseFilter,
   getMathLessonById,
   getMathLessonsByGrade,
   getMathPracticePresetById,
@@ -1113,11 +1115,23 @@ export function MathPracticeClient() {
     options: {
       lessonLabel?: string | null;
       persistConfig?: boolean;
+      lessonId?: string;
     } = {},
   ): boolean => {
     setConfigError(null);
 
-    const candidates = generateMathExercises(config);
+    const lessonFilter = options.lessonId
+      ? getLessonExerciseFilter(options.lessonId)
+      : undefined;
+
+    const candidates = lessonFilter
+      ? buildLessonPracticeCandidates(
+          config,
+          lessonFilter,
+          generateMathExercises,
+        )
+      : generateMathExercises(config);
+
     if (candidates.length === 0) {
       setConfigError("Pro tato nastavení nejsou k dispozici žádné příklady.");
       return false;
@@ -1372,6 +1386,7 @@ export function MathPracticeClient() {
     beginPracticeSession(config, {
       lessonLabel: `${lesson.grade}. třída · ${lesson.title}`,
       persistConfig: false,
+      lessonId: lesson.id,
     });
   };
 
