@@ -1,0 +1,98 @@
+---
+description: Math explanation architecture and pedagogical visual teaching quality
+alwaysApply: true
+---
+
+# Math explanation architecture
+
+Math wrong-answer explanations use a reusable layered architecture. New lesson types (money/time, geometry, word problems, crossing-ten strategies, later grades) must extend this system — not add per-lesson hacks or duplicate switches.
+
+## Architecture layers
+
+| Layer | Location | Responsibility |
+|-------|----------|----------------|
+| Thin panel | `features/math/MathExplanation.tsx` | Resolve context, render heading + text + registered visual only |
+| Pure explanation logic | `lib/math/explanations/` | Types, numbers, Czech text, registry metadata, `resolveMathExplanationContext` |
+| React renderers | `features/math/explanations/` | `renderers.tsx`, `visuals/*` — operation → visual component |
+| Shared primitives | `features/math/visuals/` | Reusable visuals (`CountDotsVisual`, `DotGrid`, `CompactFormula`, future coins/clocks/shapes) |
+| Lesson content | `data/math/curriculum.ts` | Presets, ranges, filters — configuration and content, not visual logic |
+
+`MathExplanation.tsx` must stay thin. It must not grow operation switches or visual components.
+
+## Adding a new `MathOperation` or explanation-capable exercise type
+
+Follow this order:
+
+1. **Types** — extend `MathOperation` / `MathExercise` in `types/index.ts` when needed.
+2. **Generator** — create exercises in `lib/math/generateMathExercises.ts` with stable `itemId`, `subject`, `topic`, and exercise fields the explanation can read.
+3. **Pure explanation** — add or update helpers in `lib/math/explanations/`:
+   - `numbers.ts` for operand/result resolution
+   - `text.ts` for Czech explanation prose
+   - `types.ts` / `registry.ts` for visual kind and registration
+4. **Renderer** — add a feature-level visual in `features/math/explanations/visuals/` and register it in `features/math/explanations/renderers.tsx`.
+5. **Shared primitives** — if the visual is reusable, put it in `features/math/visuals/` instead of duplicating markup.
+6. **Register** — add the operation to `REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS` in `lib/math/explanations/types.ts`.
+
+Resolve explanations by **`operation` + exercise metadata** (`visualHint`, `sequenceNumbers`, future `storyText`, coin values, etc.). Do not branch on `lessonId` in UI components.
+
+## Question UI vs explanation UI
+
+- **Question input / prompt rendering** may live in `MathPracticeClient.tsx` (numeric input, compare buttons, sequence prompt, future word-problem story).
+- **Wrong-answer explanation visuals** must not be added inline to `MathPracticeClient.tsx`.
+- Do not add operation-specific visual logic to `MathExplanation.tsx`.
+
+## Pedagogical explanation quality
+
+Wrong-answer explanations must teach, not only reveal the answer.
+
+### Required qualities
+
+- Explain **why** the answer is wrong and **how** to reach the correct one.
+- Use **child-friendly Czech**: short sentences, concrete wording, step-by-step.
+- Prefer **visual models** when the concept benefits (counting, grouping, comparing, sequences, money, time, shapes).
+- Connect **harder ideas to simpler prior concepts** (e.g. crossing ten → making ten; big multiplication → repeated groups + decomposition).
+- Show **steps** before the final result when the procedure matters.
+
+### Visual teaching models by concept
+
+| Concept | Preferred model |
+|---------|-----------------|
+| Addition / subtraction (small numbers) | Dot groups, part–whole |
+| Crossing ten | Bridge-to-ten / making ten to the next ten |
+| Multiplication | Repeated equal groups; decomposition for larger products |
+| Division | Equal sharing into groups; remainder as leftover |
+| Count dots | Visible countable objects in rows |
+| Compare numbers | Side-by-side values with comparison sign |
+| Missing addend | Completed equation showing the missing part |
+| Number sequence | Forward/backward step-by-step movement along the sequence |
+| Money / time (future) | Coins, clocks, short real-life context |
+| Geometry (future) | Named shapes with visible properties (sides, corners) |
+| Word problems (future) | Short story scene + link to underlying operation visual |
+
+When a visual would be cluttered or misleading (very large numbers), fall back to a compact formula or symbolic steps — same pattern as multiplication text mode.
+
+## Forbidden patterns
+
+- Per-lesson explanation hacks in curriculum, practice client, or `MathExplanation.tsx`.
+- Duplicate operation `switch` blocks for explanation visuals when the renderer registry should be used.
+- `lessonId`-based UI branching for explanations unless there is a documented, approved product reason.
+- Visual or explanation logic hidden in curriculum config objects.
+- React components inside `lib/math/explanations/` — keep `lib/` free of JSX.
+- UI components importing explanation text from `lib/math/generateMathExercises.ts` — explanation prose belongs in `lib/math/explanations/text.ts` (generators may set `exercise.explanation` as data, but UI should not import generator helpers for display text).
+- Growing `MathExplanation.tsx` with new visual components or fallback switches.
+
+## Preserve existing systems
+
+- **Review scheduler** — use `lib/review/scheduler.ts`; do not add per-lesson review timing. Keep `itemId` stable and derived from exercise identity.
+- **Autofocus** — follow `.cursor/rules/practice-autofocus.mdc`; explanations must not steal focus from answer controls or next-step buttons.
+- **Reusable practice** — follow `.cursor/rules/reusable-practice-architecture.mdc` for shared helpers across lessons.
+- **Dependencies** — do not add packages without clear need.
+- **Verification** — after explanation architecture changes, run `npm run lint` and `npm run build`.
+
+## Key files
+
+- `features/math/MathExplanation.tsx` — thin panel
+- `features/math/explanations/renderers.tsx` — renderer registry
+- `features/math/explanations/visuals/` — operation visuals
+- `features/math/visuals/` — shared primitives
+- `lib/math/explanations/` — pure resolution (numbers, text, registry)
