@@ -33,3 +33,12 @@ export type ResolvedMathExplanation = {
   entry: MathExplanationRegistryEntry;
   text: string;
 };
+
+export const REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS = [
+  "count-dots",
+  "compare-numbers",
+  "missing-addend-to-10",
+] as const satisfies readonly MathOperation[];
+
+export type RegisteredMathExplanationVisualOperation =
+  (typeof REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS)[number];

@@ -5,8 +5,14 @@ import { getMathExplanationText } from "./text";
 import type {
   MathExplanationRegistryEntry,
   MathExplanationVisualKind,
+  RegisteredMathExplanationVisualOperation,
   ResolvedMathExplanation,
 } from "./types";
+import { REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS } from "./types";
+
+const REGISTERED_VISUAL_OPERATION_SET = new Set<string>(
+  REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS,
+);
 
 const OPERATION_VISUAL_KIND: Record<
   MathOperation,
@@ -53,3 +59,11 @@ export function resolveMathExplanationContext(
     text: getMathExplanationText(exercise, numbers),
   };
 }
+
+export function isRegisteredMathExplanationVisualOperation(
+  operation: MathOperation,
+): operation is RegisteredMathExplanationVisualOperation {
+  return REGISTERED_VISUAL_OPERATION_SET.has(operation);
+}
+
+export { REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS };

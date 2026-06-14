@@ -1,4 +1,5 @@
-import { CountDotsVisual, DotGrid } from "@/features/math/visuals";
+import { CompactFormula, DotGrid } from "@/features/math/visuals";
+import { renderRegisteredMathExplanationVisual } from "@/features/math/explanations";
 import {
   resolveMathExplanationContext,
   type MathExplanationNumbers,
@@ -225,23 +226,6 @@ function ChunkSubtotalAddition({ subtotals }: { subtotals: number[] }) {
         = {total}
       </p>
     </div>
-  );
-}
-
-function CompactFormula({ children }: { children: string }) {
-  return (
-    <p className="rounded-lg bg-white/50 px-3 py-2 text-sm font-medium text-foreground/90">
-      {children}
-    </p>
-  );
-}
-
-function CountDotsExplanationVisual({ count }: { count: number }) {
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">Spočítej {count} teček</figcaption>
-      <CountDotsVisual count={count} size="md" ariaHidden />
-    </figure>
   );
 }
 
@@ -732,7 +716,7 @@ function DivisionRemainderVisual({
   );
 }
 
-function ExplanationVisual({
+function ExplanationVisualFallback({
   exercise,
   numbers,
 }: {
@@ -761,25 +745,6 @@ function ExplanationVisual({
           remainder={remainder ?? a % b}
         />
       );
-    case "missing-addend-to-10": {
-      const target = exercise.targetSum ?? 10;
-      const known = exercise.operandA;
-      const missing = Number(exercise.correctAnswer);
-      const completed =
-        exercise.missingPosition === "right"
-          ? `${known} + ${missing} = ${target}`
-          : `${missing} + ${known} = ${target}`;
-
-      return <CompactFormula>{completed}</CompactFormula>;
-    }
-    case "count-dots":
-      return <CountDotsExplanationVisual count={exercise.dotCount ?? a} />;
-    case "compare-numbers":
-      return (
-        <CompactFormula>
-          {`${a} ${exercise.comparisonSign ?? exercise.correctAnswer} ${b}`}
-        </CompactFormula>
-      );
     case "number-sequence": {
       const sequence = exercise.sequenceNumbers ?? [];
       const missingIndex = exercise.sequenceMissingIndex ?? -1;
@@ -794,11 +759,14 @@ function ExplanationVisual({
         </CompactFormula>
       );
     }
+    default:
+      return null;
   }
 }
 
 export function MathExplanation({ exercise }: MathExplanationProps) {
   const { context, text } = resolveMathExplanationContext(exercise);
+  const registeredVisual = renderRegisteredMathExplanationVisual(context);
 
   return (
     <section
@@ -807,10 +775,12 @@ export function MathExplanation({ exercise }: MathExplanationProps) {
     >
       <h3 className="text-base font-semibold">Jak na to</h3>
       <p className="text-base">{text}</p>
-      <ExplanationVisual
-        exercise={context.exercise}
-        numbers={context.numbers}
-      />
+      {registeredVisual ?? (
+        <ExplanationVisualFallback
+          exercise={context.exercise}
+          numbers={context.numbers}
+        />
+      )}
     </section>
   );
 }
