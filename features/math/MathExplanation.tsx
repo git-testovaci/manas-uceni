@@ -1,7 +1,8 @@
-import {
-  getCountDotsExplanation,
-} from "@/lib/math/generateMathExercises";
 import { CountDotsVisual, DotGrid } from "@/features/math/visuals";
+import {
+  resolveMathExplanationContext,
+  type MathExplanationNumbers,
+} from "@/lib/math/explanations";
 import type { MathExercise } from "@/types";
 
 const MAX_DOTS = 36;
@@ -102,96 +103,6 @@ function exceedsTotalLimit(value: number): boolean {
 type MathExplanationProps = {
   exercise: MathExercise;
 };
-
-type ExplanationNumbers = {
-  a: number;
-  b: number;
-  result: number;
-  quotient?: number;
-  remainder?: number;
-};
-
-function getNumbers(exercise: MathExercise): ExplanationNumbers {
-  const { operation, operandA, operandB } = exercise;
-
-  switch (operation) {
-    case "add":
-      return { a: operandA, b: operandB, result: operandA + operandB };
-    case "subtract":
-      return { a: operandA, b: operandB, result: operandA - operandB };
-    case "multiply":
-      return { a: operandA, b: operandB, result: operandA * operandB };
-    case "divide":
-      return {
-        a: operandA,
-        b: operandB,
-        result: operandA / operandB,
-        quotient: operandA / operandB,
-      };
-    case "divide-with-remainder": {
-      const quotient = Math.floor(operandA / operandB);
-      const remainder = operandA % operandB;
-      return {
-        a: operandA,
-        b: operandB,
-        result: quotient,
-        quotient,
-        remainder,
-      };
-    }
-    case "missing-addend-to-10": {
-      const known = operandA;
-      const missing = Number(exercise.correctAnswer);
-      const target = exercise.targetSum ?? 10;
-      return { a: known, b: missing, result: target };
-    }
-    case "count-dots": {
-      const count = exercise.dotCount ?? operandA;
-      return { a: count, b: 0, result: count };
-    }
-    case "compare-numbers":
-      return { a: operandA, b: operandB, result: 0 };
-    case "number-sequence":
-      return { a: operandA, b: operandB, result: operandB };
-  }
-}
-
-function getExplanationText(
-  exercise: MathExercise,
-  numbers: ExplanationNumbers,
-): string {
-  const { a, b, result, quotient, remainder } = numbers;
-
-  switch (exercise.operation) {
-    case "add":
-      return `${a} a ${b} dá dohromady ${result}.`;
-    case "subtract":
-      return `Od ${a} odečteme ${b} a zůstane ${result}.`;
-    case "multiply":
-      return `${a} krát ${b} je ${result}.`;
-    case "divide":
-      return `${a} rozdělíme do skupin po ${b} a dostaneme ${result} skupin.`;
-    case "divide-with-remainder":
-      return `${a} rozdělíme po ${b}: ${quotient} celých skupin a ${remainder} zůstane navíc.`;
-    case "missing-addend-to-10": {
-      const target = exercise.targetSum ?? 10;
-      const known = exercise.operandA;
-      const missing = Number(exercise.correctAnswer);
-      if (exercise.missingPosition === "right") {
-        return `Hledáme číslo, které doplní příklad do ${target}. Když máme ${known}, dopočítáme až do ${target}. Chybí ${missing}.`;
-      }
-      return `Hledáme číslo, které s ${known} dá dohromady ${target}. Chybí ${missing}.`;
-    }
-    case "count-dots": {
-      const count = exercise.dotCount ?? result;
-      return exercise.explanation ?? getCountDotsExplanation(count);
-    }
-    case "compare-numbers":
-      return exercise.explanation ?? `Porovnáme čísla ${a} a ${b}.`;
-    case "number-sequence":
-      return exercise.explanation ?? `Chybí ${result}.`;
-  }
-}
 
 function ColoredValue({
   value,
@@ -826,7 +737,7 @@ function ExplanationVisual({
   numbers,
 }: {
   exercise: MathExercise;
-  numbers: ExplanationNumbers;
+  numbers: MathExplanationNumbers;
 }) {
   const { a, b, quotient, remainder } = numbers;
 
@@ -887,7 +798,7 @@ function ExplanationVisual({
 }
 
 export function MathExplanation({ exercise }: MathExplanationProps) {
-  const numbers = getNumbers(exercise);
+  const { context, text } = resolveMathExplanationContext(exercise);
 
   return (
     <section
@@ -895,8 +806,11 @@ export function MathExplanation({ exercise }: MathExplanationProps) {
       className="mt-4 space-y-3 border-t border-orange-300/50 pt-4"
     >
       <h3 className="text-base font-semibold">Jak na to</h3>
-      <p className="text-base">{getExplanationText(exercise, numbers)}</p>
-      <ExplanationVisual exercise={exercise} numbers={numbers} />
+      <p className="text-base">{text}</p>
+      <ExplanationVisual
+        exercise={context.exercise}
+        numbers={context.numbers}
+      />
     </section>
   );
 }

@@ -27,3 +27,9 @@ export type MathExplanationRegistryEntry = {
   operation: MathOperation;
   visualKind: MathExplanationVisualKind;
 };
+
+export type ResolvedMathExplanation = {
+  context: MathExplanationContext;
+  entry: MathExplanationRegistryEntry;
+  text: string;
+};

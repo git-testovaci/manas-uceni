@@ -1,12 +1,16 @@
-import type { MathOperation } from "@/types";
+import type { MathExercise, MathOperation } from "@/types";
 
+import { getMathExplanationNumbers } from "./numbers";
+import { getMathExplanationText } from "./text";
 import type {
   MathExplanationRegistryEntry,
   MathExplanationVisualKind,
+  ResolvedMathExplanation,
 } from "./types";
 
-const OPERATION_VISUAL_KIND: Partial<
-  Record<MathOperation, MathExplanationVisualKind>
+const OPERATION_VISUAL_KIND: Record<
+  MathOperation,
+  MathExplanationVisualKind
 > = {
   add: "dot-groups",
   subtract: "dot-groups",
@@ -21,21 +25,31 @@ const OPERATION_VISUAL_KIND: Partial<
 
 export function getMathExplanationVisualKind(
   operation: MathOperation,
-): MathExplanationVisualKind | undefined {
+): MathExplanationVisualKind {
   return OPERATION_VISUAL_KIND[operation];
 }
 
 export function getMathExplanationRegistryEntry(
   operation: MathOperation,
-): MathExplanationRegistryEntry | undefined {
-  const visualKind = OPERATION_VISUAL_KIND[operation];
-
-  if (!visualKind) {
-    return undefined;
-  }
-
+): MathExplanationRegistryEntry {
   return {
     operation,
-    visualKind,
+    visualKind: OPERATION_VISUAL_KIND[operation],
+  };
+}
+
+export function resolveMathExplanationContext(
+  exercise: MathExercise,
+): ResolvedMathExplanation {
+  const numbers = getMathExplanationNumbers(exercise);
+  const entry = getMathExplanationRegistryEntry(exercise.operation);
+
+  return {
+    context: {
+      exercise,
+      numbers,
+    },
+    entry,
+    text: getMathExplanationText(exercise, numbers),
   };
 }
