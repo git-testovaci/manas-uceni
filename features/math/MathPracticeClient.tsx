@@ -59,6 +59,14 @@ import type {
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
 import { renderMathQuestionPrompt } from "@/features/math/prompts";
+import {
+  buildPromptSummaryAccessibleText,
+  buildSessionAnswerRecord,
+  getPromptSummaryAccessibleVariant,
+  PromptSummaryRow,
+  type SessionAnswerRecord,
+  type SessionAnswerResult,
+} from "@/features/math/summary";
 import { CountDotsVisual } from "@/features/math/CountDotsVisual";
 import {
   useEffect,
@@ -72,21 +80,6 @@ import {
 } from "react";
 
 type Phase = "config" | "practice" | "summary";
-
-type SessionAnswerResult = "correct" | "needsPractice" | "corrected";
-
-type SessionAnswerRecord = {
-  questionNumber: number;
-  exerciseId: string;
-  operation: MathOperation;
-  operandA: number;
-  operandB: number;
-  prompt?: string;
-  dotCount?: number;
-  userAnswer: string;
-  expectedAnswer: string;
-  result: SessionAnswerResult;
-};
 
 type AdvancedFlags = Record<MathTopic, boolean>;
 
@@ -1481,26 +1474,13 @@ export function MathPracticeClient() {
 
     setSessionAnswers((current) => [
       ...current,
-      {
+      buildSessionAnswerRecord({
+        exercise: currentExercise,
         questionNumber: currentQuestionNumber,
-        exerciseId: currentExercise.id,
-        operation: currentExercise.operation,
-        operandA: currentExercise.operandA,
-        operandB: currentExercise.operandB,
-        prompt:
-          currentExercise.operation === "missing-addend-to-10" ||
-          currentExercise.operation === "compare-numbers" ||
-          currentExercise.operation === "number-sequence"
-            ? currentExercise.prompt
-            : undefined,
-        dotCount:
-          currentExercise.operation === "count-dots"
-            ? (currentExercise.dotCount ?? currentExercise.operandA)
-            : undefined,
         userAnswer: input,
         expectedAnswer: result.expectedAnswer,
         result: answerResult,
-      },
+      }),
     ]);
 
     setAnsweredInSession((current) => current + 1);
@@ -4113,28 +4093,19 @@ function getMathOperatorSymbol(operation: MathOperation): string {
 }
 
 function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
-  if (record.operation === "compare-numbers" && record.prompt) {
-    if (record.result === "needsPractice") {
-      return `Otázka ${record.questionNumber}, porovnání ${record.prompt}, tvoje znaménko ${record.userAnswer}, špatně, správné znaménko ${record.expectedAnswer}`;
-    }
+  const promptVariant = record.prompt
+    ? getPromptSummaryAccessibleVariant(record.operation)
+    : null;
 
-    return `Otázka ${record.questionNumber}, porovnání ${record.prompt}, tvoje znaménko ${record.userAnswer}, správně`;
-  }
-
-  if (record.operation === "missing-addend-to-10" && record.prompt) {
-    if (record.result === "needsPractice") {
-      return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
-    }
-
-    return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, správně`;
-  }
-
-  if (record.operation === "number-sequence" && record.prompt) {
-    if (record.result === "needsPractice") {
-      return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
-    }
-
-    return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, správně`;
+  if (record.prompt && promptVariant) {
+    return buildPromptSummaryAccessibleText({
+      questionNumber: record.questionNumber,
+      prompt: record.prompt,
+      userAnswer: record.userAnswer,
+      expectedAnswer: record.expectedAnswer,
+      isWrong: record.result === "needsPractice",
+      variant: promptVariant,
+    });
   }
 
   if (record.operation === "count-dots" && record.dotCount !== undefined) {
@@ -4157,6 +4128,22 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
 
 function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   const isWrong = record.result === "needsPractice";
+  const promptVariant = record.prompt
+    ? getPromptSummaryAccessibleVariant(record.operation)
+    : null;
+
+  if (record.prompt && promptVariant) {
+    return (
+      <PromptSummaryRow
+        questionNumber={record.questionNumber}
+        prompt={record.prompt}
+        userAnswer={record.userAnswer}
+        expectedAnswer={record.expectedAnswer}
+        isWrong={isWrong}
+        accessibleText={buildSummaryAccessibleText(record)}
+      />
+    );
+  }
 
   if (record.operation === "count-dots" && record.dotCount !== undefined) {
     return (
@@ -4166,93 +4153,6 @@ function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
             <span className="text-foreground/70">{record.questionNumber}.</span>
             <span>Zadání:</span>
             <CountDotsVisual count={record.dotCount} size="sm" />
-          </div>
-          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
-            <span>
-              Tvoje odpověď:{" "}
-              <span className="font-medium">{record.userAnswer}</span>
-            </span>
-            <span>{isWrong ? "❌" : "✅"}</span>
-            {isWrong && (
-              <span className="text-foreground/80">
-                Správně: {record.expectedAnswer}
-              </span>
-            )}
-          </div>
-        </div>
-        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
-      </li>
-    );
-  }
-
-  if (record.operation === "compare-numbers" && record.prompt) {
-    return (
-      <li>
-        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
-          <div className="flex flex-wrap items-center gap-x-2">
-            <span className="text-foreground/70">{record.questionNumber}.</span>
-            <span>
-              Zadání:{" "}
-              <span className="font-medium">{record.prompt}</span>
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
-            <span>
-              Tvoje odpověď:{" "}
-              <span className="font-medium">{record.userAnswer}</span>
-            </span>
-            <span>{isWrong ? "❌" : "✅"}</span>
-            {isWrong && (
-              <span className="text-foreground/80">
-                Správně: {record.expectedAnswer}
-              </span>
-            )}
-          </div>
-        </div>
-        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
-      </li>
-    );
-  }
-
-  if (record.operation === "missing-addend-to-10" && record.prompt) {
-    return (
-      <li>
-        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
-          <div className="flex flex-wrap items-center gap-x-2">
-            <span className="text-foreground/70">{record.questionNumber}.</span>
-            <span>
-              Zadání:{" "}
-              <span className="font-medium">{record.prompt}</span>
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
-            <span>
-              Tvoje odpověď:{" "}
-              <span className="font-medium">{record.userAnswer}</span>
-            </span>
-            <span>{isWrong ? "❌" : "✅"}</span>
-            {isWrong && (
-              <span className="text-foreground/80">
-                Správně: {record.expectedAnswer}
-              </span>
-            )}
-          </div>
-        </div>
-        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
-      </li>
-    );
-  }
-
-  if (record.operation === "number-sequence" && record.prompt) {
-    return (
-      <li>
-        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
-          <div className="flex flex-wrap items-center gap-x-2">
-            <span className="text-foreground/70">{record.questionNumber}.</span>
-            <span>
-              Zadání:{" "}
-              <span className="font-medium">{record.prompt}</span>
-            </span>
           </div>
           <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
             <span>
