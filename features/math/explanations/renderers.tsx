@@ -16,6 +16,8 @@ import {
   DivisionRemainderExplanationVisual,
   SubtractionExplanationVisual,
 } from "./visuals/arithmetic";
+import { MultiplicationExplanationVisual } from "./visuals/multiplication";
+import { NumberSequenceExplanationVisual } from "./visuals/numberSequence";
 
 function CountDotsExplanationVisual({
   context,
@@ -79,6 +81,10 @@ const VISUAL_RENDERERS: Record<
   divide: (context) => <DivisionExplanationVisual context={context} />,
   "divide-with-remainder": (context) => (
     <DivisionRemainderExplanationVisual context={context} />
+  ),
+  multiply: (context) => <MultiplicationExplanationVisual context={context} />,
+  "number-sequence": (context) => (
+    <NumberSequenceExplanationVisual context={context} />
   ),
 };
 

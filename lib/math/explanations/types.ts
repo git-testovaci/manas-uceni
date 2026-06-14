@@ -35,13 +35,15 @@ export type ResolvedMathExplanation = {
 };
 
 export const REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS = [
-  "count-dots",
-  "compare-numbers",
-  "missing-addend-to-10",
   "add",
   "subtract",
+  "multiply",
   "divide",
   "divide-with-remainder",
+  "missing-addend-to-10",
+  "count-dots",
+  "compare-numbers",
+  "number-sequence",
 ] as const satisfies readonly MathOperation[];
 
 export type RegisteredMathExplanationVisualOperation =
