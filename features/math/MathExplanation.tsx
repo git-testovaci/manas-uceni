@@ -1,7 +1,7 @@
 import {
   getCountDotsExplanation,
 } from "@/lib/math/generateMathExercises";
-import { CountDotsVisual } from "@/features/math/CountDotsVisual";
+import { CountDotsVisual, DotGrid } from "@/features/math/visuals";
 import type { MathExercise } from "@/types";
 
 const MAX_DOTS = 36;
@@ -193,25 +193,6 @@ function getExplanationText(
   }
 }
 
-function Dot({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-math/80 ${className}`}
-    />
-  );
-}
-
-function DotRow({ count, className = "" }: { count: number; className?: string }) {
-  return (
-    <div className="flex flex-wrap gap-1" aria-hidden="true">
-      {Array.from({ length: count }, (_, index) => (
-        <Dot key={index} className={className} />
-      ))}
-    </div>
-  );
-}
-
 function ColoredValue({
   value,
   color,
@@ -371,9 +352,9 @@ function AdditionVisual({ a, b }: { a: number; b: number }) {
         {a} teček plus {b} teček, dohromady {sum} teček
       </figcaption>
       <p className="text-sm font-medium text-foreground/70">První číslo ({a})</p>
-      <DotRow count={a} />
+      <DotGrid count={a} />
       <p className="text-sm font-medium text-foreground/70">Druhé číslo ({b})</p>
-      <DotRow count={b} />
+      <DotGrid count={b} />
       <p className="text-sm text-foreground/80">Dohromady je {sum}.</p>
     </figure>
   );
@@ -393,9 +374,9 @@ function SubtractionVisual({ a, b }: { a: number; b: number }) {
         Od {a} odečteme {b}, zůstane {result} teček
       </figcaption>
       <p className="text-sm font-medium text-foreground/70">Odečítáme ({b})</p>
-      <DotRow count={b} />
+      <DotGrid count={b} />
       <p className="text-sm font-medium text-foreground/70">Zbývá ({result})</p>
-      <DotRow count={result} />
+      <DotGrid count={result} />
     </figure>
   );
 }
@@ -775,7 +756,7 @@ function DivisionVisual({
             aria-hidden="true"
           >
             <p className="mb-1 text-xs text-foreground/60">Skupina {groupIndex + 1}</p>
-            <DotRow count={divisor} />
+            <DotGrid count={divisor} />
           </div>
         ))}
       </div>
@@ -822,7 +803,7 @@ function DivisionRemainderVisual({
             aria-hidden="true"
           >
             <p className="mb-1 text-xs text-foreground/60">Skupina {groupIndex + 1}</p>
-            <DotRow count={divisor} />
+            <DotGrid count={divisor} />
           </div>
         ))}
       </div>
@@ -832,7 +813,7 @@ function DivisionRemainderVisual({
             Zbytek ({remainder})
           </p>
           <div className="rounded-lg border border-dashed border-foreground/25 px-2 py-1.5">
-            <DotRow count={remainder} />
+            <DotGrid count={remainder} />
           </div>
         </>
       )}
