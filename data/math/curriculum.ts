@@ -177,6 +177,23 @@ function compareNumbersTo10Preset(): MathLessonPreset {
   };
 }
 
+function compareNumbersTo20Preset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 20,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        compareNumbers: {
+          enabled: true,
+          numberRange: { min: 0, max: 20 },
+        },
+      },
+    },
+  };
+}
+
 function additionSubtractionPreset(
   max: number,
   topics: ("addition" | "subtraction")[] = ["addition", "subtraction"],
@@ -615,6 +632,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["mixed"],
     difficultyProfile: "within-20",
+    preset: compareNumbersTo20Preset(),
   },
   {
     order: 11,

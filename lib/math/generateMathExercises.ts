@@ -352,6 +352,9 @@ function generateFromTopicConfigs(
   topicConfigs: MathTopicConfigs,
 ): MathExercise[] {
   const byId = new Map<string, MathExercise>();
+  const compareNumbersExercises = topicConfigs.compareNumbers?.enabled
+    ? generateCompareNumbersFromTopicConfig(topicConfigs.compareNumbers)
+    : undefined;
 
   if (topicConfigs.addition?.enabled) {
     for (const exercise of generateAdditionFromTopicConfig(
@@ -409,15 +412,13 @@ function generateFromTopicConfigs(
     }
   }
 
-  if (topicConfigs.compareNumbers?.enabled) {
-    for (const exercise of generateCompareNumbersFromTopicConfig(
-      topicConfigs.compareNumbers,
-    )) {
-      byId.set(exercise.id, exercise);
-    }
+  const exercises = [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+
+  if (!compareNumbersExercises) {
+    return exercises;
   }
 
-  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+  return [...exercises, ...compareNumbersExercises];
 }
 
 function buildRangePool(range: MathRangeConfig): number[] {
@@ -675,10 +676,57 @@ function generateCountDotsFromTopicConfig(
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function sortCompareNumbersGroup(
+  exercises: MathExercise[],
+  group: "less" | "greater" | "equal",
+): MathExercise[] {
+  return [...exercises].sort((a, b) => {
+    const leftA = a.operandA;
+    const rightA = a.operandB;
+    const leftB = b.operandA;
+    const rightB = b.operandB;
+
+    if (group === "equal") {
+      return leftA - leftB;
+    }
+
+    if (rightA !== rightB) {
+      return rightA - rightB;
+    }
+
+    return leftA - leftB;
+  });
+}
+
+function interleaveCompareNumbersGroups(
+  less: MathExercise[],
+  greater: MathExercise[],
+  equal: MathExercise[],
+): MathExercise[] {
+  const ordered: MathExercise[] = [];
+  const maxLength = Math.max(less.length, greater.length, equal.length);
+
+  for (let index = 0; index < maxLength; index += 1) {
+    if (index < less.length) {
+      ordered.push(less[index]!);
+    }
+    if (index < greater.length) {
+      ordered.push(greater[index]!);
+    }
+    if (index < equal.length) {
+      ordered.push(equal[index]!);
+    }
+  }
+
+  return ordered;
+}
+
 function generateCompareNumbersFromTopicConfig(
   config: CompareNumbersConfig,
 ): MathExercise[] {
-  const byId = new Map<string, MathExercise>();
+  const less: MathExercise[] = [];
+  const greater: MathExercise[] = [];
+  const equal: MathExercise[] = [];
 
   for (
     let left = config.numberRange.min;
@@ -691,11 +739,22 @@ function generateCompareNumbersFromTopicConfig(
       right += 1
     ) {
       const exercise = createCompareNumbersExercise(left, right);
-      byId.set(exercise.id, exercise);
+
+      if (left < right) {
+        less.push(exercise);
+      } else if (left > right) {
+        greater.push(exercise);
+      } else {
+        equal.push(exercise);
+      }
     }
   }
 
-  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+  return interleaveCompareNumbersGroups(
+    sortCompareNumbersGroup(less, "less"),
+    sortCompareNumbersGroup(greater, "greater"),
+    sortCompareNumbersGroup(equal, "equal"),
+  );
 }
 
 function isValidDivisionRemainderExample(
