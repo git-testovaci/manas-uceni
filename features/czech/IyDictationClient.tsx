@@ -409,6 +409,53 @@ function PracticeAnswerControls({
   onAnswer: (letter: string) => void;
   onEvaluate: () => void;
 }) {
+  const firstLetterRef = useRef<HTMLButtonElement>(null);
+  const prevFocusedBlankIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (activeBlankId === null) {
+      prevFocusedBlankIdRef.current = null;
+      return;
+    }
+
+    if (prevFocusedBlankIdRef.current === activeBlankId) {
+      return;
+    }
+
+    prevFocusedBlankIdRef.current = activeBlankId;
+
+    let focusFrameId: number | undefined;
+
+    const frameId = window.requestAnimationFrame(() => {
+      focusFrameId = window.requestAnimationFrame(() => {
+        const button = firstLetterRef.current;
+        const panel = panelRef.current;
+
+        if (!button || button.disabled) {
+          return;
+        }
+
+        const activeElement = document.activeElement;
+        if (
+          panel &&
+          activeElement instanceof HTMLElement &&
+          panel.contains(activeElement)
+        ) {
+          return;
+        }
+
+        button.focus({ preventScroll: true });
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      if (focusFrameId !== undefined) {
+        window.cancelAnimationFrame(focusFrameId);
+      }
+    };
+  }, [activeBlankId, panelRef]);
+
   return (
     <section
       ref={panelRef}
@@ -426,9 +473,10 @@ function PracticeAnswerControls({
           )}
         </p>
         <div className="grid grid-cols-4 gap-2">
-          {IY_LETTERS.map((letter) => (
+          {IY_LETTERS.map((letter, index) => (
             <button
               key={letter}
+              ref={index === 0 ? firstLetterRef : undefined}
               type="button"
               onClick={() => onAnswer(letter)}
               disabled={activeBlankId === null}

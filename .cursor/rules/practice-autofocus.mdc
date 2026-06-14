@@ -1,0 +1,39 @@
+---
+description: Autofocus rules for practice screens (math, Czech, English)
+alwaysApply: true
+---
+
+# Practice screen autofocus
+
+Practice screens must autofocus the first answer control so the child can answer without an extra click.
+
+## New question / start of practice
+
+- Focus the first answer control when a new question or active blank appears.
+- Math numeric: `Tvoje odpověď` input (including count-dots, missing-addend).
+- Math division with remainder: first numeric input (quotient).
+- Math compare-numbers: first sign button (`<`, `>`, `=`).
+- Czech/English choice practice: first letter/choice button when a blank is active.
+
+## After submit
+
+- Do **not** steal focus back to the answer input after submit.
+- Focus the next-step control (for example `Další příklad` / `Hotovo`) until the next question.
+
+## Choice-based exercises
+
+- Focus the first choice button on a new question.
+- Never auto-select a choice.
+- Never auto-submit.
+- Keep select-then-confirm flows (compare-numbers: select sign → `Zkontrolovat`).
+
+## Implementation
+
+- Use local refs and effects keyed on question/blank id and submit state.
+- Do not refocus while the child is typing or already using the answer controls.
+- Defer focus with `requestAnimationFrame` when layout or mobile scroll may run first; use `preventScroll: true` when needed.
+- Avoid `document.querySelector` unless there is no safe local ref.
+
+## Applies to
+
+Future math, Czech, and English practice features in `features/`.

@@ -3563,6 +3563,7 @@ function PracticeScreen({
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
+  const compareFirstButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -3576,10 +3577,13 @@ function PracticeScreen({
       return;
     }
 
-    if (!isCountDotsExercise && !isCompareExercise) {
-      answerInputRef.current?.focus();
+    if (isCompareExercise) {
+      compareFirstButtonRef.current?.focus();
+      return;
     }
-  }, [exercise.id, hasSubmitted, isCompareExercise, isCountDotsExercise, isRemainderExercise]);
+
+    answerInputRef.current?.focus();
+  }, [exercise.id, hasSubmitted, isCompareExercise, isRemainderExercise]);
 
   const handleAnswerKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter" || hasSubmitted) {
@@ -3645,9 +3649,10 @@ function PracticeScreen({
         <div className="space-y-3">
           <span className="text-base font-semibold">Vyber znaménko</span>
           <div className="grid grid-cols-3 gap-3">
-            {COMPARISON_CHOICES.map((sign) => (
+            {COMPARISON_CHOICES.map((sign, index) => (
               <button
                 key={sign}
+                ref={index === 0 ? compareFirstButtonRef : undefined}
                 type="button"
                 onClick={() => onComparisonChoice(sign)}
                 disabled={hasSubmitted}
