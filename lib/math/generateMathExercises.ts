@@ -12,6 +12,8 @@ import type {
   MissingAddendConfig,
   MissingAddendPosition,
   CountDotsConfig,
+  ComparisonSign,
+  CompareNumbersConfig,
   MultiplicationConfig,
   ReviewState,
   ReviewStateMap,
@@ -40,6 +42,7 @@ const OPERATION_TO_TOPIC: Record<MathOperation, MathTopic> = {
   "divide-with-remainder": "division-remainder",
   "missing-addend-to-10": "addition",
   "count-dots": "mixed",
+  "compare-numbers": "mixed",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -70,6 +73,8 @@ export function createMathExerciseId(
       throw new Error("Use createMissingAddendTo10ExerciseId instead.");
     case "count-dots":
       throw new Error("Use createCountDotsExerciseId instead.");
+    case "compare-numbers":
+      throw new Error("Use createCompareNumbersExerciseId instead.");
   }
 }
 
@@ -150,6 +155,62 @@ export function createCountDotsExercise(count: number): MathExercise {
     prompt: "Kolik je teček?",
     correctAnswer: String(count),
     explanation: buildCountDotsExplanation(count),
+    createdBy: "system",
+  };
+}
+
+function getComparisonSign(left: number, right: number): ComparisonSign {
+  if (left < right) {
+    return "<";
+  }
+
+  if (left > right) {
+    return ">";
+  }
+
+  return "=";
+}
+
+export function createCompareNumbersExerciseId(
+  left: number,
+  right: number,
+): string {
+  return `math-compare-${left}-${right}`;
+}
+
+function buildCompareNumbersExplanation(
+  left: number,
+  right: number,
+  sign: ComparisonSign,
+): string {
+  if (sign === "<") {
+    return `Porovnáme čísla. ${left} je menší než ${right}, proto doplníme <.`;
+  }
+
+  if (sign === ">") {
+    return `Porovnáme čísla. ${left} je větší než ${right}, proto doplníme >.`;
+  }
+
+  return `Porovnáme čísla. ${left} je stejné jako ${right}, proto doplníme =.`;
+}
+
+export function createCompareNumbersExercise(
+  left: number,
+  right: number,
+): MathExercise {
+  const sign = getComparisonSign(left, right);
+
+  return {
+    id: createCompareNumbersExerciseId(left, right),
+    subject: "math",
+    topic: "mixed",
+    operation: "compare-numbers",
+    operandA: left,
+    operandB: right,
+    comparisonSign: sign,
+    prompt: `${left} ? ${right}`,
+    correctAnswer: sign,
+    explanation: buildCompareNumbersExplanation(left, right, sign),
     createdBy: "system",
   };
 }
@@ -258,6 +319,8 @@ export function createMathExercise(
       throw new Error("Use createMissingAddendTo10Exercise instead.");
     case "count-dots":
       throw new Error("Use createCountDotsExercise instead.");
+    case "compare-numbers":
+      throw new Error("Use createCompareNumbersExercise instead.");
   }
 }
 
@@ -341,6 +404,14 @@ function generateFromTopicConfigs(
   if (topicConfigs.countDots?.enabled) {
     for (const exercise of generateCountDotsFromTopicConfig(
       topicConfigs.countDots,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.compareNumbers?.enabled) {
+    for (const exercise of generateCompareNumbersFromTopicConfig(
+      topicConfigs.compareNumbers,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -604,6 +675,29 @@ function generateCountDotsFromTopicConfig(
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function generateCompareNumbersFromTopicConfig(
+  config: CompareNumbersConfig,
+): MathExercise[] {
+  const byId = new Map<string, MathExercise>();
+
+  for (
+    let left = config.numberRange.min;
+    left <= config.numberRange.max;
+    left += 1
+  ) {
+    for (
+      let right = config.numberRange.min;
+      right <= config.numberRange.max;
+      right += 1
+    ) {
+      const exercise = createCompareNumbersExercise(left, right);
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function isValidDivisionRemainderExample(
   dividend: number,
   divisor: number,
@@ -731,6 +825,8 @@ function generateForOperation(
     case "missing-addend-to-10":
       return [];
     case "count-dots":
+      return [];
+    case "compare-numbers":
       return [];
   }
 }

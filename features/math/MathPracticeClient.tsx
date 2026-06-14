@@ -117,6 +117,8 @@ const MIN_QUESTION_COUNT = 1;
 const MIN_RANGE_VALUE = 1;
 const DEFAULT_QUESTION_COUNT = 10;
 
+const COMPARISON_CHOICES = ["<", ">", "="] as const;
+
 type ActiveTopicPresets = Partial<Record<MathTopic, MathPracticePresetId>>;
 
 const CONFIG_KEY_TO_TOPIC: Partial<
@@ -1412,15 +1414,20 @@ export function MathPracticeClient() {
       );
     }
 
+    if (currentExercise.operation === "compare-numbers") {
+      return COMPARISON_CHOICES.includes(
+        userInput.trim() as (typeof COMPARISON_CHOICES)[number],
+      );
+    }
+
     return userInput.trim().length > 0;
   };
 
-  const handleSubmitAnswer = () => {
-    if (!currentExercise || !canSubmitAnswer()) {
+  const submitAnswer = (input: string) => {
+    if (!currentExercise || hasSubmitted) {
       return;
     }
 
-    const input = getAnswerInput();
     const result = processMathAnswer({
       exercise: currentExercise,
       input,
@@ -1449,7 +1456,8 @@ export function MathPracticeClient() {
         operandA: currentExercise.operandA,
         operandB: currentExercise.operandB,
         prompt:
-          currentExercise.operation === "missing-addend-to-10"
+          currentExercise.operation === "missing-addend-to-10" ||
+          currentExercise.operation === "compare-numbers"
             ? currentExercise.prompt
             : undefined,
         dotCount:
@@ -1472,6 +1480,26 @@ export function MathPracticeClient() {
       ),
     );
     setHasSubmitted(true);
+  };
+
+  const handleSubmitAnswer = () => {
+    if (!canSubmitAnswer()) {
+      return;
+    }
+
+    submitAnswer(getAnswerInput());
+  };
+
+  const handleComparisonChoice = (sign: string) => {
+    if (!currentExercise || hasSubmitted) {
+      return;
+    }
+
+    if (currentExercise.operation !== "compare-numbers") {
+      return;
+    }
+
+    setUserInput(sign);
   };
 
   const handleNextQuestion = () => {
@@ -1610,6 +1638,7 @@ export function MathPracticeClient() {
       onQuotientChange={setQuotientInput}
       onRemainderChange={setRemainderInput}
       onSubmit={handleSubmitAnswer}
+      onComparisonChoice={handleComparisonChoice}
       onNext={handleNextQuestion}
     />
   );
@@ -3505,6 +3534,7 @@ type PracticeScreenProps = {
   onQuotientChange: (value: string) => void;
   onRemainderChange: (value: string) => void;
   onSubmit: () => void;
+  onComparisonChoice: (sign: string) => void;
   onNext: () => void;
 };
 
@@ -3523,10 +3553,12 @@ function PracticeScreen({
   onQuotientChange,
   onRemainderChange,
   onSubmit,
+  onComparisonChoice,
   onNext,
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
   const isCountDotsExercise = exercise.operation === "count-dots";
+  const isCompareExercise = exercise.operation === "compare-numbers";
   const dotCount = exercise.dotCount ?? exercise.operandA;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
@@ -3544,8 +3576,10 @@ function PracticeScreen({
       return;
     }
 
-    answerInputRef.current?.focus();
-  }, [exercise.id, hasSubmitted, isRemainderExercise]);
+    if (!isCountDotsExercise && !isCompareExercise) {
+      answerInputRef.current?.focus();
+    }
+  }, [exercise.id, hasSubmitted, isCompareExercise, isCountDotsExercise, isRemainderExercise]);
 
   const handleAnswerKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter" || hasSubmitted) {
@@ -3607,7 +3641,29 @@ function PracticeScreen({
         </p>
       )}
 
-      {isRemainderExercise ? (
+      {isCompareExercise ? (
+        <div className="space-y-3">
+          <span className="text-base font-semibold">Vyber znaménko</span>
+          <div className="grid grid-cols-3 gap-3">
+            {COMPARISON_CHOICES.map((sign) => (
+              <button
+                key={sign}
+                type="button"
+                onClick={() => onComparisonChoice(sign)}
+                disabled={hasSubmitted}
+                aria-pressed={userInput === sign}
+                className={`min-h-16 rounded-2xl border text-3xl font-bold transition-colors sm:min-h-20 sm:text-4xl ${
+                  userInput === sign
+                    ? "border-math bg-math/10 text-math"
+                    : "border-foreground/20 hover:bg-foreground/5"
+                } disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2`}
+              >
+                {sign}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : isRemainderExercise ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label className="block space-y-2">
             <span className="text-base font-semibold">Výsledek</span>
@@ -4007,6 +4063,14 @@ function getMathOperatorSymbol(operation: MathOperation): string {
 }
 
 function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
+  if (record.operation === "compare-numbers" && record.prompt) {
+    if (record.result === "needsPractice") {
+      return `Otázka ${record.questionNumber}, porovnání ${record.prompt}, tvoje znaménko ${record.userAnswer}, špatně, správné znaménko ${record.expectedAnswer}`;
+    }
+
+    return `Otázka ${record.questionNumber}, porovnání ${record.prompt}, tvoje znaménko ${record.userAnswer}, správně`;
+  }
+
   if (record.operation === "missing-addend-to-10" && record.prompt) {
     if (record.result === "needsPractice") {
       return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
@@ -4044,6 +4108,35 @@ function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
             <span className="text-foreground/70">{record.questionNumber}.</span>
             <span>Zadání:</span>
             <CountDotsVisual count={record.dotCount} size="sm" />
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
+            <span>
+              Tvoje odpověď:{" "}
+              <span className="font-medium">{record.userAnswer}</span>
+            </span>
+            <span>{isWrong ? "❌" : "✅"}</span>
+            {isWrong && (
+              <span className="text-foreground/80">
+                Správně: {record.expectedAnswer}
+              </span>
+            )}
+          </div>
+        </div>
+        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+      </li>
+    );
+  }
+
+  if (record.operation === "compare-numbers" && record.prompt) {
+    return (
+      <li>
+        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-foreground/70">{record.questionNumber}.</span>
+            <span>
+              Zadání:{" "}
+              <span className="font-medium">{record.prompt}</span>
+            </span>
           </div>
           <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
             <span>

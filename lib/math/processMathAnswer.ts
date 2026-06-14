@@ -6,6 +6,7 @@ import {
   formatRemainderAnswer,
   parseNumericAnswer,
   parseRemainderAnswer,
+  validateComparisonAnswer,
   validateMathAnswer,
 } from "@/lib/math/validateMathAnswer";
 import type {
@@ -84,11 +85,14 @@ export function processMathAnswer(
   const state = resolveReviewState(exercise, reviewState);
   const expected = getExpectedMathAnswer(exercise);
 
-  const validation = validateMathAnswer(
-    input,
-    expected.correctAnswer,
-    expected.expectedRemainder,
-  );
+  const validation =
+    exercise.operation === "compare-numbers"
+      ? validateComparisonAnswer(input, expected.correctAnswer)
+      : validateMathAnswer(
+          input,
+          expected.correctAnswer,
+          expected.expectedRemainder,
+        );
 
   const { state: updatedReviewState, answerResult } = updateReviewState({
     state,

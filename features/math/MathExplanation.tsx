@@ -149,6 +149,8 @@ function getNumbers(exercise: MathExercise): ExplanationNumbers {
       const count = exercise.dotCount ?? operandA;
       return { a: count, b: 0, result: count };
     }
+    case "compare-numbers":
+      return { a: operandA, b: operandB, result: 0 };
   }
 }
 
@@ -182,6 +184,8 @@ function getExplanationText(
       const count = exercise.dotCount ?? result;
       return exercise.explanation ?? getCountDotsExplanation(count);
     }
+    case "compare-numbers":
+      return exercise.explanation ?? `Porovnáme čísla ${a} a ${b}.`;
   }
 }
 
@@ -874,6 +878,12 @@ function ExplanationVisual({
     }
     case "count-dots":
       return <CountDotsExplanationVisual count={exercise.dotCount ?? a} />;
+    case "compare-numbers":
+      return (
+        <CompactFormula>
+          {`${a} ${exercise.comparisonSign ?? exercise.correctAnswer} ${b}`}
+        </CompactFormula>
+      );
   }
 }
 

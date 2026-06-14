@@ -36,11 +36,14 @@ export type MathOperation =
   | "divide"
   | "divide-with-remainder"
   | "missing-addend-to-10"
-  | "count-dots";
+  | "count-dots"
+  | "compare-numbers";
 
 export type MissingAddendPosition = "left" | "right";
 
 export type CountObjectType = "dot";
+
+export type ComparisonSign = "<" | ">" | "=";
 
 export type WordCategory =
   | "noun"
@@ -150,6 +153,11 @@ export interface CountDotsConfig {
   objectType?: CountObjectType;
 }
 
+export interface CompareNumbersConfig {
+  enabled: boolean;
+  numberRange: MathRangeConfig;
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
@@ -158,6 +166,7 @@ export interface MathTopicConfigs {
   divisionRemainder?: DivisionRemainderConfig;
   missingAddend?: MissingAddendConfig;
   countDots?: CountDotsConfig;
+  compareNumbers?: CompareNumbersConfig;
 }
 
 export interface MathPracticeConfig {
@@ -240,6 +249,7 @@ export interface MathExercise extends ExerciseBase {
   targetSum?: number;
   dotCount?: number;
   countObjectType?: CountObjectType;
+  comparisonSign?: ComparisonSign;
   expectedRemainder?: number;
   visualHint?: MathVisualHint;
 }

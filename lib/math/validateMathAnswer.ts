@@ -95,6 +95,26 @@ export function isRemainderAnswerCorrect(
   return parsed.quotient === quotient && parsed.remainder === remainder;
 }
 
+export function validateComparisonAnswer(
+  input: string,
+  correctAnswer: string,
+): {
+  isCorrect: boolean;
+  normalizedInput: string;
+  expectedAnswer: string;
+} {
+  const normalizedInput = input.trim();
+  const expectedAnswer = correctAnswer.trim();
+
+  return {
+    isCorrect:
+      normalizedInput === expectedAnswer &&
+      (expectedAnswer === "<" || expectedAnswer === ">" || expectedAnswer === "="),
+    normalizedInput,
+    expectedAnswer,
+  };
+}
+
 export function validateMathAnswer(
   input: string,
   correctAnswer: string,
