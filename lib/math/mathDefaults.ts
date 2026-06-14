@@ -7,6 +7,7 @@ import type {
   MathTopicConfigs,
   MissingAddendConfig,
   MultiplicationConfig,
+  CountDotsConfig,
   SubtractionConfig,
 } from "@/types";
 
@@ -57,6 +58,12 @@ export const DEFAULT_MISSING_ADDEND_CONFIG: MissingAddendConfig = {
   knownAddend: { min: 0, max: 10 },
 };
 
+export const DEFAULT_COUNT_DOTS_CONFIG: CountDotsConfig = {
+  enabled: false,
+  countRange: { min: 1, max: 5 },
+  objectType: "dot",
+};
+
 export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   addition: DEFAULT_ADDITION_CONFIG,
   subtraction: DEFAULT_SUBTRACTION_CONFIG,
@@ -64,6 +71,7 @@ export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   division: DEFAULT_DIVISION_CONFIG,
   divisionRemainder: DEFAULT_DIVISION_REMAINDER_CONFIG,
   missingAddend: DEFAULT_MISSING_ADDEND_CONFIG,
+  countDots: DEFAULT_COUNT_DOTS_CONFIG,
 };
 
 export function createDefaultMathPracticeConfig(): MathPracticeConfig {

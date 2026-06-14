@@ -1,3 +1,4 @@
+import { getCountDotsExplanation } from "@/lib/math/generateMathExercises";
 import type { MathExercise } from "@/types";
 
 const MAX_DOTS = 36;
@@ -141,6 +142,10 @@ function getNumbers(exercise: MathExercise): ExplanationNumbers {
       const target = exercise.targetSum ?? 10;
       return { a: known, b: missing, result: target };
     }
+    case "count-dots": {
+      const count = exercise.dotCount ?? operandA;
+      return { a: count, b: 0, result: count };
+    }
   }
 }
 
@@ -169,6 +174,10 @@ function getExplanationText(
         return `Hledáme číslo, které doplní příklad do ${target}. Když máme ${known}, dopočítáme až do ${target}. Chybí ${missing}.`;
       }
       return `Hledáme číslo, které s ${known} dá dohromady ${target}. Chybí ${missing}.`;
+    }
+    case "count-dots": {
+      const count = exercise.dotCount ?? result;
+      return exercise.explanation ?? getCountDotsExplanation(count);
     }
   }
 }
@@ -321,6 +330,22 @@ function CompactFormula({ children }: { children: string }) {
     <p className="rounded-lg bg-white/50 px-3 py-2 text-sm font-medium text-foreground/90">
       {children}
     </p>
+  );
+}
+
+function CountDotsExplanationVisual({ count }: { count: number }) {
+  return (
+    <figure className="space-y-2">
+      <figcaption className="sr-only">Spočítej {count} teček</figcaption>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3" aria-hidden="true">
+        {Array.from({ length: count }, (_, index) => (
+          <span
+            key={index}
+            className="inline-block h-4 w-4 rounded-full bg-math sm:h-5 sm:w-5"
+          />
+        ))}
+      </div>
+    </figure>
   );
 }
 
@@ -851,6 +876,8 @@ function ExplanationVisual({
 
       return <CompactFormula>{completed}</CompactFormula>;
     }
+    case "count-dots":
+      return <CountDotsExplanationVisual count={exercise.dotCount ?? a} />;
   }
 }
 

@@ -11,6 +11,7 @@ import type {
   MathVisualHint,
   MissingAddendConfig,
   MissingAddendPosition,
+  CountDotsConfig,
   MultiplicationConfig,
   ReviewState,
   ReviewStateMap,
@@ -31,13 +32,14 @@ const TOPIC_TO_OPERATION: Record<
   "division-remainder": "divide-with-remainder",
 };
 
-const OPERATION_TO_TOPIC: Record<MathOperation, Exclude<MathTopic, "mixed">> = {
+const OPERATION_TO_TOPIC: Record<MathOperation, MathTopic> = {
   add: "addition",
   subtract: "subtraction",
   multiply: "multiplication",
   divide: "division",
   "divide-with-remainder": "division-remainder",
   "missing-addend-to-10": "addition",
+  "count-dots": "mixed",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -66,6 +68,8 @@ export function createMathExerciseId(
       return `math-divide-rem-${operandA}-by-${operandB}`;
     case "missing-addend-to-10":
       throw new Error("Use createMissingAddendTo10ExerciseId instead.");
+    case "count-dots":
+      throw new Error("Use createCountDotsExerciseId instead.");
   }
 }
 
@@ -105,6 +109,50 @@ export function createMissingAddendTo10Exercise(
     prompt,
     correctAnswer: String(missingAnswer),
     explanation: `Doplň číslo ${missingAnswer}, aby vzniklo ${targetSum}.`,
+    createdBy: "system",
+  };
+}
+
+export function createCountDotsExerciseId(count: number): string {
+  return `math-count-dots-${count}`;
+}
+
+function getDotCountLabel(count: number): string {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+
+  if (mod10 === 1 && mod100 !== 11) {
+    return "tečku";
+  }
+
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+    return "tečky";
+  }
+
+  return "teček";
+}
+
+function buildCountDotsExplanation(count: number): string {
+  return `Spočítáme tečky. Vidíme ${count} ${getDotCountLabel(count)}, takže správná odpověď je ${count}.`;
+}
+
+export function getCountDotsExplanation(count: number): string {
+  return buildCountDotsExplanation(count);
+}
+
+export function createCountDotsExercise(count: number): MathExercise {
+  return {
+    id: createCountDotsExerciseId(count),
+    subject: "math",
+    topic: "mixed",
+    operation: "count-dots",
+    operandA: count,
+    operandB: 0,
+    dotCount: count,
+    countObjectType: "dot",
+    prompt: "Kolik je teček?",
+    correctAnswer: String(count),
+    explanation: buildCountDotsExplanation(count),
     createdBy: "system",
   };
 }
@@ -211,6 +259,8 @@ export function createMathExercise(
     }
     case "missing-addend-to-10":
       throw new Error("Use createMissingAddendTo10Exercise instead.");
+    case "count-dots":
+      throw new Error("Use createCountDotsExercise instead.");
   }
 }
 
@@ -286,6 +336,14 @@ function generateFromTopicConfigs(
   if (topicConfigs.missingAddend?.enabled) {
     for (const exercise of generateMissingAddendFromTopicConfig(
       topicConfigs.missingAddend,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.countDots?.enabled) {
+    for (const exercise of generateCountDotsFromTopicConfig(
+      topicConfigs.countDots,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -532,6 +590,23 @@ function generateMissingAddendFromTopicConfig(
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function generateCountDotsFromTopicConfig(
+  config: CountDotsConfig,
+): MathExercise[] {
+  const byId = new Map<string, MathExercise>();
+
+  for (
+    let count = config.countRange.min;
+    count <= config.countRange.max;
+    count += 1
+  ) {
+    const exercise = createCountDotsExercise(count);
+    byId.set(exercise.id, exercise);
+  }
+
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function isValidDivisionRemainderExample(
   dividend: number,
   divisor: number,
@@ -657,6 +732,8 @@ function generateForOperation(
     case "divide-with-remainder":
       return generateDivisionRemainderExercises(config, pool);
     case "missing-addend-to-10":
+      return [];
+    case "count-dots":
       return [];
   }
 }

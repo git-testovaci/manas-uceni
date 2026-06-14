@@ -35,9 +35,12 @@ export type MathOperation =
   | "multiply"
   | "divide"
   | "divide-with-remainder"
-  | "missing-addend-to-10";
+  | "missing-addend-to-10"
+  | "count-dots";
 
 export type MissingAddendPosition = "left" | "right";
+
+export type CountObjectType = "dot";
 
 export type WordCategory =
   | "noun"
@@ -141,6 +144,12 @@ export interface MissingAddendConfig {
   knownAddend: MathRangeConfig;
 }
 
+export interface CountDotsConfig {
+  enabled: boolean;
+  countRange: MathRangeConfig;
+  objectType?: CountObjectType;
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
@@ -148,6 +157,7 @@ export interface MathTopicConfigs {
   division?: DivisionConfig;
   divisionRemainder?: DivisionRemainderConfig;
   missingAddend?: MissingAddendConfig;
+  countDots?: CountDotsConfig;
 }
 
 export interface MathPracticeConfig {
@@ -228,6 +238,8 @@ export interface MathExercise extends ExerciseBase {
   operandB: number;
   missingPosition?: MissingAddendPosition;
   targetSum?: number;
+  dotCount?: number;
+  countObjectType?: CountObjectType;
   expectedRemainder?: number;
   visualHint?: MathVisualHint;
 }

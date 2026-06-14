@@ -79,6 +79,7 @@ type SessionAnswerRecord = {
   operandA: number;
   operandB: number;
   prompt?: string;
+  dotCount?: number;
   userAnswer: string;
   expectedAnswer: string;
   result: SessionAnswerResult;
@@ -1449,6 +1450,10 @@ export function MathPracticeClient() {
         prompt:
           currentExercise.operation === "missing-addend-to-10"
             ? currentExercise.prompt
+            : undefined,
+        dotCount:
+          currentExercise.operation === "count-dots"
+            ? (currentExercise.dotCount ?? currentExercise.operandA)
             : undefined,
         userAnswer: input,
         expectedAnswer: result.expectedAnswer,
@@ -3520,6 +3525,8 @@ function PracticeScreen({
   onNext,
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
+  const isCountDotsExercise = exercise.operation === "count-dots";
+  const dotCount = exercise.dotCount ?? exercise.operandA;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
@@ -3587,9 +3594,17 @@ function PracticeScreen({
       )}
       <p className="text-base font-medium text-foreground/70">{progressLabel}</p>
 
-      <p className="text-3xl font-bold tracking-tight sm:text-4xl">
-        {exercise.prompt}
-      </p>
+      {isCountDotsExercise ? (
+        <div className="space-y-4">
+          <p className="text-lg font-semibold sm:text-xl">Spočítej tečky</p>
+          <CountDotsDisplay count={dotCount} size="lg" />
+          <span className="sr-only">{exercise.prompt}</span>
+        </div>
+      ) : (
+        <p className="text-3xl font-bold tracking-tight sm:text-4xl">
+          {exercise.prompt}
+        </p>
+      )}
 
       {isRemainderExercise ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -3999,6 +4014,14 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
     return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, správně`;
   }
 
+  if (record.operation === "count-dots" && record.dotCount !== undefined) {
+    if (record.result === "needsPractice") {
+      return `Otázka ${record.questionNumber}, zadání spočítat ${record.dotCount} teček, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
+    }
+
+    return `Otázka ${record.questionNumber}, zadání spočítat ${record.dotCount} teček, tvoje odpověď ${record.userAnswer}, správně`;
+  }
+
   const operator = getMathOperatorSymbol(record.operation);
   const example = `${record.operandA} ${operator} ${record.operandB}`;
 
@@ -4009,8 +4032,59 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
   return `Otázka ${record.questionNumber}, ${example}, tvoje odpověď ${record.userAnswer}, správně`;
 }
 
+function CountDotsDisplay({
+  count,
+  size = "lg",
+}: {
+  count: number;
+  size?: "lg" | "sm";
+}) {
+  const dotClass =
+    size === "lg"
+      ? "inline-block h-6 w-6 rounded-full bg-math sm:h-8 sm:w-8"
+      : "inline-block h-3.5 w-3.5 rounded-full bg-math sm:h-4 sm:w-4";
+
+  return (
+    <div
+      className="flex flex-wrap items-center gap-3 sm:gap-4"
+      aria-hidden={size === "lg" ? true : undefined}
+    >
+      {Array.from({ length: count }, (_, index) => (
+        <span key={index} className={dotClass} />
+      ))}
+    </div>
+  );
+}
+
 function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   const isWrong = record.result === "needsPractice";
+
+  if (record.operation === "count-dots" && record.dotCount !== undefined) {
+    return (
+      <li>
+        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-foreground/70">{record.questionNumber}.</span>
+            <span>Zadání:</span>
+            <CountDotsDisplay count={record.dotCount} size="sm" />
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
+            <span>
+              Tvoje odpověď:{" "}
+              <span className="font-medium">{record.userAnswer}</span>
+            </span>
+            <span>{isWrong ? "❌" : "✅"}</span>
+            {isWrong && (
+              <span className="text-foreground/80">
+                Správně: {record.expectedAnswer}
+              </span>
+            )}
+          </div>
+        </div>
+        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+      </li>
+    );
+  }
 
   if (record.operation === "missing-addend-to-10" && record.prompt) {
     return (

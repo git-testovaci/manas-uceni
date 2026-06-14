@@ -3,6 +3,7 @@ import {
   DEFAULT_DIVISION_REMAINDER_CONFIG,
   DEFAULT_MATH_TOPIC_CONFIGS,
   DEFAULT_MISSING_ADDEND_CONFIG,
+  DEFAULT_COUNT_DOTS_CONFIG,
   DEFAULT_MULTIPLICATION_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
@@ -28,6 +29,7 @@ const DISABLED_TOPIC_CONFIGS = {
     enabled: false,
   },
   missingAddend: { ...DEFAULT_MISSING_ADDEND_CONFIG, enabled: false },
+  countDots: { ...DEFAULT_COUNT_DOTS_CONFIG, enabled: false },
 };
 
 type Range = { min: number; max: number };
@@ -96,6 +98,24 @@ function missingAddendTo10Preset(): MathLessonPreset {
           enabled: true,
           targetSum: 10,
           knownAddend: { min: 0, max: 10 },
+        },
+      },
+    },
+  };
+}
+
+function countDotsTo5Preset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 5,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        countDots: {
+          enabled: true,
+          countRange: { min: 1, max: 5 },
+          objectType: "dot",
         },
       },
     },
@@ -460,6 +480,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["mixed"],
     difficultyProfile: "early-counting",
+    preset: countDotsTo5Preset(),
   },
   {
     order: 2,
