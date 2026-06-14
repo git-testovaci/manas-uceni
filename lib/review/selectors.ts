@@ -1,37 +1,34 @@
+import {
+  getEligibleBucketPriority,
+  isReviewOpportunity,
+  selectReviewExercise,
+  shouldOfferReviewInsertion,
+} from "@/lib/review/scheduler";
 import type { PracticeItem, ReviewState, ReviewStateMap } from "@/types";
 
-export function isReviewDue(
-  state: ReviewState,
-  currentQuestionNumber: number,
-): boolean {
-  if (state.status === "mastered" && state.nextReviewQuestionNumber === undefined) {
+/**
+ * Legacy timing helpers kept for backward compatibility.
+ * Session selection should use the universal bucket scheduler instead.
+ */
+export function isReviewDue(state: ReviewState): boolean {
+  if (state.status === "mastered") {
     return false;
   }
 
-  if (state.nextReviewQuestionNumber === undefined) {
-    return false;
-  }
-
-  return currentQuestionNumber >= state.nextReviewQuestionNumber;
+  return (
+    state.wrongCount > 0 ||
+    state.status === "weak" ||
+    state.status === "improving"
+  );
 }
 
-export function getReviewPriority(
-  state?: ReviewState,
-  currentQuestionNumber?: number,
-): number {
+export function getReviewPriority(state?: ReviewState): number {
   if (!state || state.status === "new") {
     return 3;
   }
 
   if (state.status === "mastered") {
     return 4;
-  }
-
-  const questionNumber = currentQuestionNumber ?? 0;
-  const due = isReviewDue(state, questionNumber);
-
-  if (!due) {
-    return 3;
   }
 
   switch (state.status) {
@@ -49,12 +46,11 @@ export function getReviewPriority(
 export function sortItemsForReview<T extends PracticeItem>(
   items: T[],
   reviewMap: ReviewStateMap,
-  currentQuestionNumber: number,
 ): T[] {
   return [...items].sort((a, b) => {
     const priorityDiff =
-      getReviewPriority(reviewMap[a.id], currentQuestionNumber) -
-      getReviewPriority(reviewMap[b.id], currentQuestionNumber);
+      getReviewPriority(reviewMap[a.id]) -
+      getReviewPriority(reviewMap[b.id]);
 
     if (priorityDiff !== 0) {
       return priorityDiff;
@@ -67,7 +63,6 @@ export function sortItemsForReview<T extends PracticeItem>(
 export function getDueReviewItems<T extends PracticeItem>(
   items: T[],
   reviewMap: ReviewStateMap,
-  currentQuestionNumber: number,
 ): T[] {
   return items.filter((item) => {
     const state = reviewMap[item.id];
@@ -75,6 +70,13 @@ export function getDueReviewItems<T extends PracticeItem>(
       return false;
     }
 
-    return isReviewDue(state, currentQuestionNumber);
+    return isReviewDue(state);
   });
 }
+
+export {
+  getEligibleBucketPriority,
+  isReviewOpportunity,
+  selectReviewExercise,
+  shouldOfferReviewInsertion,
+};

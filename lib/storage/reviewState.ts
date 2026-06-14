@@ -1,3 +1,4 @@
+import { normalizeReviewStateMap } from "@/lib/review/migration";
 import { STORAGE_KEYS } from "@/lib/storage/keys";
 import {
   readEnvelope,
@@ -22,7 +23,7 @@ export function getReviewStateMap(
     return DEFAULT_REVIEW_STATE;
   }
 
-  return reviewMap;
+  return normalizeReviewStateMap(reviewMap);
 }
 
 export function saveReviewStateMap(
@@ -44,11 +45,12 @@ export function saveReviewState(
   storage?: StorageLike | null,
 ): boolean {
   const reviewMap = getReviewStateMap(storage);
+
   return saveReviewStateMap(
-    {
+    normalizeReviewStateMap({
       ...reviewMap,
       [state.itemId]: state,
-    },
+    }),
     storage,
   );
 }

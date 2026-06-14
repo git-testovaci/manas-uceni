@@ -15,8 +15,10 @@ import type {
   ComparisonSign,
   CompareNumbersConfig,
   MultiplicationConfig,
+  NumberSequenceConfig,
   ReviewState,
   ReviewStateMap,
+  SequenceDirection,
   SubtractionConfig,
 } from "@/types";
 
@@ -43,6 +45,7 @@ const OPERATION_TO_TOPIC: Record<MathOperation, MathTopic> = {
   "missing-addend-to-10": "addition",
   "count-dots": "mixed",
   "compare-numbers": "mixed",
+  "number-sequence": "mixed",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -75,6 +78,8 @@ export function createMathExerciseId(
       throw new Error("Use createCountDotsExerciseId instead.");
     case "compare-numbers":
       throw new Error("Use createCompareNumbersExerciseId instead.");
+    case "number-sequence":
+      throw new Error("Use createNumberSequenceExerciseId instead.");
   }
 }
 
@@ -215,6 +220,81 @@ export function createCompareNumbersExercise(
   };
 }
 
+const NUMBER_SEQUENCE_LENGTH = 4;
+
+function buildForwardSequence(start: number): number[] {
+  return Array.from(
+    { length: NUMBER_SEQUENCE_LENGTH },
+    (_, index) => start + index,
+  );
+}
+
+function buildBackwardSequence(start: number): number[] {
+  return Array.from(
+    { length: NUMBER_SEQUENCE_LENGTH },
+    (_, index) => start - index,
+  );
+}
+
+function formatNumberSequencePrompt(
+  sequence: number[],
+  missingIndex: number,
+): string {
+  return sequence
+    .map((value, index) => (index === missingIndex ? "?" : String(value)))
+    .join(", ");
+}
+
+export function createNumberSequenceExerciseId(
+  direction: SequenceDirection,
+  start: number,
+  missingIndex: number,
+): string {
+  return `math-number-sequence-${direction}-${start}-${missingIndex}`;
+}
+
+function buildNumberSequenceExplanation(
+  direction: SequenceDirection,
+  sequence: number[],
+  missing: number,
+): string {
+  const fullSequence = sequence.join(", ");
+
+  if (direction === "forward") {
+    return `Řada jde dopředu po jedné: ${fullSequence}. Chybí ${missing}.`;
+  }
+
+  return `Řada jde dozadu po jedné: ${fullSequence}. Chybí ${missing}.`;
+}
+
+export function createNumberSequenceExercise(
+  direction: SequenceDirection,
+  start: number,
+  missingIndex: number,
+): MathExercise {
+  const sequence =
+    direction === "forward"
+      ? buildForwardSequence(start)
+      : buildBackwardSequence(start);
+  const missing = sequence[missingIndex]!;
+
+  return {
+    id: createNumberSequenceExerciseId(direction, start, missingIndex),
+    subject: "math",
+    topic: "mixed",
+    operation: "number-sequence",
+    operandA: start,
+    operandB: missing,
+    sequenceDirection: direction,
+    sequenceNumbers: sequence,
+    sequenceMissingIndex: missingIndex,
+    prompt: formatNumberSequencePrompt(sequence, missingIndex),
+    correctAnswer: String(missing),
+    explanation: buildNumberSequenceExplanation(direction, sequence, missing),
+    createdBy: "system",
+  };
+}
+
 export function createMathExercise(
   operation: MathOperation,
   operandA: number,
@@ -321,6 +401,8 @@ export function createMathExercise(
       throw new Error("Use createCountDotsExercise instead.");
     case "compare-numbers":
       throw new Error("Use createCompareNumbersExercise instead.");
+    case "number-sequence":
+      throw new Error("Use createNumberSequenceExercise instead.");
   }
 }
 
@@ -407,6 +489,14 @@ function generateFromTopicConfigs(
   if (topicConfigs.countDots?.enabled) {
     for (const exercise of generateCountDotsFromTopicConfig(
       topicConfigs.countDots,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.numberSequence?.enabled) {
+    for (const exercise of generateNumberSequenceFromTopicConfig(
+      topicConfigs.numberSequence,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -676,6 +766,54 @@ function generateCountDotsFromTopicConfig(
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function isValidForwardSequenceStart(
+  start: number,
+  range: MathRangeConfig,
+): boolean {
+  const end = start + NUMBER_SEQUENCE_LENGTH - 1;
+  return start >= range.min && end <= range.max;
+}
+
+function isValidBackwardSequenceStart(
+  start: number,
+  range: MathRangeConfig,
+): boolean {
+  const end = start - (NUMBER_SEQUENCE_LENGTH - 1);
+  return start <= range.max && end >= range.min;
+}
+
+function generateNumberSequenceFromTopicConfig(
+  config: NumberSequenceConfig,
+): MathExercise[] {
+  const byId = new Map<string, MathExercise>();
+  const directions: SequenceDirection[] = ["forward", "backward"];
+
+  for (const direction of directions) {
+    const starts = buildRangePool(config.numberRange).filter((start) =>
+      direction === "forward"
+        ? isValidForwardSequenceStart(start, config.numberRange)
+        : isValidBackwardSequenceStart(start, config.numberRange),
+    );
+
+    for (const start of starts) {
+      for (
+        let missingIndex = 0;
+        missingIndex < NUMBER_SEQUENCE_LENGTH;
+        missingIndex += 1
+      ) {
+        const exercise = createNumberSequenceExercise(
+          direction,
+          start,
+          missingIndex,
+        );
+        byId.set(exercise.id, exercise);
+      }
+    }
+  }
+
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function sortCompareNumbersGroup(
   exercises: MathExercise[],
   group: "less" | "greater" | "equal",
@@ -886,6 +1024,8 @@ function generateForOperation(
     case "count-dots":
       return [];
     case "compare-numbers":
+      return [];
+    case "number-sequence":
       return [];
   }
 }

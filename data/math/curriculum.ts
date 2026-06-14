@@ -6,6 +6,7 @@ import {
   DEFAULT_COUNT_DOTS_CONFIG,
   DEFAULT_COMPARE_NUMBERS_CONFIG,
   DEFAULT_MULTIPLICATION_CONFIG,
+  DEFAULT_NUMBER_SEQUENCE_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
   DivisionConfig,
@@ -32,6 +33,7 @@ const DISABLED_TOPIC_CONFIGS = {
   missingAddend: { ...DEFAULT_MISSING_ADDEND_CONFIG, enabled: false },
   countDots: { ...DEFAULT_COUNT_DOTS_CONFIG, enabled: false },
   compareNumbers: { ...DEFAULT_COMPARE_NUMBERS_CONFIG, enabled: false },
+  numberSequence: { ...DEFAULT_NUMBER_SEQUENCE_CONFIG, enabled: false },
 };
 
 type Range = { min: number; max: number };
@@ -169,6 +171,23 @@ function compareNumbersTo10Preset(): MathLessonPreset {
       topicConfigs: {
         ...DISABLED_TOPIC_CONFIGS,
         compareNumbers: {
+          enabled: true,
+          numberRange: { min: 0, max: 10 },
+        },
+      },
+    },
+  };
+}
+
+function numberSequenceTo10Preset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        numberSequence: {
           enabled: true,
           numberRange: { min: 0, max: 10 },
         },
@@ -579,6 +598,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["mixed"],
     difficultyProfile: "within-10",
+    preset: numberSequenceTo10Preset(),
   },
   {
     order: 5,

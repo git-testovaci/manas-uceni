@@ -1,0 +1,29 @@
+---
+description: Universal bucket-based review scheduler for all practice features
+alwaysApply: true
+---
+
+# Universal review scheduler
+
+All practice review logic must use the universal bucket scheduler in `lib/review/`.
+
+## Rules
+
+- Do not implement per-lesson custom review timing.
+- Review items are stored globally (browser storage) but **scheduled** review selection requires `itemId` in the current generated candidate pool.
+- Active review-flow items may appear naturally in normal practice when their `itemId` is in the current candidate pool.
+- Correct answers to active review-flow items advance review progress whether the item was selected normally or as a scheduled review.
+- Scheduled review insertions are additional review opportunities; they do not replace normal pool rotation.
+- Normal practice inserts at most **one** scheduled review exercise per review opportunity.
+- Review opportunities occur after every **5** normal non-review answered exercises.
+- Scheduled review answers do not increment the normal-answer counter; normal answers do.
+- Buckets are **5 → 10 → 25 → 50 → mastered** with **5 correct review answers** per bucket before advancing.
+- A wrong answer resets to bucket **5** and moves the item to the end of bucket 5 queue.
+- At review opportunities, eligible bucket priority follows normal-answer count divisibility (50, then 25, then 10, then 5).
+- Higher eligible bucket wins; within a bucket, scan queue order and pick the first item present in the current pool.
+- After selecting a scheduled review item, move it to the end of that bucket queue.
+- `reviewQueueOrder` must use bucket queue helpers (`getNextReviewQueueOrder`, max existing + 1). Never use `Date.now()`.
+
+## Applies to
+
+Future math, Czech, English, vocabulary, and any new practice feature must call the same scheduler (`lib/review/scheduler.ts`).

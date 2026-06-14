@@ -22,9 +22,10 @@ import {
 import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
 import {
-  getDueReviewItems,
-  getReviewPriority,
-} from "@/lib/review/selectors";
+  selectReviewExercise,
+  shouldOfferReviewInsertion,
+} from "@/lib/review/scheduler";
+import { applyReviewStateQueuePlacement } from "@/lib/review/buckets";
 import {
   DEFAULT_MATH_LESSON_SELECTION,
   DEFAULT_MATH_PRACTICE_MODE,
@@ -877,6 +878,11 @@ export function MathPracticeClient() {
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
   const [answeredInSession, setAnsweredInSession] = useState(0);
   const [sessionAnswers, setSessionAnswers] = useState<SessionAnswerRecord[]>([]);
+  const [normalAnswersSinceSessionStart, setNormalAnswersSinceSessionStart] =
+    useState(0);
+  const [reviewsInsertedSinceSessionStart, setReviewsInsertedSinceSessionStart] =
+    useState(0);
+  const [currentExerciseIsReview, setCurrentExerciseIsReview] = useState(false);
 
   const [userInput, setUserInput] = useState("");
   const [quotientInput, setQuotientInput] = useState("");
@@ -1147,11 +1153,16 @@ export function MathPracticeClient() {
     }
 
     sessionDisplayCountsRef.current = {};
+    setNormalAnswersSinceSessionStart(0);
+    setReviewsInsertedSinceSessionStart(0);
+
     const selection = selectNextExercise({
       candidates,
       reviewMap,
-      currentQuestionNumber: 1,
       sessionDisplayCounts: sessionDisplayCountsRef.current,
+      questionCount: config.questionCount,
+      normalAnswersSinceSessionStart: 0,
+      reviewsInsertedSinceSessionStart: 0,
     });
 
     if (!selection) {
@@ -1159,10 +1170,22 @@ export function MathPracticeClient() {
       return false;
     }
 
+    if (selection.reviewMap) {
+      setReviewMap(selection.reviewMap);
+      const rotatedState = selection.reviewMap[selection.exercise.id];
+      if (rotatedState) {
+        saveReviewState(rotatedState);
+      }
+    }
+
     setPracticeConfig(config);
     setSessionCandidates(candidates);
     commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
+    setCurrentExerciseIsReview(selection.isReview);
+    if (selection.isReview) {
+      setReviewsInsertedSinceSessionStart(1);
+    }
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionAnswers([]);
@@ -1435,11 +1458,19 @@ export function MathPracticeClient() {
       reviewState: reviewMap[currentExercise.id],
     });
 
-    saveReviewState(result.reviewState);
-    setReviewMap((current) => ({
-      ...current,
-      [result.reviewState.itemId]: result.reviewState,
-    }));
+    const nextReviewMap = applyReviewStateQueuePlacement(
+      reviewMap,
+      result.reviewState,
+      result.isCorrect,
+    );
+    const persistedReviewState = nextReviewMap[result.reviewState.itemId]!;
+
+    saveReviewState(persistedReviewState);
+    setReviewMap(nextReviewMap);
+
+    if (!currentExerciseIsReview) {
+      setNormalAnswersSinceSessionStart((current) => current + 1);
+    }
 
     const answerResult: SessionAnswerResult = !result.isCorrect
       ? "needsPractice"
@@ -1457,7 +1488,8 @@ export function MathPracticeClient() {
         operandB: currentExercise.operandB,
         prompt:
           currentExercise.operation === "missing-addend-to-10" ||
-          currentExercise.operation === "compare-numbers"
+          currentExercise.operation === "compare-numbers" ||
+          currentExercise.operation === "number-sequence"
             ? currentExercise.prompt
             : undefined,
         dotCount:
@@ -1516,9 +1548,11 @@ export function MathPracticeClient() {
     const selection = selectNextExercise({
       candidates: sessionCandidates,
       reviewMap,
-      currentQuestionNumber: nextQuestionNumber,
       sessionDisplayCounts: sessionDisplayCountsRef.current,
       lastExerciseId: currentExercise?.id,
+      questionCount: practiceConfig.questionCount,
+      normalAnswersSinceSessionStart,
+      reviewsInsertedSinceSessionStart,
     });
 
     if (!selection) {
@@ -1527,9 +1561,21 @@ export function MathPracticeClient() {
       return;
     }
 
+    if (selection.reviewMap) {
+      setReviewMap(selection.reviewMap);
+      const rotatedState = selection.reviewMap[selection.exercise.id];
+      if (rotatedState) {
+        saveReviewState(rotatedState);
+      }
+    }
+
     setCurrentQuestionNumber(nextQuestionNumber);
     commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
+    setCurrentExerciseIsReview(selection.isReview);
+    if (selection.isReview) {
+      setReviewsInsertedSinceSessionStart((current) => current + 1);
+    }
     clearAnswerInputs();
     setHasSubmitted(false);
     setFeedback(null);
@@ -1544,11 +1590,16 @@ export function MathPracticeClient() {
     setReviewMap(getReviewStateMap());
     const freshReviewMap = getReviewStateMap();
     sessionDisplayCountsRef.current = {};
+    setNormalAnswersSinceSessionStart(0);
+    setReviewsInsertedSinceSessionStart(0);
+
     const selection = selectNextExercise({
       candidates: sessionCandidates,
       reviewMap: freshReviewMap,
-      currentQuestionNumber: 1,
       sessionDisplayCounts: sessionDisplayCountsRef.current,
+      questionCount: practiceConfig.questionCount,
+      normalAnswersSinceSessionStart: 0,
+      reviewsInsertedSinceSessionStart: 0,
     });
 
     if (!selection) {
@@ -1557,8 +1608,20 @@ export function MathPracticeClient() {
       return;
     }
 
+    if (selection.reviewMap) {
+      setReviewMap(selection.reviewMap);
+      const rotatedState = selection.reviewMap[selection.exercise.id];
+      if (rotatedState) {
+        saveReviewState(rotatedState);
+      }
+    }
+
     commitSessionDisplayCounts(selection.sessionDisplayCounts);
     setCurrentExercise(selection.exercise);
+    setCurrentExerciseIsReview(selection.isReview);
+    if (selection.isReview) {
+      setReviewsInsertedSinceSessionStart(1);
+    }
     setCurrentQuestionNumber(1);
     setAnsweredInSession(0);
     setSessionAnswers([]);
@@ -3538,6 +3601,37 @@ type PracticeScreenProps = {
   onNext: () => void;
 };
 
+function NumberSequencePrompt({ exercise }: { exercise: MathExercise }) {
+  const sequence = exercise.sequenceNumbers ?? [];
+  const missingIndex = exercise.sequenceMissingIndex ?? -1;
+
+  return (
+    <div
+      className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-3xl font-bold tracking-tight sm:text-4xl"
+      aria-label={exercise.prompt}
+    >
+      {sequence.map((value, index) => (
+        <span key={`${exercise.id}-${index}`} className="inline-flex items-baseline">
+          {index > 0 && (
+            <span aria-hidden="true" className="mr-2 text-foreground/45">
+              ,
+            </span>
+          )}
+          <span
+            className={
+              index === missingIndex
+                ? "text-math underline decoration-math/40 decoration-2 underline-offset-4"
+                : "tabular-nums"
+            }
+          >
+            {index === missingIndex ? "?" : value}
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function PracticeScreen({
   exercise,
   lessonLabel,
@@ -3559,6 +3653,7 @@ function PracticeScreen({
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
   const isCountDotsExercise = exercise.operation === "count-dots";
   const isCompareExercise = exercise.operation === "compare-numbers";
+  const isNumberSequenceExercise = exercise.operation === "number-sequence";
   const dotCount = exercise.dotCount ?? exercise.operandA;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
@@ -3639,6 +3734,8 @@ function PracticeScreen({
           <CountDotsVisual count={dotCount} size="lg" ariaHidden />
           <span className="sr-only">{exercise.prompt}</span>
         </div>
+      ) : isNumberSequenceExercise ? (
+        <NumberSequencePrompt exercise={exercise} />
       ) : (
         <p className="text-3xl font-bold tracking-tight sm:text-4xl">
           {exercise.prompt}
@@ -3865,6 +3962,21 @@ function SummaryResultGroup({
   );
 }
 
+function getUniqueCandidateCount(candidates: MathExercise[]): number {
+  return new Set(candidates.map((candidate) => candidate.id)).size;
+}
+
+function shouldAllowSessionRepeats(
+  candidates: MathExercise[],
+  questionCount?: number,
+): boolean {
+  if (questionCount === undefined) {
+    return true;
+  }
+
+  return getUniqueCandidateCount(candidates) < questionCount;
+}
+
 function fisherYatesShuffle<T>(items: T[]): T[] {
   const shuffled = [...items];
 
@@ -3874,30 +3986,6 @@ function fisherYatesShuffle<T>(items: T[]): T[] {
   }
 
   return shuffled;
-}
-
-type SessionDisplayCounts = Record<string, number>;
-
-type ExerciseSelection = {
-  exercise: MathExercise;
-  sessionDisplayCounts: SessionDisplayCounts;
-};
-
-function incrementSessionDisplayCount(
-  counts: SessionDisplayCounts,
-  exerciseId: string,
-): SessionDisplayCounts {
-  return {
-    ...counts,
-    [exerciseId]: (counts[exerciseId] ?? 0) + 1,
-  };
-}
-
-function getSessionDisplayCount(
-  counts: SessionDisplayCounts,
-  exerciseId: string,
-): number {
-  return counts[exerciseId] ?? 0;
 }
 
 function pickFromLowestCountPool(
@@ -3918,6 +4006,32 @@ function pickFromLowestCountPool(
 
   const shuffled = fisherYatesShuffle(choices);
   return shuffled[0] ?? null;
+}
+
+type SessionDisplayCounts = Record<string, number>;
+
+type ExerciseSelection = {
+  exercise: MathExercise;
+  isReview: boolean;
+  sessionDisplayCounts: SessionDisplayCounts;
+  reviewMap?: ReviewStateMap;
+};
+
+function incrementSessionDisplayCount(
+  counts: SessionDisplayCounts,
+  exerciseId: string,
+): SessionDisplayCounts {
+  return {
+    ...counts,
+    [exerciseId]: (counts[exerciseId] ?? 0) + 1,
+  };
+}
+
+function getSessionDisplayCount(
+  counts: SessionDisplayCounts,
+  exerciseId: string,
+): number {
+  return counts[exerciseId] ?? 0;
 }
 
 function pickNormalExercise(
@@ -3948,69 +4062,70 @@ function pickNormalExercise(
   return pickFromLowestCountPool(lowest, lastExerciseId);
 }
 
-function pickDueExercise(
-  dueItems: MathExercise[],
-  reviewMap: ReviewStateMap,
-  currentQuestionNumber: number,
-  sessionDisplayCounts: SessionDisplayCounts,
-  lastExerciseId?: string,
-): MathExercise {
-  const topPriority = getReviewPriority(
-    reviewMap[dueItems[0].id],
-    currentQuestionNumber,
-  );
-  const topTier = dueItems.filter(
-    (item) =>
-      getReviewPriority(reviewMap[item.id], currentQuestionNumber) ===
-      topPriority,
-  );
-
-  const unshownDue = topTier.filter(
-    (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === 0,
-  );
-  const duePool = unshownDue.length > 0 ? unshownDue : topTier;
-
-  return (
-    pickFromLowestCountPool(duePool, lastExerciseId) ?? dueItems[0]
-  );
-}
-
 function selectNextExercise(params: {
   candidates: MathExercise[];
   reviewMap: ReviewStateMap;
-  currentQuestionNumber: number;
   sessionDisplayCounts: SessionDisplayCounts;
+  normalAnswersSinceSessionStart: number;
+  reviewsInsertedSinceSessionStart: number;
   lastExerciseId?: string;
+  questionCount?: number;
 }): ExerciseSelection | null {
   const {
     candidates,
     reviewMap,
-    currentQuestionNumber,
     sessionDisplayCounts,
+    normalAnswersSinceSessionStart,
+    reviewsInsertedSinceSessionStart,
     lastExerciseId,
+    questionCount,
   } = params;
 
   if (candidates.length === 0) {
     return null;
   }
 
-  const dueItems = sortDueReviewItems(
-    getDueReviewItems(candidates, reviewMap, currentQuestionNumber),
-    reviewMap,
-    currentQuestionNumber,
-    sessionDisplayCounts,
-  );
+  if (
+    shouldOfferReviewInsertion(
+      normalAnswersSinceSessionStart,
+      reviewsInsertedSinceSessionStart,
+    )
+  ) {
+    const reviewSelection = selectReviewExercise({
+      candidates,
+      reviewMap,
+      normalAnswersSinceSessionStart,
+    });
 
-  const exercise =
-    dueItems.length > 0
-      ? pickDueExercise(
-          dueItems,
-          reviewMap,
-          currentQuestionNumber,
+    if (reviewSelection) {
+      return {
+        exercise: reviewSelection.exercise,
+        isReview: true,
+        sessionDisplayCounts: incrementSessionDisplayCount(
           sessionDisplayCounts,
-          lastExerciseId,
-        )
-      : pickNormalExercise(candidates, sessionDisplayCounts, lastExerciseId);
+          reviewSelection.exercise.id,
+        ),
+        reviewMap: reviewSelection.reviewMap,
+      };
+    }
+  }
+
+  const allowRepeats = shouldAllowSessionRepeats(candidates, questionCount);
+  const selectionCandidates = allowRepeats
+    ? candidates
+    : candidates.filter(
+        (item) => getSessionDisplayCount(sessionDisplayCounts, item.id) === 0,
+      );
+
+  if (selectionCandidates.length === 0) {
+    return null;
+  }
+
+  const exercise = pickNormalExercise(
+    selectionCandidates,
+    sessionDisplayCounts,
+    lastExerciseId,
+  );
 
   if (!exercise) {
     return null;
@@ -4018,37 +4133,12 @@ function selectNextExercise(params: {
 
   return {
     exercise,
+    isReview: false,
     sessionDisplayCounts: incrementSessionDisplayCount(
       sessionDisplayCounts,
       exercise.id,
     ),
   };
-}
-
-function sortDueReviewItems(
-  items: MathExercise[],
-  reviewMap: ReviewStateMap,
-  currentQuestionNumber: number,
-  sessionDisplayCounts: SessionDisplayCounts,
-): MathExercise[] {
-  return [...items].sort((a, b) => {
-    const priorityDiff =
-      getReviewPriority(reviewMap[a.id], currentQuestionNumber) -
-      getReviewPriority(reviewMap[b.id], currentQuestionNumber);
-
-    if (priorityDiff !== 0) {
-      return priorityDiff;
-    }
-
-    const countDiff =
-      getSessionDisplayCount(sessionDisplayCounts, a.id) -
-      getSessionDisplayCount(sessionDisplayCounts, b.id);
-    if (countDiff !== 0) {
-      return countDiff;
-    }
-
-    return a.id.localeCompare(b.id);
-  });
 }
 
 function getMathOperatorSymbol(operation: MathOperation): string {
@@ -4077,6 +4167,14 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
   }
 
   if (record.operation === "missing-addend-to-10" && record.prompt) {
+    if (record.result === "needsPractice") {
+      return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
+    }
+
+    return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, správně`;
+  }
+
+  if (record.operation === "number-sequence" && record.prompt) {
     if (record.result === "needsPractice") {
       return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
     }
@@ -4162,6 +4260,35 @@ function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   }
 
   if (record.operation === "missing-addend-to-10" && record.prompt) {
+    return (
+      <li>
+        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-foreground/70">{record.questionNumber}.</span>
+            <span>
+              Zadání:{" "}
+              <span className="font-medium">{record.prompt}</span>
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
+            <span>
+              Tvoje odpověď:{" "}
+              <span className="font-medium">{record.userAnswer}</span>
+            </span>
+            <span>{isWrong ? "❌" : "✅"}</span>
+            {isWrong && (
+              <span className="text-foreground/80">
+                Správně: {record.expectedAnswer}
+              </span>
+            )}
+          </div>
+        </div>
+        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+      </li>
+    );
+  }
+
+  if (record.operation === "number-sequence" && record.prompt) {
     return (
       <li>
         <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">

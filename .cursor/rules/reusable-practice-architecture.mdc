@@ -1,0 +1,23 @@
+---
+description: Reusable practice architecture — shared helpers, no per-lesson duplication
+alwaysApply: true
+---
+
+# Reusable practice architecture
+
+Prefer shared infrastructure over duplicated per-lesson logic.
+
+## Rules
+
+- Use shared helpers/components for repeated behavior across lessons and subjects.
+- Do not duplicate logic per lesson when a universal helper exists in `lib/`.
+- New lesson types should reuse existing shared rendering, validation, autofocus, and review infrastructure where possible.
+- Create a reusable helper when the same rule appears in more than one feature.
+- Keep lesson files focused on configuration and content, not duplicated infrastructure.
+
+## Examples
+
+- Review timing → `lib/review/scheduler.ts`
+- Answer validation → subject-specific `lib/` validators
+- Autofocus → practice screen refs/effects + `.cursor/rules/practice-autofocus.mdc`
+- Exercise generation → `lib/` generators + `data/` presets

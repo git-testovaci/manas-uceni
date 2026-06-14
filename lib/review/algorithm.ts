@@ -1,14 +1,20 @@
+import {
+  getNextReviewBucket,
+  isInReviewFlow,
+  REQUIRED_CORRECT_PER_BUCKET,
+  reviewBucketToStep,
+} from "@/lib/review/buckets";
+import { normalizeReviewState } from "@/lib/review/migration";
 import type {
   AnswerResult,
   PracticeItem,
+  ReviewBucket,
   ReviewState,
   ReviewStatus,
 } from "@/types";
 
 export const REVIEW_INTERVALS = [5, 10, 25, 50] as const;
-export const REQUIRED_CORRECT_PER_STEP = 5;
-
-const FIRST_REVIEW_INTERVAL = REVIEW_INTERVALS[0];
+export const REQUIRED_CORRECT_PER_STEP = REQUIRED_CORRECT_PER_BUCKET;
 
 export function createInitialReviewState(item: PracticeItem): ReviewState {
   return {
@@ -35,11 +41,21 @@ export function updateReviewState(params: {
 } {
   const { state, isCorrect, correctAnswer, currentQuestionNumber } = params;
 
+  const normalizedState = normalizeReviewState(state);
+
   if (!isCorrect) {
-    return handleWrongAnswer(state, correctAnswer, currentQuestionNumber);
+    return handleWrongAnswer(
+      normalizedState,
+      correctAnswer,
+      currentQuestionNumber,
+    );
   }
 
-  return handleCorrectAnswer(state, correctAnswer, currentQuestionNumber);
+  return handleCorrectAnswer(
+    normalizedState,
+    correctAnswer,
+    currentQuestionNumber,
+  );
 }
 
 function handleWrongAnswer(
@@ -49,6 +65,7 @@ function handleWrongAnswer(
 ): { state: ReviewState; answerResult: AnswerResult } {
   const feedbackKey =
     state.wrongCount > 0 ? "feedback.repeatedMistake" : "feedback.wrong";
+  const bucket: ReviewBucket = 5;
 
   return {
     state: {
@@ -56,11 +73,11 @@ function handleWrongAnswer(
       wrongCount: state.wrongCount + 1,
       streak: 0,
       status: "weak",
-      reviewStep: 0,
+      reviewBucket: bucket,
+      reviewStep: reviewBucketToStep(bucket),
       correctInStep: 0,
       lastAnsweredQuestionNumber: currentQuestionNumber,
-      nextReviewQuestionNumber:
-        currentQuestionNumber + FIRST_REVIEW_INTERVAL,
+      nextReviewQuestionNumber: undefined,
     },
     answerResult: {
       isCorrect: false,
@@ -78,8 +95,6 @@ function handleCorrectAnswer(
 ): { state: ReviewState; answerResult: AnswerResult } {
   const previousStatus = state.status;
   const previousCorrectInStep = state.correctInStep ?? 0;
-  const wasWeakOrImproving =
-    previousStatus === "weak" || previousStatus === "improving";
 
   const { feedbackKey, wasPreviouslyWrong } = resolveCorrectFeedback(
     previousStatus,
@@ -105,39 +120,60 @@ function handleCorrectAnswer(
     };
   }
 
-  const reviewStep = clampReviewStep(state.reviewStep);
+  if (isInReviewFlow(state)) {
+    return handleReviewCorrectAnswer(
+      state,
+      currentQuestionNumber,
+      answerResult,
+    );
+  }
+
+  return handleNormalCorrectAnswer(
+    state,
+    currentQuestionNumber,
+    previousStatus,
+    answerResult,
+  );
+}
+
+function handleReviewCorrectAnswer(
+  state: ReviewState,
+  currentQuestionNumber: number,
+  answerResult: AnswerResult,
+): { state: ReviewState; answerResult: AnswerResult } {
+  const currentBucket = state.reviewBucket ?? 5;
   const nextCorrectInStep = (state.correctInStep ?? 0) + 1;
 
-  if (nextCorrectInStep < REQUIRED_CORRECT_PER_STEP) {
-    const status = resolveProgressStatus(previousStatus, wasWeakOrImproving);
-
+  if (nextCorrectInStep < REQUIRED_CORRECT_PER_BUCKET) {
     return {
       state: {
         ...state,
         correctCount: state.correctCount + 1,
         streak: state.streak + 1,
-        status,
-        reviewStep,
+        status: "improving",
+        reviewBucket: currentBucket,
+        reviewStep: reviewBucketToStep(currentBucket),
         correctInStep: nextCorrectInStep,
         lastAnsweredQuestionNumber: currentQuestionNumber,
-        nextReviewQuestionNumber:
-          currentQuestionNumber + REVIEW_INTERVALS[reviewStep],
+        nextReviewQuestionNumber: undefined,
       },
       answerResult,
     };
   }
 
-  const advancedReviewStep = reviewStep + 1;
+  const advancedBucket = getNextReviewBucket(currentBucket);
 
-  if (advancedReviewStep >= REVIEW_INTERVALS.length) {
+  if (advancedBucket === "mastered") {
     return {
       state: {
         ...state,
         correctCount: state.correctCount + 1,
         streak: state.streak + 1,
         status: "mastered",
-        reviewStep,
+        reviewBucket: undefined,
+        reviewStep: reviewBucketToStep(50),
         correctInStep: 0,
+        reviewQueueOrder: undefined,
         lastAnsweredQuestionNumber: currentQuestionNumber,
         nextReviewQuestionNumber: undefined,
       },
@@ -151,11 +187,35 @@ function handleCorrectAnswer(
       correctCount: state.correctCount + 1,
       streak: state.streak + 1,
       status: "improving",
-      reviewStep: advancedReviewStep,
+      reviewBucket: advancedBucket,
+      reviewStep: reviewBucketToStep(advancedBucket),
       correctInStep: 0,
       lastAnsweredQuestionNumber: currentQuestionNumber,
-      nextReviewQuestionNumber:
-        currentQuestionNumber + REVIEW_INTERVALS[advancedReviewStep],
+      nextReviewQuestionNumber: undefined,
+    },
+    answerResult,
+  };
+}
+
+function handleNormalCorrectAnswer(
+  state: ReviewState,
+  currentQuestionNumber: number,
+  previousStatus: ReviewStatus,
+  answerResult: AnswerResult,
+): { state: ReviewState; answerResult: AnswerResult } {
+  const nextStatus =
+    previousStatus === "new" || previousStatus === "learning"
+      ? "learning"
+      : previousStatus;
+
+  return {
+    state: {
+      ...state,
+      correctCount: state.correctCount + 1,
+      streak: state.streak + 1,
+      status: nextStatus,
+      lastAnsweredQuestionNumber: currentQuestionNumber,
+      nextReviewQuestionNumber: undefined,
     },
     answerResult,
   };
@@ -186,31 +246,4 @@ function resolveCorrectFeedback(
     feedbackKey: "feedback.correct",
     wasPreviouslyWrong: false,
   };
-}
-
-function resolveProgressStatus(
-  previousStatus: ReviewStatus,
-  wasWeakOrImproving: boolean,
-): ReviewStatus {
-  if (wasWeakOrImproving) {
-    return "improving";
-  }
-
-  if (previousStatus === "new" || previousStatus === "learning") {
-    return "learning";
-  }
-
-  return "learning";
-}
-
-function clampReviewStep(reviewStep: number): number {
-  if (reviewStep < 0) {
-    return 0;
-  }
-
-  if (reviewStep >= REVIEW_INTERVALS.length) {
-    return REVIEW_INTERVALS.length - 1;
-  }
-
-  return reviewStep;
 }

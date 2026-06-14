@@ -9,6 +9,8 @@ export type ReviewStatus =
   | "improving"
   | "mastered";
 
+export type ReviewBucket = 5 | 10 | 25 | 50;
+
 export type PracticeMode = "subject" | "mixed" | "weak-spots" | "custom";
 
 export type LanguageCode = "cs" | "en" | "sk";
@@ -37,9 +39,12 @@ export type MathOperation =
   | "divide-with-remainder"
   | "missing-addend-to-10"
   | "count-dots"
-  | "compare-numbers";
+  | "compare-numbers"
+  | "number-sequence";
 
 export type MissingAddendPosition = "left" | "right";
+
+export type SequenceDirection = "forward" | "backward";
 
 export type CountObjectType = "dot";
 
@@ -158,6 +163,11 @@ export interface CompareNumbersConfig {
   numberRange: MathRangeConfig;
 }
 
+export interface NumberSequenceConfig {
+  enabled: boolean;
+  numberRange: MathRangeConfig;
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
@@ -167,6 +177,7 @@ export interface MathTopicConfigs {
   missingAddend?: MissingAddendConfig;
   countDots?: CountDotsConfig;
   compareNumbers?: CompareNumbersConfig;
+  numberSequence?: NumberSequenceConfig;
 }
 
 export interface MathPracticeConfig {
@@ -250,6 +261,9 @@ export interface MathExercise extends ExerciseBase {
   dotCount?: number;
   countObjectType?: CountObjectType;
   comparisonSign?: ComparisonSign;
+  sequenceDirection?: SequenceDirection;
+  sequenceNumbers?: number[];
+  sequenceMissingIndex?: number;
   expectedRemainder?: number;
   visualHint?: MathVisualHint;
 }
@@ -334,6 +348,8 @@ export interface ReviewState {
   streak: number;
   status: ReviewStatus;
   reviewStep: number;
+  reviewBucket?: ReviewBucket;
+  reviewQueueOrder?: number;
   correctInStep?: number;
   nextReviewQuestionNumber?: number;
   lastAnsweredQuestionNumber?: number;

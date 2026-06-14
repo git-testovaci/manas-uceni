@@ -151,6 +151,8 @@ function getNumbers(exercise: MathExercise): ExplanationNumbers {
     }
     case "compare-numbers":
       return { a: operandA, b: operandB, result: 0 };
+    case "number-sequence":
+      return { a: operandA, b: operandB, result: operandB };
   }
 }
 
@@ -186,6 +188,8 @@ function getExplanationText(
     }
     case "compare-numbers":
       return exercise.explanation ?? `Porovnáme čísla ${a} a ${b}.`;
+    case "number-sequence":
+      return exercise.explanation ?? `Chybí ${result}.`;
   }
 }
 
@@ -884,6 +888,20 @@ function ExplanationVisual({
           {`${a} ${exercise.comparisonSign ?? exercise.correctAnswer} ${b}`}
         </CompactFormula>
       );
+    case "number-sequence": {
+      const sequence = exercise.sequenceNumbers ?? [];
+      const missingIndex = exercise.sequenceMissingIndex ?? -1;
+
+      return (
+        <CompactFormula>
+          {sequence
+            .map((value, index) =>
+              index === missingIndex ? String(b) : value,
+            )
+            .join(", ")}
+        </CompactFormula>
+      );
+    }
   }
 }
 

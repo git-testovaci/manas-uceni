@@ -10,6 +10,7 @@ import type {
   CountDotsConfig,
   SubtractionConfig,
   CompareNumbersConfig,
+  NumberSequenceConfig,
 } from "@/types";
 
 export const DEFAULT_MATH_RANGE: MathRangeConfig = {
@@ -70,6 +71,11 @@ export const DEFAULT_COMPARE_NUMBERS_CONFIG: CompareNumbersConfig = {
   numberRange: { min: 0, max: 10 },
 };
 
+export const DEFAULT_NUMBER_SEQUENCE_CONFIG: NumberSequenceConfig = {
+  enabled: false,
+  numberRange: { min: 0, max: 10 },
+};
+
 export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   addition: DEFAULT_ADDITION_CONFIG,
   subtraction: DEFAULT_SUBTRACTION_CONFIG,
@@ -79,6 +85,7 @@ export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   missingAddend: DEFAULT_MISSING_ADDEND_CONFIG,
   countDots: DEFAULT_COUNT_DOTS_CONFIG,
   compareNumbers: DEFAULT_COMPARE_NUMBERS_CONFIG,
+  numberSequence: DEFAULT_NUMBER_SEQUENCE_CONFIG,
 };
 
 export function createDefaultMathPracticeConfig(): MathPracticeConfig {
