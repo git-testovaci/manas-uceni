@@ -9,6 +9,7 @@ import {
   validateClockReadAnswer,
   validateComparisonAnswer,
   validateMathAnswer,
+  validateMoneyCountAnswer,
 } from "@/lib/math/validateMathAnswer";
 import { formatClockTime } from "@/lib/math/time";
 import type {
@@ -103,11 +104,17 @@ export function processMathAnswer(
       ? validateComparisonAnswer(input, expected.correctAnswer)
       : exercise.operation === "clock-read"
         ? validateClockReadAnswer(input, expected.correctAnswer)
-        : validateMathAnswer(
-            input,
-            expected.correctAnswer,
-            expected.expectedRemainder,
-          );
+        : exercise.operation === "money-count"
+          ? validateMoneyCountAnswer(
+              input,
+              expected.correctAnswer,
+              exercise.currencyCode,
+            )
+          : validateMathAnswer(
+              input,
+              expected.correctAnswer,
+              expected.expectedRemainder,
+            );
 
   const { state: updatedReviewState, answerResult } = updateReviewState({
     state,

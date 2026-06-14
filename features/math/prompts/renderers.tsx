@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 
 import { CountDotsVisual, CoinStrip, ClockFace } from "@/features/math/visuals";
+import { resolveExerciseCurrencyCode } from "@/lib/math/money";
 import type { MathExercise, MathOperation } from "@/types";
 
 function CountDotsQuestionPrompt({ exercise }: { exercise: MathExercise }) {
@@ -48,7 +49,7 @@ function NumberSequenceQuestionPrompt({ exercise }: { exercise: MathExercise }) 
 
 function MoneyCountQuestionPrompt({ exercise }: { exercise: MathExercise }) {
   const coins = exercise.coinValues ?? [];
-  const currencyCode = exercise.currencyCode ?? "CZK";
+  const currencyCode = resolveExerciseCurrencyCode(exercise.currencyCode);
 
   return (
     <div className="space-y-4">

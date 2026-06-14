@@ -47,3 +47,12 @@ export function formatClockTimeLabel(hour: number, minute: number): string {
 
   return `${hour} a půl`;
 }
+
+export function getClockAnswerPlaceholder(minute: number): string {
+  if (minute === 30) {
+    return "např. 3:30";
+  }
+
+  return "např. 3 nebo 3:00";
+}
+

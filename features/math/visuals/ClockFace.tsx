@@ -18,6 +18,8 @@ export function ClockFace({ hour, minute, size = "lg" }: ClockFaceProps) {
   const diameter = CLOCK_SIZE_PX[size];
   const hourAngle = (hour % 12) * 30 + minute * 0.5;
   const minuteAngle = minute * 6;
+  const hourHandHeight = diameter * 0.28;
+  const minuteHandHeight = diameter * 0.38;
 
   return (
     <div
@@ -45,13 +47,21 @@ export function ClockFace({ hour, minute, size = "lg" }: ClockFaceProps) {
 
       <span
         aria-hidden="true"
-        className="absolute left-1/2 top-1/2 h-[28%] w-1.5 origin-bottom -translate-x-1/2 rounded-full bg-foreground"
-        style={{ transform: `translateX(-50%) rotate(${hourAngle}deg)` }}
+        className="absolute left-1/2 bottom-1/2 w-1.5 rounded-full bg-foreground"
+        style={{
+          height: hourHandHeight,
+          transformOrigin: "bottom center",
+          transform: `translateX(-50%) rotate(${hourAngle}deg)`,
+        }}
       />
       <span
         aria-hidden="true"
-        className="absolute left-1/2 top-1/2 h-[38%] w-1 origin-bottom -translate-x-1/2 rounded-full bg-math"
-        style={{ transform: `translateX(-50%) rotate(${minuteAngle}deg)` }}
+        className="absolute left-1/2 bottom-1/2 w-1 rounded-full bg-math"
+        style={{
+          height: minuteHandHeight,
+          transformOrigin: "bottom center",
+          transform: `translateX(-50%) rotate(${minuteAngle}deg)`,
+        }}
       />
       <span
         aria-hidden="true"

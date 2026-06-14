@@ -1,4 +1,5 @@
 import { formatClockTime, parseClockAnswer } from "@/lib/math/time";
+import { parseMoneyAnswer } from "@/lib/math/money";
 
 const REMAINDER_PATTERNS: RegExp[] = [
   /^(\d+)\s*r\s*(\d+)$/i,
@@ -160,6 +161,34 @@ export function validateMathAnswer(
       parsedQuotient,
       expectedRemainder,
     ),
+    normalizedInput,
+    expectedAnswer,
+  };
+}
+
+export function validateMoneyCountAnswer(
+  input: string,
+  correctAnswer: string,
+  currencyCode?: string,
+): {
+  isCorrect: boolean;
+  normalizedInput: string;
+  expectedAnswer: string;
+} {
+  const parsedInput = parseMoneyAnswer(input, currencyCode);
+  const parsedCorrect =
+    parseMoneyAnswer(correctAnswer, currencyCode) ??
+    parseNumericAnswer(correctAnswer);
+  const expectedAnswer =
+    parsedCorrect !== null ? String(parsedCorrect) : correctAnswer.trim();
+  const normalizedInput =
+    parsedInput !== null ? String(parsedInput) : normalizeNumericAnswer(input);
+
+  return {
+    isCorrect:
+      parsedInput !== null &&
+      parsedCorrect !== null &&
+      parsedInput === parsedCorrect,
     normalizedInput,
     expectedAnswer,
   };

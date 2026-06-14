@@ -21,6 +21,7 @@ import {
 } from "@/lib/math/mathDefaults";
 import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
+import { getClockAnswerPlaceholder } from "@/lib/math/time";
 import {
   selectReviewExercise,
   shouldOfferReviewInsertion,
@@ -3603,6 +3604,12 @@ function PracticeScreen({
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
   const isCompareExercise = exercise.operation === "compare-numbers";
   const isClockExercise = exercise.operation === "clock-read";
+  const isMoneyExercise = exercise.operation === "money-count";
+  const answerPlaceholder = isClockExercise
+    ? getClockAnswerPlaceholder(exercise.clockMinute ?? exercise.operandB)
+    : isMoneyExercise
+      ? "napiš číslo, např. 5"
+      : undefined;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
@@ -3737,6 +3744,7 @@ function PracticeScreen({
             ref={answerInputRef}
             type="text"
             inputMode={isClockExercise ? "text" : "numeric"}
+            placeholder={answerPlaceholder}
             value={userInput}
             onChange={(event) => onInputChange(event.target.value)}
             onKeyDown={handleAnswerKeyDown}

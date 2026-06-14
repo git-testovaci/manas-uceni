@@ -1,5 +1,5 @@
 import { getCountDotsExplanation } from "@/lib/math/generateMathExercises";
-import { formatMoneyAmount } from "@/lib/math/money";
+import { formatMoneyAmount, resolveExerciseCurrencyCode } from "@/lib/math/money";
 import { formatClockTime } from "@/lib/math/time";
 import type { MathExercise } from "@/types";
 
@@ -45,7 +45,7 @@ export function getMathExplanationText(
       }
 
       const coins = exercise.coinValues ?? [];
-      const currencyCode = exercise.currencyCode ?? "CZK";
+      const currencyCode = resolveExerciseCurrencyCode(exercise.currencyCode);
       const total = exercise.expectedAmount ?? result;
       const addition = coins.join(" + ");
 

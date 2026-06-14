@@ -1,5 +1,5 @@
 import { CompactFormula, CoinStrip } from "@/features/math/visuals";
-import { formatMoneyAmount } from "@/lib/math/money";
+import { formatMoneyAmount, resolveExerciseCurrencyCode } from "@/lib/math/money";
 import type { MathExplanationContext } from "@/lib/math/explanations";
 
 export function MoneyCountExplanationVisual({
@@ -9,7 +9,7 @@ export function MoneyCountExplanationVisual({
 }) {
   const { exercise } = context;
   const coins = exercise.coinValues ?? [];
-  const currencyCode = exercise.currencyCode ?? "CZK";
+  const currencyCode = resolveExerciseCurrencyCode(exercise.currencyCode);
   const total = exercise.expectedAmount ?? context.numbers.result;
   const addition = coins.join(" + ");
 
