@@ -135,6 +135,12 @@ function getNumbers(exercise: MathExercise): ExplanationNumbers {
         remainder,
       };
     }
+    case "missing-addend-to-10": {
+      const known = operandA;
+      const missing = Number(exercise.correctAnswer);
+      const target = exercise.targetSum ?? 10;
+      return { a: known, b: missing, result: target };
+    }
   }
 }
 
@@ -155,6 +161,15 @@ function getExplanationText(
       return `${a} rozdělíme do skupin po ${b} a dostaneme ${result} skupin.`;
     case "divide-with-remainder":
       return `${a} rozdělíme po ${b}: ${quotient} celých skupin a ${remainder} zůstane navíc.`;
+    case "missing-addend-to-10": {
+      const target = exercise.targetSum ?? 10;
+      const known = exercise.operandA;
+      const missing = Number(exercise.correctAnswer);
+      if (exercise.missingPosition === "right") {
+        return `Hledáme číslo, které doplní příklad do ${target}. Když máme ${known}, dopočítáme až do ${target}. Chybí ${missing}.`;
+      }
+      return `Hledáme číslo, které s ${known} dá dohromady ${target}. Chybí ${missing}.`;
+    }
   }
 }
 
@@ -825,6 +840,17 @@ function ExplanationVisual({
           remainder={remainder ?? a % b}
         />
       );
+    case "missing-addend-to-10": {
+      const target = exercise.targetSum ?? 10;
+      const known = exercise.operandA;
+      const missing = Number(exercise.correctAnswer);
+      const completed =
+        exercise.missingPosition === "right"
+          ? `${known} + ${missing} = ${target}`
+          : `${missing} + ${known} = ${target}`;
+
+      return <CompactFormula>{completed}</CompactFormula>;
+    }
   }
 }
 

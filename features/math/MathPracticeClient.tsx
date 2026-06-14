@@ -78,6 +78,7 @@ type SessionAnswerRecord = {
   operation: MathOperation;
   operandA: number;
   operandB: number;
+  prompt?: string;
   userAnswer: string;
   expectedAnswer: string;
   result: SessionAnswerResult;
@@ -1445,6 +1446,10 @@ export function MathPracticeClient() {
         operation: currentExercise.operation,
         operandA: currentExercise.operandA,
         operandB: currentExercise.operandB,
+        prompt:
+          currentExercise.operation === "missing-addend-to-10"
+            ? currentExercise.prompt
+            : undefined,
         userAnswer: input,
         expectedAnswer: result.expectedAnswer,
         result: answerResult,
@@ -3986,6 +3991,14 @@ function getMathOperatorSymbol(operation: MathOperation): string {
 }
 
 function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
+  if (record.operation === "missing-addend-to-10" && record.prompt) {
+    if (record.result === "needsPractice") {
+      return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, špatně, správně ${record.expectedAnswer}`;
+    }
+
+    return `Otázka ${record.questionNumber}, zadání ${record.prompt}, tvoje odpověď ${record.userAnswer}, správně`;
+  }
+
   const operator = getMathOperatorSymbol(record.operation);
   const example = `${record.operandA} ${operator} ${record.operandB}`;
 
@@ -3998,6 +4011,36 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
 
 function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   const isWrong = record.result === "needsPractice";
+
+  if (record.operation === "missing-addend-to-10" && record.prompt) {
+    return (
+      <li>
+        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-foreground/70">{record.questionNumber}.</span>
+            <span>
+              Zadání:{" "}
+              <span className="font-medium">{record.prompt}</span>
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
+            <span>
+              Tvoje odpověď:{" "}
+              <span className="font-medium">{record.userAnswer}</span>
+            </span>
+            <span>{isWrong ? "❌" : "✅"}</span>
+            {isWrong && (
+              <span className="text-foreground/80">
+                Správně: {record.expectedAnswer}
+              </span>
+            )}
+          </div>
+        </div>
+        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+      </li>
+    );
+  }
+
   const operator = getMathOperatorSymbol(record.operation);
 
   return (

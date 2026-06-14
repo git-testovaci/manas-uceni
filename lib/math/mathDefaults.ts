@@ -5,6 +5,7 @@ import type {
   MathPracticeConfig,
   MathRangeConfig,
   MathTopicConfigs,
+  MissingAddendConfig,
   MultiplicationConfig,
   SubtractionConfig,
 } from "@/types";
@@ -50,12 +51,19 @@ export const DEFAULT_DIVISION_REMAINDER_CONFIG: DivisionRemainderConfig = {
   requireRemainder: true,
 };
 
+export const DEFAULT_MISSING_ADDEND_CONFIG: MissingAddendConfig = {
+  enabled: false,
+  targetSum: 10,
+  knownAddend: { min: 0, max: 10 },
+};
+
 export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   addition: DEFAULT_ADDITION_CONFIG,
   subtraction: DEFAULT_SUBTRACTION_CONFIG,
   multiplication: DEFAULT_MULTIPLICATION_CONFIG,
   division: DEFAULT_DIVISION_CONFIG,
   divisionRemainder: DEFAULT_DIVISION_REMAINDER_CONFIG,
+  missingAddend: DEFAULT_MISSING_ADDEND_CONFIG,
 };
 
 export function createDefaultMathPracticeConfig(): MathPracticeConfig {

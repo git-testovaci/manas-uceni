@@ -9,6 +9,8 @@ import type {
   MathTopic,
   MathTopicConfigs,
   MathVisualHint,
+  MissingAddendConfig,
+  MissingAddendPosition,
   MultiplicationConfig,
   ReviewState,
   ReviewStateMap,
@@ -35,6 +37,7 @@ const OPERATION_TO_TOPIC: Record<MathOperation, Exclude<MathTopic, "mixed">> = {
   multiply: "multiplication",
   divide: "division",
   "divide-with-remainder": "division-remainder",
+  "missing-addend-to-10": "addition",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -61,7 +64,49 @@ export function createMathExerciseId(
       return `math-divide-${operandA}-by-${operandB}`;
     case "divide-with-remainder":
       return `math-divide-rem-${operandA}-by-${operandB}`;
+    case "missing-addend-to-10":
+      throw new Error("Use createMissingAddendTo10ExerciseId instead.");
   }
+}
+
+export function createMissingAddendTo10ExerciseId(
+  targetSum: number,
+  missingPosition: MissingAddendPosition,
+  knownAddend: number,
+): string {
+  return `math-missing-addend-${targetSum}-${missingPosition}-${knownAddend}`;
+}
+
+export function createMissingAddendTo10Exercise(
+  knownAddend: number,
+  missingPosition: MissingAddendPosition,
+  targetSum: number,
+): MathExercise {
+  const missingAnswer = targetSum - knownAddend;
+  const id = createMissingAddendTo10ExerciseId(
+    targetSum,
+    missingPosition,
+    knownAddend,
+  );
+  const prompt =
+    missingPosition === "right"
+      ? `${knownAddend} + ? = ${targetSum}`
+      : `? + ${knownAddend} = ${targetSum}`;
+
+  return {
+    id,
+    subject: "math",
+    topic: "addition",
+    operation: "missing-addend-to-10",
+    operandA: knownAddend,
+    operandB: missingAnswer,
+    missingPosition,
+    targetSum,
+    prompt,
+    correctAnswer: String(missingAnswer),
+    explanation: `Doplň číslo ${missingAnswer}, aby vzniklo ${targetSum}.`,
+    createdBy: "system",
+  };
 }
 
 export function createMathExercise(
@@ -164,6 +209,8 @@ export function createMathExercise(
         createdBy: "system",
       };
     }
+    case "missing-addend-to-10":
+      throw new Error("Use createMissingAddendTo10Exercise instead.");
   }
 }
 
@@ -231,6 +278,14 @@ function generateFromTopicConfigs(
   if (topicConfigs.divisionRemainder?.enabled) {
     for (const exercise of generateDivisionRemainderFromTopicConfig(
       topicConfigs.divisionRemainder,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.missingAddend?.enabled) {
+    for (const exercise of generateMissingAddendFromTopicConfig(
+      topicConfigs.missingAddend,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -453,6 +508,30 @@ function generateDivisionRemainderFromQuotientRange(
   return exercises;
 }
 
+function generateMissingAddendFromTopicConfig(
+  config: MissingAddendConfig,
+): MathExercise[] {
+  const byId = new Map<string, MathExercise>();
+  const positions: MissingAddendPosition[] = ["left", "right"];
+
+  for (
+    let knownAddend = config.knownAddend.min;
+    knownAddend <= config.knownAddend.max;
+    knownAddend += 1
+  ) {
+    for (const missingPosition of positions) {
+      const exercise = createMissingAddendTo10Exercise(
+        knownAddend,
+        missingPosition,
+        config.targetSum,
+      );
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function isValidDivisionRemainderExample(
   dividend: number,
   divisor: number,
@@ -577,6 +656,8 @@ function generateForOperation(
       return generateDivisionExercises(config, pool);
     case "divide-with-remainder":
       return generateDivisionRemainderExercises(config, pool);
+    case "missing-addend-to-10":
+      return [];
   }
 }
 

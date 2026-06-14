@@ -2,6 +2,7 @@ import {
   DEFAULT_DIVISION_CONFIG,
   DEFAULT_DIVISION_REMAINDER_CONFIG,
   DEFAULT_MATH_TOPIC_CONFIGS,
+  DEFAULT_MISSING_ADDEND_CONFIG,
   DEFAULT_MULTIPLICATION_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
@@ -26,6 +27,7 @@ const DISABLED_TOPIC_CONFIGS = {
     ...DEFAULT_DIVISION_REMAINDER_CONFIG,
     enabled: false,
   },
+  missingAddend: { ...DEFAULT_MISSING_ADDEND_CONFIG, enabled: false },
 };
 
 type Range = { min: number; max: number };
@@ -76,6 +78,24 @@ function subtractionPreset(
           minuend: { ...minuendRange },
           subtrahend: { ...subtrahendRange },
           allowNegativeResults: false,
+        },
+      },
+    },
+  };
+}
+
+function missingAddendTo10Preset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["addition"],
+    mathConfig: {
+      enabledTopics: ["addition"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        missingAddend: {
+          enabled: true,
+          targetSum: 10,
+          knownAddend: { min: 0, max: 10 },
         },
       },
     },
@@ -490,6 +510,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["addition"],
     difficultyProfile: "within-10",
+    preset: missingAddendTo10Preset(),
   },
   {
     order: 8,

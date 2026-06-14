@@ -34,7 +34,10 @@ export type MathOperation =
   | "subtract"
   | "multiply"
   | "divide"
-  | "divide-with-remainder";
+  | "divide-with-remainder"
+  | "missing-addend-to-10";
+
+export type MissingAddendPosition = "left" | "right";
 
 export type WordCategory =
   | "noun"
@@ -132,12 +135,19 @@ export interface DivisionRemainderConfig {
   questionCount?: number;
 }
 
+export interface MissingAddendConfig {
+  enabled: boolean;
+  targetSum: number;
+  knownAddend: MathRangeConfig;
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
   multiplication?: MultiplicationConfig;
   division?: DivisionConfig;
   divisionRemainder?: DivisionRemainderConfig;
+  missingAddend?: MissingAddendConfig;
 }
 
 export interface MathPracticeConfig {
@@ -216,6 +226,8 @@ export interface MathExercise extends ExerciseBase {
   operation: MathOperation;
   operandA: number;
   operandB: number;
+  missingPosition?: MissingAddendPosition;
+  targetSum?: number;
   expectedRemainder?: number;
   visualHint?: MathVisualHint;
 }
