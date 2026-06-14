@@ -3,8 +3,12 @@ export type { BuildSessionAnswerRecordInput } from "./buildSessionAnswerRecord";
 export { PromptSummaryRow } from "./PromptSummaryRow";
 export {
   buildPromptSummaryAccessibleText,
-  getPromptSummaryAccessibleVariant,
   type PromptSummaryAccessibleTextInput,
-  type PromptSummaryAccessibleVariant,
 } from "./promptAccessibleText";
+export {
+  getPromptSummaryAccessibleVariant,
+  shouldSnapshotPromptForSummary,
+  type PromptSummaryAccessibleVariant,
+  type PromptSummaryOperation,
+} from "./promptSummaryOperations";
 export type { SessionAnswerRecord, SessionAnswerResult } from "./types";

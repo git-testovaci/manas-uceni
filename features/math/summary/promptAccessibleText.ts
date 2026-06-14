@@ -1,4 +1,6 @@
-export type PromptSummaryAccessibleVariant = "comparison" | "default";
+import type { PromptSummaryAccessibleVariant } from "./promptSummaryOperations";
+
+export type { PromptSummaryAccessibleVariant } from "./promptSummaryOperations";
 
 export type PromptSummaryAccessibleTextInput = {
   questionNumber: number;
@@ -34,18 +36,4 @@ export function buildPromptSummaryAccessibleText(
   }
 
   return `Otázka ${questionNumber}, zadání ${prompt}, tvoje odpověď ${userAnswer}, správně`;
-}
-
-export function getPromptSummaryAccessibleVariant(
-  operation: string,
-): PromptSummaryAccessibleVariant | null {
-  if (operation === "compare-numbers") {
-    return "comparison";
-  }
-
-  if (operation === "missing-addend-to-10" || operation === "number-sequence") {
-    return "default";
-  }
-
-  return null;
 }

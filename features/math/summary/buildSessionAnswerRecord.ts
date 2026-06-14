@@ -1,12 +1,6 @@
-import type { MathExercise } from "@/types";
-
+import { shouldSnapshotPromptForSummary } from "./promptSummaryOperations";
 import type { SessionAnswerRecord, SessionAnswerResult } from "./types";
-
-const PROMPT_SNAPSHOT_OPERATIONS = new Set<MathExercise["operation"]>([
-  "missing-addend-to-10",
-  "compare-numbers",
-  "number-sequence",
-]);
+import type { MathExercise } from "@/types";
 
 export type BuildSessionAnswerRecordInput = {
   exercise: MathExercise;
@@ -28,7 +22,7 @@ export function buildSessionAnswerRecord(
     operation: exercise.operation,
     operandA: exercise.operandA,
     operandB: exercise.operandB,
-    prompt: PROMPT_SNAPSHOT_OPERATIONS.has(exercise.operation)
+    prompt: shouldSnapshotPromptForSummary(exercise.operation)
       ? exercise.prompt
       : undefined,
     dotCount:
