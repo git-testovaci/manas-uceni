@@ -57,6 +57,7 @@ import type {
   SubtractionConfig,
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
+import { CountDotsVisual } from "@/features/math/CountDotsVisual";
 import {
   useEffect,
   useRef,
@@ -3597,7 +3598,7 @@ function PracticeScreen({
       {isCountDotsExercise ? (
         <div className="space-y-4">
           <p className="text-lg font-semibold sm:text-xl">Spočítej tečky</p>
-          <CountDotsDisplay count={dotCount} size="lg" />
+          <CountDotsVisual count={dotCount} size="lg" ariaHidden />
           <span className="sr-only">{exercise.prompt}</span>
         </div>
       ) : (
@@ -4032,30 +4033,6 @@ function buildSummaryAccessibleText(record: SessionAnswerRecord): string {
   return `Otázka ${record.questionNumber}, ${example}, tvoje odpověď ${record.userAnswer}, správně`;
 }
 
-function CountDotsDisplay({
-  count,
-  size = "lg",
-}: {
-  count: number;
-  size?: "lg" | "sm";
-}) {
-  const dotClass =
-    size === "lg"
-      ? "inline-block h-6 w-6 rounded-full bg-math sm:h-8 sm:w-8"
-      : "inline-block h-3.5 w-3.5 rounded-full bg-math sm:h-4 sm:w-4";
-
-  return (
-    <div
-      className="flex flex-wrap items-center gap-3 sm:gap-4"
-      aria-hidden={size === "lg" ? true : undefined}
-    >
-      {Array.from({ length: count }, (_, index) => (
-        <span key={index} className={dotClass} />
-      ))}
-    </div>
-  );
-}
-
 function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   const isWrong = record.result === "needsPractice";
 
@@ -4066,7 +4043,7 @@ function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
           <div className="flex flex-wrap items-center gap-x-2">
             <span className="text-foreground/70">{record.questionNumber}.</span>
             <span>Zadání:</span>
-            <CountDotsDisplay count={record.dotCount} size="sm" />
+            <CountDotsVisual count={record.dotCount} size="sm" />
           </div>
           <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
             <span>

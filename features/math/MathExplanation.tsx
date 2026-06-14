@@ -1,4 +1,7 @@
-import { getCountDotsExplanation } from "@/lib/math/generateMathExercises";
+import {
+  getCountDotsExplanation,
+} from "@/lib/math/generateMathExercises";
+import { CountDotsVisual } from "@/features/math/CountDotsVisual";
 import type { MathExercise } from "@/types";
 
 const MAX_DOTS = 36;
@@ -337,14 +340,7 @@ function CountDotsExplanationVisual({ count }: { count: number }) {
   return (
     <figure className="space-y-2">
       <figcaption className="sr-only">Spočítej {count} teček</figcaption>
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3" aria-hidden="true">
-        {Array.from({ length: count }, (_, index) => (
-          <span
-            key={index}
-            className="inline-block h-4 w-4 rounded-full bg-math sm:h-5 sm:w-5"
-          />
-        ))}
-      </div>
+      <CountDotsVisual count={count} size="md" ariaHidden />
     </figure>
   );
 }

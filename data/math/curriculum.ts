@@ -122,6 +122,24 @@ function countDotsTo5Preset(): MathLessonPreset {
   };
 }
 
+function countDotsTo10Preset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        countDots: {
+          enabled: true,
+          countRange: { min: 1, max: 10 },
+          objectType: "dot",
+        },
+      },
+    },
+  };
+}
+
 function additionSubtractionPreset(
   max: number,
   topics: ("addition" | "subtraction")[] = ["addition", "subtraction"],
@@ -489,6 +507,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "number-operations",
     topics: ["mixed"],
     difficultyProfile: "within-10",
+    preset: countDotsTo10Preset(),
   },
   {
     order: 3,
