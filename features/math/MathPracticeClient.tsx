@@ -3602,6 +3602,7 @@ function PracticeScreen({
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
   const isCompareExercise = exercise.operation === "compare-numbers";
+  const isClockExercise = exercise.operation === "clock-read";
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
@@ -3735,7 +3736,7 @@ function PracticeScreen({
           <input
             ref={answerInputRef}
             type="text"
-            inputMode="numeric"
+            inputMode={isClockExercise ? "text" : "numeric"}
             value={userInput}
             onChange={(event) => onInputChange(event.target.value)}
             onKeyDown={handleAnswerKeyDown}

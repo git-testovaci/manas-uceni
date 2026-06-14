@@ -6,9 +6,11 @@ import {
   formatRemainderAnswer,
   parseNumericAnswer,
   parseRemainderAnswer,
+  validateClockReadAnswer,
   validateComparisonAnswer,
   validateMathAnswer,
 } from "@/lib/math/validateMathAnswer";
+import { formatClockTime } from "@/lib/math/time";
 import type {
   AnswerResult,
   MathExercise,
@@ -35,6 +37,17 @@ export function getExpectedMathAnswer(exercise: MathExercise): {
   expectedRemainder?: number;
   displayAnswer: string;
 } {
+  if (exercise.operation === "clock-read") {
+    const hour = exercise.clockHour ?? exercise.operandA;
+    const minute = exercise.clockMinute ?? exercise.operandB;
+    const displayAnswer = formatClockTime(hour, minute);
+
+    return {
+      correctAnswer: displayAnswer,
+      displayAnswer,
+    };
+  }
+
   if (exercise.expectedRemainder === undefined) {
     const parsed = parseNumericAnswer(exercise.correctAnswer);
     const displayAnswer =
@@ -88,11 +101,13 @@ export function processMathAnswer(
   const validation =
     exercise.operation === "compare-numbers"
       ? validateComparisonAnswer(input, expected.correctAnswer)
-      : validateMathAnswer(
-          input,
-          expected.correctAnswer,
-          expected.expectedRemainder,
-        );
+      : exercise.operation === "clock-read"
+        ? validateClockReadAnswer(input, expected.correctAnswer)
+        : validateMathAnswer(
+            input,
+            expected.correctAnswer,
+            expected.expectedRemainder,
+          );
 
   const { state: updatedReviewState, answerResult } = updateReviewState({
     state,

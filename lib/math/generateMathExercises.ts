@@ -20,7 +20,11 @@ import type {
   ReviewStateMap,
   SequenceDirection,
   SubtractionConfig,
+  MoneyCountConfig,
+  ClockReadConfig,
 } from "@/types";
+import { formatMoneyAmount } from "@/lib/math/money";
+import { formatClockTime } from "@/lib/math/time";
 
 const DEFAULT_MIN_VALUE = 1;
 const DEFAULT_MAX_VALUE = 12;
@@ -46,6 +50,8 @@ const OPERATION_TO_TOPIC: Record<MathOperation, MathTopic> = {
   "count-dots": "mixed",
   "compare-numbers": "mixed",
   "number-sequence": "mixed",
+  "money-count": "mixed",
+  "clock-read": "mixed",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -80,6 +86,10 @@ export function createMathExerciseId(
       throw new Error("Use createCompareNumbersExerciseId instead.");
     case "number-sequence":
       throw new Error("Use createNumberSequenceExerciseId instead.");
+    case "money-count":
+      throw new Error("Use createMoneyCountExerciseId instead.");
+    case "clock-read":
+      throw new Error("Use createClockReadExerciseId instead.");
   }
 }
 
@@ -295,6 +305,143 @@ export function createNumberSequenceExercise(
   };
 }
 
+export function createMoneyCountExerciseId(
+  currencyCode: string,
+  coinValues: number[],
+): string {
+  const sortedCoins = [...coinValues].sort((left, right) => left - right);
+  return `math-money-count-${currencyCode}-${sortedCoins.join("-")}`;
+}
+
+function buildMoneyCountExplanation(
+  coinValues: number[],
+  currencyCode: string,
+): string {
+  const total = coinValues.reduce((sum, value) => sum + value, 0);
+  const addition = coinValues.join(" + ");
+
+  return `Sečteme mince: ${addition} = ${total}. Dohromady je ${formatMoneyAmount(total, currencyCode)}.`;
+}
+
+export function createMoneyCountExercise(
+  currencyCode: string,
+  coinValues: number[],
+): MathExercise {
+  const sortedCoins = [...coinValues].sort((left, right) => left - right);
+  const expectedAmount = sortedCoins.reduce((sum, value) => sum + value, 0);
+
+  return {
+    id: createMoneyCountExerciseId(currencyCode, sortedCoins),
+    subject: "math",
+    topic: "mixed",
+    operation: "money-count",
+    operandA: expectedAmount,
+    operandB: sortedCoins.length,
+    currencyCode,
+    coinValues: sortedCoins,
+    expectedAmount,
+    prompt: "Kolik je dohromady?",
+    correctAnswer: String(expectedAmount),
+    explanation: buildMoneyCountExplanation(sortedCoins, currencyCode),
+    createdBy: "system",
+  };
+}
+
+export function createClockReadExerciseId(
+  hour: number,
+  minute: number,
+): string {
+  return `math-clock-read-${hour}-${minute}`;
+}
+
+function buildClockReadExplanation(hour: number, minute: number): string {
+  if (minute === 0) {
+    return `Krátká ručička ukazuje na ${hour}. Dlouhá ručička ukazuje na 12, takže je přesně ${formatClockTime(hour, minute)}.`;
+  }
+
+  const nextHour = hour === 12 ? 1 : hour + 1;
+  return `Krátká ručička je mezi ${hour} a ${nextHour}. Dlouhá ručička ukazuje na 6, takže je ${hour} a půl (${formatClockTime(hour, minute)}).`;
+}
+
+function buildClockReadPrompt(minute: number): string {
+  if (minute === 0) {
+    return "Kolik je hodin?";
+  }
+
+  return "Kolik je hodin? (napiš např. 3:30)";
+}
+
+export function createClockReadExercise(
+  hour: number,
+  minute: number,
+): MathExercise {
+  const answer = formatClockTime(hour, minute);
+
+  return {
+    id: createClockReadExerciseId(hour, minute),
+    subject: "math",
+    topic: "mixed",
+    operation: "clock-read",
+    operandA: hour,
+    operandB: minute,
+    clockHour: hour,
+    clockMinute: minute,
+    prompt: buildClockReadPrompt(minute),
+    correctAnswer: answer,
+    explanation: buildClockReadExplanation(hour, minute),
+    createdBy: "system",
+  };
+}
+
+function generateMoneyCountCombinations(
+  denominations: number[],
+  maxCoins: number,
+  minAmount: number,
+  maxAmount: number,
+): number[][] {
+  const results: number[][] = [];
+  const seen = new Set<string>();
+
+  function visit(current: number[]) {
+    const sum = current.reduce((total, value) => total + value, 0);
+
+    if (current.length > 0 && sum >= minAmount && sum <= maxAmount) {
+      const sorted = [...current].sort((left, right) => left - right);
+      const key = sorted.join(",");
+      if (!seen.has(key)) {
+        seen.add(key);
+        results.push(sorted);
+      }
+    }
+
+    if (current.length >= maxCoins || sum >= maxAmount) {
+      return;
+    }
+
+    for (const denomination of denominations) {
+      if (sum + denomination > maxAmount) {
+        continue;
+      }
+
+      current.push(denomination);
+      visit(current);
+      current.pop();
+    }
+  }
+
+  visit([]);
+  return results.sort((left, right) => {
+    const leftSum = left.reduce((total, value) => total + value, 0);
+    const rightSum = right.reduce((total, value) => total + value, 0);
+
+    if (leftSum !== rightSum) {
+      return leftSum - rightSum;
+    }
+
+    return left.join(",").localeCompare(right.join(","));
+  });
+}
+
 export function createMathExercise(
   operation: MathOperation,
   operandA: number,
@@ -403,6 +550,10 @@ export function createMathExercise(
       throw new Error("Use createCompareNumbersExercise instead.");
     case "number-sequence":
       throw new Error("Use createNumberSequenceExercise instead.");
+    case "money-count":
+      throw new Error("Use createMoneyCountExercise instead.");
+    case "clock-read":
+      throw new Error("Use createClockReadExercise instead.");
   }
 }
 
@@ -497,6 +648,22 @@ function generateFromTopicConfigs(
   if (topicConfigs.numberSequence?.enabled) {
     for (const exercise of generateNumberSequenceFromTopicConfig(
       topicConfigs.numberSequence,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.moneyCount?.enabled) {
+    for (const exercise of generateMoneyCountFromTopicConfig(
+      topicConfigs.moneyCount,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.clockRead?.enabled) {
+    for (const exercise of generateClockReadFromTopicConfig(
+      topicConfigs.clockRead,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -814,6 +981,40 @@ function generateNumberSequenceFromTopicConfig(
   return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function generateMoneyCountFromTopicConfig(
+  config: MoneyCountConfig,
+): MathExercise[] {
+  const denominations = [...config.coinDenominations].sort(
+    (left, right) => left - right,
+  );
+  const combinations = generateMoneyCountCombinations(
+    denominations,
+    config.maxCoins,
+    config.minAmount,
+    config.maxAmount,
+  );
+
+  return combinations.map((coinValues) =>
+    createMoneyCountExercise(config.currencyCode, coinValues),
+  );
+}
+
+function generateClockReadFromTopicConfig(
+  config: ClockReadConfig,
+): MathExercise[] {
+  const hours = buildRangePool(config.hourRange);
+  const minutes = config.halfHours ? [0, 30] : [0];
+  const exercises: MathExercise[] = [];
+
+  for (const hour of hours) {
+    for (const minute of minutes) {
+      exercises.push(createClockReadExercise(hour, minute));
+    }
+  }
+
+  return exercises;
+}
+
 function sortCompareNumbersGroup(
   exercises: MathExercise[],
   group: "less" | "greater" | "equal",
@@ -1026,6 +1227,10 @@ function generateForOperation(
     case "compare-numbers":
       return [];
     case "number-sequence":
+      return [];
+    case "money-count":
+      return [];
+    case "clock-read":
       return [];
   }
 }

@@ -1,3 +1,5 @@
+import { formatClockTime, parseClockAnswer } from "@/lib/math/time";
+
 const REMAINDER_PATTERNS: RegExp[] = [
   /^(\d+)\s*r\s*(\d+)$/i,
   /^(\d+)\s*z\s*(\d+)$/i,
@@ -158,6 +160,33 @@ export function validateMathAnswer(
       parsedQuotient,
       expectedRemainder,
     ),
+    normalizedInput,
+    expectedAnswer,
+  };
+}
+
+export function validateClockReadAnswer(
+  input: string,
+  correctAnswer: string,
+): {
+  isCorrect: boolean;
+  normalizedInput: string;
+  expectedAnswer: string;
+} {
+  const parsedInput = parseClockAnswer(input);
+  const parsedExpected = parseClockAnswer(correctAnswer);
+  const expectedAnswer = parsedExpected
+    ? formatClockTime(parsedExpected.hour, parsedExpected.minute)
+    : correctAnswer.trim();
+  const normalizedInput = parsedInput
+    ? formatClockTime(parsedInput.hour, parsedInput.minute)
+    : input.trim();
+
+  return {
+    isCorrect:
+      parsedInput !== null &&
+      parsedExpected !== null &&
+      normalizedInput === expectedAnswer,
     normalizedInput,
     expectedAnswer,
   };

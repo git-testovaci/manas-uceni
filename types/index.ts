@@ -40,7 +40,11 @@ export type MathOperation =
   | "missing-addend-to-10"
   | "count-dots"
   | "compare-numbers"
-  | "number-sequence";
+  | "number-sequence"
+  | "money-count"
+  | "clock-read";
+
+export type CurrencyCode = string;
 
 export type MissingAddendPosition = "left" | "right";
 
@@ -168,6 +172,21 @@ export interface NumberSequenceConfig {
   numberRange: MathRangeConfig;
 }
 
+export interface MoneyCountConfig {
+  enabled: boolean;
+  currencyCode: CurrencyCode;
+  coinDenominations: number[];
+  minAmount: number;
+  maxAmount: number;
+  maxCoins: number;
+}
+
+export interface ClockReadConfig {
+  enabled: boolean;
+  hourRange: MathRangeConfig;
+  halfHours: boolean;
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
@@ -178,6 +197,8 @@ export interface MathTopicConfigs {
   countDots?: CountDotsConfig;
   compareNumbers?: CompareNumbersConfig;
   numberSequence?: NumberSequenceConfig;
+  moneyCount?: MoneyCountConfig;
+  clockRead?: ClockReadConfig;
 }
 
 export interface MathPracticeConfig {
@@ -266,6 +287,11 @@ export interface MathExercise extends ExerciseBase {
   sequenceMissingIndex?: number;
   expectedRemainder?: number;
   visualHint?: MathVisualHint;
+  currencyCode?: CurrencyCode;
+  coinValues?: number[];
+  expectedAmount?: number;
+  clockHour?: number;
+  clockMinute?: number;
 }
 
 export interface CzechPracticeConfig {

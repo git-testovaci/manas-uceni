@@ -46,5 +46,14 @@ export function getMathExplanationNumbers(
       return { a: operandA, b: operandB, result: 0 };
     case "number-sequence":
       return { a: operandA, b: operandB, result: operandB };
+    case "money-count": {
+      const amount = exercise.expectedAmount ?? operandA;
+      return { a: exercise.coinValues?.length ?? operandB, b: amount, result: amount };
+    }
+    case "clock-read": {
+      const hour = exercise.clockHour ?? operandA;
+      const minute = exercise.clockMinute ?? operandB;
+      return { a: hour, b: minute, result: hour };
+    }
   }
 }

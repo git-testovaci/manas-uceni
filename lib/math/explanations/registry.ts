@@ -27,6 +27,8 @@ const OPERATION_VISUAL_KIND: Record<
   "count-dots": "count-dots",
   "compare-numbers": "compact-formula",
   "number-sequence": "compact-formula",
+  "money-count": "money-coins",
+  "clock-read": "clock-face",
 };
 
 export function getMathExplanationVisualKind(

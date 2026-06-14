@@ -1,4 +1,6 @@
 import { getCountDotsExplanation } from "@/lib/math/generateMathExercises";
+import { formatMoneyAmount } from "@/lib/math/money";
+import { formatClockTime } from "@/lib/math/time";
 import type { MathExercise } from "@/types";
 
 import type { MathExplanationNumbers } from "./types";
@@ -37,5 +39,32 @@ export function getMathExplanationText(
       return exercise.explanation ?? `Porovnáme čísla ${a} a ${b}.`;
     case "number-sequence":
       return exercise.explanation ?? `Chybí ${result}.`;
+    case "money-count": {
+      if (exercise.explanation) {
+        return exercise.explanation;
+      }
+
+      const coins = exercise.coinValues ?? [];
+      const currencyCode = exercise.currencyCode ?? "CZK";
+      const total = exercise.expectedAmount ?? result;
+      const addition = coins.join(" + ");
+
+      return `Sečteme mince: ${addition} = ${total}. Dohromady je ${formatMoneyAmount(total, currencyCode)}.`;
+    }
+    case "clock-read": {
+      if (exercise.explanation) {
+        return exercise.explanation;
+      }
+
+      const hour = exercise.clockHour ?? a;
+      const minute = exercise.clockMinute ?? b;
+
+      if (minute === 0) {
+        return `Krátká ručička ukazuje na ${hour}. Dlouhá ručička ukazuje na 12, takže je přesně ${formatClockTime(hour, minute)}.`;
+      }
+
+      const nextHour = hour === 12 ? 1 : hour + 1;
+      return `Krátká ručička je mezi ${hour} a ${nextHour}. Dlouhá ručička ukazuje na 6, takže je ${hour} a půl (${formatClockTime(hour, minute)}).`;
+    }
   }
 }

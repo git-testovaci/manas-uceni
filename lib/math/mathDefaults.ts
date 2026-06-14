@@ -11,6 +11,8 @@ import type {
   SubtractionConfig,
   CompareNumbersConfig,
   NumberSequenceConfig,
+  MoneyCountConfig,
+  ClockReadConfig,
 } from "@/types";
 
 export const DEFAULT_MATH_RANGE: MathRangeConfig = {
@@ -76,6 +78,21 @@ export const DEFAULT_NUMBER_SEQUENCE_CONFIG: NumberSequenceConfig = {
   numberRange: { min: 0, max: 10 },
 };
 
+export const DEFAULT_MONEY_COUNT_CONFIG: MoneyCountConfig = {
+  enabled: false,
+  currencyCode: "CZK",
+  coinDenominations: [1, 2, 5],
+  minAmount: 2,
+  maxAmount: 12,
+  maxCoins: 4,
+};
+
+export const DEFAULT_CLOCK_READ_CONFIG: ClockReadConfig = {
+  enabled: false,
+  hourRange: { min: 1, max: 12 },
+  halfHours: true,
+};
+
 export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   addition: DEFAULT_ADDITION_CONFIG,
   subtraction: DEFAULT_SUBTRACTION_CONFIG,
@@ -86,6 +103,8 @@ export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   countDots: DEFAULT_COUNT_DOTS_CONFIG,
   compareNumbers: DEFAULT_COMPARE_NUMBERS_CONFIG,
   numberSequence: DEFAULT_NUMBER_SEQUENCE_CONFIG,
+  moneyCount: DEFAULT_MONEY_COUNT_CONFIG,
+  clockRead: DEFAULT_CLOCK_READ_CONFIG,
 };
 
 export function createDefaultMathPracticeConfig(): MathPracticeConfig {

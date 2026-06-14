@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import { CountDotsVisual } from "@/features/math/visuals";
+import { CountDotsVisual, CoinStrip, ClockFace } from "@/features/math/visuals";
 import type { MathExercise, MathOperation } from "@/types";
 
 function CountDotsQuestionPrompt({ exercise }: { exercise: MathExercise }) {
@@ -46,6 +46,30 @@ function NumberSequenceQuestionPrompt({ exercise }: { exercise: MathExercise }) 
   );
 }
 
+function MoneyCountQuestionPrompt({ exercise }: { exercise: MathExercise }) {
+  const coins = exercise.coinValues ?? [];
+  const currencyCode = exercise.currencyCode ?? "CZK";
+
+  return (
+    <div className="space-y-4">
+      <p className="text-lg font-semibold sm:text-xl">{exercise.prompt}</p>
+      <CoinStrip coins={coins} currencyCode={currencyCode} size="lg" />
+    </div>
+  );
+}
+
+function ClockReadQuestionPrompt({ exercise }: { exercise: MathExercise }) {
+  const hour = exercise.clockHour ?? exercise.operandA;
+  const minute = exercise.clockMinute ?? exercise.operandB;
+
+  return (
+    <div className="space-y-4">
+      <p className="text-lg font-semibold sm:text-xl">{exercise.prompt}</p>
+      <ClockFace hour={hour} minute={minute} size="lg" />
+    </div>
+  );
+}
+
 function DefaultTextQuestionPrompt({ exercise }: { exercise: MathExercise }) {
   return (
     <p className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -75,6 +99,10 @@ const QUESTION_PROMPT_RENDERERS: Record<
   "compare-numbers": (exercise) => (
     <DefaultTextQuestionPrompt exercise={exercise} />
   ),
+  "money-count": (exercise) => (
+    <MoneyCountQuestionPrompt exercise={exercise} />
+  ),
+  "clock-read": (exercise) => <ClockReadQuestionPrompt exercise={exercise} />,
 };
 
 export function renderMathQuestionPrompt(exercise: MathExercise): ReactElement {

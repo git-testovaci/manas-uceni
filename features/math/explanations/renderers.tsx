@@ -18,6 +18,8 @@ import {
 } from "./visuals/arithmetic";
 import { MultiplicationExplanationVisual } from "./visuals/multiplication";
 import { NumberSequenceExplanationVisual } from "./visuals/numberSequence";
+import { MoneyCountExplanationVisual } from "./visuals/moneyCount";
+import { ClockReadExplanationVisual } from "./visuals/clockRead";
 
 function CountDotsExplanationVisual({
   context,
@@ -86,6 +88,10 @@ const VISUAL_RENDERERS: Record<
   "number-sequence": (context) => (
     <NumberSequenceExplanationVisual context={context} />
   ),
+  "money-count": (context) => (
+    <MoneyCountExplanationVisual context={context} />
+  ),
+  "clock-read": (context) => <ClockReadExplanationVisual context={context} />,
 };
 
 export function renderRegisteredMathExplanationVisual(

@@ -7,6 +7,8 @@ import {
   DEFAULT_COMPARE_NUMBERS_CONFIG,
   DEFAULT_MULTIPLICATION_CONFIG,
   DEFAULT_NUMBER_SEQUENCE_CONFIG,
+  DEFAULT_MONEY_COUNT_CONFIG,
+  DEFAULT_CLOCK_READ_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
   DivisionConfig,
@@ -34,6 +36,8 @@ const DISABLED_TOPIC_CONFIGS = {
   countDots: { ...DEFAULT_COUNT_DOTS_CONFIG, enabled: false },
   compareNumbers: { ...DEFAULT_COMPARE_NUMBERS_CONFIG, enabled: false },
   numberSequence: { ...DEFAULT_NUMBER_SEQUENCE_CONFIG, enabled: false },
+  moneyCount: { ...DEFAULT_MONEY_COUNT_CONFIG, enabled: false },
+  clockRead: { ...DEFAULT_CLOCK_READ_CONFIG, enabled: false },
 };
 
 type Range = { min: number; max: number };
@@ -190,6 +194,32 @@ function numberSequenceTo10Preset(): MathLessonPreset {
         numberSequence: {
           enabled: true,
           numberRange: { min: 0, max: 10 },
+        },
+      },
+    },
+  };
+}
+
+function moneyAndTimePreset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 12,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        moneyCount: {
+          enabled: true,
+          currencyCode: "CZK",
+          coinDenominations: [1, 2, 5],
+          minAmount: 2,
+          maxAmount: 12,
+          maxCoins: 4,
+        },
+        clockRead: {
+          enabled: true,
+          hourRange: { min: 1, max: 12 },
+          halfHours: true,
         },
       },
     },
@@ -697,6 +727,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "measurement",
     topics: ["mixed"],
     difficultyProfile: "within-20",
+    preset: moneyAndTimePreset(),
   },
   {
     order: 16,

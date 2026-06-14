@@ -8,6 +8,8 @@ export type MathExplanationVisualKind =
   | "division-groups"
   | "division-remainder"
   | "compact-formula"
+  | "money-coins"
+  | "clock-face"
   | "none";
 
 export type MathExplanationNumbers = {
@@ -44,6 +46,8 @@ export const REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS = [
   "count-dots",
   "compare-numbers",
   "number-sequence",
+  "money-count",
+  "clock-read",
 ] as const satisfies readonly MathOperation[];
 
 export type RegisteredMathExplanationVisualOperation =

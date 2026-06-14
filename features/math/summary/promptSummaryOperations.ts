@@ -10,8 +10,14 @@ const PROMPT_SUMMARY_OPERATION_METADATA = {
   "compare-numbers": { accessibleVariant: "comparison" },
   "missing-addend-to-10": { accessibleVariant: "default" },
   "number-sequence": { accessibleVariant: "default" },
+  "money-count": { accessibleVariant: "default" },
+  "clock-read": { accessibleVariant: "default" },
 } as const satisfies Record<
-  "compare-numbers" | "missing-addend-to-10" | "number-sequence",
+  | "compare-numbers"
+  | "missing-addend-to-10"
+  | "number-sequence"
+  | "money-count"
+  | "clock-read",
   PromptSummaryOperationMetadata
 >;
 
