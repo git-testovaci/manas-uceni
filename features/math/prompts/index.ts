@@ -1,0 +1,1 @@
+export { renderMathQuestionPrompt } from "./renderers";

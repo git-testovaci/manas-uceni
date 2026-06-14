@@ -58,6 +58,7 @@ import type {
   SubtractionConfig,
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
+import { renderMathQuestionPrompt } from "@/features/math/prompts";
 import { CountDotsVisual } from "@/features/math/CountDotsVisual";
 import {
   useEffect,
@@ -3601,37 +3602,6 @@ type PracticeScreenProps = {
   onNext: () => void;
 };
 
-function NumberSequencePrompt({ exercise }: { exercise: MathExercise }) {
-  const sequence = exercise.sequenceNumbers ?? [];
-  const missingIndex = exercise.sequenceMissingIndex ?? -1;
-
-  return (
-    <div
-      className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-3xl font-bold tracking-tight sm:text-4xl"
-      aria-label={exercise.prompt}
-    >
-      {sequence.map((value, index) => (
-        <span key={`${exercise.id}-${index}`} className="inline-flex items-baseline">
-          {index > 0 && (
-            <span aria-hidden="true" className="mr-2 text-foreground/45">
-              ,
-            </span>
-          )}
-          <span
-            className={
-              index === missingIndex
-                ? "text-math underline decoration-math/40 decoration-2 underline-offset-4"
-                : "tabular-nums"
-            }
-          >
-            {index === missingIndex ? "?" : value}
-          </span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 function PracticeScreen({
   exercise,
   lessonLabel,
@@ -3651,10 +3621,7 @@ function PracticeScreen({
   onNext,
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
-  const isCountDotsExercise = exercise.operation === "count-dots";
   const isCompareExercise = exercise.operation === "compare-numbers";
-  const isNumberSequenceExercise = exercise.operation === "number-sequence";
-  const dotCount = exercise.dotCount ?? exercise.operandA;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
@@ -3728,19 +3695,7 @@ function PracticeScreen({
       )}
       <p className="text-base font-medium text-foreground/70">{progressLabel}</p>
 
-      {isCountDotsExercise ? (
-        <div className="space-y-4">
-          <p className="text-lg font-semibold sm:text-xl">Spočítej tečky</p>
-          <CountDotsVisual count={dotCount} size="lg" ariaHidden />
-          <span className="sr-only">{exercise.prompt}</span>
-        </div>
-      ) : isNumberSequenceExercise ? (
-        <NumberSequencePrompt exercise={exercise} />
-      ) : (
-        <p className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {exercise.prompt}
-        </p>
-      )}
+      {renderMathQuestionPrompt(exercise)}
 
       {isCompareExercise ? (
         <div className="space-y-3">
