@@ -38,6 +38,10 @@ export const REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS = [
   "count-dots",
   "compare-numbers",
   "missing-addend-to-10",
+  "add",
+  "subtract",
+  "divide",
+  "divide-with-remainder",
 ] as const satisfies readonly MathOperation[];
 
 export type RegisteredMathExplanationVisualOperation =

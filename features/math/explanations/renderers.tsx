@@ -10,6 +10,13 @@ import {
   type RegisteredMathExplanationVisualOperation,
 } from "@/lib/math/explanations";
 
+import {
+  AdditionExplanationVisual,
+  DivisionExplanationVisual,
+  DivisionRemainderExplanationVisual,
+  SubtractionExplanationVisual,
+} from "./visuals/arithmetic";
+
 function CountDotsExplanationVisual({
   context,
 }: {
@@ -66,6 +73,12 @@ const VISUAL_RENDERERS: Record<
   ),
   "missing-addend-to-10": (context) => (
     <MissingAddendExplanationVisual context={context} />
+  ),
+  add: (context) => <AdditionExplanationVisual context={context} />,
+  subtract: (context) => <SubtractionExplanationVisual context={context} />,
+  divide: (context) => <DivisionExplanationVisual context={context} />,
+  "divide-with-remainder": (context) => (
+    <DivisionRemainderExplanationVisual context={context} />
   ),
 };
 

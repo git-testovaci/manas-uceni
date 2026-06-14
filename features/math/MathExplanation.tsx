@@ -1,4 +1,4 @@
-import { CompactFormula, DotGrid } from "@/features/math/visuals";
+import { CompactFormula } from "@/features/math/visuals";
 import { renderRegisteredMathExplanationVisual } from "@/features/math/explanations";
 import {
   resolveMathExplanationContext,
@@ -6,9 +6,6 @@ import {
 } from "@/lib/math/explanations";
 import type { MathExercise } from "@/types";
 
-const MAX_DOTS = 36;
-const MAX_GROUPS = 10;
-const MAX_ROW_DOTS = MAX_DOTS / 2;
 const MULT_BOARD_MAX_PRODUCT = 100;
 const MULT_TEXT_PRODUCT = 150;
 const MULT_TEXT_FACTOR = 15;
@@ -91,14 +88,6 @@ function getBridgeToTen(first: number, second: number): BridgeToTen | null {
     remainder: second - gap,
     roundedFirst: first + gap,
   };
-}
-
-function exceedsRowLimit(value: number): boolean {
-  return value > MAX_ROW_DOTS;
-}
-
-function exceedsTotalLimit(value: number): boolean {
-  return value > MAX_DOTS;
 }
 
 type MathExplanationProps = {
@@ -226,53 +215,6 @@ function ChunkSubtotalAddition({ subtotals }: { subtotals: number[] }) {
         = {total}
       </p>
     </div>
-  );
-}
-
-function exceedsVisibleDotLimit(count: number): boolean {
-  return count > MAX_DOTS;
-}
-
-function AdditionVisual({ a, b }: { a: number; b: number }) {
-  const sum = a + b;
-  const visibleDots = a + b;
-
-  if (exceedsVisibleDotLimit(visibleDots)) {
-    return <CompactFormula>{`${a} + ${b} = ${sum}`}</CompactFormula>;
-  }
-
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        {a} teček plus {b} teček, dohromady {sum} teček
-      </figcaption>
-      <p className="text-sm font-medium text-foreground/70">První číslo ({a})</p>
-      <DotGrid count={a} />
-      <p className="text-sm font-medium text-foreground/70">Druhé číslo ({b})</p>
-      <DotGrid count={b} />
-      <p className="text-sm text-foreground/80">Dohromady je {sum}.</p>
-    </figure>
-  );
-}
-
-function SubtractionVisual({ a, b }: { a: number; b: number }) {
-  const result = a - b;
-  const visibleDots = b + result;
-
-  if (exceedsVisibleDotLimit(visibleDots)) {
-    return <CompactFormula>{`${a} − ${b} = ${result}`}</CompactFormula>;
-  }
-
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        Od {a} odečteme {b}, zůstane {result} teček
-      </figcaption>
-      <p className="text-sm font-medium text-foreground/70">Odečítáme ({b})</p>
-      <DotGrid count={b} />
-      <p className="text-sm font-medium text-foreground/70">Zbývá ({result})</p>
-      <DotGrid count={result} />
-    </figure>
   );
 }
 
@@ -618,104 +560,6 @@ function MultiplicationVisual({
   }
 }
 
-function DivisionVisual({
-  dividend,
-  divisor,
-  quotient,
-}: {
-  dividend: number;
-  divisor: number;
-  quotient: number;
-}) {
-  if (
-    exceedsTotalLimit(dividend) ||
-    exceedsRowLimit(divisor) ||
-    quotient > MAX_GROUPS
-  ) {
-    return <CompactFormula>{`${dividend} ÷ ${divisor} = ${quotient}`}</CompactFormula>;
-  }
-
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        {dividend} rozděleno do {quotient} skupin po {divisor}
-      </figcaption>
-      <p className="text-sm font-medium text-foreground/70">
-        {quotient} skupin po {divisor}
-      </p>
-      <div className="flex flex-wrap gap-3" aria-hidden="true">
-        {Array.from({ length: quotient }, (_, groupIndex) => (
-          <div
-            key={groupIndex}
-            className="rounded-lg border border-foreground/15 bg-white/60 px-2 py-1.5"
-            aria-hidden="true"
-          >
-            <p className="mb-1 text-xs text-foreground/60">Skupina {groupIndex + 1}</p>
-            <DotGrid count={divisor} />
-          </div>
-        ))}
-      </div>
-    </figure>
-  );
-}
-
-function DivisionRemainderVisual({
-  dividend,
-  divisor,
-  quotient,
-  remainder,
-}: {
-  dividend: number;
-  divisor: number;
-  quotient: number;
-  remainder: number;
-}) {
-  if (
-    exceedsTotalLimit(dividend) ||
-    exceedsRowLimit(divisor) ||
-    exceedsRowLimit(remainder) ||
-    quotient > MAX_GROUPS
-  ) {
-    return (
-      <CompactFormula>
-        {`${dividend} ÷ ${divisor} = ${quotient} zbytek ${remainder}`}
-      </CompactFormula>
-    );
-  }
-
-  return (
-    <figure className="space-y-2">
-      <figcaption className="sr-only">
-        {dividend} teček: {quotient} celých skupin po {divisor}
-        {remainder > 0 ? ` a ${remainder} zbytek` : ""}
-      </figcaption>
-      <p className="text-sm font-medium text-foreground/70">Celé skupiny</p>
-      <div className="flex flex-wrap gap-3" aria-hidden="true">
-        {Array.from({ length: quotient }, (_, groupIndex) => (
-          <div
-            key={groupIndex}
-            className="rounded-lg border border-foreground/15 bg-white/60 px-2 py-1.5"
-            aria-hidden="true"
-          >
-            <p className="mb-1 text-xs text-foreground/60">Skupina {groupIndex + 1}</p>
-            <DotGrid count={divisor} />
-          </div>
-        ))}
-      </div>
-      {remainder > 0 && (
-        <>
-          <p className="text-sm font-medium text-foreground/70">
-            Zbytek ({remainder})
-          </p>
-          <div className="rounded-lg border border-dashed border-foreground/25 px-2 py-1.5">
-            <DotGrid count={remainder} />
-          </div>
-        </>
-      )}
-    </figure>
-  );
-}
-
 function ExplanationVisualFallback({
   exercise,
   numbers,
@@ -723,28 +567,11 @@ function ExplanationVisualFallback({
   exercise: MathExercise;
   numbers: MathExplanationNumbers;
 }) {
-  const { a, b, quotient, remainder } = numbers;
+  const { a, b } = numbers;
 
   switch (exercise.operation) {
-    case "add":
-      return <AdditionVisual a={a} b={b} />;
-    case "subtract":
-      return <SubtractionVisual a={a} b={b} />;
     case "multiply":
       return <MultiplicationVisual exercise={exercise} a={a} b={b} />;
-    case "divide":
-      return (
-        <DivisionVisual dividend={a} divisor={b} quotient={quotient ?? a / b} />
-      );
-    case "divide-with-remainder":
-      return (
-        <DivisionRemainderVisual
-          dividend={a}
-          divisor={b}
-          quotient={quotient ?? Math.floor(a / b)}
-          remainder={remainder ?? a % b}
-        />
-      );
     case "number-sequence": {
       const sequence = exercise.sequenceNumbers ?? [];
       const missingIndex = exercise.sequenceMissingIndex ?? -1;
