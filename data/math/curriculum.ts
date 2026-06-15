@@ -200,12 +200,12 @@ function numberSequenceTo10Preset(): MathLessonPreset {
   };
 }
 
-function moneyAndTimePreset(): MathLessonPreset {
+function moneyCountPreset(): MathLessonPreset {
   return {
     recommendedTopics: ["mixed"],
     mathConfig: {
       enabledTopics: ["mixed"],
-      questionCount: 12,
+      questionCount: 10,
       topicConfigs: {
         ...DISABLED_TOPIC_CONFIGS,
         moneyCount: {
@@ -216,6 +216,19 @@ function moneyAndTimePreset(): MathLessonPreset {
           maxAmount: 12,
           maxCoins: 4,
         },
+      },
+    },
+  };
+}
+
+function clockReadPreset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
         clockRead: {
           enabled: true,
           hourRange: { min: 1, max: 12 },
@@ -722,15 +735,24 @@ const grade1Lessons = buildGradeLessons(1, [
   },
   {
     order: 15,
-    title: "Jednoduché peníze a čas",
-    description: "Poznáváme mince, hodiny a jednoduché situace z běžného života.",
+    title: "Peníze",
+    description: "Počítáme jednoduché částky z viditelných mincí.",
     area: "measurement",
     topics: ["mixed"],
     difficultyProfile: "within-20",
-    preset: moneyAndTimePreset(),
+    preset: moneyCountPreset(),
   },
   {
     order: 16,
+    title: "Čas",
+    description: "Čteme celé hodiny a půl hodiny na analogových hodinách.",
+    area: "measurement",
+    topics: ["mixed"],
+    difficultyProfile: "within-20",
+    preset: clockReadPreset(),
+  },
+  {
+    order: 17,
     title: "Základní geometrické tvary",
     description: "Rozpoznáváme kruh, čtverec, trojúhelník a obdélník.",
     area: "geometry",
