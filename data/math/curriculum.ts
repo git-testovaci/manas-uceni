@@ -9,6 +9,7 @@ import {
   DEFAULT_NUMBER_SEQUENCE_CONFIG,
   DEFAULT_MONEY_COUNT_CONFIG,
   DEFAULT_CLOCK_READ_CONFIG,
+  DEFAULT_SHAPE_IDENTIFY_CONFIG,
 } from "@/lib/math/mathDefaults";
 import type {
   DivisionConfig,
@@ -38,6 +39,7 @@ const DISABLED_TOPIC_CONFIGS = {
   numberSequence: { ...DEFAULT_NUMBER_SEQUENCE_CONFIG, enabled: false },
   moneyCount: { ...DEFAULT_MONEY_COUNT_CONFIG, enabled: false },
   clockRead: { ...DEFAULT_CLOCK_READ_CONFIG, enabled: false },
+  shapeIdentify: { ...DEFAULT_SHAPE_IDENTIFY_CONFIG, enabled: false },
 };
 
 type Range = { min: number; max: number };
@@ -233,6 +235,22 @@ function clockReadPreset(): MathLessonPreset {
           enabled: true,
           hourRange: { min: 1, max: 12 },
           halfHours: true,
+        },
+      },
+    },
+  };
+}
+
+function shapeIdentifyPreset(): MathLessonPreset {
+  return {
+    recommendedTopics: ["mixed"],
+    mathConfig: {
+      enabledTopics: ["mixed"],
+      questionCount: 10,
+      topicConfigs: {
+        ...DISABLED_TOPIC_CONFIGS,
+        shapeIdentify: {
+          enabled: true,
         },
       },
     },
@@ -758,6 +776,7 @@ const grade1Lessons = buildGradeLessons(1, [
     area: "geometry",
     topics: ["mixed"],
     difficultyProfile: "geometry-basic",
+    preset: shapeIdentifyPreset(),
   },
 ]);
 

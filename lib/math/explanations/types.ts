@@ -10,6 +10,7 @@ export type MathExplanationVisualKind =
   | "compact-formula"
   | "money-coins"
   | "clock-face"
+  | "basic-shape"
   | "none";
 
 export type MathExplanationNumbers = {
@@ -48,6 +49,7 @@ export const REGISTERED_MATH_EXPLANATION_VISUAL_OPERATIONS = [
   "number-sequence",
   "money-count",
   "clock-read",
+  "shape-identify",
 ] as const satisfies readonly MathOperation[];
 
 export type RegisteredMathExplanationVisualOperation =

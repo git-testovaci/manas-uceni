@@ -31,6 +31,14 @@ export function buildPromptSummaryAccessibleText(
     return `Otázka ${questionNumber}, porovnání ${prompt}, tvoje znaménko ${userAnswer}, správně`;
   }
 
+  if (variant === "labeled-choice") {
+    if (isWrong) {
+      return `Otázka ${questionNumber}, ${prompt}, tvoje odpověď ${userAnswer}, špatně, správně ${expectedAnswer}`;
+    }
+
+    return `Otázka ${questionNumber}, ${prompt}, tvoje odpověď ${userAnswer}, správně`;
+  }
+
   if (isWrong) {
     return `Otázka ${questionNumber}, zadání ${prompt}, tvoje odpověď ${userAnswer}, špatně, správně ${expectedAnswer}`;
   }

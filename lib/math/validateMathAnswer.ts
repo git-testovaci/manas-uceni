@@ -118,6 +118,29 @@ export function validateComparisonAnswer(
   };
 }
 
+export function validateChoiceAnswer(
+  input: string,
+  correctAnswer: string,
+  allowedValues: readonly string[],
+): {
+  isCorrect: boolean;
+  normalizedInput: string;
+  expectedAnswer: string;
+} {
+  const normalizedInput = input.trim();
+  const expectedAnswer = correctAnswer.trim();
+  const allowed = new Set(allowedValues);
+
+  return {
+    isCorrect:
+      allowed.has(normalizedInput) &&
+      allowed.has(expectedAnswer) &&
+      normalizedInput === expectedAnswer,
+    normalizedInput,
+    expectedAnswer,
+  };
+}
+
 export function validateMathAnswer(
   input: string,
   correctAnswer: string,

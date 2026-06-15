@@ -1,6 +1,7 @@
 import { shouldSnapshotPromptForSummary } from "./promptSummaryOperations";
 import type { SessionAnswerRecord, SessionAnswerResult } from "./types";
 import type { MathExercise } from "@/types";
+import { formatShapeAnswerLabel } from "@/lib/math/explanations/shapes";
 
 export type BuildSessionAnswerRecordInput = {
   exercise: MathExercise;
@@ -29,8 +30,16 @@ export function buildSessionAnswerRecord(
       exercise.operation === "count-dots"
         ? (exercise.dotCount ?? exercise.operandA)
         : undefined,
-    userAnswer,
-    expectedAnswer,
+    shapeId:
+      exercise.operation === "shape-identify" ? exercise.shapeId : undefined,
+    userAnswer:
+      exercise.operation === "shape-identify"
+        ? formatShapeAnswerLabel(userAnswer)
+        : userAnswer,
+    expectedAnswer:
+      exercise.operation === "shape-identify"
+        ? formatShapeAnswerLabel(expectedAnswer)
+        : expectedAnswer,
     result,
   };
 }

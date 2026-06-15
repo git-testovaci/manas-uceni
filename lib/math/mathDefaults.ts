@@ -13,6 +13,7 @@ import type {
   NumberSequenceConfig,
   MoneyCountConfig,
   ClockReadConfig,
+  ShapeIdentifyConfig,
 } from "@/types";
 
 export const DEFAULT_MATH_RANGE: MathRangeConfig = {
@@ -93,6 +94,10 @@ export const DEFAULT_CLOCK_READ_CONFIG: ClockReadConfig = {
   halfHours: true,
 };
 
+export const DEFAULT_SHAPE_IDENTIFY_CONFIG: ShapeIdentifyConfig = {
+  enabled: false,
+};
+
 export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   addition: DEFAULT_ADDITION_CONFIG,
   subtraction: DEFAULT_SUBTRACTION_CONFIG,
@@ -105,6 +110,7 @@ export const DEFAULT_MATH_TOPIC_CONFIGS: MathTopicConfigs = {
   numberSequence: DEFAULT_NUMBER_SEQUENCE_CONFIG,
   moneyCount: DEFAULT_MONEY_COUNT_CONFIG,
   clockRead: DEFAULT_CLOCK_READ_CONFIG,
+  shapeIdentify: DEFAULT_SHAPE_IDENTIFY_CONFIG,
 };
 
 export function createDefaultMathPracticeConfig(): MathPracticeConfig {

@@ -70,6 +70,7 @@ import {
   type SessionAnswerResult,
 } from "@/features/math/summary";
 import { CountDotsVisual } from "@/features/math/CountDotsVisual";
+import { ChoiceAnswerButtons, BasicShapeVisual } from "@/features/math/visuals";
 import {
   useEffect,
   useRef,
@@ -1453,6 +1454,13 @@ export function MathPracticeClient() {
       );
     }
 
+    if (currentExercise.operation === "shape-identify") {
+      const optionIds = (currentExercise.shapeOptions ?? []).map(
+        (option) => option.id,
+      );
+      return optionIds.includes(userInput.trim() as (typeof optionIds)[number]);
+    }
+
     if (currentExercise.operation === "clock-read") {
       const expectedMinute =
         currentExercise.clockMinute ?? currentExercise.operandB;
@@ -1503,12 +1511,14 @@ export function MathPracticeClient() {
         ? "corrected"
         : "correct";
 
+    const answerInput = getAnswerInput();
+
     setSessionAnswers((current) => [
       ...current,
       buildSessionAnswerRecord({
         exercise: currentExercise,
         questionNumber: currentQuestionNumber,
-        userAnswer: input,
+        userAnswer: answerInput,
         expectedAnswer: result.expectedAnswer,
         result: answerResult,
       }),
@@ -1534,16 +1544,19 @@ export function MathPracticeClient() {
     submitAnswer(getAnswerInput());
   };
 
-  const handleComparisonChoice = (sign: string) => {
+  const handleChoiceAnswer = (value: string) => {
     if (!currentExercise || hasSubmitted) {
       return;
     }
 
-    if (currentExercise.operation !== "compare-numbers") {
+    if (
+      currentExercise.operation !== "compare-numbers" &&
+      currentExercise.operation !== "shape-identify"
+    ) {
       return;
     }
 
-    setUserInput(sign);
+    setUserInput(value);
   };
 
   const handleNextQuestion = () => {
@@ -1717,7 +1730,7 @@ export function MathPracticeClient() {
       onClockHourChange={setClockHourInput}
       onClockMinuteChange={setClockMinuteInput}
       onSubmit={handleSubmitAnswer}
-      onComparisonChoice={handleComparisonChoice}
+      onChoiceAnswer={handleChoiceAnswer}
       onNext={handleNextQuestion}
     />
   );
@@ -3617,7 +3630,7 @@ type PracticeScreenProps = {
   onClockHourChange: (value: string) => void;
   onClockMinuteChange: (value: string) => void;
   onSubmit: () => void;
-  onComparisonChoice: (sign: string) => void;
+  onChoiceAnswer: (value: string) => void;
   onNext: () => void;
 };
 
@@ -3640,11 +3653,13 @@ function PracticeScreen({
   onClockHourChange,
   onClockMinuteChange,
   onSubmit,
-  onComparisonChoice,
+  onChoiceAnswer,
   onNext,
 }: PracticeScreenProps) {
   const isRemainderExercise = exercise.operation === "divide-with-remainder";
   const isCompareExercise = exercise.operation === "compare-numbers";
+  const isShapeExercise = exercise.operation === "shape-identify";
+  const isChoiceExercise = isCompareExercise || isShapeExercise;
   const isClockExercise = exercise.operation === "clock-read";
   const isMoneyExercise = exercise.operation === "money-count";
   const expectedClockMinute = exercise.clockMinute ?? exercise.operandB;
@@ -3654,7 +3669,7 @@ function PracticeScreen({
   const remainderInputRef = useRef<HTMLInputElement>(null);
   const clockHourInputRef = useRef<HTMLInputElement>(null);
   const clockMinuteInputRef = useRef<HTMLInputElement>(null);
-  const compareFirstButtonRef = useRef<HTMLButtonElement>(null);
+  const choiceFirstButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -3668,8 +3683,8 @@ function PracticeScreen({
       return;
     }
 
-    if (isCompareExercise) {
-      compareFirstButtonRef.current?.focus();
+    if (isChoiceExercise) {
+      choiceFirstButtonRef.current?.focus();
       return;
     }
 
@@ -3682,7 +3697,7 @@ function PracticeScreen({
   }, [
     exercise.id,
     hasSubmitted,
-    isCompareExercise,
+    isChoiceExercise,
     isRemainderExercise,
     isClockExercise,
   ]);
@@ -3771,28 +3786,32 @@ function PracticeScreen({
       {renderMathQuestionPrompt(exercise)}
 
       {isCompareExercise ? (
-        <div className="space-y-3">
-          <span className="text-base font-semibold">Vyber znaménko</span>
-          <div className="grid grid-cols-3 gap-3">
-            {COMPARISON_CHOICES.map((sign, index) => (
-              <button
-                key={sign}
-                ref={index === 0 ? compareFirstButtonRef : undefined}
-                type="button"
-                onClick={() => onComparisonChoice(sign)}
-                disabled={hasSubmitted}
-                aria-pressed={userInput === sign}
-                className={`min-h-16 rounded-2xl border text-3xl font-bold transition-colors sm:min-h-20 sm:text-4xl ${
-                  userInput === sign
-                    ? "border-math bg-math/10 text-math"
-                    : "border-foreground/20 hover:bg-foreground/5"
-                } disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2`}
-              >
-                {sign}
-              </button>
-            ))}
-          </div>
-        </div>
+        <ChoiceAnswerButtons
+          options={COMPARISON_CHOICES.map((sign) => ({
+            value: sign,
+            label: sign,
+          }))}
+          selectedValue={userInput}
+          onSelect={onChoiceAnswer}
+          disabled={hasSubmitted}
+          firstButtonRef={choiceFirstButtonRef}
+          heading="Vyber znaménko"
+          columns={3}
+          variant="symbol"
+        />
+      ) : isShapeExercise ? (
+        <ChoiceAnswerButtons
+          options={(exercise.shapeOptions ?? []).map((option) => ({
+            value: option.id,
+            label: option.label,
+          }))}
+          selectedValue={userInput}
+          onSelect={onChoiceAnswer}
+          disabled={hasSubmitted}
+          firstButtonRef={choiceFirstButtonRef}
+          heading="Vyber název tvaru"
+          columns={2}
+        />
       ) : isRemainderExercise ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label className="block space-y-2">
@@ -4238,6 +4257,43 @@ function SummaryAnswerRow({ record }: { record: SessionAnswerRecord }) {
   const promptVariant = record.prompt
     ? getPromptSummaryAccessibleVariant(record.operation)
     : null;
+
+  if (
+    record.operation === "shape-identify" &&
+    record.shapeId &&
+    record.prompt &&
+    promptVariant
+  ) {
+    return (
+      <li>
+        <div aria-hidden="true" className="space-y-1 text-sm tabular-nums">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-foreground/70">{record.questionNumber}.</span>
+            <span>
+              Zadání:{" "}
+              <span className="font-medium">{record.prompt}</span>
+            </span>
+          </div>
+          <div className="pl-6 sm:pl-8">
+            <BasicShapeVisual shapeId={record.shapeId} size="sm" ariaHidden />
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 pl-6 sm:pl-8">
+            <span>
+              Tvoje odpověď:{" "}
+              <span className="font-medium">{record.userAnswer}</span>
+            </span>
+            <span>{isWrong ? "❌" : "✅"}</span>
+            {isWrong && (
+              <span className="text-foreground/80">
+                Správně: {record.expectedAnswer}
+              </span>
+            )}
+          </div>
+        </div>
+        <span className="sr-only">{buildSummaryAccessibleText(record)}</span>
+      </li>
+    );
+  }
 
   if (record.prompt && promptVariant) {
     return (

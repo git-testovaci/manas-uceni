@@ -1,6 +1,9 @@
 import type { MathOperation } from "@/types";
 
-export type PromptSummaryAccessibleVariant = "comparison" | "default";
+export type PromptSummaryAccessibleVariant =
+  | "comparison"
+  | "labeled-choice"
+  | "default";
 
 type PromptSummaryOperationMetadata = {
   accessibleVariant: PromptSummaryAccessibleVariant;
@@ -12,12 +15,14 @@ const PROMPT_SUMMARY_OPERATION_METADATA = {
   "number-sequence": { accessibleVariant: "default" },
   "money-count": { accessibleVariant: "default" },
   "clock-read": { accessibleVariant: "default" },
+  "shape-identify": { accessibleVariant: "labeled-choice" },
 } as const satisfies Record<
   | "compare-numbers"
   | "missing-addend-to-10"
   | "number-sequence"
   | "money-count"
-  | "clock-read",
+  | "clock-read"
+  | "shape-identify",
   PromptSummaryOperationMetadata
 >;
 

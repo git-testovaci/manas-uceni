@@ -1,5 +1,6 @@
 import type { MathExercise } from "@/types";
 
+import { BASIC_SHAPE_IDS } from "./shapes";
 import type { MathExplanationNumbers } from "./types";
 
 export function getMathExplanationNumbers(
@@ -54,6 +55,12 @@ export function getMathExplanationNumbers(
       const hour = exercise.clockHour ?? operandA;
       const minute = exercise.clockMinute ?? operandB;
       return { a: hour, b: minute, result: hour };
+    }
+    case "shape-identify": {
+      const shapeIndex = exercise.shapeId
+        ? BASIC_SHAPE_IDS.indexOf(exercise.shapeId)
+        : operandA;
+      return { a: shapeIndex >= 0 ? shapeIndex : operandA, b: 0, result: 0 };
     }
   }
 }

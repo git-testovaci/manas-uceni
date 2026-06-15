@@ -3,6 +3,7 @@ import { formatMoneyAmount, resolveExerciseCurrencyCode } from "@/lib/math/money
 import { formatClockTime } from "@/lib/math/time";
 import type { MathExercise } from "@/types";
 
+import { getShapeExplanation } from "./shapes";
 import type { MathExplanationNumbers } from "./types";
 
 export function getMathExplanationText(
@@ -61,6 +62,14 @@ export function getMathExplanationText(
 
       const nextHour = hour === 12 ? 1 : hour + 1;
       return `Krátká ručička ukazuje hodiny — je mezi ${hour} a ${nextHour}, protože už uplynula půl hodiny. Dlouhá ručička ukazuje minuty — je u 6, to znamená 30 minut. Správně je ${formatClockTime(hour, minute)}.`;
+    }
+    case "shape-identify": {
+      const shapeId = exercise.shapeId;
+      if (!shapeId) {
+        return exercise.explanation ?? "Poznáme tvar podle jeho tvaru a rohů.";
+      }
+
+      return getShapeExplanation(shapeId);
     }
   }
 }

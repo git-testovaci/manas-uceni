@@ -20,6 +20,7 @@ import { MultiplicationExplanationVisual } from "./visuals/multiplication";
 import { NumberSequenceExplanationVisual } from "./visuals/numberSequence";
 import { MoneyCountExplanationVisual } from "./visuals/moneyCount";
 import { ClockReadExplanationVisual } from "./visuals/clockRead";
+import { ShapeIdentifyExplanationVisual } from "./visuals/shapeIdentify";
 
 function CountDotsExplanationVisual({
   context,
@@ -92,6 +93,9 @@ const VISUAL_RENDERERS: Record<
     <MoneyCountExplanationVisual context={context} />
   ),
   "clock-read": (context) => <ClockReadExplanationVisual context={context} />,
+  "shape-identify": (context) => (
+    <ShapeIdentifyExplanationVisual context={context} />
+  ),
 };
 
 export function renderRegisteredMathExplanationVisual(

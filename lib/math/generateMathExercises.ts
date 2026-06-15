@@ -22,9 +22,17 @@ import type {
   SubtractionConfig,
   MoneyCountConfig,
   ClockReadConfig,
+  ShapeIdentifyConfig,
+  BasicShapeId,
 } from "@/types";
 import { formatMoneyAmount } from "@/lib/math/money";
 import { formatClockTime } from "@/lib/math/time";
+import {
+  BASIC_SHAPE_IDS,
+  getShapeExplanation,
+  getShapeIdentifyOptions,
+  getShapeLabel,
+} from "@/lib/math/explanations/shapes";
 
 const DEFAULT_MIN_VALUE = 1;
 const DEFAULT_MAX_VALUE = 12;
@@ -52,6 +60,7 @@ const OPERATION_TO_TOPIC: Record<MathOperation, MathTopic> = {
   "number-sequence": "mixed",
   "money-count": "mixed",
   "clock-read": "mixed",
+  "shape-identify": "mixed",
 };
 
 const REVIEW_PRIORITY: Record<ReviewState["status"], number> = {
@@ -90,6 +99,8 @@ export function createMathExerciseId(
       throw new Error("Use createMoneyCountExerciseId instead.");
     case "clock-read":
       throw new Error("Use createClockReadExerciseId instead.");
+    case "shape-identify":
+      throw new Error("Use createShapeIdentifyExerciseId instead.");
   }
 }
 
@@ -393,6 +404,32 @@ export function createClockReadExercise(
   };
 }
 
+export function createShapeIdentifyExerciseId(shapeId: BasicShapeId): string {
+  return `math-shape-identify-${shapeId}`;
+}
+
+export function createShapeIdentifyExercise(
+  shapeId: BasicShapeId,
+): MathExercise {
+  const shapeIndex = BASIC_SHAPE_IDS.indexOf(shapeId);
+
+  return {
+    id: createShapeIdentifyExerciseId(shapeId),
+    subject: "math",
+    topic: "mixed",
+    operation: "shape-identify",
+    operandA: shapeIndex >= 0 ? shapeIndex : 0,
+    operandB: 0,
+    shapeId,
+    shapeLabel: getShapeLabel(shapeId),
+    shapeOptions: getShapeIdentifyOptions(),
+    prompt: "Jak se jmenuje tento tvar?",
+    correctAnswer: shapeId,
+    explanation: getShapeExplanation(shapeId),
+    createdBy: "system",
+  };
+}
+
 function generateMoneyCountCombinations(
   denominations: number[],
   maxCoins: number,
@@ -554,6 +591,8 @@ export function createMathExercise(
       throw new Error("Use createMoneyCountExercise instead.");
     case "clock-read":
       throw new Error("Use createClockReadExercise instead.");
+    case "shape-identify":
+      throw new Error("Use createShapeIdentifyExercise instead.");
   }
 }
 
@@ -664,6 +703,14 @@ function generateFromTopicConfigs(
   if (topicConfigs.clockRead?.enabled) {
     for (const exercise of generateClockReadFromTopicConfig(
       topicConfigs.clockRead,
+    )) {
+      byId.set(exercise.id, exercise);
+    }
+  }
+
+  if (topicConfigs.shapeIdentify?.enabled) {
+    for (const exercise of generateShapeIdentifyFromTopicConfig(
+      topicConfigs.shapeIdentify,
     )) {
       byId.set(exercise.id, exercise);
     }
@@ -1015,6 +1062,17 @@ function generateClockReadFromTopicConfig(
   return exercises;
 }
 
+function generateShapeIdentifyFromTopicConfig(
+  config: ShapeIdentifyConfig,
+): MathExercise[] {
+  const shapeIds =
+    config.shapes && config.shapes.length > 0
+      ? config.shapes
+      : [...BASIC_SHAPE_IDS];
+
+  return shapeIds.map((shapeId) => createShapeIdentifyExercise(shapeId));
+}
+
 function sortCompareNumbersGroup(
   exercises: MathExercise[],
   group: "less" | "greater" | "equal",
@@ -1231,6 +1289,8 @@ function generateForOperation(
     case "money-count":
       return [];
     case "clock-read":
+      return [];
+    case "shape-identify":
       return [];
   }
 }

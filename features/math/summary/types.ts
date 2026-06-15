@@ -1,4 +1,4 @@
-import type { MathOperation } from "@/types";
+import type { BasicShapeId, MathOperation } from "@/types";
 
 export type SessionAnswerResult = "correct" | "needsPractice" | "corrected";
 
@@ -10,6 +10,7 @@ export type SessionAnswerRecord = {
   operandB: number;
   prompt?: string;
   dotCount?: number;
+  shapeId?: BasicShapeId;
   userAnswer: string;
   expectedAnswer: string;
   result: SessionAnswerResult;

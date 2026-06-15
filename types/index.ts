@@ -42,9 +42,12 @@ export type MathOperation =
   | "compare-numbers"
   | "number-sequence"
   | "money-count"
-  | "clock-read";
+  | "clock-read"
+  | "shape-identify";
 
 export type CurrencyCode = string;
+
+export type BasicShapeId = "circle" | "square" | "triangle" | "rectangle";
 
 export type MissingAddendPosition = "left" | "right";
 
@@ -187,6 +190,11 @@ export interface ClockReadConfig {
   halfHours: boolean;
 }
 
+export interface ShapeIdentifyConfig {
+  enabled: boolean;
+  shapes?: BasicShapeId[];
+}
+
 export interface MathTopicConfigs {
   addition?: AdditionConfig;
   subtraction?: SubtractionConfig;
@@ -199,6 +207,7 @@ export interface MathTopicConfigs {
   numberSequence?: NumberSequenceConfig;
   moneyCount?: MoneyCountConfig;
   clockRead?: ClockReadConfig;
+  shapeIdentify?: ShapeIdentifyConfig;
 }
 
 export interface MathPracticeConfig {
@@ -292,6 +301,9 @@ export interface MathExercise extends ExerciseBase {
   expectedAmount?: number;
   clockHour?: number;
   clockMinute?: number;
+  shapeId?: BasicShapeId;
+  shapeLabel?: string;
+  shapeOptions?: { id: BasicShapeId; label: string }[];
 }
 
 export interface CzechPracticeConfig {

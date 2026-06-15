@@ -29,6 +29,7 @@ const OPERATION_VISUAL_KIND: Record<
   "number-sequence": "compact-formula",
   "money-count": "money-coins",
   "clock-read": "clock-face",
+  "shape-identify": "basic-shape",
 };
 
 export function getMathExplanationVisualKind(

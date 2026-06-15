@@ -6,14 +6,17 @@ import {
   formatRemainderAnswer,
   parseNumericAnswer,
   parseRemainderAnswer,
+  validateChoiceAnswer,
   validateClockReadAnswer,
   validateComparisonAnswer,
   validateMathAnswer,
   validateMoneyCountAnswer,
 } from "@/lib/math/validateMathAnswer";
+import { formatShapeAnswerLabel } from "@/lib/math/explanations/shapes";
 import { formatClockTime } from "@/lib/math/time";
 import type {
   AnswerResult,
+  BasicShapeId,
   MathExercise,
   ReviewState,
 } from "@/types";
@@ -45,6 +48,17 @@ export function getExpectedMathAnswer(exercise: MathExercise): {
 
     return {
       correctAnswer: displayAnswer,
+      displayAnswer,
+    };
+  }
+
+  if (exercise.operation === "shape-identify") {
+    const shapeId = (exercise.shapeId ?? exercise.correctAnswer) as BasicShapeId;
+    const displayAnswer =
+      exercise.shapeLabel ?? formatShapeAnswerLabel(shapeId);
+
+    return {
+      correctAnswer: shapeId,
       displayAnswer,
     };
   }
@@ -99,6 +113,11 @@ export function processMathAnswer(
   const state = resolveReviewState(exercise, reviewState);
   const expected = getExpectedMathAnswer(exercise);
 
+  const shapeOptionIds =
+    exercise.operation === "shape-identify"
+      ? (exercise.shapeOptions ?? []).map((option) => option.id)
+      : [];
+
   const validation =
     exercise.operation === "compare-numbers"
       ? validateComparisonAnswer(input, expected.correctAnswer)
@@ -110,11 +129,17 @@ export function processMathAnswer(
               expected.correctAnswer,
               exercise.currencyCode,
             )
-          : validateMathAnswer(
-              input,
-              expected.correctAnswer,
-              expected.expectedRemainder,
-            );
+          : exercise.operation === "shape-identify"
+            ? validateChoiceAnswer(
+                input,
+                expected.correctAnswer,
+                shapeOptionIds,
+              )
+            : validateMathAnswer(
+                input,
+                expected.correctAnswer,
+                expected.expectedRemainder,
+              );
 
   const { state: updatedReviewState, answerResult } = updateReviewState({
     state,
@@ -125,8 +150,14 @@ export function processMathAnswer(
 
   return {
     isCorrect: validation.isCorrect,
-    normalizedInput: validation.normalizedInput,
-    expectedAnswer: validation.expectedAnswer,
+    normalizedInput:
+      exercise.operation === "shape-identify"
+        ? formatShapeAnswerLabel(validation.normalizedInput)
+        : validation.normalizedInput,
+    expectedAnswer:
+      exercise.operation === "shape-identify"
+        ? expected.displayAnswer
+        : validation.expectedAnswer,
     reviewState: updatedReviewState,
     answerResult,
   };

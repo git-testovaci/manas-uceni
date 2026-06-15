@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 
-import { CountDotsVisual, CoinStrip, ClockFace } from "@/features/math/visuals";
+import { CountDotsVisual, CoinStrip, ClockFace, BasicShapeVisual } from "@/features/math/visuals";
 import { resolveExerciseCurrencyCode } from "@/lib/math/money";
-import type { MathExercise, MathOperation } from "@/types";
+import type { BasicShapeId, MathExercise, MathOperation } from "@/types";
 
 function CountDotsQuestionPrompt({ exercise }: { exercise: MathExercise }) {
   const dotCount = exercise.dotCount ?? exercise.operandA;
@@ -71,6 +71,21 @@ function ClockReadQuestionPrompt({ exercise }: { exercise: MathExercise }) {
   );
 }
 
+function ShapeIdentifyQuestionPrompt({ exercise }: { exercise: MathExercise }) {
+  const shapeId = exercise.shapeId as BasicShapeId | undefined;
+
+  if (!shapeId) {
+    return <DefaultTextQuestionPrompt exercise={exercise} />;
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-lg font-semibold sm:text-xl">{exercise.prompt}</p>
+      <BasicShapeVisual shapeId={shapeId} size="lg" />
+    </div>
+  );
+}
+
 function DefaultTextQuestionPrompt({ exercise }: { exercise: MathExercise }) {
   return (
     <p className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -104,6 +119,9 @@ const QUESTION_PROMPT_RENDERERS: Record<
     <MoneyCountQuestionPrompt exercise={exercise} />
   ),
   "clock-read": (exercise) => <ClockReadQuestionPrompt exercise={exercise} />,
+  "shape-identify": (exercise) => (
+    <ShapeIdentifyQuestionPrompt exercise={exercise} />
+  ),
 };
 
 export function renderMathQuestionPrompt(exercise: MathExercise): ReactElement {
