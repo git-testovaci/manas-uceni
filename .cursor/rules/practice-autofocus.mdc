@@ -1,31 +1,52 @@
 ---
-description: Autofocus rules for practice screens (math, Czech, English)
+description: Autofocus and Enter-key rules for practice screens (math, Czech, English)
 alwaysApply: true
 ---
 
-# Practice screen autofocus
+# Practice screen autofocus and Enter behavior
 
-Practice screens must autofocus the first answer control so the child can answer without an extra click.
+Every exercise must be keyboard-friendly: the child should not need the mouse after typing or selecting an answer.
+
+## Universal requirements
+
+- Autofocus the first expected answer control on each new question or active blank.
+- Focus must **never** auto-select or auto-submit an answer.
+- **Enter** triggers the next expected action:
+  - submit/check when a valid answer is ready
+  - move to the next required field in multi-field answers when needed
+  - continue/next after feedback when that is the active expected action
+- After submit/check, focus moves to the feedback/next control and must **not** be stolen back by the answer input.
+- New exercise types must implement this through shared components/helpers where practical — not per-lesson hacks.
+- Applies to math, Czech, English, and future subjects in `features/`.
 
 ## New question / start of practice
 
-- Focus the first answer control when a new question or active blank appears.
 - Math numeric: `Tvoje odpověď` input (including count-dots, missing-addend).
 - Math division with remainder: first numeric input (quotient).
-- Math compare-numbers: first sign button (`<`, `>`, `=`).
+- Math clock-read: hour field; Enter moves to minute when required, then submits.
+- Math choice-based (compare-numbers, shape-identify, future choice ops): first choice button.
 - Czech/English choice practice: first letter/choice button when a blank is active.
+
+## Choice-based exercises (select then confirm)
+
+- Focus the first choice button on a new question.
+- Never auto-select a choice on focus.
+- Never auto-submit on focus.
+- Click or Space/Enter on a focused button selects that choice (native button behavior when nothing is selected yet).
+- After a choice is selected and the answer is submittable, **Enter must submit/check** via the existing submit flow (`Zkontrolovat`).
+- Implement Enter-to-submit once in `ChoiceAnswerButtons` (or equivalent shared component), not per operation.
+- Mouse/touch select-then-confirm flow must keep working.
+
+## Multi-field inputs
+
+- Enter in the first field moves focus to the next required field when it is still empty.
+- Enter submits when all required fields are filled and the answer is submittable.
+- Example: clock-read hour → minute → submit.
 
 ## After submit
 
-- Do **not** steal focus back to the answer input after submit.
+- Do **not** refocus the answer input after submit.
 - Focus the next-step control (for example `Další příklad` / `Hotovo`) until the next question.
-
-## Choice-based exercises
-
-- Focus the first choice button on a new question.
-- Never auto-select a choice.
-- Never auto-submit.
-- Keep select-then-confirm flows (compare-numbers: select sign → `Zkontrolovat`).
 
 ## Implementation
 
@@ -33,7 +54,8 @@ Practice screens must autofocus the first answer control so the child can answer
 - Do not refocus while the child is typing or already using the answer controls.
 - Defer focus with `requestAnimationFrame` when layout or mobile scroll may run first; use `preventScroll: true` when needed.
 - Avoid `document.querySelector` unless there is no safe local ref.
+- Shared choice keyboard handling belongs in `features/math/visuals/ChoiceAnswerButtons.tsx` (or subject equivalent).
 
 ## Applies to
 
-Future math, Czech, and English practice features in `features/`.
+All current and future practice features in `features/`.

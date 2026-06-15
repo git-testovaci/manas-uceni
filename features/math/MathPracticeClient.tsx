@@ -3798,6 +3798,8 @@ function PracticeScreen({
           heading="Vyber znaménko"
           columns={3}
           variant="symbol"
+          canSubmit={canSubmit}
+          onSubmit={onSubmit}
         />
       ) : isShapeExercise ? (
         <ChoiceAnswerButtons
@@ -3811,6 +3813,8 @@ function PracticeScreen({
           firstButtonRef={choiceFirstButtonRef}
           heading="Vyber název tvaru"
           columns={2}
+          canSubmit={canSubmit}
+          onSubmit={onSubmit}
         />
       ) : isRemainderExercise ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import type { KeyboardEvent, RefObject } from "react";
 
 export type ChoiceAnswerOption = {
   value: string;
@@ -14,6 +14,8 @@ type ChoiceAnswerButtonsProps = {
   heading: string;
   columns?: 2 | 3 | 4;
   variant?: "label" | "symbol";
+  canSubmit?: boolean;
+  onSubmit?: () => void;
 };
 
 export function ChoiceAnswerButtons({
@@ -25,6 +27,8 @@ export function ChoiceAnswerButtons({
   heading,
   columns = 3,
   variant = "label",
+  canSubmit = false,
+  onSubmit,
 }: ChoiceAnswerButtonsProps) {
   const gridClassName =
     columns === 2
@@ -37,10 +41,19 @@ export function ChoiceAnswerButtons({
       ? "text-3xl font-bold sm:text-4xl"
       : "text-lg font-semibold sm:text-xl";
 
+  const handleChoiceKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Enter" || disabled || !canSubmit || !selectedValue) {
+      return;
+    }
+
+    event.preventDefault();
+    onSubmit?.();
+  };
+
   return (
     <div className="space-y-3">
       <span className="text-base font-semibold">{heading}</span>
-      <div className={gridClassName}>
+      <div className={gridClassName} onKeyDown={handleChoiceKeyDown}>
         {options.map((option, index) => (
           <button
             key={option.value}
