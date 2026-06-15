@@ -2,6 +2,41 @@ export function formatClockTime(hour: number, minute: number): string {
   return `${hour}:${String(minute).padStart(2, "0")}`;
 }
 
+export function composeClockAnswer(
+  hourInput: string,
+  minuteInput: string,
+  expectedMinute?: number,
+): string {
+  const hour = hourInput.trim();
+  const minute = minuteInput.trim();
+
+  if (!hour) {
+    return "";
+  }
+
+  if (!minute) {
+    if (expectedMinute === 30) {
+      return "";
+    }
+
+    return hour;
+  }
+
+  const hourValue = Number(hour);
+  const minuteValue = Number(minute);
+
+  if (
+    Number.isInteger(hourValue) &&
+    Number.isInteger(minuteValue) &&
+    hourValue >= 1 &&
+    hourValue <= 12
+  ) {
+    return formatClockTime(hourValue, minuteValue);
+  }
+
+  return `${hour}:${minute.padStart(2, "0")}`;
+}
+
 export function parseClockAnswer(
   input: string,
 ): { hour: number; minute: number } | null {
@@ -21,13 +56,13 @@ export function parseClockAnswer(
     return { hour, minute: 0 };
   }
 
-  const timeMatch = /^(\d{1,2})\s*:\s*(\d{2})$/.exec(trimmed);
+  const timeMatch = /^(\d{1,2})\s*([.:])\s*(\d{2})$/.exec(trimmed);
   if (!timeMatch) {
     return null;
   }
 
   const hour = Number(timeMatch[1]);
-  const minute = Number(timeMatch[2]);
+  const minute = Number(timeMatch[3]);
 
   if (!isValidClockHour(hour) || (minute !== 0 && minute !== 30)) {
     return null;
@@ -47,12 +82,3 @@ export function formatClockTimeLabel(hour: number, minute: number): string {
 
   return `${hour} a půl`;
 }
-
-export function getClockAnswerPlaceholder(minute: number): string {
-  if (minute === 30) {
-    return "např. 3:30";
-  }
-
-  return "např. 3 nebo 3:00";
-}
-

@@ -21,7 +21,7 @@ import {
 } from "@/lib/math/mathDefaults";
 import { generateMathExercises } from "@/lib/math/generateMathExercises";
 import { processMathAnswer } from "@/lib/math/processMathAnswer";
-import { getClockAnswerPlaceholder } from "@/lib/math/time";
+import { composeClockAnswer } from "@/lib/math/time";
 import {
   selectReviewExercise,
   shouldOfferReviewInsertion,
@@ -59,6 +59,7 @@ import type {
   SubtractionConfig,
 } from "@/types";
 import { MathExplanation } from "@/features/math/MathExplanation";
+import { ClockReadAnswerInput } from "@/features/math/inputs";
 import { renderMathQuestionPrompt } from "@/features/math/prompts";
 import {
   buildPromptSummaryAccessibleText,
@@ -882,6 +883,8 @@ export function MathPracticeClient() {
   const [userInput, setUserInput] = useState("");
   const [quotientInput, setQuotientInput] = useState("");
   const [remainderInput, setRemainderInput] = useState("");
+  const [clockHourInput, setClockHourInput] = useState("");
+  const [clockMinuteInput, setClockMinuteInput] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [feedback, setFeedback] = useState<{
     message: string;
@@ -1114,6 +1117,8 @@ export function MathPracticeClient() {
     setUserInput("");
     setQuotientInput("");
     setRemainderInput("");
+    setClockHourInput("");
+    setClockMinuteInput("");
   };
 
   const beginPracticeSession = (
@@ -1418,6 +1423,16 @@ export function MathPracticeClient() {
       return `${quotientInput.trim()} r ${remainderInput.trim()}`;
     }
 
+    if (currentExercise?.operation === "clock-read") {
+      const expectedMinute =
+        currentExercise.clockMinute ?? currentExercise.operandB;
+      return composeClockAnswer(
+        clockHourInput,
+        clockMinuteInput,
+        expectedMinute,
+      );
+    }
+
     return userInput;
   };
 
@@ -1436,6 +1451,21 @@ export function MathPracticeClient() {
       return COMPARISON_CHOICES.includes(
         userInput.trim() as (typeof COMPARISON_CHOICES)[number],
       );
+    }
+
+    if (currentExercise.operation === "clock-read") {
+      const expectedMinute =
+        currentExercise.clockMinute ?? currentExercise.operandB;
+
+      if (clockHourInput.trim().length === 0) {
+        return false;
+      }
+
+      if (expectedMinute === 30) {
+        return clockMinuteInput.trim().length > 0;
+      }
+
+      return true;
     }
 
     return userInput.trim().length > 0;
@@ -1675,6 +1705,8 @@ export function MathPracticeClient() {
       userInput={userInput}
       quotientInput={quotientInput}
       remainderInput={remainderInput}
+      clockHourInput={clockHourInput}
+      clockMinuteInput={clockMinuteInput}
       hasSubmitted={hasSubmitted}
       feedback={feedback}
       isSessionComplete={isSessionComplete}
@@ -1682,6 +1714,8 @@ export function MathPracticeClient() {
       onInputChange={setUserInput}
       onQuotientChange={setQuotientInput}
       onRemainderChange={setRemainderInput}
+      onClockHourChange={setClockHourInput}
+      onClockMinuteChange={setClockMinuteInput}
       onSubmit={handleSubmitAnswer}
       onComparisonChoice={handleComparisonChoice}
       onNext={handleNextQuestion}
@@ -3566,6 +3600,8 @@ type PracticeScreenProps = {
   userInput: string;
   quotientInput: string;
   remainderInput: string;
+  clockHourInput: string;
+  clockMinuteInput: string;
   hasSubmitted: boolean;
   canSubmit: boolean;
   feedback: {
@@ -3578,6 +3614,8 @@ type PracticeScreenProps = {
   onInputChange: (value: string) => void;
   onQuotientChange: (value: string) => void;
   onRemainderChange: (value: string) => void;
+  onClockHourChange: (value: string) => void;
+  onClockMinuteChange: (value: string) => void;
   onSubmit: () => void;
   onComparisonChoice: (sign: string) => void;
   onNext: () => void;
@@ -3590,6 +3628,8 @@ function PracticeScreen({
   userInput,
   quotientInput,
   remainderInput,
+  clockHourInput,
+  clockMinuteInput,
   hasSubmitted,
   canSubmit,
   feedback,
@@ -3597,6 +3637,8 @@ function PracticeScreen({
   onInputChange,
   onQuotientChange,
   onRemainderChange,
+  onClockHourChange,
+  onClockMinuteChange,
   onSubmit,
   onComparisonChoice,
   onNext,
@@ -3605,14 +3647,13 @@ function PracticeScreen({
   const isCompareExercise = exercise.operation === "compare-numbers";
   const isClockExercise = exercise.operation === "clock-read";
   const isMoneyExercise = exercise.operation === "money-count";
-  const answerPlaceholder = isClockExercise
-    ? getClockAnswerPlaceholder(exercise.clockMinute ?? exercise.operandB)
-    : isMoneyExercise
-      ? "napiš číslo, např. 5"
-      : undefined;
+  const expectedClockMinute = exercise.clockMinute ?? exercise.operandB;
+  const answerPlaceholder = isMoneyExercise ? "napiš číslo, např. 5" : undefined;
   const answerInputRef = useRef<HTMLInputElement>(null);
   const quotientInputRef = useRef<HTMLInputElement>(null);
   const remainderInputRef = useRef<HTMLInputElement>(null);
+  const clockHourInputRef = useRef<HTMLInputElement>(null);
+  const clockMinuteInputRef = useRef<HTMLInputElement>(null);
   const compareFirstButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -3632,8 +3673,19 @@ function PracticeScreen({
       return;
     }
 
+    if (isClockExercise) {
+      clockHourInputRef.current?.focus();
+      return;
+    }
+
     answerInputRef.current?.focus();
-  }, [exercise.id, hasSubmitted, isCompareExercise, isRemainderExercise]);
+  }, [
+    exercise.id,
+    hasSubmitted,
+    isCompareExercise,
+    isRemainderExercise,
+    isClockExercise,
+  ]);
 
   const handleAnswerKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter" || hasSubmitted) {
@@ -3665,6 +3717,39 @@ function PracticeScreen({
   };
 
   const handleRemainderKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || hasSubmitted) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (canSubmit) {
+      onSubmit();
+    }
+  };
+
+  const handleClockHourKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || hasSubmitted) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (canSubmit) {
+      onSubmit();
+      return;
+    }
+
+    if (
+      clockHourInput.trim().length > 0 &&
+      clockMinuteInput.trim().length === 0 &&
+      expectedClockMinute === 30
+    ) {
+      clockMinuteInputRef.current?.focus();
+    }
+  };
+
+  const handleClockMinuteKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter" || hasSubmitted) {
       return;
     }
@@ -3737,13 +3822,26 @@ function PracticeScreen({
             />
           </label>
         </div>
+      ) : isClockExercise ? (
+        <ClockReadAnswerInput
+          hourValue={clockHourInput}
+          minuteValue={clockMinuteInput}
+          onHourChange={onClockHourChange}
+          onMinuteChange={onClockMinuteChange}
+          onHourKeyDown={handleClockHourKeyDown}
+          onMinuteKeyDown={handleClockMinuteKeyDown}
+          hourInputRef={clockHourInputRef}
+          minuteInputRef={clockMinuteInputRef}
+          disabled={hasSubmitted}
+          expectedMinute={expectedClockMinute}
+        />
       ) : (
         <label className="block space-y-2">
           <span className="text-base font-semibold">Tvoje odpověď</span>
           <input
             ref={answerInputRef}
             type="text"
-            inputMode={isClockExercise ? "text" : "numeric"}
+            inputMode="numeric"
             placeholder={answerPlaceholder}
             value={userInput}
             onChange={(event) => onInputChange(event.target.value)}

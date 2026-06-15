@@ -52,19 +52,15 @@ export function getMathExplanationText(
       return `Sečteme mince: ${addition} = ${total}. Dohromady je ${formatMoneyAmount(total, currencyCode)}.`;
     }
     case "clock-read": {
-      if (exercise.explanation) {
-        return exercise.explanation;
-      }
-
       const hour = exercise.clockHour ?? a;
       const minute = exercise.clockMinute ?? b;
 
       if (minute === 0) {
-        return `Krátká ručička ukazuje na ${hour}. Dlouhá ručička ukazuje na 12, takže je přesně ${formatClockTime(hour, minute)}.`;
+        return `Nejdřív se podíváme na ručičky. Krátká ručička ukazuje hodiny — stojí na ${hour}. Dlouhá ručička ukazuje minuty — je u 12, takže je přesně celá hodina. Správně je ${formatClockTime(hour, minute)}.`;
       }
 
       const nextHour = hour === 12 ? 1 : hour + 1;
-      return `Krátká ručička je mezi ${hour} a ${nextHour}. Dlouhá ručička ukazuje na 6, takže je ${hour} a půl (${formatClockTime(hour, minute)}).`;
+      return `Krátká ručička ukazuje hodiny — je mezi ${hour} a ${nextHour}, protože už uplynula půl hodiny. Dlouhá ručička ukazuje minuty — je u 6, to znamená 30 minut. Správně je ${formatClockTime(hour, minute)}.`;
     }
   }
 }
