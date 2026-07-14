@@ -1,4 +1,6 @@
-export type Subject = "math" | "czech" | "english";
+import type { StudySubjectId } from "./study";
+
+export type Subject = "math" | "czech" | "english" | StudySubjectId;
 
 export type Difficulty = "easy" | "medium" | "hard";
 
@@ -29,7 +31,7 @@ export type CzechTopic = "i-y" | "grammar";
 
 export type EnglishTopic = "vocabulary";
 
-export type TopicId = MathTopic | CzechTopic | EnglishTopic;
+export type TopicId = MathTopic | CzechTopic | EnglishTopic | string;
 
 export type MathOperation =
   | "add"
@@ -427,3 +429,23 @@ export interface StorageEnvelope<T> {
   updatedAt: string;
   data: T;
 }
+
+export type {
+  StudyAnswerValidation,
+  StudyChoice,
+  StudyDifficulty,
+  StudyKeyTerm,
+  StudyLesson,
+  StudyQuestion,
+  StudyQuestionType,
+  StudySection,
+  StudySectionType,
+  StudySessionAnswerRecord,
+  StudySessionAnswerResult,
+  StudySubjectContent,
+  StudySubjectId,
+  StudySubjectMeta,
+  StudyUnit,
+} from "./study";
+
+export { STUDY_SUBJECT_IDS } from "./study";

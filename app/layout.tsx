@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Domácí procvičování",
-    template: "%s | Domácí procvičování",
+    default: "Studijní platforma",
+    template: "%s | Studijní platforma",
   },
   description:
-    "Procvičování násobilky a pravopisu pro děti na základní škole.",
+    "Studijní platforma pro program Předškolní a mimoškolní pedagogika – lekce, procvičování a opakování slabých míst.",
 };
 
 export default function RootLayout({
