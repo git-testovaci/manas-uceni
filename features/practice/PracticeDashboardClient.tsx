@@ -1,10 +1,17 @@
 "use client";
 
+import { StudyWeakSpotCard } from "@/features/practice/StudyWeakSpotCard";
+import { getStudySubjects } from "@/data/subjects";
+import {
+  isStudySubjectId,
+  resolveStudyWeakSpotDisplay,
+} from "@/lib/study/weakSpotDisplay";
 import { getReviewStateMap, removeReviewState } from "@/lib/storage";
 import type { MathTopic, ReviewState } from "@/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-type DashboardSubject = "math" | "czech" | "english";
+type LegacyDashboardSubject = "math" | "czech" | "english";
+type DashboardSubject = LegacyDashboardSubject | "study";
 
 const MATH_TOPIC_LABELS: Record<MathTopic, string> = {
   addition: "Sčítání",
@@ -29,7 +36,10 @@ const SUBJECT_FILTERS: {
     disabled: true,
     disabledHint: "Připravuje se",
   },
+  { id: "study", label: "Studijní předměty" },
 ];
+
+const ALL_STUDY_SUBJECTS_FILTER = "all";
 
 function isValidReviewState(value: unknown): value is ReviewState {
   if (!value || typeof value !== "object") {
@@ -388,11 +398,21 @@ function WeakSpotCard({
   );
 }
 
+function getStudyWeakSpotSortKey(state: ReviewState): string {
+  const display = resolveStudyWeakSpotDisplay(state);
+  return display?.prompt ?? state.itemId;
+}
+
 export function PracticeDashboardClient() {
   const [selectedSubject, setSelectedSubject] =
     useState<DashboardSubject>("math");
+  const [selectedStudySubjectId, setSelectedStudySubjectId] = useState(
+    ALL_STUDY_SUBJECTS_FILTER,
+  );
   const [mathWeakSpotSort, setMathWeakSpotSort] =
     useState<WeakSpotSortMode>("best-streak");
+  const [studyWeakSpotSort, setStudyWeakSpotSort] =
+    useState<WeakSpotSortMode>("most-mistakes");
   const [reviewStates, setReviewStates] = useState<ReviewState[]>(() => {
     if (typeof window === "undefined") {
       return [];
@@ -400,6 +420,8 @@ export function PracticeDashboardClient() {
 
     return loadReviewStates();
   });
+
+  const studySubjects = useMemo(() => getStudySubjects(), []);
 
   const refresh = useCallback(() => {
     setReviewStates(loadReviewStates());
@@ -443,6 +465,21 @@ export function PracticeDashboardClient() {
     [reviewStates],
   );
 
+  const studyWeakSpots = useMemo(() => {
+    const filtered = reviewStates
+      .filter((state) => isStudySubjectId(state.subject))
+      .filter(isRealWeakSpot)
+      .filter((state) => {
+        if (selectedStudySubjectId === ALL_STUDY_SUBJECTS_FILTER) {
+          return true;
+        }
+
+        return state.subject === selectedStudySubjectId;
+      });
+
+    return sortWeakSpots(filtered, studyWeakSpotSort, getStudyWeakSpotSortKey);
+  }, [reviewStates, selectedStudySubjectId, studyWeakSpotSort]);
+
   const mathStats = useMemo(
     () => computeSubjectStats(reviewStates.filter((s) => s.subject === "math")),
     [reviewStates],
@@ -454,13 +491,42 @@ export function PracticeDashboardClient() {
     [reviewStates],
   );
 
+  const studyStats = useMemo(() => {
+    const studyStates = reviewStates.filter((state) =>
+      isStudySubjectId(state.subject),
+    );
+
+    if (selectedStudySubjectId === ALL_STUDY_SUBJECTS_FILTER) {
+      return computeSubjectStats(studyStates);
+    }
+
+    return computeSubjectStats(
+      studyStates.filter((state) => state.subject === selectedStudySubjectId),
+    );
+  }, [reviewStates, selectedStudySubjectId]);
+
+  const allWeakSpotCount = useMemo(
+    () => reviewStates.filter(isRealWeakSpot).length,
+    [reviewStates],
+  );
+
   const activeStats =
-    selectedSubject === "czech" ? czechStats : mathStats;
+    selectedSubject === "czech"
+      ? czechStats
+      : selectedSubject === "study"
+        ? studyStats
+        : mathStats;
 
   const handleRemoveWeakSpot = (itemId: string) => {
     removeReviewState(itemId);
     refresh();
   };
+
+  const selectedStudySubjectTitle =
+    selectedStudySubjectId === ALL_STUDY_SUBJECTS_FILTER
+      ? null
+      : studySubjects.find((subject) => subject.id === selectedStudySubjectId)
+          ?.title;
 
   return (
     <div className="space-y-8">
@@ -468,9 +534,16 @@ export function PracticeDashboardClient() {
         Tady uvidíš slabá místa a přehled procvičování napříč předměty.
       </p>
 
+      {allWeakSpotCount === 0 && (
+        <p className="rounded-2xl border border-foreground/15 bg-white/70 px-4 py-5 text-base text-foreground/70">
+          Zatím tu nejsou žádná slabá místa. Slabá místa se sem dostanou po
+          chybné odpovědi v procvičování.
+        </p>
+      )}
+
       <section aria-label="Filtr předmětů" className="space-y-3">
         <h2 className="text-base font-semibold">Předmět</h2>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {SUBJECT_FILTERS.map(({ id, label, disabled, disabledHint }) => (
             <SubjectFilterButton
               key={id}
@@ -578,6 +651,79 @@ export function PracticeDashboardClient() {
           <p className="rounded-2xl border border-foreground/10 bg-foreground/5 px-4 py-5 text-base text-foreground/60">
             Angličtina se připravuje.
           </p>
+        </section>
+      )}
+
+      {selectedSubject === "study" && (
+        <section aria-label="Slabá místa ze studijních předmětů" className="space-y-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="text-base font-semibold">
+              Slabá místa ze studijních předmětů
+            </h2>
+            {studyWeakSpots.length > 0 && (
+              <label className="flex items-center gap-2 text-sm text-foreground/70">
+                <span>Řadit</span>
+                <select
+                  value={studyWeakSpotSort}
+                  onChange={(event) =>
+                    setStudyWeakSpotSort(event.target.value as WeakSpotSortMode)
+                  }
+                  className="min-h-9 rounded-lg border border-foreground/20 bg-white px-2 py-1 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+                >
+                  {WEAK_SPOT_SORT_OPTIONS.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+          </div>
+
+          <label className="flex flex-col gap-1 text-sm text-foreground/70">
+            <span>Studijní předmět</span>
+            <select
+              value={selectedStudySubjectId}
+              onChange={(event) => setSelectedStudySubjectId(event.target.value)}
+              className="min-h-10 rounded-lg border border-foreground/20 bg-white px-3 py-2 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            >
+              <option value={ALL_STUDY_SUBJECTS_FILTER}>
+                Všechny studijní předměty
+              </option>
+              {studySubjects.map((subject) => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.title}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {studyWeakSpots.length === 0 ? (
+            <p className="rounded-2xl border border-foreground/15 bg-white/70 px-4 py-5 text-base text-foreground/70">
+              {selectedStudySubjectTitle
+                ? `Zatím tu nejsou žádná slabá místa z předmětu ${selectedStudySubjectTitle}.`
+                : "Zatím tu nejsou žádná slabá místa ze studijních předmětů."}{" "}
+              Slabá místa se sem dostanou po chybné odpovědi v procvičování.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {studyWeakSpots.map((state) => {
+                const display = resolveStudyWeakSpotDisplay(state);
+                if (!display) {
+                  return null;
+                }
+
+                return (
+                  <StudyWeakSpotCard
+                    key={state.itemId}
+                    state={state}
+                    display={display}
+                    onRemove={() => handleRemoveWeakSpot(state.itemId)}
+                  />
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
     </div>
