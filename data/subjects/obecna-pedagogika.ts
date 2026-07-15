@@ -136,16 +136,16 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "co-je-pedagogika",
               type: "multiple-choice",
               prompt:
-                "Kterou oblast výchovy a vzdělávání pedagogika zkoumá jako cíle?",
+                "Ředitelka mateřské školy chce, aby děti lépe spolupracovaly a respektovaly pravidla společné hry. Kterou oblast pedagogiky tím sleduje?",
               choices: [
-                { id: "a", text: "Cíle výchovy a vzdělávání" },
-                { id: "b", text: "Pouze rozvrh vyučování" },
-                { id: "c", text: "Výhradně finanční zabezpečení škol" },
-                { id: "d", text: "Jen výběr školního vybavení" },
+                { id: "a", text: "Organizaci školní jídelny" },
+                { id: "b", text: "Podmínky výchovy a vzdělávání" },
+                { id: "c", text: "Cíle výchovy a vzdělávání" },
+                { id: "d", text: "Pouze technické vybavení třídy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
-                "Mezi základní oblasti zkoumání patří cíle výchovy a vzdělávání — co má výchova a vzdělávání dosáhnout. Rozvrh, finance nebo vybavení nejsou samy o sobě předmětem pedagogického zkoumání cílů.",
+                "Snaha o spolupráci a respekt k pravidlům je výchovně-vzdělávací záměr — patří mezi cíle, kterých má výchova a vzdělávání dosáhnout. Jídelna, vybavení nebo obecné podmínky samy o sobě tento záměr nepopisují.",
               order: 3,
               difficulty: "easy",
             },
@@ -161,28 +161,28 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "co-je-pedagogika",
               type: "multiple-choice",
               prompt:
-                "Kterou oblast zkoumání popisuje pedagogika správně v souvislosti s podmínkami a prostředky?",
+                "Pedagožka zjišťuje, zda má ve třídě dostatek pomůcek, vhodné prostředí a čas na klidnou práci s dětmi. Kterou oblast pedagogiky zkoumá?",
               choices: [
                 {
                   id: "a",
-                  text: "Podmínky a prostředky výchovy a vzdělávání",
+                  text: "Pouze výsledky výchovy po letech",
                 },
                 {
                   id: "b",
-                  text: "Pouze délku spánku dítěte mimo školní prostředí",
+                  text: "Průběh výchovného procesu bez ohledu na prostředí",
                 },
                 {
                   id: "c",
-                  text: "Výhradně estetiku školního interiéru a nábytku",
+                  text: "Finanční hospodaření školy",
                 },
                 {
                   id: "d",
-                  text: "Jen počet žáků bez vztahu k výchovnému procesu",
+                  text: "Podmínky a prostředky výchovy a vzdělávání",
                 },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
-                "Pedagogika zkoumá podmínky a prostředky výchovy a vzdělávání — tedy v jakém prostředí a čím se výchovně působí. Ostatní odpovědi jsou buď mimo pedagogiku, nebo příliš úzké a nevystihují vztah k výchově.",
+                "Pomůcky, prostředí třídy a čas na práci jsou podmínky a prostředky výchovně-vzdělávacího působení. Pedagogika zkoumá, jak takové podmínky ovlivňují výchovu — ne jen výsledky po letech ani administrativu bez vztahu k procesu.",
               order: 4,
               difficulty: "medium",
             },
@@ -198,28 +198,28 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "co-je-pedagogika",
               type: "multiple-choice",
               prompt:
-                "Co pedagogika zkoumá v souvislosti s průběhem a výsledky výchovy a vzdělávání?",
+                "Po pololetí pedagog hodnotí, jak děti zvládají samostatnou práci a zda se změnil jejich přístup ke spolupráci. Kterou oblast pedagogiky uplatňuje?",
               choices: [
                 {
                   id: "a",
-                  text: "Průběh a výsledky výchovy a vzdělávání",
+                  text: "Předmět pedagogiky bez vztahu k výsledkům",
                 },
                 {
                   id: "b",
-                  text: "Pouze termín konání školního plesu a jeho program",
+                  text: "Průběh a výsledky výchovy a vzdělávání",
                 },
                 {
                   id: "c",
-                  text: "Výhradně to, zda dítě nosí odpovídající obuv",
+                  text: "Jen administrativní evidence bez výchovného významu",
                 },
                 {
                   id: "d",
-                  text: "Jen předpověď počasí v den školního výletu",
+                  text: "Výhradně biologický růst dětí",
                 },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
-                "Pedagogika se zabývá průběhem výchovného procesu i jeho výsledky. Organizační nebo okrajové detaily bez vztahu k výchovnému procesu nejsou jádrem tohoto zkoumání.",
+                "Hodnocení změn v samostatnosti a spolupráci sleduje, jak výchovný proces probíhal a jaké výsledky přinesl. Nejde o čistou administrativu ani o biologický růst — pedagogika zkoumá průběh i dosažené změny.",
               order: 5,
               difficulty: "medium",
             },
@@ -238,22 +238,22 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Vysvětluje, zobecňuje a podporuje odborné rozhodování",
-                },
-                {
-                  id: "b",
                   text: "Nahrazuje veškerou praxi hotovými návody bez výjimek",
                 },
                 {
-                  id: "c",
+                  id: "b",
                   text: "Slouží jen k zapamatování pojmů bez využití v praxi",
+                },
+                {
+                  id: "c",
+                  text: "Vysvětluje, zobecňuje a podporuje odborné rozhodování",
                 },
                 {
                   id: "d",
                   text: "Popisuje výhradně osobní dojmy z jedné třídy",
                 },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Pedagogická teorie uspořádává poznatky, vysvětluje jevy a pomáhá pedagogovi rozhodovat odborně. Nejde o návod bez kontextu, pouhou memorii pojmů ani subjektivní dojem.",
               order: 6,
@@ -274,22 +274,22 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Řeší konkrétní výchovné situace v reálném prostředí",
-                },
-                {
-                  id: "b",
                   text: "Popisuje pojmy bez kontaktu s realitou",
                 },
                 {
-                  id: "c",
+                  id: "b",
                   text: "Shromažďuje jen statistiky bez výchovného jednání",
                 },
                 {
-                  id: "d",
+                  id: "c",
                   text: "Tvoří výhradně učební osnovy na ministerstvu",
                 },
+                {
+                  id: "d",
+                  text: "Řeší konkrétní výchovné situace v reálném prostředí",
+                },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Pedagogická praxe je činnost v konkrétních výchovných situacích — ve třídě, skupině nebo instituci. Teoretický popis, čistá statistika nebo tvorba osnov praxi samu nenahrazují.",
               order: 7,
@@ -450,18 +450,18 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 },
                 {
                   id: "b",
-                  text: "Proces získávání znalostí, dovedností, postojů a kompetencí",
+                  text: "Jen organizace rozvrhu hodin",
                 },
                 {
                   id: "c",
-                  text: "Jen organizace rozvrhu hodin",
+                  text: "Proces získávání znalostí, dovedností, postojů a kompetencí",
                 },
                 {
                   id: "d",
                   text: "Výhradně volná hra bez učení",
                 },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Vzdělávání je proces — probíhá v čase a zahrnuje získávání znalostí, dovedností, postojů a kompetencí. Hotová úroveň je vzdělání, ne vzdělávání.",
               order: 2,
@@ -486,18 +486,18 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 },
                 {
                   id: "b",
-                  text: "Výsledek nebo dosažená úroveň ze vzdělávání",
-                },
-                {
-                  id: "c",
                   text: "Činnost učitele při vedení hodiny",
                 },
                 {
-                  id: "d",
+                  id: "c",
                   text: "Vstup dítěte do kolektivu",
                 },
+                {
+                  id: "d",
+                  text: "Výsledek nebo dosažená úroveň ze vzdělávání",
+                },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "d",
               explanation:
                 "Vzdělání je výsledek — to, čeho bylo ve vzdělávání dosaženo. Proces je vzdělávání, činnost pedagoga je vyučování a vstup do společnosti souvisí se socializací.",
               order: 3,
@@ -595,18 +595,18 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 },
                 {
                   id: "b",
-                  text: "Cílevědomá činnost pedagoga podporující učení",
+                  text: "Výsledek dosažený po maturitě",
                 },
                 {
                   id: "c",
-                  text: "Výsledek dosažený po maturitě",
+                  text: "Cílevědomá činnost pedagoga podporující učení",
                 },
                 {
                   id: "d",
                   text: "Jen domácí příprava žáka",
                 },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Vyučování organizuje a vede učení — je to činnost pedagoga. Učení probíhá u žáka, vzdělání je výsledek a domácí příprava je jen část celku.",
               order: 6,
@@ -628,22 +628,22 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Učitel učí — vyučování; žáci se mění — učení",
-                },
-                {
-                  id: "b",
                   text: "Učitel se učí — učení; žáci vedou — vyučování",
                 },
                 {
-                  id: "c",
+                  id: "b",
                   text: "Obojí je vzdělávání",
                 },
                 {
-                  id: "d",
+                  id: "c",
                   text: "Obojí je socializace",
                 },
+                {
+                  id: "d",
+                  text: "Učitel učí — vyučování; žáci se mění — učení",
+                },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Vyučování je činnost pedagoga (vedení diskuse, organizace). Učení je proces u žáků (formulace závěrů, změna poznání). Role se nemění — učitel neprobírá učení ve smyslu žákovy změny.",
               order: 7,
@@ -654,23 +654,35 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "obecna-pedagogika",
                 "zakladni-pojmy",
                 "vychova-a-vzdelavani",
-                11,
+                13,
               ),
               subjectId: "obecna-pedagogika",
               unitId: "zakladni-pojmy",
               lessonId: "vychova-a-vzdelavani",
               type: "multiple-choice",
               prompt:
-                "Který pojem označuje vstup člověka do společnosti a osvojování norem, rolí a vzorců chování?",
+                "Během projektu ve třídě učitelka vede děti k ohleduplnosti ke spolužákům a zároveň je učí vyhledávat informace o tématu. Jak lze tuto situaci pojmout?",
               choices: [
-                { id: "a", text: "Výchova" },
-                { id: "b", text: "Vzdělávání" },
-                { id: "c", text: "Socializace" },
-                { id: "d", text: "Edukace" },
+                {
+                  id: "a",
+                  text: "Jde jen o výchovu, vzdělávání v ní není",
+                },
+                {
+                  id: "b",
+                  text: "Výchova a vzdělávání se v jedné situaci prolínají jako různé aspekty výchovně-vzdělávacího procesu",
+                },
+                {
+                  id: "c",
+                  text: "Jde jen o vzdělávání, výchova nepůsobí",
+                },
+                {
+                  id: "d",
+                  text: "Oba pojmy jsou totéž a nelze je rozlišit",
+                },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
-                "Socializace znamená vstup do společnosti a osvojování norem, rolí a chování. Výchova je širší cílené působení, vzdělávání je proces získávání znalostí a edukace je nadřazený pojem pro výchovné i vzdělávací procesy.",
+                "Ohleduplnost je výchovný aspekt, vyhledávání informací je vzdělávací — v jedné situaci tedy probíhá výchovně-vzdělávací proces s více aspekty. Nejde o pouhou výchovu ani pouhé vzdělávání a pojmy nejsou totéž.",
               order: 8,
               difficulty: "medium",
             },
@@ -726,22 +738,22 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Výchova, vzdělávání, učení, vyučování a socializace se prolínají",
-                },
-                {
-                  id: "b",
                   text: "Jde výhradně o vyučování, ostatní pojmy neplatí",
                 },
                 {
-                  id: "c",
+                  id: "b",
                   text: "Jde jen o socializaci, učení v předškolním věku není",
+                },
+                {
+                  id: "c",
+                  text: "Výchova, vzdělávání, učení, vyučování a socializace se prolínají",
                 },
                 {
                   id: "d",
                   text: "Všechny pojmy znamenají totéž",
                 },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "V jedné situaci může probíhat výchova (postoje), vzdělávání (proces), učení (změna u dětí), vyučování (vedení kroužku) i socializace (pravidla skupiny) — každý pojem zachycuje jiný aspekt.",
               order: 10,
@@ -800,14 +812,17 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze učení se číst a psát" },
                 {
                   id: "b",
-                  text: "Proces osvojování společenských norem a chování",
+                  text: "Výhradně tělesný vývoj dítěte",
                 },
-                { id: "c", text: "Výhradně tělesný vývoj dítěte" },
+                {
+                  id: "c",
+                  text: "Proces vstupu do společnosti a osvojování norem, rolí a chování",
+                },
                 { id: "d", text: "Náhodná hra bez vlivu okolí" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
-                "Socializace znamená osvojování norem, rolí a chování potřebných pro život ve společnosti.",
+                "Socializace znamená, že člověk vstupuje do společnosti a osvojuje si normy, role a chování od ostatních. Nejde jen o školní učivo ani o biologický růst — jde o sociální učení v kontaktu s lidmi.",
               order: 1,
             },
             {
@@ -821,17 +836,85 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "zakladni-pojmy",
               lessonId: "socializace",
               type: "multiple-choice",
-              prompt: "Kde typicky probíhá primární socializace?",
+              prompt: "Kde má socializace typicky významný počátek?",
               choices: [
-                { id: "a", text: "Na úřadě" },
-                { id: "b", text: "V rodině" },
-                { id: "c", text: "Pouze na internetu" },
-                { id: "d", text: "Výhradně na pracovišti rodičů" },
+                { id: "a", text: "Na úřadě při vyřizování formulářů" },
+                {
+                  id: "b",
+                  text: "V rodině, kde dítě poprvé poznává pravidla a vztahy",
+                },
+                { id: "c", text: "Pouze v anonymním online prostředí" },
+                {
+                  id: "d",
+                  text: "Výhradně na pracovišti rodičů bez kontaktu s dětmi",
+                },
               ],
               correctChoiceId: "b",
               explanation:
-                "Primární socializace probíhá v raném dětství, typicky v rodině, kde dítě poprvé poznává pravidla a vztahy.",
+                "Rodina je důležité prostředí, kde socializace začíná — dítě se učí pravidlům, rolím a očekávanému chování od blízkých lidí. Úřad nebo anonymní online prostor tuto roli rodiny nenahrazují.",
               order: 2,
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "socializace",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "socializace",
+              type: "multiple-choice",
+              prompt: "Kde socializace pokračuje i po raném dětství?",
+              choices: [
+                { id: "a", text: "Nikde — končí v rodině" },
+                { id: "b", text: "Pouze v biologickém vývoji bez vlivu okolí" },
+                { id: "c", text: "Jen při memorování pojmů z učebnice" },
+                {
+                  id: "d",
+                  text: "Ve škole, mezi vrstevníky a v dalších skupinách",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Socializace nekončí v rodině — pokračuje ve škole, mezi vrstevníky i v dalších skupinách, kde dítě poznává nová pravidla a role. Memorování pojmů ani biologický růst samy o sobě nenahrazují sociální učení.",
+              order: 3,
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "socializace",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "socializace",
+              type: "multiple-choice",
+              prompt:
+                "Dítě ve školce se u kolegyně naučí čekat na řadu u kyvadla a mluvit ke kamarádovi klidněji. Co ukazuje tento příklad?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Socializaci — dítě osvojuje pravidla a očekávané chování od ostatních",
+                },
+                {
+                  id: "b",
+                  text: "Pouze memorování faktů bez vlivu okolí",
+                },
+                {
+                  id: "c",
+                  text: "Výhradně biologický růst bez sociálního významu",
+                },
+                {
+                  id: "d",
+                  text: "Náhodnou hru, která nemá vztah ke společnosti",
+                },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Dítě se učí pravidlům skupiny a očekávanému chování od vrstevníků — to je socializace. Nejde o memorování faktů z učebnice ani o náhodnou hru bez sociálního významu.",
+              order: 4,
             },
           ],
           examQuestions: [],
