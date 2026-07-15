@@ -6,6 +6,7 @@ type SubjectCardProps = {
   href?: string;
   title: string;
   description?: string;
+  note?: string;
   variant: SubjectVariant;
   disabled?: boolean;
   disabledHint?: string;
@@ -22,6 +23,7 @@ const variantStyles: Record<SubjectVariant, string> = {
 const cardContent = (
   title: string,
   description?: string,
+  note?: string,
   disabledHint?: string,
 ) => (
   <>
@@ -30,6 +32,9 @@ const cardContent = (
       <span className="text-base font-normal opacity-90 sm:text-lg">
         {description}
       </span>
+    )}
+    {note && (
+      <span className="text-sm font-normal opacity-80">{note}</span>
     )}
     {disabledHint && (
       <span className="text-sm font-normal opacity-80">{disabledHint}</span>
@@ -41,6 +46,7 @@ export function SubjectCard({
   href,
   title,
   description,
+  note,
   variant,
   disabled = false,
   disabledHint,
@@ -54,7 +60,7 @@ export function SubjectCard({
         aria-disabled="true"
         className={`${baseClass} ${variantStyles[variant]} cursor-not-allowed opacity-60`}
       >
-        {cardContent(title, description, disabledHint)}
+        {cardContent(title, description, note, disabledHint)}
       </div>
     );
   }
@@ -68,7 +74,7 @@ export function SubjectCard({
       href={href}
       className={`${baseClass} ${variantStyles[variant]} transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
     >
-      {cardContent(title, description, disabledHint)}
+      {cardContent(title, description, note, disabledHint)}
     </Link>
   );
 }

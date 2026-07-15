@@ -12,6 +12,16 @@ const SUBJECT_CONTENT: Partial<Record<StudySubjectId, StudySubjectContent>> = {
   "obecna-pedagogika": OBECNA_PEDAGOGIKA_CONTENT,
 };
 
+export function getStudySubjectCardDescription(
+  subject: StudySubjectMeta,
+): string {
+  const parts = [subject.studyPeriod, subject.teachingScope].filter(
+    (value): value is string => Boolean(value),
+  );
+
+  return parts.join(" · ");
+}
+
 export function getStudySubjects(): StudySubjectMeta[] {
   return [...STUDY_SUBJECTS].sort((left, right) => left.order - right.order);
 }

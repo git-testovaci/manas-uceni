@@ -33,6 +33,8 @@ export interface StudySubjectMeta {
   title: string;
   shortTitle?: string;
   description?: string;
+  studyPeriod?: string;
+  teachingScope?: string;
   order: number;
   accent?: string;
 }
