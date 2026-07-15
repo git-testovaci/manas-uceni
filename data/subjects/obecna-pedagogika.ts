@@ -1639,12 +1639,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak se v nejstarších společnostech často předávala zkušenost?",
               choices: [
-                { id: "a", text: "Napodobováním a účastí na činnostech" },
-                { id: "b", text: "Pouze písemnými učebnicemi" },
-                { id: "c", text: "Výhradně distanční výukou" },
+                { id: "a", text: "Pouze formální školní výuka bez praxe" },
+                { id: "b", text: "Napodobováním a účastí na činnostech" },
+                { id: "c", text: "Výhradně ústním předáváním bez pozorování" },
                 { id: "d", text: "Bez vlivu okolí a lidí" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "V raných společnostech se děti učily sledováním druhých a zapojením do práce a života okolí. Písemné učebnice nebo distanční výuka nebyly typickým způsobem předávání zkušenosti.",
               order: 1,
@@ -1664,12 +1664,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Kdo měl v nejstarších společnostech významnou výchovnou roli?",
               choices: [
-                { id: "a", text: "Rodina a společenství" },
-                { id: "b", text: "Pouze státní úředníci" },
-                { id: "c", text: "Jen profesionální sportovní trenéři" },
+                { id: "a", text: "Pouze státní úředníci" },
+                { id: "b", text: "Výhradně vzdálení příbuzní bez společenství" },
+                { id: "c", text: "Rodina a společenství" },
                 { id: "d", text: "Nikdo — děti se vychovaly samy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Výchova probíhala v rodině a ve společenství, kde dítě poznávalo pravidla, vzory chování a očekávání. Nejde o izolovaný proces bez lidí kolem.",
               order: 2,
@@ -1689,12 +1689,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak tradice a práce pomáhaly ve výchově v raných společnostech?",
               choices: [
-                { id: "a", text: "Předávaly znalosti a očekávané chování" },
-                { id: "b", text: "Bránily jakémukoli učení" },
-                { id: "c", text: "Nahrazovaly veškerou rodinnou výchovu" },
-                { id: "d", text: "Měly jen okrasnou roli bez vlivu" },
+                { id: "a", text: "Bránily jakémukoli učení" },
+                { id: "b", text: "Nahrazovaly veškerou rodinnou výchovu" },
+                { id: "c", text: "Měly jen okrasnou roli bez vlivu" },
+                { id: "d", text: "Předávaly znalosti a očekávané chování" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Tradice a účast na práci umožňovaly předat, co společenství považuje za důležité vědět a jak se má chovat. Nejde o proces bez výchovného významu.",
               order: 3,
@@ -1716,7 +1716,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Podle potřeb společnosti" },
                 { id: "b", text: "Náhodně bez souvislosti s životem lidí" },
-                { id: "c", text: "Jen podle počasí" },
+                { id: "c", text: "Podle módních trendů bez vztahu k životu" },
                 { id: "d", text: "Vůbec se neměnily" },
               ],
               correctChoiceId: "a",
@@ -1738,12 +1738,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co ve Spartě patřilo mezi důraz ve výchově?",
               choices: [
-                { id: "a", text: "Disciplína" },
-                { id: "b", text: "Výhradně volná tvorba bez pravidel" },
-                { id: "c", text: "Jen umělecká výchova bez řádu" },
+                { id: "a", text: "Výhradně volná tvorba bez pravidel" },
+                { id: "b", text: "Jen umělecká výchova bez řádu" },
+                { id: "c", text: "Disciplína" },
                 { id: "d", text: "Úplné vyloučení tělesné přípravy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Spartská výchova klade důraz na disciplínu a přísný řád. Volnost bez pravidel nebo vyloučení tělesné přípravy odpovídá spíše jinému pojetí výchovy.",
               order: 5,
@@ -1762,15 +1762,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co ve Spartě spolu patřilo k výchovným cílům?",
               choices: [
+                { id: "a", text: "Pouze rozumová hra bez těla" },
+                { id: "b", text: "Jen soukromý život bez vztahu ke státu" },
+                { id: "c", text: "Výhradně umělecká činnost" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Tělesná odolnost a služba státu",
                 },
-                { id: "b", text: "Pouze rozumová hra bez těla" },
-                { id: "c", text: "Jen soukromý život bez vztahu ke státu" },
-                { id: "d", text: "Výhradně umělecká činnost" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Sparta klade důraz na tělesnou odolnost a připravenost sloužit státu. Rozvoj rozumu, umění nebo občanského života patří spíše k athénskému pojetí.",
               order: 6,
@@ -1789,15 +1789,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co v Athénách více zdůrazňovala výchova?",
               choices: [
-                {
-                  id: "a",
-                  text: "Rozvoj těla, rozumu, umění a občanského života",
-                },
-                { id: "b", text: "Jen tělesnou přípravu pro stát" },
+                { id: "a", text: "Jen tělesnou přípravu pro stát" },
+                { id: "b", text: "Rozvoj těla, rozumu, umění a občanského života" },
                 { id: "c", text: "Pouze přísnou vojenskou kázeň" },
                 { id: "d", text: "Výhradně práci bez vzdělání" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Athény usilovaly o širší rozvoj člověka — těla, rozumu, umění i účasti v občanském životě. Přísná vojenská kázeň a jednostranná příprava ke státu jsou spíše spojeny se Spartou.",
               order: 7,
@@ -1817,12 +1814,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jedna polis klade důraz na přísnou kázeň a službu státu, druhá na rozum, umění a občanský život. Který pár odpovídá Spartě a Athénám?",
               choices: [
-                { id: "a", text: "Sparta — kázeň a stát; Athény — rozum a občanství" },
-                { id: "b", text: "Obě stejně — jen umění" },
-                { id: "c", text: "Sparta — rozum; Athény — jen kázeň" },
-                { id: "d", text: "Obě bez jakýchkoli cílů výchovy" },
+                { id: "a", text: "Obě stejně — jen umění" },
+                { id: "b", text: "Sparta — rozum; Athény — jen kázeň" },
+                {
+                  id: "c",
+                  text: "Sparta — kázeň a stát; Athény — rozum a občanství",
+                },
+                { id: "d", text: "Obě bez vytyčených výchovných cílů" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Sparta zdůrazňuje disciplínu, tělesnou odolnost a službu státu. Athény kladou větší důraz na rozum, umění a občanský život. Porovnání pomáhá pochopit rozdíl pojetí výchovy.",
               order: 8,
@@ -1905,12 +1905,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co silně ovlivňovalo středověké vzdělávání?",
               choices: [
-                { id: "a", text: "Církev" },
-                { id: "b", text: "Pouze sportovní soutěže" },
-                { id: "c", text: "Jen zábavní průmysl" },
-                { id: "d", text: "Výhradně soukromé koníčky bez institucí" },
+                { id: "a", text: "Pouze rodinná výchova bez institucí" },
+                { id: "b", text: "Církev" },
+                { id: "c", text: "Výhradně obchodní cechy bez škol" },
+                { id: "d", text: "Jen soukromé koníčky bez institucí" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Ve středověku měla církev zásadní vliv na výchovu a školství. Ostatní možnosti nepopisují hlavní rámec středověkého vzdělávání.",
               order: 1,
@@ -1930,12 +1930,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co platí o klášterních, katedrálních a městských školách?",
               choices: [
-                { id: "a", text: "Byly různými školními prostředími období" },
-                { id: "b", text: "Všechny byly úplně stejné" },
-                { id: "c", text: "Ve středověku vůbec neexistovaly" },
-                { id: "d", text: "Byly jen moderní internetové školy" },
+                { id: "a", text: "Všechny byly úplně stejné" },
+                { id: "b", text: "Ve středověku vůbec neexistovaly" },
+                { id: "c", text: "Byly různými školními prostředími období" },
+                { id: "d", text: "Byly jen jedním jednotným typem školy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Ve středověku působily různé typy škol v odlišných prostředích — klášterním, katedrálním a městském. Nejde o jeden jednotný typ školy.",
               order: 2,
@@ -1955,12 +1955,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak bylo vzdělání ve středověku a raném novověku dostupné?",
               choices: [
-                { id: "a", text: "Ne všem stejně — jen části populace" },
-                { id: "b", text: "Povinně a rovně každému bez rozdílu" },
-                { id: "c", text: "Vůbec nikomu" },
-                { id: "d", text: "Jen formou zábavných her bez výuky" },
+                { id: "a", text: "Povinně a rovně každému bez rozdílu" },
+                { id: "b", text: "Vůbec nikomu" },
+                { id: "c", text: "Jen elitě bez jakékoli výjimky" },
+                { id: "d", text: "Ne všem stejně — jen části populace" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Vzdělání nebylo dostupné celé populaci rovným způsobem. Souviselo s postavením, prostředím a podmínkami doby.",
               order: 3,
@@ -1980,12 +1980,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co představovaly univerzity v tomto období?",
               choices: [
-                { id: "a", text: "Novou důležitou formu vyššího vzdělávání" },
-                { id: "b", text: "Pouze předškolní zařízení pro malé děti" },
-                { id: "c", text: "Jen sportovní kluby" },
-                { id: "d", text: "Výhradně místa bez výuky" },
+                { id: "a", text: "Pouze předškolní zařízení pro malé děti" },
+                { id: "b", text: "Novou důležitou formu vyššího vzdělávání" },
+                { id: "c", text: "Jen místa bohoslužby bez výuky" },
+                { id: "d", text: "Výhradně místa bez vzdělávacího významu" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Univerzity se postupně staly významnou formou vyššího vzdělávání. Nejde o mateřské školy ani o instituce bez vzdělávacího významu.",
               order: 4,
@@ -2004,12 +2004,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co zdůrazňoval humanismus?",
               choices: [
-                { id: "a", text: "Člověka a rozum" },
-                { id: "b", text: "Pouze memorování bez myšlení" },
-                { id: "c", text: "Výhradně tělesný výkon bez vzdělání" },
+                { id: "a", text: "Pouze memorování bez myšlení" },
+                { id: "b", text: "Výhradně tělesný výkon bez vzdělání" },
+                { id: "c", text: "Člověka a rozum" },
                 { id: "d", text: "Úplné odmítnutí vzdělávání" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Humanismus klade důraz na člověka, jeho důstojnost a rozum. Memorování bez porozumění nebo odmítnutí vzdělávání humanismus nevyjadřuje.",
               order: 5,
@@ -2028,12 +2028,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co posílila renesance ve vzdělávání?",
               choices: [
-                { id: "a", text: "Zájem o světské vzdělávání" },
-                { id: "b", text: "Zákaz jakékoli kultury" },
-                { id: "c", text: "Úplný zákaz učení" },
-                { id: "d", text: "Pouze izolaci od života" },
+                { id: "a", text: "Zákaz jakékoli kultury" },
+                { id: "b", text: "Úplný zákaz učení" },
+                { id: "c", text: "Pouze izolaci od života" },
+                { id: "d", text: "Zájem o světské vzdělávání" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Renesance posílila zájem o člověka, kulturu a světské vzdělávání. Zákaz učení nebo kultury s renesancí nesouvisí.",
               order: 6,
@@ -2077,12 +2077,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak se v průběhu středověku a raného novověku měnil přístup ke vzdělání?",
               choices: [
-                { id: "a", text: "Postupně se rozšiřoval na širší část společnosti" },
-                { id: "b", text: "Úplně zmizel pro všechny" },
-                { id: "c", text: "Zůstal navždy jen pro jednoho člověka" },
+                { id: "a", text: "Úplně zmizel pro všechny" },
+                { id: "b", text: "Zůstal navždy jen pro jednoho člověka" },
+                {
+                  id: "c",
+                  text: "Postupně se rozšiřoval na širší část společnosti",
+                },
                 { id: "d", text: "Přestal souviset s potřebami společnosti" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Přístup ke vzdělání se postupně rozšiřoval, i když zpočátku nebyl rovný pro všechny. Vzdělávání zůstalo spojené s potřebami společnosti.",
               order: 8,
@@ -3428,12 +3431,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co je předmětem vzdělávací politiky?",
               choices: [
-                { id: "a", text: "Cíle, podmínky a směřování vzdělávání" },
-                { id: "b", text: "Jen barva školních lavic" },
-                { id: "c", text: "Pouze počasí ve městě" },
-                { id: "d", text: "Výhradně sportovní výsledky" },
+                { id: "a", text: "Jen organizace školního stravování" },
+                { id: "b", text: "Pouze údržba školních budov" },
+                {
+                  id: "c",
+                  text: "Cíle, podmínky a směřování vzdělávání",
+                },
+                { id: "d", text: "Výhradně mimoškolní zájmové kluby" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Vzdělávací politika určuje, kam má vzdělávání směřovat a za jakých podmínek probíhá. Okrajové detaily bez vztahu k vzdělávání nejsou jejím jádrem.",
               order: 1,
@@ -3452,12 +3458,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Který aktér má roli ve vzdělávací politice?",
               choices: [
-                { id: "a", text: "Stát" },
-                { id: "b", text: "Nikdo — vzdělávání nemá rámec" },
+                { id: "a", text: "Nikdo — vzdělávání nemá rámec" },
+                { id: "b", text: "Stát" },
                 { id: "c", text: "Jen jednotlivec bez institucí" },
-                { id: "d", text: "Pouze komerční reklama" },
+                { id: "d", text: "Pouze soukromý trh bez veřejné role" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Stát je jedním z aktérů vzdělávací politiky. Vzdělávání má společenský rámec a neprobíhá zcela mimo instituce a odpovědnost.",
               order: 2,
@@ -3477,15 +3483,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Kteří aktéři se podílejí na vzdělávání vedle státu?",
               choices: [
+                { id: "a", text: "Nikdo jiný" },
+                { id: "b", text: "Jen zahraniční firmy bez škol" },
+                { id: "c", text: "Pouze rodiče bez škol" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Kraje, obce, školy a zřizovatelé",
                 },
-                { id: "b", text: "Nikdo jiný" },
-                { id: "c", text: "Jen zahraniční firmy bez škol" },
-                { id: "d", text: "Pouze rodiče bez škol" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Na vzdělávání se podílejí také kraje, obce, školy a zřizovatelé — každý v rámci své role. Nejde o záležitost jen jedné úrovně.",
               order: 3,
@@ -3505,12 +3511,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Obec zvažuje podporu dostupnosti školky pro rodiny z různých sociálních poměrů. Který princip se týká?",
               choices: [
-                { id: "a", text: "Rovný přístup ke vzdělávání" },
-                { id: "b", text: "Záměrné znevýhodnění části dětí" },
+                { id: "a", text: "Záměrné znevýhodnění části dětí" },
+                { id: "b", text: "Rovný přístup ke vzdělávání" },
                 { id: "c", text: "Zákaz vzdělávání" },
                 { id: "d", text: "Inkluze jako totéž s diskriminací" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Rovný přístup znamená snahu o dostupnost vzdělávání bez neoprávněného znevýhodnění. Inkluze se netýká diskriminace — jde o účast různorodých dětí ve společném vzdělávání.",
               order: 4,
@@ -3530,12 +3536,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Ve třídě MŠ jsou děti s různými potřebami podporované ve společné skupině. O jaký princip jde?",
               choices: [
-                { id: "a", text: "Inkluzivní vzdělávání" },
-                { id: "b", text: "Vyloučení z vzdělávání" },
-                { id: "c", text: "Rovný přístup jako zákaz podpory" },
+                { id: "a", text: "Vyloučení z vzdělávání" },
+                { id: "b", text: "Rovný přístup jako zákaz podpory" },
+                { id: "c", text: "Inkluzivní vzdělávání" },
                 { id: "d", text: "Konec celoživotního učení" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Inkluzivní vzdělávání podporuje účast různorodých dětí ve společném vzdělávání. Rovný přístup se týká dostupnosti, inkluze zaměření na zapojení v běžném prostředí.",
               order: 5,
@@ -3554,12 +3560,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co znamená celoživotní učení?",
               choices: [
-                { id: "a", text: "Učení pokračuje i po škole" },
-                { id: "b", text: "Učení končí ukončením školy" },
-                { id: "c", text: "Vzdělávání jen v dětství" },
-                { id: "d", text: "Zákaz dalšího rozvoje" },
+                { id: "a", text: "Učení končí ukončením školy" },
+                { id: "b", text: "Vzdělávání jen v dětství" },
+                { id: "c", text: "Zákaz dalšího rozvoje" },
+                { id: "d", text: "Učení pokračuje i po škole" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Celoživotní učení znamená, že člověk se učí i po ukončení formální školy. Učení neskončí posledním ročníkem.",
               order: 6,
@@ -3579,12 +3585,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Proč vzdělávací politika sleduje kvalitu vzdělávání?",
               choices: [
-                { id: "a", text: "Zajímá ji úroveň a účinnost vzdělávání" },
-                { id: "b", text: "Kvalita je pro politiku nepodstatná" },
-                { id: "c", text: "Jde jen o počet oken ve škole" },
+                { id: "a", text: "Kvalita je pro politiku nepodstatná" },
+                { id: "b", text: "Zajímá ji úroveň a účinnost vzdělávání" },
+                { id: "c", text: "Jde jen o počet žáků ve třídě" },
                 { id: "d", text: "Vzdělávání nemá výsledky" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Kvalita vzdělávání je důležitým tématem vzdělávací politiky — souvisí s tím, jak dobře vzdělávání plní své cíle.",
               order: 7,
@@ -3604,12 +3610,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak souvisí profesní příprava pedagogů s vzdělávací politikou?",
               choices: [
-                { id: "a", text: "Ovlivňuje kvalitu vzdělávání" },
-                { id: "b", text: "Nemá žádný význam" },
-                { id: "c", text: "Brání jakékoli spolupráci" },
+                { id: "a", text: "Nemá žádný význam" },
+                { id: "b", text: "Brání jakékoli spolupráci" },
+                { id: "c", text: "Ovlivňuje kvalitu vzdělávání" },
                 { id: "d", text: "Nahrazuje veškerou politiku" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Profesní příprava pedagogů je součástí zájmu vzdělávací politiky o kvalitu vzdělávání. Kvalifikace učitelů ovlivňuje podmínky výuky.",
               order: 8,
@@ -3629,15 +3635,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Absolventka studovala v jedné zemi a chce uplatnit kvalifikaci v jiné. Co patří do evropského kontextu?",
               choices: [
+                { id: "a", text: "Zákaz jakékoli spolupráce" },
+                { id: "b", text: "Ignorování kvalifikací" },
+                { id: "c", text: "Konec vzdělávání v Evropě" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Spolupráce a uznávání vzdělání či kvalifikací",
                 },
-                { id: "b", text: "Zákaz jakékoli spolupráce" },
-                { id: "c", text: "Ignorování kvalifikací" },
-                { id: "d", text: "Konec vzdělávání v Evropě" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Evropská spolupráce ve vzdělávání zahrnuje také uznávání vzdělání a kvalifikací. Nejde o izolaci systémů bez vzájemného vztahu.",
               order: 9,
@@ -3657,12 +3663,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Škola podporuje respekt, spolupráci a odpovědnost ve výchově. Co to může odrážet?",
               choices: [
-                { id: "a", text: "Promítání evropských hodnot do vzdělávání" },
-                { id: "b", text: "Odmítnutí jakýchkoli hodnot" },
+                { id: "a", text: "Odmítnutí jakýchkoli hodnot" },
+                { id: "b", text: "Promítání evropských hodnot do vzdělávání" },
                 { id: "c", text: "Konec vzdělávací politiky" },
                 { id: "d", text: "Zákaz inkluze" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Evropské hodnoty se mohou promítat do principů vzdělávání — například respekt, spolupráce a odpovědnost. Nejde o vzdělávání bez hodnotového rámce.",
               order: 10,
