@@ -8223,6 +8223,1045 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "spoluprace-rodiny-a-skoly",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Spolupráce rodiny a školy",
+          summary:
+            "Principy spolupráce rodiny a školy: respekt, komunikace, diskrétnost a společná podpora dítěte.",
+          order: 4,
+          studySections: [
+            {
+              id: "vysvetleni-spoluprace-rodiny-skoly",
+              type: "explanation",
+              title: "Spolupráce rodiny a školy",
+              body:
+                "Spolupráce rodiny a školy má podporovat dítě. Základem je vzájemný respekt a pravidelná, srozumitelná komunikace. Pedagog sděluje konkrétní pozorování, ne nálepky, aktivně naslouchá rodičům a citlivé informace řeší diskrétně. Rozdílný názor se řeší věcně se zaměřením na potřeby dítěte. Rodiče přinášejí důležité informace o dítěti, škola srozumitelně vysvětluje své postupy a společně lze hledat podpůrné kroky.",
+            },
+            {
+              id: "pojmy-spoluprace-rodiny-skoly",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Spolupráce rodiny a školy",
+                  definition:
+                    "Koordinovaná práce rodiny a školy v zájmu podpory dítěte.",
+                },
+                {
+                  term: "Vzájemný respekt",
+                  definition:
+                    "Uznání role rodiny i školy při výchově a vzdělávání dítěte.",
+                },
+                {
+                  term: "Srozumitelná komunikace",
+                  definition:
+                    "Pravidelná a jasná výměna informací mezi pedagogem a rodiči.",
+                },
+                {
+                  term: "Konkrétní pozorování",
+                  definition:
+                    "Popis skutečných projevů dítěte místo obecných nálepek.",
+                },
+                {
+                  term: "Diskrétnost",
+                  definition:
+                    "Citlivé zacházení s informacemi o dítěti a rodině.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt: "Proč má škola spolupracovat s rodinou dítěte?",
+              choices: [
+                { id: "a", text: "Aby škola nemusela s rodiči komunikovat" },
+                {
+                  id: "b",
+                  text: "Aby spolupráce podporovala dítě",
+                },
+                { id: "c", text: "Aby rodiče nahradili pedagogy ve třídě" },
+                { id: "d", text: "Aby se dítě izolovalo od rodiny" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Spolupráce rodiny a školy má podporovat dítě. Nejde o izolaci dítěte ani o nahrazení role pedagoga rodiči.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič má jiný názor na výchovu než učitelka, ale oba chtějí dítěti pomoci. Co je základem jejich spolupráce?",
+              choices: [
+                { id: "a", text: "Veřejné kritizování rodiče před ostatními" },
+                { id: "b", text: "Ignorování názoru druhé strany" },
+                {
+                  id: "c",
+                  text: "Vzájemný respekt",
+                },
+                { id: "d", text: "Přerušení veškerého kontaktu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Základem spolupráce rodiny a školy je vzájemný respekt. Kritika nebo ignorování názoru druhé strany spolupráci nerozvíjí.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka pravidelně informuje rodiče o dění ve třídě jasně a srozumitelně. Co tím podporuje?",
+              choices: [
+                { id: "a", text: "Pouze školní administrativu" },
+                { id: "b", text: "Tajné hodnocení bez vysvětlení" },
+                { id: "c", text: "Izolaci rodičů od školky" },
+                {
+                  id: "d",
+                  text: "Pravidelnou a srozumitelnou komunikaci",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Důležitá je pravidelná a srozumitelná komunikace mezi školou a rodinou. Rodiče pak lépe chápou, co se ve školce děje.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Na schůzce s rodiči učitelka říká: „Dítě dnes po obědě třikrát přerušilo kamaráda při vyprávění.“ Co je vhodný přístup?",
+              choices: [
+                { id: "a", text: "Říct rodičům, že dítě je „neposlušné“" },
+                {
+                  id: "b",
+                  text: "Sdělit konkrétní pozorování místo nálepky",
+                },
+                { id: "c", text: "Mluvit jen obecně bez příkladu" },
+                { id: "d", text: "Informaci zatajit" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog má sdělovat konkrétní pozorování, ne nálepky. Popis konkrétní situace pomáhá rodičům lépe porozumět a společně hledat řešení.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič vypráví o domácí situaci a učitelka klade doplňující otázky bez přerušování. Co tím projevuje?",
+              choices: [
+                { id: "a", text: "Aktivní naslouchání rodičům" },
+                { id: "b", text: "Ignorování rodiče" },
+                { id: "c", text: "Okamžité odsouzení rodiny" },
+                { id: "d", text: "Ukončení spolupráce" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog má aktivně naslouchat rodičům. Naslouchání a doplňující otázky pomáhají porozumět situaci dítěte.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka řeší citlivé informace o rodině dítěte jen s dotčenými osobami v klidu, ne před ostatními rodiči. Co respektuje?",
+              choices: [
+                { id: "a", text: "Veřejné šíření informací" },
+                { id: "b", text: "Diskrétnost" },
+                { id: "c", text: "Srovnávání rodin před třídou" },
+                { id: "d", text: "Ignorování rodičů" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Citlivé informace se řeší diskrétně. Ochrana soukromí rodiny je součástí odborné spolupráce.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič nesouhlasí s postupem učitelky při řešení konfliktu dětí. Jak má učitelka reagovat?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Věcně řešit rozdílný názor se zaměřením na potřeby dítěte",
+                },
+                { id: "b", text: "Okamžitě ukončit spolupráci" },
+                { id: "c", text: "Veřejně kritizovat rodiče" },
+                { id: "d", text: "Ignorovat názor rodiče" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Rozdílný názor se řeší věcně a se zaměřením na potřeby dítěte. Cílem není vyhrát spor, ale najít podporu pro dítě.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič informuje učitelku, že dítě doma špatně spí a ráno bývá unavené. Proč je tato informace důležitá?",
+              choices: [
+                { id: "a", text: "Rodiče nemají co sdělit škole" },
+                { id: "b", text: "Škola nepotřebuje informace z domova" },
+                {
+                  id: "c",
+                  text: "Rodiče mohou přinášet důležité informace o dítěti",
+                },
+                { id: "d", text: "Informace z domova jsou vždy nepravdivé" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Rodiče mohou přinášet důležité informace o dítěti, které škola sama nevidí. Spolupráce na tom staví.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič se ptá, proč školka používá určitý způsob řešení konfliktů mezi dětmi. Co má učitelka udělat?",
+              choices: [
+                { id: "a", text: "Odmítnout odpověď bez vysvětlení" },
+                { id: "b", text: "Sdělit jen obecnou nálepku" },
+                { id: "c", text: "Ignorovat dotaz rodiče" },
+                {
+                  id: "d",
+                  text: "Srozumitelně vysvětlit postupy školy",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Škola má rodičům srozumitelně vysvětlovat své postupy. Rodič pak lépe chápe, proč školka jedná určitým způsobem.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "spoluprace-rodiny-a-skoly",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "spoluprace-rodiny-a-skoly",
+              type: "multiple-choice",
+              prompt:
+                "Dítě má ve školce i doma potíže s přechody mezi činnostmi. Učitelka s rodiči domluví společné kroky podpory. Co to ukazuje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Společné hledání podpůrných kroků",
+                },
+                { id: "b", text: "Ukončení spolupráce" },
+                { id: "c", text: "Přenesení veškeré odpovědnosti jen na rodiče" },
+                { id: "d", text: "Ignorování potřeb dítěte" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Spolupráce může zahrnovat společné hledání podpůrných kroků. Rodina a škola spolu hledají, co dítěti pomůže.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "socialni-znevyhodneni-a-rovne-prilezitosti",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Sociální znevýhodnění a rovné příležitosti",
+          summary:
+            "Sociální znevýhodnění, rovné příležitosti a individuální podpora podle potřeb dítěte.",
+          order: 5,
+          studySections: [
+            {
+              id: "vysvetleni-socialni-znevyhodneni",
+              type: "explanation",
+              title: "Sociální znevýhodnění a rovné příležitosti",
+              body:
+                "Sociální znevýhodnění může souviset s podmínkami, ve kterých dítě vyrůstá — s omezeným přístupem ke vzdělávacím příležitostem, nedostatkem materiálního zázemí, jazykovou nebo kulturní odlišností či nestabilním rodinným prostředím. Rovná příležitost neznamená vždy stejnou podporu pro všechny; některé děti potřebují odlišnou míru nebo formu podpory. Pedagog vychází z konkrétních potřeb dítěte, neposuzuje je podle předsudků a cílem podpory je umožnit zapojení a rozvoj.",
+            },
+            {
+              id: "pojmy-socialni-znevyhodneni",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Sociální znevýhodnění",
+                  definition:
+                    "Obtížnější podmínky pro rozvoj dítěte související s jeho životním prostředím.",
+                },
+                {
+                  term: "Rovné příležitosti",
+                  definition:
+                    "Možnost zapojení a rozvoje bez diskriminace podle předsudků.",
+                },
+                {
+                  term: "Individuální podpora",
+                  definition:
+                    "Podpora přizpůsobená konkrétním potřebám dítěte.",
+                },
+                {
+                  term: "Kulturní odlišnost",
+                  definition:
+                    "Rozdíly ve zvycích a prostředí, ze kterého dítě pochází.",
+                },
+                {
+                  term: "Předsudek",
+                  definition:
+                    "Předem vytvořený negativní názor bez znalosti konkrétní situace dítěte.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt: "Co znamená sociální znevýhodnění v pedagogickém kontextu?",
+              choices: [
+                { id: "a", text: "Automaticky nízké schopnosti dítěte" },
+                {
+                  id: "b",
+                  text: "Obtížnější podmínky související s prostředím, ve kterém dítě vyrůstá",
+                },
+                { id: "c", text: "Pouze špatné chování dítěte" },
+                { id: "d", text: "Diagnózu, kterou stanoví učitel" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální znevýhodnění souvisí s podmínkami, ve kterých dítě vyrůstá. Nejde automaticky o nízké schopnosti ani o diagnózu pedagoga.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Dítě nemá doma dostatek podnětů pro přípravu na školní aktivity. Co může být projevem sociálního znevýhodnění?",
+              choices: [
+                { id: "a", text: "Vždy nízká inteligence dítěte" },
+                { id: "b", text: "Pouze špatná vůle dítěte" },
+                {
+                  id: "c",
+                  text: "Omezený přístup ke vzdělávacím příležitostem",
+                },
+                { id: "d", text: "Nezájem školy o dítě" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Sociální znevýhodnění se může projevit omezeným přístupem ke vzdělávacím příležitostem. Nejde automaticky o schopnosti nebo vůli dítěte.",
+              order: 2,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Dítě nemá doma vlastní pracovní koutek ani dostatek pomůcek pro tvoření. S čím to může souviset?",
+              choices: [
+                { id: "a", text: "Pouze s leností dítěte" },
+                { id: "b", text: "S nedostatkem materiálního zázemí" },
+                { id: "c", text: "S diagnózou stanovenou učitelem" },
+                {
+                  id: "d",
+                  text: "S tím, že dítě nechce tvořit",
+                },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální znevýhodnění může souviset s nedostatkem materiálního zázemí. Pedagog to zohledňuje, aniž by dítě automaticky považoval za méně schopné.",
+              order: 3,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Dítě přichází z rodiny s jiným mateřským jazykem a zvyky než většina ve třídě. Jak to pedagog správně chápe?",
+              choices: [
+                { id: "a", text: "Jako automatický problém dítěte" },
+                {
+                  id: "b",
+                  text: "Jako jazykovou a kulturní odlišnost, kterou lze respektovat a podpořit",
+                },
+                { id: "c", text: "Jako důvod k vyloučení ze skupiny" },
+                { id: "d", text: "Jako důkaz nízkých schopností" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Znevýhodnění může souviset s jazykovou nebo kulturní odlišností. Odlišnost sama o sobě není problém — důležitá je podpora zapojení dítěte.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Dítě často mění bydliště a domácí režim je nestálý. S čím to může souviset v kontextu sociálního znevýhodnění?",
+              choices: [
+                { id: "a", text: "Pouze s biologickým věkem dítěte" },
+                { id: "b", text: "S nestabilním rodinným prostředím" },
+                { id: "c", text: "S tím, že dítě nechce chodit do školky" },
+                { id: "d", text: "S diagnózou učitele" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální znevýhodnění může souviset s nestabilním rodinným prostředím. Pedagog to bere v úvahu při podpoře dítěte, ne jako důkaz jeho schopností.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka říká: „Všem dětem dám úplně stejnou podporu bez ohledu na jejich situaci.“ Co je na tom problematické?",
+              choices: [
+                { id: "a", text: "Rovná příležitost vždy znamená stejnou podporu" },
+                { id: "b", text: "Podpora nikdy nemá být individuální" },
+                {
+                  id: "c",
+                  text: "Rovná příležitost neznamená vždy stejnou podporu pro všechny",
+                },
+                { id: "d", text: "Děti nikdy nepotřebují odlišnou pomoc" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Rovná příležitost neznamená vždy stejnou podporu pro všechny. Některé děti potřebují odlišnou míru nebo formu podpory, aby se mohly rovnocenně zapojit.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Dítě potřebuje více času a pomoc při zapojení do skupinové hry než ostatní. Co to ukazuje?",
+              choices: [
+                { id: "a", text: "Že rovnost znamená stejnou podporu všem" },
+                {
+                  id: "b",
+                  text: "Že některé děti potřebují odlišnou míru nebo formu podpory",
+                },
+                { id: "c", text: "Že dítě nemá být ve skupině" },
+                { id: "d", text: "Že podpora je vždy zbytečná" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Některé děti potřebují odlišnou míru nebo formu podpory. Cílem je umožnit zapojení, ne všem dát naprosto stejnou pomoc bez ohledu na potřeby.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka zjišťuje, co konkrétně dítěti ve školce pomáhá a co mu brání v zapojení. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Posuzování podle předsudků" },
+                { id: "b", text: "Ignorování potřeb dítěte" },
+                {
+                  id: "c",
+                  text: "Vycházení z konkrétních potřeb dítěte",
+                },
+                { id: "d", text: "Srovnávání s jinými dětmi před třídou" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pedagog má vycházet z konkrétních potřeb dítěte. Podpora se opírá o pozorování a porozumění situaci dítěte, ne o předsudky.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka se vyhýbá předem vytvořeným názorům o dětech z určitého prostředí a posuzuje každé dítě podle jeho projevů. Co tím respektuje?",
+              choices: [
+                { id: "a", text: "Předsudky jako běžný postup" },
+                { id: "b", text: "Veřejné srovnávání dětí" },
+                { id: "c", text: "Diagnostikování rodiny" },
+                {
+                  id: "d",
+                  text: "Neposuzování dítěte podle předsudků",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Pedagog nemá dítě posuzovat podle předsudků. Každé dítě hodnotí podle konkrétních projevů a potřeb, ne podle obecných předpokladů.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-znevyhodneni-a-rovne-prilezitosti",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-znevyhodneni-a-rovne-prilezitosti",
+              type: "multiple-choice",
+              prompt: "Jaký je cíl podpory dítěte v kontextu rovných příležitostí?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Umožnit dítěti zapojení a rozvoj",
+                },
+                { id: "b", text: "Izolovat dítě od ostatních" },
+                { id: "c", text: "Srovnávat děti veřejně" },
+                { id: "d", text: "Omezit přístup ke vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Cílem podpory je umožnit dítěti zapojení a rozvoj. Podpora má otevírat příležitosti, ne dítě vylučovat nebo omezovat.",
+              order: 10,
+              difficulty: "easy",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "prevence-rizikoveho-chovani",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Prevence rizikového chování",
+          summary:
+            "Prevence rizikového chování, ochranné faktory, kompetence pedagoga a dlouhodobá podpora dětí.",
+          order: 6,
+          studySections: [
+            {
+              id: "vysvetleni-prevence-rizikoveho-chovani",
+              type: "explanation",
+              title: "Prevence rizikového chování",
+              body:
+                "Prevence má předcházet vzniku nebo rozvoji problémů. Primární prevence je zaměřena na všechny děti před vznikem problému. Včasné rozpoznání varovných signálů umožňuje dřívější podporu. Bezpečné a přijímající prostředí, jasná pravidla a důvěryhodný vztah s dospělým jsou významnými ochrannými faktory. Sociální dovednosti a smysluplné trávení volného času mohou působit preventivně. Pedagog řeší konkrétní projevy, ne dítě nálepkuje, při závažné situaci nejedná sám mimo své kompetence a spolupracuje s rodinou, školou a dalšími odborníky. Prevence má být dlouhodobá a soustavná.",
+            },
+            {
+              id: "pojmy-prevence-rizikoveho-chovani",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Prevence",
+                  definition:
+                    "Předcházení vzniku nebo rozvoji problémů v chování dítěte.",
+                },
+                {
+                  term: "Primární prevence",
+                  definition:
+                    "Preventivní opatření zaměřená na všechny děti před vznikem problému.",
+                },
+                {
+                  term: "Ochranný faktor",
+                  definition:
+                    "Podmínka nebo vztah, který snižuje riziko problémů.",
+                },
+                {
+                  term: "Varovný signál",
+                  definition:
+                    "Projev, který může upozornit na potřebu dřívější podpory.",
+                },
+                {
+                  term: "Mezioborová spolupráce",
+                  definition:
+                    "Spolupráce školy, rodiny a dalších odborníků při podpoře dítěte.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt: "Co je hlavním smyslem prevence rizikového chování?",
+              choices: [
+                { id: "a", text: "Trestat děti za každé pochybení" },
+                {
+                  id: "b",
+                  text: "Předcházet vzniku nebo rozvoji problémů",
+                },
+                { id: "c", text: "Řešit problémy až po jejich zhoršení" },
+                { id: "d", text: "Nálepkovat děti předem" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Prevence má předcházet vzniku nebo rozvoji problémů. Nejde o trestání ani o čekání, až situace eskaluje.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Školka pravidelně podporuje spolupráci ve skupině a respektující chování u všech dětí, i když zatím nemají problémy. O jakou prevenci jde?",
+              choices: [
+                { id: "a", text: "O náhodnou jednorázovou akci" },
+                { id: "b", text: "O trestání vybraných dětí" },
+                {
+                  id: "c",
+                  text: "O primární prevenci zaměřenou na všechny děti",
+                },
+                { id: "d", text: "O řešení až po vzniku závažného problému" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Primární prevence je zaměřena na všechny děti před vznikem problému. Podpora spolupráce a respektu ve skupině je preventivní opatření pro celou třídu.",
+              order: 2,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka si všimne, že dítě se častěji stahuje ze skupiny a reaguje podrážděně. Co je vhodný preventivní postup?",
+              choices: [
+                { id: "a", text: "Ignorovat změnu chování" },
+                { id: "b", text: "Okamžitě dítě nálepkovat" },
+                { id: "c", text: "Počkat, až situace eskaluje" },
+                {
+                  id: "d",
+                  text: "Včas rozpoznat varovné signály a nabídnout dřívější podporu",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Včasné rozpoznání varovných signálů umožňuje dřívější podporu. Ignorování změn nebo čekání na zhoršení prevenci nenaplňuje.",
+              order: 3,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě je klidná atmosféra, děti se cítí přijímané a mohou se obrátit na dospělého. Co to představuje?",
+              choices: [
+                { id: "a", text: "Pouze dekoraci třídy" },
+                {
+                  id: "b",
+                  text: "Bezpečné a přijímající prostředí jako ochranný faktor",
+                },
+                { id: "c", text: "Důvod k uvolnění všech pravidel" },
+                { id: "d", text: "Překážku prevence" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Bezpečné a přijímající prostředí je významným ochranným faktorem. Dítě se v něm cítí jistěji a může lépe řešit obtíže.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Děti ve školce znají pravidla pro hru, odchod domů i řešení konfliktů. Jak pravidla pomáhají v prevenci?",
+              choices: [
+                { id: "a", text: "Jen ztěžují život dětem" },
+                { id: "b", text: "Podporují bezpečí a předvídatelnost" },
+                { id: "c", text: "Nemají žádný význam" },
+                { id: "d", text: "Slouží pouze k trestání" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Jasná pravidla podporují bezpečí a předvídatelnost. Dítě ví, co se očekává, a cítí se jistěji ve skupině.",
+              order: 5,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se svěří učitelce, že ho ve skupině něco trápí. Co takový vztah podporuje?",
+              choices: [
+                { id: "a", text: "Izolaci dítěte" },
+                { id: "b", text: "Nálepkování dítěte" },
+                {
+                  id: "c",
+                  text: "Možnost dítěte vyhledat pomoc u důvěryhodného dospělého",
+                },
+                { id: "d", text: "Ignorování problému" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Důvěryhodný vztah s dospělým podporuje možnost dítěte vyhledat pomoc. Dítě se nemusí bát obrátit na někoho, komu věří.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Ve školce děti trénují domlouvání se, čekání na řadu a spolupráci při hrách. Co tím rozvíjejí?",
+              choices: [
+                { id: "a", text: "Pouze paměťové schopnosti" },
+                {
+                  id: "b",
+                  text: "Sociální dovednosti pro řešení konfliktů a spolupráci",
+                },
+                { id: "c", text: "Jen výtvarné dovednosti" },
+                { id: "d", text: "Schopnost vyhýbat se ostatním" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální dovednosti pomáhají řešit konflikty a spolupracovat. Jejich rozvoj může působit preventivně proti rizikovému chování.",
+              order: 7,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Školka nabízí dětem zajímavé aktivity v době, kdy by jinak jen čekaly bez podnětů. Jak to může působit?",
+              choices: [
+                { id: "a", text: "Jen jako zbytečná zátěž" },
+                { id: "b", text: "Jako překážka rozvoje" },
+                { id: "c", text: "Jako důvod k nálepkování dětí" },
+                {
+                  id: "d",
+                  text: "Preventivně díky smysluplnému trávení volného času",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Smysluplné trávení volného času může působit preventivně. Dítě má podněty a strukturu, které mohou snižovat riziko nežádoucího chování.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka popisuje rodičům konkrétní situaci, kdy dítě narušilo hru, místo aby řekla, že je „problémové“. Co tím respektuje?",
+              choices: [
+                { id: "a", text: "Nálepkování dítěte" },
+                {
+                  id: "b",
+                  text: "Řešení konkrétních projevů místo nálepkování",
+                },
+                { id: "c", text: "Ignorování chování" },
+                { id: "d", text: "Veřejné ponižování dítěte" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog má řešit konkrétní projevy, ne dítě nálepkovat. Popis situace pomáhá najít podporu, obecná nálepka dítě poškozuje.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka zjistí závažnou situaci, která přesahuje její možnosti. Co má udělat?",
+              choices: [
+                { id: "a", text: "Jednat sama mimo své kompetence" },
+                { id: "b", text: "Situaci zatajit" },
+                { id: "c", text: "Ignorovat závažnost situace" },
+                {
+                  id: "d",
+                  text: "Nehnat se jednat sám a vyhledat odbornou pomoc",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Při závažné situaci nemá pedagog jednat sám mimo své kompetence. Má vyhledat vhodnou odbornou pomoc a spolupracovat s dalšími.",
+              order: 10,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka domlouvá postup s rodiči a poradenským pracovištěm kvůli podpoře dítěte. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Práci bez kontaktu s rodinou" },
+                {
+                  id: "b",
+                  text: "Spolupráci rodiny, školy a dalších odborníků",
+                },
+                { id: "c", text: "Izolaci dítěte od pomoci" },
+                { id: "d", text: "Jednání jen ve vlastním zájmu školy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Důležitá je spolupráce rodiny, školy a dalších odborníků. Prevence a podpora jsou účinnější, když spolupracují více stran.",
+              order: 11,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "prevence-rizikoveho-chovani",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "prevence-rizikoveho-chovani",
+              type: "multiple-choice",
+              prompt:
+                "Školka po celý rok podporuje pravidla, vztahy a aktivity pro všechny děti, ne jen jednorázovou kampaň. Co to ukazuje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Dlouhodobou a soustavnou prevenci",
+                },
+                { id: "b", text: "Jednorázovou akci bez následku" },
+                { id: "c", text: "Konec preventivní práce" },
+                { id: "d", text: "Pouze reakci po problému" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Prevence má být dlouhodobá a soustavná, ne jednorázová. Pravidelná podpora prostředí a vztahů má větší přínos než ojedinělá akce.",
+              order: 12,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
