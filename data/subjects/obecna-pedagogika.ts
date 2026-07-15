@@ -2173,12 +2173,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Komu mělo podle Komenského patřit vzdělávání?",
               choices: [
-                { id: "a", text: "Všem lidem" },
-                { id: "b", text: "Pouze vybrané vrstvě" },
+                { id: "a", text: "Pouze vybrané vrstvě" },
+                { id: "b", text: "Všem lidem" },
                 { id: "c", text: "Nikomu — škola je zbytečná" },
                 { id: "d", text: "Jen dospělým bez dětí" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Komenský prosazoval všeobecné vzdělávání — vzdělání má být dostupné všem, ne jen úzké skupině.",
               order: 1,
@@ -2198,12 +2198,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co znamená přiměřenost výuky podle Komenského?",
               choices: [
-                { id: "a", text: "Přizpůsobení věku a možnostem žáka" },
-                { id: "b", text: "Stejný obsah pro všechny bez ohledu na věk" },
-                { id: "c", text: "Výuka jen pro dospělé" },
+                { id: "a", text: "Stejný obsah pro všechny bez ohledu na věk" },
+                { id: "b", text: "Výuka jen pro dospělé" },
+                { id: "c", text: "Přizpůsobení věku a možnostem žáka" },
                 { id: "d", text: "Náhodný výběr témat" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Přiměřenost znamená, že výuka odpovídá věku a schopnostem dítěte. Stejný obsah pro všechny bez ohledu na vývoj tomu odporuje.",
               order: 2,
@@ -2222,15 +2222,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co je názorné učení podle Komenského?",
               choices: [
+                { id: "a", text: "Jen čtení abstraktních textů" },
+                { id: "b", text: "Učení bez kontaktu se skutečností" },
+                { id: "c", text: "Výhradně opakování bez pozorování" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Učení pozorováním, obrazy, předměty a zkušeností",
                 },
-                { id: "b", text: "Jen čtení abstraktních textů" },
-                { id: "c", text: "Výhradně trestání žáků" },
-                { id: "d", text: "Učení bez kontaktu se skutečností" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Názornost využívá přímé pozorování, obrazy a předměty, aby dítě pochopilo látku konkrétně. Abstraktní výklad bez zkušenosti jí neodpovídá.",
               order: 3,
@@ -2250,12 +2250,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jakým směrem má podle Komenského postupovat učení?",
               choices: [
-                { id: "a", text: "Od jednoduchého ke složitému" },
-                { id: "b", text: "Od nejtěžšího k nejjednoduššímu" },
+                { id: "a", text: "Od nejtěžšího k nejjednoduššímu" },
+                { id: "b", text: "Od jednoduchého ke složitému" },
                 { id: "c", text: "Bez jakéhokoli pořadí" },
                 { id: "d", text: "Jen náhodným skákáním mezi tématy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Komenský zdůrazňuje systematičnost — nejprve jednodušší podklady, poté složitější látky. Začínat nejtěžším nebo chaoticky brání porozumění.",
               order: 4,
@@ -2278,7 +2278,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Od známého k neznámému" },
                 { id: "b", text: "Od úplně cizího bez návaznosti" },
                 { id: "c", text: "Jen z náhodných příkladů" },
-                { id: "d", text: "Výhradně z trestů" },
+                { id: "d", text: "Výhradně z hotových pouček bez vazby" },
               ],
               correctChoiceId: "a",
               explanation:
@@ -2300,12 +2300,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak má podle Komenského souviset školní učení s životem?",
               choices: [
-                { id: "a", text: "Má být spojeno s reálným životem" },
-                { id: "b", text: "Má být odděleno od praxe" },
-                { id: "c", text: "Má být jen teoretické bez využití" },
+                { id: "a", text: "Má být odděleno od praxe" },
+                { id: "b", text: "Má být jen teoretické bez využití" },
+                { id: "c", text: "Má být spojeno s reálným životem" },
                 { id: "d", text: "Nemá mít žádný smysl" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Komenský chce, aby se v škole učilo to, co má význam v životě. Oddělení školy od reality odporuje jeho pojetí vzdělávání.",
               order: 6,
@@ -2324,12 +2324,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Jaký postoj měl Komenský k mateřskému jazyku?",
               choices: [
-                { id: "a", text: "Cenil ho ve výchově a učení" },
-                { id: "b", text: "Považoval ho za zbytečný" },
-                { id: "c", text: "Zakazoval ho ve škole" },
-                { id: "d", text: "Nevěnoval mu pozornost" },
+                { id: "a", text: "Považoval ho za zbytečný" },
+                { id: "b", text: "Zakazoval ho ve škole" },
+                { id: "c", text: "Nevěnoval mu pozornost" },
+                { id: "d", text: "Cenil ho ve výchově a učení" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Komenský zdůrazňoval význam mateřského jazyka pro přirozené učení. Odmítání nebo ignorování mateřštiny jeho pojetí nevyjadřuje.",
               order: 7,
@@ -2348,15 +2348,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co Komenský odmítal ve výuce?",
               choices: [
+                { id: "a", text: "Názorné pomůcky" },
                 {
-                  id: "a",
+                  id: "b",
                   text: "Bezmyšlenkovité memorování a nevhodné tresty",
                 },
-                { id: "b", text: "Názorné pomůcky" },
                 { id: "c", text: "Přiměřenost věku" },
                 { id: "d", text: "Všeobecné vzdělávání" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Komenský kritizoval učení nazpaměť bez porozumění a tresty, které nevedou k rozvoji. Názornost, přiměřenost a všeobecné vzdělávání naopak podporoval.",
               order: 8,
@@ -2374,22 +2374,16 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "jan-amos-komensky",
               type: "multiple-choice",
               prompt:
-                "Která díla patří mezi Komenského díla v základním rozsahu?",
+                "Které dílo je Komenského spis o výchově a vyučování?",
               choices: [
-                {
-                  id: "a",
-                  text: "Velká didaktika, Informatorium školy mateřské, Svět v obrazech, Brána jazyků otevřená",
-                },
-                {
-                  id: "b",
-                  text: "Jen anonymní učebnice bez autora",
-                },
-                { id: "c", text: "Pouze moderní internetové články" },
-                { id: "d", text: "Žádná z uvedených děl" },
+                { id: "a", text: "Svět v obrazech" },
+                { id: "b", text: "Informatorium školy mateřské" },
+                { id: "c", text: "Velká didaktika" },
+                { id: "d", text: "Jiný pedagogický spis" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
-                "Mezi Komenského významná díla patří Velká didaktika, Informatorium školy mateřské, Svět v obrazech a Brána jazyků otevřená. Ostatní možnosti neodpovídají tomuto výčtu.",
+                "Mezi Komenského významná díla v základním rozsahu patří Velká didaktika, Informatorium školy mateřské, Svět v obrazech a Brána jazyků otevřená. Velká didaktika se věnuje výchově a vyučování; ostatní díla mají jiné zaměření.",
               order: 9,
               difficulty: "medium",
             },
@@ -2804,12 +2798,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Na co reformní pedagogika reagovala u žáků?",
               choices: [
-                { id: "a", text: "Na pasivitu žáků" },
-                { id: "b", text: "Na přílišnou aktivitu bez školy" },
+                { id: "a", text: "Na přílišnou aktivitu bez školy" },
+                { id: "b", text: "Na pasivitu žáků" },
                 { id: "c", text: "Na úplný zákaz učení" },
                 { id: "d", text: "Na neexistenci vzdělávání" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Reformní pedagogika kritizovala pasivní roli žáka, který jen přijímá hotové poznatky. Cílem je aktivnější zapojení dítěte.",
               order: 1,
@@ -2829,12 +2823,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co reformní pedagogika kritizovala ve způsobu učení?",
               choices: [
-                { id: "a", text: "Mechanické memorování" },
-                { id: "b", text: "Přílišné chápání látky" },
-                { id: "c", text: "Respekt k zkušenosti dítěte" },
+                { id: "a", text: "Přílišné chápání látky" },
+                { id: "b", text: "Respekt k zkušenosti dítěte" },
+                { id: "c", text: "Mechanické memorování" },
                 { id: "d", text: "Samostatnou činnost žáka" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Mechanické memorování bez porozumění bylo jedním z problémů tradiční školy. Reformní přístupy kladou důraz na smysluplné učení.",
               order: 2,
@@ -2854,12 +2848,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co reformní pedagogika kritizovala ve vztahu školy a žáka?",
               choices: [
-                { id: "a", text: "Přílišnou autoritativnost školy" },
-                { id: "b", text: "Přílišný respekt k dítěti" },
-                { id: "c", text: "Nedostatek pravidel" },
-                { id: "d", text: "Zájem o individuální potřeby" },
+                { id: "a", text: "Přílišný respekt k dítěti" },
+                { id: "b", text: "Nedostatek pravidel" },
+                { id: "c", text: "Zájem o individuální potřeby" },
+                { id: "d", text: "Přílišnou autoritativnost školy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Reformní pedagogika odmítala přílišnou autoritativnost, kdy škola jednostranně rozhoduje bez respektu k dítěti. Respekt k potřebám je naopak její zásadou.",
               order: 3,
@@ -2904,12 +2898,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Pedagožka přizpůsobuje tempo a podporu podle potřeb jednotlivých dětí ve skupině. Který reformní princip uplatňuje?",
               choices: [
-                { id: "a", text: "Respekt k individuálním potřebám" },
-                { id: "b", text: "Jednotný postup pro všechny bez rozdílu" },
-                { id: "c", text: "Ignorování rozdílů mezi dětmi" },
+                { id: "a", text: "Jednotný postup pro všechny bez rozdílu" },
+                { id: "b", text: "Ignorování rozdílů mezi dětmi" },
+                { id: "c", text: "Respekt k individuálním potřebám" },
                 { id: "d", text: "Pasivní memorování" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Reformní přístupy respektují individuální potřeby a tempo dítěte. Stejný postup bez ohledu na dítě jim odporuje.",
               order: 5,
@@ -2929,12 +2923,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti ve školce zkoumají vodu při přímé činnosti a pozorování. Co je zde důležité?",
               choices: [
-                { id: "a", text: "Vlastní zkušenost dítěte" },
-                { id: "b", text: "Jen předčítání bez činnosti" },
-                { id: "c", text: "Výhradně autoritativní výklad" },
-                { id: "d", text: "Zákaz jakékoli aktivity" },
+                { id: "a", text: "Jen předčítání bez činnosti" },
+                { id: "b", text: "Výhradně autoritativní výklad" },
+                { id: "c", text: "Zákaz jakékoli aktivity" },
+                { id: "d", text: "Vlastní zkušenost dítěte" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Reformní pedagogika zdůrazňuje zkušenost z vlastní činnosti. Učení bez prožitku a aktivity je opakem tohoto principu.",
               order: 6,
@@ -2954,12 +2948,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě si samo volí úkol v rámci nabídky a pracuje na něm bez neustálého vedení. Který reformní důraz je patrný?",
               choices: [
-                { id: "a", text: "Samostatnost a vlastní činnost" },
-                { id: "b", text: "Pasivní poslouchání" },
+                { id: "a", text: "Pasivní poslouchání" },
+                { id: "b", text: "Samostatnost a vlastní činnost" },
                 { id: "c", text: "Mechanické opakování" },
                 { id: "d", text: "Úplná závislost na učiteli" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Samostatnost a vlastní činnost jsou pro reformní pedagogiku typické. Neustálá závislost na autoritě učitele jim neodpovídá.",
               order: 7,
@@ -2977,19 +2971,28 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "reformni-pedagogika",
               type: "multiple-choice",
               prompt:
-                "Které směry patří mezi sledované reformní pedagogiky?",
+                "Který výčet reformních směrů je úplný podle sledovaného základu?",
               choices: [
                 {
                   id: "a",
-                  text: "Montessori, waldorfská pedagogika, Daltonský a Jenský plán",
+                  text: "Montessori, memorování, kázeň, autorita",
                 },
-                { id: "b", text: "Jen tradiční memorování bez změny" },
-                { id: "c", text: "Pouze vojenská kázeň" },
-                { id: "d", text: "Žádný z reformních směrů" },
+                {
+                  id: "b",
+                  text: "Waldorf, přednášení, testy, izolace",
+                },
+                {
+                  id: "c",
+                  text: "Montessori, Waldorf, Dalton, Jenský plán",
+                },
+                {
+                  id: "d",
+                  text: "Dalton, memorování, testy, přednášení",
+                },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
-                "Mezi reformní směry patří Montessori pedagogika, waldorfská pedagogika, Daltonský plán a Jenský plán. Tradiční memorování není reformní směr.",
+                "Mezi reformní směry patří Montessori pedagogika, waldorfská pedagogika, Daltonský plán a Jenský plán. Neúplné nebo tradiční výčty nereprezentují sledovaný základ.",
               order: 8,
               difficulty: "medium",
             },
@@ -3005,19 +3008,19 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               lessonId: "reformni-pedagogika",
               type: "multiple-choice",
               prompt:
-                "Které přístupy patří do sledovaného reformního kontextu?",
+                "Děti ve třídě společně řeší úkol na téma svého okolí: plánují postup, pracují v činnosti, sdílejí zkušenosti a spolupracují. K jakému reformnímu kontextu to spadá?",
               choices: [
+                { id: "a", text: "Pouze autoritativní přednášení bez činnosti" },
+                { id: "b", text: "Jen izolované memorování pojmů" },
                 {
-                  id: "a",
-                  text: "Projektové vyučování a pragmatická pedagogika Johna Deweyho",
+                  id: "c",
+                  text: "Projektové vyučování a pragmatická pedagogika",
                 },
-                { id: "b", text: "Pouze autoritativní přednášení" },
-                { id: "c", text: "Jen izolované memorování" },
-                { id: "d", text: "Žádný reformní přístup" },
+                { id: "d", text: "Pasivní poslouchání bez zkušenosti" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
-                "Projektové vyučování a pragmatická pedagogika Johna Deweyho patří mezi sledované reformní směry. Autoritativní přednášení bez aktivity je spíše kritizovaný model.",
+                "Smysluplný úkol řešený činností, spoluprací a zkušeností odpovídá projektovému vyučování a pragmatické pedagogice Johna Deweyho. Pasivní přednášení nebo memorování jsou opakem tohoto reformního kontextu.",
               order: 9,
               difficulty: "medium",
             },
@@ -3035,15 +3038,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Ředitelka zvažuje zavedení reformního přístupu v mateřské škole. Jak má postupovat odborně?",
               choices: [
+                { id: "a", text: "Zavést ho bez úvahy o kontextu" },
+                { id: "b", text: "Posuzovat jen podle módnosti" },
+                { id: "c", text: "Ignorovat potřeby dětí a týmu" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Posoudit přínosy, omezení a vhodnost pro praxi",
                 },
-                { id: "b", text: "Zavést ho bez úvahy o kontextu" },
-                { id: "c", text: "Posuzovat jen podle módnosti" },
-                { id: "d", text: "Ignorovat potřeby dětí a týmu" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Reformní směr je třeba hodnotit podle přínosů, omezení a možnosti využití v konkrétní praxi — například v mateřské škole. Bez reflexe kontextu hrozí nevhodné použití.",
               order: 10,
@@ -3739,19 +3742,19 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "historicky-vyvoj-a-soucasne-trendy",
               lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
               type: "multiple-choice",
-              prompt: "Co zahrnuje kurikulum?",
+              prompt: "Co zahrnuje kurikulum ve vzdělávání?",
               choices: [
+                { id: "a", text: "Pouze rozvrh hodin" },
+                { id: "b", text: "Jen seznam předmětů bez cílů" },
                 {
-                  id: "a",
-                  text: "Cíle, obsah, podmínky, průběh a výsledky vzdělávání",
+                  id: "c",
+                  text: "Cíle, obsah, podmínky, průběh a výsledky",
                 },
-                { id: "b", text: "Jen barvu školních učebnic" },
-                { id: "c", text: "Pouze rozvrh hodin" },
-                { id: "d", text: "Výhradně počet oken ve třídě" },
+                { id: "d", text: "Pouze závěrečné hodnocení" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
-                "Kurikulum je širší než jeden dokument — zahrnuje cíle, obsah, podmínky, průběh i výsledky vzdělávání. Organizační detaily samy o sobě kurikulum nenahrazují.",
+                "Kurikulum je širší než jeden dokument — zahrnuje cíle, obsah, podmínky, průběh i výsledky vzdělávání. Rozvrh, seznam předmětů nebo jen hodnocení kurikulum nenahrazují.",
               order: 1,
               difficulty: "easy",
             },
@@ -3768,12 +3771,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Jakou funkci má rámcový vzdělávací program?",
               choices: [
-                { id: "a", text: "Stanovuje obecný závazný rámec" },
-                { id: "b", text: "Nahrazuje práci každého pedagoga" },
+                { id: "a", text: "Nahrazuje práci každého pedagoga" },
+                { id: "b", text: "Stanovuje obecný závazný rámec" },
                 { id: "c", text: "Je jen nezávazný návrh bez vlivu" },
-                { id: "d", text: "Popisuje pouze školní jídelnu" },
+                { id: "d", text: "Popisuje pouze organizaci školní jídelny" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "RVP určuje obecný závazný rámec pro vzdělávání. Konkrétní týdenní plán jedné třídy připravuje pedagog v návaznosti na širší dokumenty.",
               order: 2,
@@ -3792,12 +3795,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Kdo vytváří školní vzdělávací program?",
               choices: [
-                { id: "a", text: "Konkrétní škola" },
-                { id: "b", text: "Každý žák sám" },
-                { id: "c", text: "Nikdo — ŠVP neexistuje" },
-                { id: "d", text: "Pouze rodiče bez školy" },
+                { id: "a", text: "Každý žák sám" },
+                { id: "b", text: "Nikdo — ŠVP neexistuje" },
+                { id: "c", text: "Pouze rodiče bez školy" },
+                { id: "d", text: "Konkrétní škola" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "ŠVP vytváří konkrétní škola podle svých podmínek a výcházejícího rámce. Nejde o individuální dokument každého žáka.",
               order: 3,
@@ -3816,12 +3819,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Jaký je vztah RVP a ŠVP?",
               choices: [
-                { id: "a", text: "ŠVP vychází z příslušného RVP" },
-                { id: "b", text: "RVP vychází ze ŠVP jedné třídy" },
+                { id: "a", text: "RVP vychází ze ŠVP jedné třídy" },
+                { id: "b", text: "ŠVP vychází z příslušného RVP" },
                 { id: "c", text: "Spolu nesouvisí" },
                 { id: "d", text: "Jsou vždy totéž" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Školní program navazuje na rámcový program — škola ho konkretizuje v rámci závazného rámce. RVP nestaví na ŠVP jednotlivé školy.",
               order: 4,
@@ -3841,12 +3844,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka sestavuje týdenní nabídku aktivit pro svou skupinu. Co je její úloha?",
               choices: [
-                { id: "a", text: "Připravit konkrétní vzdělávací nabídku a plán" },
-                { id: "b", text: "Ignorovat kurikulární dokumenty" },
-                { id: "c", text: "Pouze opisovat RVP bez plánování" },
+                { id: "a", text: "Ignorovat kurikulární dokumenty" },
+                { id: "b", text: "Pouze opisovat RVP bez plánování" },
+                {
+                  id: "c",
+                  text: "Připravit konkrétní vzdělávací nabídku a plán",
+                },
                 { id: "d", text: "Nemít žádnou roli v plánování" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Pedagog převádí rámec do konkrétní nabídky a plánu pro děti. Pasivní opisování dokumentů bez plánování praxi nenahrazuje.",
               order: 5,
@@ -3866,12 +3872,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Pedagožka upravuje plán podle zájmů dětí a možností školky. Co musí plán respektovat?",
               choices: [
-                { id: "a", text: "Potřeby dětí a podmínky školy" },
-                { id: "b", text: "Jen svůj osobní rozvrh bez ohledu na děti" },
-                { id: "c", text: "Pouze počasí mimo školu" },
-                { id: "d", text: "Náhodu bez vazby na realitu" },
+                { id: "a", text: "Jen svůj osobní rozvrh bez ohledu na děti" },
+                { id: "b", text: "Pouze náhodu bez vazby na realitu" },
+                { id: "c", text: "Výhradně počet pomůcek ve skladu" },
+                { id: "d", text: "Potřeby dětí a podmínky školy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Plán pedagoga musí vycházet z potřeb dětí a podmínek konkrétní školy. Ignorování dětí nebo reality prostředí plánování neodpovídá.",
               order: 6,
@@ -3888,14 +3894,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "historicky-vyvoj-a-soucasne-trendy",
               lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
               type: "multiple-choice",
-              prompt: "Co vyjadřuje vzdělávací cíl?",
+              prompt:
+                "V dokumentu je uvedeno, že děti mají umět spolupracovat při společné hře. Co popisuje tento záznam?",
               choices: [
-                { id: "a", text: "Čeho má být dosaženo" },
-                { id: "b", text: "Jen seznam pomůcek ve třídě" },
-                { id: "c", text: "Pouze rozvrh přestávek" },
+                { id: "a", text: "Seznam pomůcek ve třídě" },
+                { id: "b", text: "Rozvrh přestávek" },
+                { id: "c", text: "Vzdělávací cíl — čeho má být dosaženo" },
                 { id: "d", text: "Název školní budovy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Cíl říká, čeho chceme ve vzdělávání dosáhnout. Obsah určuje, čemu se učí, a očekávaný výsledek popisuje předpokládaný výsledek — nejde o totéž.",
               order: 7,
@@ -3912,12 +3919,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "historicky-vyvoj-a-soucasne-trendy",
               lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
               type: "multiple-choice",
-              prompt: "Co určuje vzdělávací obsah?",
+              prompt:
+                "Učitelka vybírá témata a aktivity, jimiž budou děti poznávat přírodu v okolí školky. Co stanovuje?",
               choices: [
-                { id: "a", text: "Čemu se dítě učí" },
-                { id: "b", text: "Jen barvu školního pláště" },
-                { id: "c", text: "Pouze počet zaměstnanců" },
-                { id: "d", text: "Výhradně délku školní chodby" },
+                { id: "a", text: "Vzdělávací obsah — čemu se dítě učí" },
+                { id: "b", text: "Jen organizační rozvrh bez obsahu" },
+                { id: "c", text: "Pouze konečné známky" },
+                { id: "d", text: "Název zřizovatele" },
               ],
               correctChoiceId: "a",
               explanation:
@@ -3936,14 +3944,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "historicky-vyvoj-a-soucasne-trendy",
               lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
               type: "multiple-choice",
-              prompt: "Co popisují očekávané výsledky vzdělávání?",
+              prompt:
+                "V programu je popsáno, že dítě po aktivitě dokáže pojmenovat základní části rostliny. Co tento popis vyjadřuje?",
               choices: [
-                { id: "a", text: "Předpokládaný výsledek vzdělávání" },
-                { id: "b", text: "Jen rozvrh hodin" },
+                { id: "a", text: "Rozvrh hodin" },
+                { id: "b", text: "Očekávaný výsledek vzdělávání" },
                 { id: "c", text: "Pouze školní adresu" },
                 { id: "d", text: "Náhodný seznam pomůcek" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Očekávané výsledky popisují, čeho by dítě mělo dosáhnout. Nejde o organizační údaje ani o cíl jako záměr — jde o předpokládaný výsledek učení.",
               order: 9,
@@ -3963,15 +3972,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka po projektu hodnotí, co se dětem dařilo a co upravit příště. K čemu slouží evaluace?",
               choices: [
+                { id: "a", text: "Jen k trestání dětí" },
+                { id: "b", text: "K zastavení dalšího plánování" },
                 {
-                  id: "a",
+                  id: "c",
                   text: "K posouzení průběhu a výsledků a ke zlepšení práce",
                 },
-                { id: "b", text: "Jen k trestání dětí" },
-                { id: "c", text: "K zastavení dalšího plánování" },
                 { id: "d", text: "K ignorování výsledků" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Evaluace posuzuje průběh a výsledky a pomáhá zlepšit další práci. Nejde o trest ani o konec reflexe — má podporovat rozvoj výuky.",
               order: 10,
