@@ -1162,6 +1162,1182 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "teorie-praxe-a-odborne-zdroje",
+          subjectId: "obecna-pedagogika",
+          unitId: "zakladni-pojmy",
+          title: "Teorie, praxe a odborné zdroje",
+          summary:
+            "Jak pedagogická teorie a praxe spolupracují při odborném rozhodování a jak pracovat s různými typy věrohodných zdrojů.",
+          order: 5,
+          studySections: [
+            {
+              id: "vysvetleni-teorie-praxe-zdroje",
+              type: "explanation",
+              title: "Teorie, praxe a odborné zdroje",
+              body:
+                "Pedagogická teorie vysvětluje výchovné jevy a vztahy mezi nimi, zobecňuje poznatky z více situací a podporuje odborné rozhodování. Pedagogická praxe řeší konkrétní výchovné situace v reálném prostředí. Teorie a praxe se vzájemně ovlivňují: teorie praxi vede, praxe teorii ověřuje a rozvíjí. Odborná rozhodnutí by neměla vycházet jen z intuice. Při práci se zdroji rozlišujeme učebnici, odborný článek, právní předpis a kurikulární dokument. Odborný zdroj se liší od populárně pojatého textu nebo neověřeného internetového tvrzení. Věrohodnost posuzujeme podle autorství, odbornosti, důkazů, vydavatele, data a ověřitelnosti. Správná práce se zdrojem znamená zaznamenat hlavní myšlenku a uvést zdroj — ne kopírovat text bez kontextu.",
+            },
+            {
+              id: "pojmy-teorie-praxe-zdroje",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Pedagogická teorie",
+                  definition:
+                    "Soustava poznatků vysvětlující výchovné jevy a podporující odborné rozhodování.",
+                },
+                {
+                  term: "Pedagogická praxe",
+                  definition:
+                    "Řešení konkrétních výchovných situací v reálném prostředí.",
+                },
+                {
+                  term: "Odborný zdroj",
+                  definition:
+                    "Text nebo dokument opřený o odbornost, důkazy a ověřitelnost.",
+                },
+                {
+                  term: "Věrohodnost zdroje",
+                  definition:
+                    "Míra důvěryhodnosti podle autorství, odbornosti, důkazů a kontextu vydání.",
+                },
+                {
+                  term: "Citace",
+                  definition:
+                    "Uvedení zdroje, ze kterého čerpáme myšlenku nebo informaci.",
+                },
+                {
+                  term: "Kritické posuzování informací",
+                  definition:
+                    "Prověřování tvrzení podle odbornosti, důkazů a ověřitelnosti.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka pozoruje, že po společné hře děti lépe spolupracují. Co může pedagogická teorie s takovým pozorováním udělat?",
+              choices: [
+                { id: "a", text: "Vysvětlit vztahy mezi výchovnými jevy" },
+                { id: "b", text: "Ignorovat souvislosti mezi jevy" },
+                { id: "c", text: "Nahradit veškerou praxi" },
+                { id: "d", text: "Zaměřit se jen na jednu náhodnou zkušenost" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Teorie pomáhá pochopit, proč se jevy vyskytují a jak spolu souvisí — například hra a spolupráce. Nejde o nahrazení praxe ani o izolovaný dojem z jedné situace.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Proč pedagogická teorie nebere závěr z jediné zkušenosti jedné třídy jako obecné pravidlo?",
+              choices: [
+                { id: "a", text: "Protože zobecňuje poznatky z více situací" },
+                { id: "b", text: "Protože praxe neexistuje" },
+                { id: "c", text: "Protože teorie je jen názor učitele" },
+                { id: "d", text: "Protože jedna třída stačí vždy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Teorie staví na opakovaných a srovnatelných zkušenostech z více situací, ne na jednom případě. Jedna třída může inspirovat, ale sama o sobě nepostačuje pro obecné závěry.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Pedagožka vybírá postup při opakovaném konfliktu ve třídě. Jak jí může teorie pomoci?",
+              choices: [
+                { id: "a", text: "Poskytne oporu pro odborné rozhodnutí" },
+                { id: "b", text: "Rozhodne za ni bez znalosti situace" },
+                { id: "c", text: "Nahradí pozorování dětí" },
+                { id: "d", text: "Zabrání jakékoli změně postupu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Teorie nabízí vysvětlení a ověřené poznatky, které podporují promyšlené rozhodnutí. Nenahrazuje znalost konkrétní třídy ani neznamená rigidní návod bez úvahy.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Dítě ve školce má záchvat pláče při příchodu rodiče. Která složka pedagogiky řeší tuto konkrétní situaci?",
+              choices: [
+                { id: "a", text: "Pedagogická praxe" },
+                { id: "b", text: "Pouze memorování pojmů" },
+                { id: "c", text: "Jen tvorba učebnic" },
+                { id: "d", text: "Výhradně statistika bez jednání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Praxe znamená jednat v konkrétní situaci — uklidnit dítě, komunikovat s rodinou, upravit přístup. Memorování pojmů nebo distanční práce s texty samy situaci neřeší.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Učitel aplikuje teorii kooperativního učení, ale ve třídě zjistí, že skupiny potřebují jiné vedení. Co ukazuje tento příklad?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Teorie a praxe se vzájemně ovlivňují",
+                },
+                { id: "b", text: "Teorie praxi nikdy neovlivní" },
+                { id: "c", text: "Praxe teorii nemůže obohatit" },
+                { id: "d", text: "Teorie a praxe jsou oddělené světy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Teorie vedla postup ve třídě, praxe ukázala potřebu úpravy — obě se ovlivňují. Teorie není uzavřená kniha a praxe není slepé opakování bez reflexe.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Nová chůva chce zavést pravidla ve skupině jen podle pocitu „co mi přijde správné“, bez poznání dětí a bez odborných podkladů. Co je na tom problém?",
+              choices: [
+                { id: "a", text: "Odborné rozhodnutí nemá stát jen na intuici" },
+                { id: "b", text: "Intuice je vždy dostatečná" },
+                { id: "c", text: "Praxe nepotřebuje žádnou reflexi" },
+                { id: "d", text: "Teorie je vždy zbytečná" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Intuice může pomoci, ale odborné rozhodování má vycházet také z poznání situace, teorie a ověřených zdrojů. Spoléhat jen na pocit bez podkladů je rizikové.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Studentka třídí materiály pro seminář. Který pár správně spojuje typ zdroje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Učebnice, odborný článek, zákon a RVP jsou různé typy zdrojů",
+                },
+                { id: "b", text: "Všechny jsou stejný typ populárního článku" },
+                { id: "c", text: "Zákon je učebnice, RVP je blog" },
+                { id: "d", text: "Odborný článek je vždy neověřený post" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Každý materiál má jinou funkci: učebnice systematizuje výuku, článek přináší odborný rozbor, zákon stanovuje pravidla, RVP rámcuje vzdělávání. Neměly by se zaměňovat.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Který materiál je nejspíš odborný zdroj, nikoli populární nebo neověřený text?",
+              choices: [
+                { id: "a", text: "Recenzovaný článek v pedagogickém časopise" },
+                { id: "b", text: "Anonymní komentář pod videem" },
+                { id: "c", text: "Nepodepsaný příspěvek bez zdrojů" },
+                { id: "d", text: "Zkratkovitý blog bez autorství" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Odborný článek v recenzovaném časopise prochází odbornou kontrolou. Anonymní internetové texty často postrádají autorství, důkazy i ověřitelnost.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Student porovnává dva texty o výchově. První má uvedeného autora-pedagoga, datum, vydavatele a odkazy na výzkum. Druhý je starší anonymní příspěvek bez zdrojů. Co má posoudit především?",
+              choices: [
+                { id: "a", text: "Délku a vzhled textu" },
+                {
+                  id: "b",
+                  text: "Autorství, odbornost, důkazy a ověřitelnost",
+                },
+                { id: "c", text: "Jen to, zda se mu text líbí" },
+                { id: "d", text: "Jen barvu obálky knihy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Věrohodnost zdroje posuzujeme podle toho, kdo text napsal, zda má odbornost, zda uvádí důkazy, kdo ho vydal, jak je aktuální a zda lze tvrzení ověřit. Délka nebo estetika nestačí.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "teorie-praxe-a-odborne-zdroje",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "teorie-praxe-a-odborne-zdroje",
+              type: "multiple-choice",
+              prompt:
+                "Studentka píše referát a zkopíruje odstavec z učebnice bez uvedení zdroje a bez vlastního shrnutí. Co měla udělat správně?",
+              choices: [
+                { id: "a", text: "Kopírovat text bez kontextu" },
+                {
+                  id: "b",
+                  text: "Zaznamenat hlavní myšlenku a uvést zdroj",
+                },
+                { id: "c", text: "Předstírat vlastní autorství cizího textu" },
+                { id: "d", text: "Vynechat jakoukoli práci se zdrojem" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Správná práce se zdrojem znamená pochopit hlavní myšlenku, formulovat ji vlastními slovy a uvést, odkud čerpáme. Kopírování bez citace a kontextu je odborně i eticky chybné.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+      ],
+    },
+    {
+      id: "historicky-vyvoj-a-soucasne-trendy",
+      subjectId: "obecna-pedagogika",
+      title: "Historický vývoj a současné trendy",
+      description:
+        "Výchova v raných společnostech, středověké a raně novověké školství a pedagogické myšlení J. A. Komenského.",
+      order: 2,
+      lessons: [
+        {
+          id: "vychova-v-nejstarsich-spolecnostech",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Výchova v nejstarších společnostech",
+          summary:
+            "Jak se v raných společnostech předávala zkušenost a jak se lišily výchovné cíle podle potřeb společnosti — na příkladu Sparty a Athén.",
+          order: 1,
+          studySections: [
+            {
+              id: "vysvetleni-nejstarsi-spolecnosti",
+              type: "explanation",
+              title: "Výchova v nejstarších společnostech",
+              body:
+                "V nejstarších společnostech se zkušenost předávala hlavně napodobováním, účastí na práci, tradicích, rodině a životě společenství. Výchovné cíle se měnily podle potřeb společnosti. Ve Spartě se kladl důraz na disciplínu, tělesnou odolnost a službu státu. V Athénách se více zdůrazňoval rozvoj těla, rozumu, umění a občanského života. Důležité není memorovat data, ale chápat, že výchova se mění se společenskými podmínkami.",
+            },
+            {
+              id: "pojmy-nejstarsi-spolecnosti",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Napodobování",
+                  definition:
+                    "Učení pozorováním a následováním chování druhých.",
+                },
+                {
+                  term: "Tradice",
+                  definition:
+                    "Předávané zvyky, znalosti a očekávané chování společenství.",
+                },
+                {
+                  term: "Společenství",
+                  definition:
+                    "Skupina lidí, v níž dítě roste a učí se pravidlům společného života.",
+                },
+                {
+                  term: "Sparta",
+                  definition:
+                    "Společnost klíčící disciplínu, tělesnou odolnost a službu státu.",
+                },
+                {
+                  term: "Athény",
+                  definition:
+                    "Společnost s větším důrazem na tělo, rozum, umění a občanský život.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt:
+                "Jak se v nejstarších společnostech často předávala zkušenost?",
+              choices: [
+                { id: "a", text: "Napodobováním a účastí na činnostech" },
+                { id: "b", text: "Pouze písemnými učebnicemi" },
+                { id: "c", text: "Výhradně distanční výukou" },
+                { id: "d", text: "Bez vlivu okolí a lidí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "V raných společnostech se děti učily sledováním druhých a zapojením do práce a života okolí. Písemné učebnice nebo distanční výuka nebyly typickým způsobem předávání zkušenosti.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt:
+                "Kdo měl v nejstarších společnostech významnou výchovnou roli?",
+              choices: [
+                { id: "a", text: "Rodina a společenství" },
+                { id: "b", text: "Pouze státní úředníci" },
+                { id: "c", text: "Jen profesionální sportovní trenéři" },
+                { id: "d", text: "Nikdo — děti se vychovaly samy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Výchova probíhala v rodině a ve společenství, kde dítě poznávalo pravidla, vzory chování a očekávání. Nejde o izolovaný proces bez lidí kolem.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt:
+                "Jak tradice a práce pomáhaly ve výchově v raných společnostech?",
+              choices: [
+                { id: "a", text: "Předávaly znalosti a očekávané chování" },
+                { id: "b", text: "Bránily jakémukoli učení" },
+                { id: "c", text: "Nahrazovaly veškerou rodinnou výchovu" },
+                { id: "d", text: "Měly jen okrasnou roli bez vlivu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Tradice a účast na práci umožňovaly předat, co společenství považuje za důležité vědět a jak se má chovat. Nejde o proces bez výchovného významu.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt:
+                "Proč se výchovné cíle v nejstarších společnostech měnily?",
+              choices: [
+                { id: "a", text: "Podle potřeb společnosti" },
+                { id: "b", text: "Náhodně bez souvislosti s životem lidí" },
+                { id: "c", text: "Jen podle počasí" },
+                { id: "d", text: "Vůbec se neměnily" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Společnost vychovávala tak, aby lidé zvládli podmínky a úkoly, které od nich vyžadovala. Cíle výchovy tedy souvisely s potřebami společnosti, ne s náhodou.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt: "Co ve Spartě patřilo mezi důraz ve výchově?",
+              choices: [
+                { id: "a", text: "Disciplína" },
+                { id: "b", text: "Výhradně volná tvorba bez pravidel" },
+                { id: "c", text: "Jen umělecká výchova bez řádu" },
+                { id: "d", text: "Úplné vyloučení tělesné přípravy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Spartská výchova klade důraz na disciplínu a přísný řád. Volnost bez pravidel nebo vyloučení tělesné přípravy odpovídá spíše jinému pojetí výchovy.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt: "Co ve Spartě spolu patřilo k výchovným cílům?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Tělesná odolnost a služba státu",
+                },
+                { id: "b", text: "Pouze rozumová hra bez těla" },
+                { id: "c", text: "Jen soukromý život bez vztahu ke státu" },
+                { id: "d", text: "Výhradně umělecká činnost" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Sparta klade důraz na tělesnou odolnost a připravenost sloužit státu. Rozvoj rozumu, umění nebo občanského života patří spíše k athénskému pojetí.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt: "Co v Athénách více zdůrazňovala výchova?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Rozvoj těla, rozumu, umění a občanského života",
+                },
+                { id: "b", text: "Jen tělesnou přípravu pro stát" },
+                { id: "c", text: "Pouze přísnou vojenskou kázeň" },
+                { id: "d", text: "Výhradně práci bez vzdělání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Athény usilovaly o širší rozvoj člověka — těla, rozumu, umění i účasti v občanském životě. Přísná vojenská kázeň a jednostranná příprava ke státu jsou spíše spojeny se Spartou.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vychova-v-nejstarsich-spolecnostech",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vychova-v-nejstarsich-spolecnostech",
+              type: "multiple-choice",
+              prompt:
+                "Jedna polis klade důraz na přísnou kázeň a službu státu, druhá na rozum, umění a občanský život. Který pár odpovídá Spartě a Athénám?",
+              choices: [
+                { id: "a", text: "Sparta — kázeň a stát; Athény — rozum a občanství" },
+                { id: "b", text: "Obě stejně — jen umění" },
+                { id: "c", text: "Sparta — rozum; Athény — jen kázeň" },
+                { id: "d", text: "Obě bez jakýchkoli cílů výchovy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Sparta zdůrazňuje disciplínu, tělesnou odolnost a službu státu. Athény kladou větší důraz na rozum, umění a občanský život. Porovnání pomáhá pochopit rozdíl pojetí výchovy.",
+              order: 8,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "stredoveke-a-rane-novoveke-skolstvi",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Středověké a raně novověké školství",
+          summary:
+            "Vliv církve, typy škol, univerzity a postupné rozšiřování vzdělání v období humanismu, renesance a reformace.",
+          order: 2,
+          studySections: [
+            {
+              id: "vysvetleni-stredoveke-skolstvi",
+              type: "explanation",
+              title: "Středověké a raně novověké školství",
+              body:
+                "Ve středověku silně ovlivňovala výchovu a vzdělávání církev. Existovaly klášterní, katedrální a městské školy. Vzdělání nebylo dostupné celé populaci. Postupně vznikaly univerzity jako nová forma vyššího vzdělávání. Humanismus a renesance zvýraznily člověka, rozum a světské vzdělávání. Reformace podpořila šíření gramotnosti. Přístup ke vzdělání se postupně rozšiřoval. Školství souviselo s náboženstvím, společenským postavením a hospodářskými potřebami.",
+            },
+            {
+              id: "pojmy-stredoveke-skolstvi",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Klášterní škola",
+                  definition:
+                    "Škola spojená s klášterním prostředím ve středověku.",
+                },
+                {
+                  term: "Katedrální škola",
+                  definition:
+                    "Škola spojená s katedrálním prostředím ve středověku.",
+                },
+                {
+                  term: "Městská škola",
+                  definition:
+                    "Škola ve městském prostředí ve středověku.",
+                },
+                {
+                  term: "Univerzita",
+                  definition:
+                    "Vyšší vzdělávací instituce, která se postupně vyvinula v tomto období.",
+                },
+                {
+                  term: "Humanismus",
+                  definition:
+                    "Směr zdůrazňující člověka, rozum a lidskou důstojnost.",
+                },
+                {
+                  term: "Renesance",
+                  definition:
+                    "Období posílení zájmu o člověka, kulturu a světské vzdělávání.",
+                },
+                {
+                  term: "Reformace",
+                  definition:
+                    "Hnutí, které podpořilo šíření gramotnosti.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt:
+                "Co silně ovlivňovalo středověké vzdělávání?",
+              choices: [
+                { id: "a", text: "Církev" },
+                { id: "b", text: "Pouze sportovní soutěže" },
+                { id: "c", text: "Jen zábavní průmysl" },
+                { id: "d", text: "Výhradně soukromé koníčky bez institucí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Ve středověku měla církev zásadní vliv na výchovu a školství. Ostatní možnosti nepopisují hlavní rámec středověkého vzdělávání.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt:
+                "Co platí o klášterních, katedrálních a městských školách?",
+              choices: [
+                { id: "a", text: "Byly různými školními prostředími období" },
+                { id: "b", text: "Všechny byly úplně stejné" },
+                { id: "c", text: "Ve středověku vůbec neexistovaly" },
+                { id: "d", text: "Byly jen moderní internetové školy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Ve středověku působily různé typy škol v odlišných prostředích — klášterním, katedrálním a městském. Nejde o jeden jednotný typ školy.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt:
+                "Jak bylo vzdělání ve středověku a raném novověku dostupné?",
+              choices: [
+                { id: "a", text: "Ne všem stejně — jen části populace" },
+                { id: "b", text: "Povinně a rovně každému bez rozdílu" },
+                { id: "c", text: "Vůbec nikomu" },
+                { id: "d", text: "Jen formou zábavných her bez výuky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vzdělání nebylo dostupné celé populaci rovným způsobem. Souviselo s postavením, prostředím a podmínkami doby.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt:
+                "Co představovaly univerzity v tomto období?",
+              choices: [
+                { id: "a", text: "Novou důležitou formu vyššího vzdělávání" },
+                { id: "b", text: "Pouze předškolní zařízení pro malé děti" },
+                { id: "c", text: "Jen sportovní kluby" },
+                { id: "d", text: "Výhradně místa bez výuky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Univerzity se postupně staly významnou formou vyššího vzdělávání. Nejde o mateřské školy ani o instituce bez vzdělávacího významu.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt: "Co zdůrazňoval humanismus?",
+              choices: [
+                { id: "a", text: "Člověka a rozum" },
+                { id: "b", text: "Pouze memorování bez myšlení" },
+                { id: "c", text: "Výhradně tělesný výkon bez vzdělání" },
+                { id: "d", text: "Úplné odmítnutí vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Humanismus klade důraz na člověka, jeho důstojnost a rozum. Memorování bez porozumění nebo odmítnutí vzdělávání humanismus nevyjadřuje.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt: "Co posílila renesance ve vzdělávání?",
+              choices: [
+                { id: "a", text: "Zájem o světské vzdělávání" },
+                { id: "b", text: "Zákaz jakékoli kultury" },
+                { id: "c", text: "Úplný zákaz učení" },
+                { id: "d", text: "Pouze izolaci od života" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Renesance posílila zájem o člověka, kulturu a světské vzdělávání. Zákaz učení nebo kultury s renesancí nesouvisí.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt: "Jak reformace souvisela s gramotností?",
+              choices: [
+                { id: "a", text: "Podpořila její šíření" },
+                { id: "b", text: "Zakázala čtení úplně" },
+                { id: "c", text: "Neměla žádný vztah ke vzdělání" },
+                { id: "d", text: "Zrušila veškeré školy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformace podpořila šíření gramotnosti. Odmítnutí čtení nebo zrušení škol neodpovídá této roli reformace ve vzdělávání.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "stredoveke-a-rane-novoveke-skolstvi",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "stredoveke-a-rane-novoveke-skolstvi",
+              type: "multiple-choice",
+              prompt:
+                "Jak se v průběhu středověku a raného novověku měnil přístup ke vzdělání?",
+              choices: [
+                { id: "a", text: "Postupně se rozšiřoval na širší část společnosti" },
+                { id: "b", text: "Úplně zmizel pro všechny" },
+                { id: "c", text: "Zůstal navždy jen pro jednoho člověka" },
+                { id: "d", text: "Přestal souviset s potřebami společnosti" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Přístup ke vzdělání se postupně rozšiřoval, i když zpočátku nebyl rovný pro všechny. Vzdělávání zůstalo spojené s potřebami společnosti.",
+              order: 8,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "jan-amos-komensky",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Jan Amos Komenský",
+          summary:
+            "Komenského zásady všeobecného, přiměřeného a názorného vzdělávání a jeho významná díla v základním rozsahu.",
+          order: 3,
+          studySections: [
+            {
+              id: "vysvetleni-komensky",
+              type: "explanation",
+              title: "Jan Amos Komenský",
+              body:
+                "Jan Amos Komenský prosazoval vzdělávání pro všechny lidi. Zdůrazňoval přiměřenost věku, názorné a konkrétní učení, postup od jednoduchého ke složitému a od známého k neznámému. Škola má spojovat učení s reálným životem. Cenil mateřský jazyk a odmítal bezmyšlenkovité memorování i nevhodné tresty. Mezi významná díla patří Velká didaktika, Informatorium školy mateřské, Svět v obrazech a Brána jazyků otevřená.",
+            },
+            {
+              id: "pojmy-komensky",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Všeobecné vzdělávání",
+                  definition:
+                    "Vzdělávání dostupné a určené pro všechny lidi.",
+                },
+                {
+                  term: "Přiměřenost",
+                  definition:
+                    "Přizpůsobení výuky věku a možnostem žáka.",
+                },
+                {
+                  term: "Názornost",
+                  definition:
+                    "Učení prostřednictvím pozorování, obrazů, předmětů a zkušenosti.",
+                },
+                {
+                  term: "Systematičnost",
+                  definition:
+                    "Uspořádaný postup od jednoduchého ke složitému a od známého k neznámému.",
+                },
+                {
+                  term: "Mateřský jazyk",
+                  definition:
+                    "Jazyk, jímž se dítě učí nejpřirozeněji a který Komenský cení.",
+                },
+                {
+                  term: "Velká didaktika",
+                  definition: "Komenského dílo o výchově a vyučování.",
+                },
+                {
+                  term: "Informatorium školy mateřské",
+                  definition:
+                    "Komenského dílo věnované péči o malé děti a předškolní výchově.",
+                },
+                {
+                  term: "Svět v obrazech",
+                  definition:
+                    "Komenského názorné dílo pro poznávání světa.",
+                },
+                {
+                  term: "Brána jazyků otevřená",
+                  definition:
+                    "Komenského dílo o výuce jazyků.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt: "Komu mělo podle Komenského patřit vzdělávání?",
+              choices: [
+                { id: "a", text: "Všem lidem" },
+                { id: "b", text: "Pouze vybrané vrstvě" },
+                { id: "c", text: "Nikomu — škola je zbytečná" },
+                { id: "d", text: "Jen dospělým bez dětí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Komenský prosazoval všeobecné vzdělávání — vzdělání má být dostupné všem, ne jen úzké skupině.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Co znamená přiměřenost výuky podle Komenského?",
+              choices: [
+                { id: "a", text: "Přizpůsobení věku a možnostem žáka" },
+                { id: "b", text: "Stejný obsah pro všechny bez ohledu na věk" },
+                { id: "c", text: "Výuka jen pro dospělé" },
+                { id: "d", text: "Náhodný výběr témat" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Přiměřenost znamená, že výuka odpovídá věku a schopnostem dítěte. Stejný obsah pro všechny bez ohledu na vývoj tomu odporuje.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt: "Co je názorné učení podle Komenského?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Učení pozorováním, obrazy, předměty a zkušeností",
+                },
+                { id: "b", text: "Jen čtení abstraktních textů" },
+                { id: "c", text: "Výhradně trestání žáků" },
+                { id: "d", text: "Učení bez kontaktu se skutečností" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Názornost využívá přímé pozorování, obrazy a předměty, aby dítě pochopilo látku konkrétně. Abstraktní výklad bez zkušenosti jí neodpovídá.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Jakým směrem má podle Komenského postupovat učení?",
+              choices: [
+                { id: "a", text: "Od jednoduchého ke složitému" },
+                { id: "b", text: "Od nejtěžšího k nejjednoduššímu" },
+                { id: "c", text: "Bez jakéhokoli pořadí" },
+                { id: "d", text: "Jen náhodným skákáním mezi tématy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Komenský zdůrazňuje systematičnost — nejprve jednodušší podklady, poté složitější látky. Začínat nejtěžším nebo chaoticky brání porozumění.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Od čeho má učitel podle Komenského vycházet při výkladu nové látky?",
+              choices: [
+                { id: "a", text: "Od známého k neznámému" },
+                { id: "b", text: "Od úplně cizího bez návaznosti" },
+                { id: "c", text: "Jen z náhodných příkladů" },
+                { id: "d", text: "Výhradně z trestů" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Nové poznatky mají navazovat na to, co dítě už zná. Východisko z neznámého bez opory v dřívějších zkušenostech ztěžuje učení.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Jak má podle Komenského souviset školní učení s životem?",
+              choices: [
+                { id: "a", text: "Má být spojeno s reálným životem" },
+                { id: "b", text: "Má být odděleno od praxe" },
+                { id: "c", text: "Má být jen teoretické bez využití" },
+                { id: "d", text: "Nemá mít žádný smysl" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Komenský chce, aby se v škole učilo to, co má význam v životě. Oddělení školy od reality odporuje jeho pojetí vzdělávání.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt: "Jaký postoj měl Komenský k mateřskému jazyku?",
+              choices: [
+                { id: "a", text: "Cenil ho ve výchově a učení" },
+                { id: "b", text: "Považoval ho za zbytečný" },
+                { id: "c", text: "Zakazoval ho ve škole" },
+                { id: "d", text: "Nevěnoval mu pozornost" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Komenský zdůrazňoval význam mateřského jazyka pro přirozené učení. Odmítání nebo ignorování mateřštiny jeho pojetí nevyjadřuje.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt: "Co Komenský odmítal ve výuce?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Bezmyšlenkovité memorování a nevhodné tresty",
+                },
+                { id: "b", text: "Názorné pomůcky" },
+                { id: "c", text: "Přiměřenost věku" },
+                { id: "d", text: "Všeobecné vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Komenský kritizoval učení nazpaměť bez porozumění a tresty, které nevedou k rozvoji. Názornost, přiměřenost a všeobecné vzdělávání naopak podporoval.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Která díla patří mezi Komenského díla v základním rozsahu?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Velká didaktika, Informatorium školy mateřské, Svět v obrazech, Brána jazyků otevřená",
+                },
+                {
+                  id: "b",
+                  text: "Jen anonymní učebnice bez autora",
+                },
+                { id: "c", text: "Pouze moderní internetové články" },
+                { id: "d", text: "Žádná z uvedených děl" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Mezi Komenského významná díla patří Velká didaktika, Informatorium školy mateřské, Svět v obrazech a Brána jazyků otevřená. Ostatní možnosti neodpovídají tomuto výčtu.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "jan-amos-komensky",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "jan-amos-komensky",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka nejprve ukáže dětem reálné předměty a obrazy, teprve potom vysvětlí pojmy. Který Komenského princip tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Názornost" },
+                { id: "b", text: "Bezmyšlenkovité memorování" },
+                { id: "c", text: "Nevhodné trestání" },
+                { id: "d", text: "Oddělení školy od života" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Použití předmětů a obrazů před abstraktním výkladem je názorné učení — dítě poznává konkrétně. Memorování, tresty nebo oddělení od života jsou opakem Komenského zásad.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
