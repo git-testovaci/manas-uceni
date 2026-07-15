@@ -6249,6 +6249,967 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "prostredky-a-podminky-vzdelavani",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Prostředky a podmínky vzdělávání",
+          summary:
+            "Didaktické prostředky a podmínky vzdělávání a jejich vliv na výsledek činnosti.",
+          order: 7,
+          studySections: [
+            {
+              id: "vysvetleni-prostredky-podminky",
+              type: "explanation",
+              title: "Prostředky a podmínky vzdělávání",
+              body:
+                "Didaktické prostředky zahrnují hračky, pomůcky, knihy, obrázky, přírodní materiály, hudební nástroje, digitální technologie, pracovní materiály, prostředí třídy a slova i jednání pedagoga. Podmínky vzdělávání mohou být materiální, prostorové, časové, personální, organizační, psychosociální, hygienické a bezpečnostní. Stejná činnost může mít jiný výsledek podle prostředí, času, atmosféry, počtu dětí a připravenosti pedagoga.",
+            },
+            {
+              id: "pojmy-prostredky-podminky",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Didaktické prostředky",
+                  definition:
+                    "Nástroje a prostředí podporující vzdělávání.",
+                },
+                {
+                  term: "Materiální podmínky",
+                  definition:
+                    "Vybavení a pomůcky pro vzdělávání.",
+                },
+                {
+                  term: "Prostorové podmínky",
+                  definition:
+                    "Uspořádání a vybavení prostoru pro činnost.",
+                },
+                {
+                  term: "Psychosociální podmínky",
+                  definition:
+                    "Atmosféra, vztahy a spolupráce ve skupině.",
+                },
+                {
+                  term: "Bezpečnostní podmínky",
+                  definition:
+                    "Ochrana zdraví a bezpečí dětí při činnosti.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co jsou didaktické prostředky?",
+              choices: [
+                { id: "a", text: "Jen školní rozvrh" },
+                { id: "b", text: "Nástroje podporující vzdělávání" },
+                { id: "c", text: "Pouze administrativní zápis" },
+                { id: "d", text: "Výhradně počet dětí" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Didaktické prostředky jsou nástroje a prostředí, které podporují vzdělávání. Rozvrh nebo počet dětí samy prostředek nevymezují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka připraví knihu s obrázky a dřevěné puzzle pro práci s dětmi. Které prostředky využívá?",
+              choices: [
+                { id: "a", text: "Jen personální podmínky" },
+                { id: "b", text: "Pouze časové podmínky" },
+                { id: "c", text: "Knihu, obrázky a pomůcky" },
+                { id: "d", text: "Výhradně organizační formu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Kniha, obrázky a puzzle patří mezi didaktické prostředky — pomůcky a knihy. Personální nebo časové podmínky popisují jinou stránku vzdělávání.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Děti tvoří z žaluďů a listí a učitelka přehrává melodie na flétně. Které prostředky se využívají?",
+              choices: [
+                { id: "a", text: "Jen hygienické podmínky" },
+                { id: "b", text: "Pouze personální podmínky" },
+                { id: "c", text: "Výhradně školní rozvrh" },
+                { id: "d", text: "Přírodní materiály a hudební nástroj" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Žaludy a listí jsou přírodní materiály, flétna hudební nástroj — obojí patří mezi didaktické prostředky. Rozvrh nebo hygiena jsou jiné kategorie.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka upraví koutek tak, aby děti měly klidné místo pro čtení a dostatek světla. Co využívá jako prostředek?",
+              choices: [
+                { id: "a", text: "Jen časovou podmínku" },
+                { id: "b", text: "Prostředí třídy" },
+                { id: "c", text: "Pouze personální podmínku" },
+                { id: "d", text: "Výhradně metodu hodnocení" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Uspořádané prostředí třídy je didaktický prostředek. Čas nebo personál popisují podmínky, ne prostředí jako nástroj výuky.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka klidně vysvětluje postup a ukazuje, jak pracovat s materiálem. Který prostředek využívá?",
+              choices: [
+                { id: "a", text: "Jen hračku bez komunikace" },
+                { id: "b", text: "Pouze digitální technologii" },
+                { id: "c", text: "Slova a jednání pedagoga" },
+                { id: "d", text: "Výhradně organizační formu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Slova a jednání pedagoga jsou didaktický prostředek. Hračka nebo technologie mohou být další prostředky, ale vysvětlení a ukázání jsou právě slova a činy pedagoga.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě chybí dostatek stoliček a pracovní plocha je přeplněná. Které podmínky jsou narušené?",
+              choices: [
+                { id: "a", text: "Jen psychosociální" },
+                { id: "b", text: "Pouze časové" },
+                { id: "c", text: "Výhradně personální" },
+                { id: "d", text: "Materiální a prostorové" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Nedostatek stoliček a přeplněný prostor souvisí s materiálními a prostorovými podmínkami. Čas nebo personál to samo nepopisují.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Aktivita trvá příliš krátce a chybí druhá dospělá osoba pro podporu dětí. Které podmínky jsou nedostatečné?",
+              choices: [
+                { id: "a", text: "Jen hygienické" },
+                { id: "b", text: "Časové a personální" },
+                { id: "c", text: "Pouze prostorové" },
+                { id: "d", text: "Výhradně didaktické prostředky" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Krátký čas ovlivňuje časové podmínky, nedostatek dospělé osoby personální podmínky. Hygiena nebo prostor to v tomto případě neřeší.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Ve skupině panuje napětí a děti si navzájem nerozumí. Které podmínky jsou oslabené?",
+              choices: [
+                { id: "a", text: "Jen materiální" },
+                { id: "b", text: "Pouze časové" },
+                { id: "c", text: "Organizační a psychosociální" },
+                { id: "d", text: "Výhradně bezpečnostní" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Napětí a nedorozumění souvisí s psychosociální atmosférou a organizací spolupráce ve skupině. Materiální vybavení to samo neřeší.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Před malováním učitelka zkontroluje, zda jsou barvy bezpečné a děti si umyjí ruce. Které podmínky sleduje?",
+              choices: [
+                { id: "a", text: "Jen personální" },
+                { id: "b", text: "Pouze časové" },
+                { id: "c", text: "Výhradně organizační formy" },
+                { id: "d", text: "Hygienické a bezpečnostní" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Kontrola bezpečnosti barev a mytí rukou patří mezi hygienické a bezpečnostní podmínky. Personál nebo čas jsou jiné kategorie.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "prostredky-a-podminky-vzdelavani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "prostredky-a-podminky-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Stejnou hru vedla učitelka jednou v klidném koutku a podruhé v rušné místnosti s mnoha dětmi. Výsledek se lišil. Co to ukazuje?",
+              choices: [
+                { id: "a", text: "Podmínky nemají vliv na výsledek" },
+                {
+                  id: "b",
+                  text: "Podmínky ovlivňují výsledek stejné činnosti",
+                },
+                { id: "c", text: "Cíl sám určuje výsledek bez vlivu prostředí" },
+                { id: "d", text: "Organizační forma je totéž co podmínka" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Stejná činnost může mít jiný výsledek podle prostředí, času, atmosféry, počtu dětí a připravenosti pedagoga. Podmínky tedy výsledek ovlivňují.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "planovani-vzdelavaciho-procesu",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Plánování vzdělávacího procesu",
+          summary:
+            "Deset kroků plánování vzdělávacího procesu od zjištění potřeb po úpravu dalšího postupu.",
+          order: 8,
+          studySections: [
+            {
+              id: "vysvetleni-planovani",
+              type: "explanation",
+              title: "Plánování vzdělávacího procesu",
+              body:
+                "Plánování propojuje potřeby dětí, cíl, obsah, metody, organizační formy, prostředky, individualizaci, realizaci, sledování reakcí, vyhodnocení a úpravu dalšího postupu. Postupuje se od zjištění potřeb a výchozího stavu, přes stanovení cíle a výběr obsahu, volbu metod a forem, přípravu prostředků a prostředí, promyšlení individualizace, realizaci činnosti, sledování reakcí dětí, vyhodnocení výsledku až po úpravu dalšího postupu.",
+            },
+            {
+              id: "pojmy-planovani",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Plánování",
+                  definition:
+                    "Promyšlený postup přípravy a vedení vzdělávání.",
+                },
+                {
+                  term: "Výchozí stav",
+                  definition:
+                    "To, co děti už umí a jaké mají potřeby.",
+                },
+                {
+                  term: "Individualizace",
+                  definition:
+                    "Přizpůsobení plánu konkrétním dětem.",
+                },
+                {
+                  term: "Realizace",
+                  definition:
+                    "Skutečné provedení naplánované činnosti.",
+                },
+                {
+                  term: "Vyhodnocení",
+                  definition:
+                    "Posouzení, zda byl dosažen zamýšlený výsledek.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka na začátku týdne pozoruje, co děti umí a co je zajímá. Který krok plánování právě dělá?",
+              choices: [
+                { id: "a", text: "Vyhodnocuje výsledek" },
+                { id: "b", text: "Zjišťuje potřeby a výchozí stav" },
+                { id: "c", text: "Realizuje činnost" },
+                { id: "d", text: "Upravuje další postup" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "První krok plánování je zjistit potřeby a výchozí stav dětí. Vyhodnocení nebo úprava postupu přicházejí až později.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Po pozorování učitelka zapíše: „Děti rozpoznají tři znaky podzimu.“ Který krok plánování právě provádí?",
+              choices: [
+                { id: "a", text: "Vybírá obsah" },
+                { id: "b", text: "Sleduje reakce dětí" },
+                { id: "c", text: "Stanovuje cíl" },
+                { id: "d", text: "Připravuje prostředky" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Formulace toho, čeho má být dosaženo, je stanovení cíle. Výběr obsahu nebo prostředků následuje až po cíli.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "K cíli o podzimu učitelka volí práci s listím a příběh o lesním zvířátku. Který krok plánování to je?",
+              choices: [
+                { id: "a", text: "Realizace činnosti" },
+                { id: "b", text: "Vyhodnocení výsledku" },
+                { id: "c", text: "Zjištění potřeb" },
+                { id: "d", text: "Výběr obsahu" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Volba témat a aktivit podle cíle je výběr obsahu. Realizace je až provedení v praxi.",
+              order: 3,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka rozhodne, že děti budou pracovat ve skupinách a využije rozhovor. Který krok plánování provádí?",
+              choices: [
+                { id: "a", text: "Upravuje další postup" },
+                { id: "b", text: "Zvolí metody a organizační formy" },
+                { id: "c", text: "Vyhodnocuje výsledek" },
+                { id: "d", text: "Zjišťuje výchozí stav" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Volba rozhovoru a skupinové práce je krok zvolit metody a organizační formy. Vyhodnocení nebo úprava postupu přicházejí později.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Před hodinou učitelka připraví listí, obrázky a upraví koutek. Který krok plánování to je?",
+              choices: [
+                { id: "a", text: "Sledování reakcí dětí" },
+                { id: "b", text: "Stanovení cíle" },
+                { id: "c", text: "Příprava prostředků a prostředí" },
+                { id: "d", text: "Realizace činnosti" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Příprava pomůcek a prostředí je krok připravit prostředky a prostředí. Realizace je samotné vedení činnosti s dětmi.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka naplánuje jednodušší úkol pro dítě, které potřebuje více podpory. Který krok plánování provádí?",
+              choices: [
+                { id: "a", text: "Vyhodnocuje výsledek" },
+                { id: "b", text: "Zjišťuje potřeby" },
+                { id: "c", text: "Vybírá obsah" },
+                { id: "d", text: "Promýšlí individualizaci" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Přizpůsobení plánu konkrétnímu dítěti je promyšlení individualizace. Zjištění potřeb je dřívější krok, vyhodnocení pozdější.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vede připravenou aktivitu s dětmi podle plánu. Který krok plánování právě probíhá?",
+              choices: [
+                { id: "a", text: "Zjištění výchozího stavu" },
+                { id: "b", text: "Realizace činnosti" },
+                { id: "c", text: "Stanovení cíle" },
+                { id: "d", text: "Úprava dalšího postupu" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Skutečné vedení aktivity s dětmi je realizace činnosti. Přípravné kroky už proběhly dříve.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Během aktivity učitelka všíma pozornost, kdo se zapojuje a kdo potřebuje pomoc. Který krok plánování provádí?",
+              choices: [
+                { id: "a", text: "Výběr obsahu" },
+                { id: "b", text: "Příprava prostředků" },
+                { id: "c", text: "Sledování reakcí dětí" },
+                { id: "d", text: "Stanovení cíle" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pozorování zapojení a potřeb dětí během činnosti je sledování reakcí. Vyhodnocení přichází po skončení aktivity.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Po aktivitě učitelka posoudí, zda děti dosáhly zamýšleného cíle. Který krok plánování provádí?",
+              choices: [
+                { id: "a", text: "Zjištění potřeb" },
+                { id: "b", text: "Realizaci činnosti" },
+                { id: "c", text: "Výběr obsahu" },
+                { id: "d", text: "Vyhodnocení výsledku" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Posouzení dosažení cíle po činnosti je vyhodnocení výsledku. Sledování reakcí probíhá během aktivity.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "planovani-vzdelavaciho-procesu",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "planovani-vzdelavaciho-procesu",
+              type: "multiple-choice",
+              prompt:
+                "Podle zjištění z hodiny učitelka změní příští postup a přidá více podpory. Který krok plánování provádí?",
+              choices: [
+                { id: "a", text: "Úpravu dalšího postupu" },
+                { id: "b", text: "Stanovení cíle" },
+                { id: "c", text: "Zjištění výchozího stavu" },
+                { id: "d", text: "Realizaci činnosti" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Změna dalšího plánování na základě vyhodnocení je úprava dalšího postupu — poslední krok plánovacího cyklu.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "pedagogicke-hodnoceni-a-reflexe",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Pedagogické hodnocení a reflexe",
+          summary:
+            "Hodnocení dítěte a procesu, zpětná vazba, formativní a sumativní hodnocení a reflexe pedagoga.",
+          order: 9,
+          studySections: [
+            {
+              id: "vysvetleni-pedagogicke-hodnoceni",
+              type: "explanation",
+              title: "Pedagogické hodnocení a reflexe",
+              body:
+                "Pedagogické hodnocení se může týkat dítěte i vzdělávacího procesu. Dítě se může samo hodnotit, pedagog reflektuje vlastní práci. Zpětná vazba může být průběžná i závěrečná. Formativní hodnocení podporuje další učení, sumativní shrnuje výsledek. Popisná zpětná vazba je vhodnější než nálepkování nebo srovnávání dětí. Reflexe vede k úpravě další praxe — například zda byl dosažen cíl, zda byla aktivita vhodná a co změnit příště.",
+            },
+            {
+              id: "pojmy-pedagogicke-hodnoceni",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Formativní hodnocení",
+                  definition:
+                    "Hodnocení podporující další učení a rozvoj.",
+                },
+                {
+                  term: "Sumativní hodnocení",
+                  definition:
+                    "Hodnocení shrnující dosažený výsledek.",
+                },
+                {
+                  term: "Zpětná vazba",
+                  definition:
+                    "Informace podporující další učení nebo zlepšení.",
+                },
+                {
+                  term: "Sebehodnocení",
+                  definition:
+                    "Hodnocení vlastní práce dítěte nebo pedagoga.",
+                },
+                {
+                  term: "Reflexe",
+                  definition:
+                    "Zamyšlení nad průběhem a výsledkem činnosti.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka sleduje, jak dítě roztřídilo přírodniny podle barvy. Co hodnotí?",
+              choices: [
+                { id: "a", text: "Jen školní rozvrh" },
+                { id: "b", text: "Dítě" },
+                { id: "c", text: "Pouze budovu školy" },
+                { id: "d", text: "Výhradně počasí" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sledování výkonu konkrétního dítěte je hodnocení dítěte. Hodnocení procesu by se týkalo průběhu celé aktivity.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Po hodině učitelka posoudí, zda byl vhodný postup a tempo aktivity. Co hodnotí?",
+              choices: [
+                { id: "a", text: "Jen jedno dítě" },
+                { id: "b", text: "Pouze pomůcky" },
+                { id: "c", text: "Vzdělávací proces" },
+                { id: "d", text: "Výhradně rozvrh jídel" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Posouzení postupu a tempa celé aktivity je hodnocení vzdělávacího procesu. Hodnocení dítěte se zaměřuje na konkrétního žáka.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Dítě si po práci řekne: „Povedlo se mi roztřídit většinu listů.“ Co dělá?",
+              choices: [
+                { id: "a", text: "Hodnotí školu" },
+                { id: "b", text: "Reflektuje pedagoga" },
+                { id: "c", text: "Porovnává ostatní děti" },
+                { id: "d", text: "Sebehodnocení" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Když dítě hodnotí vlastní práci, jde o sebehodnocení dítěte. Reflexe pedagoga nebo srovnávání s ostatními je něco jiného.",
+              order: 3,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Po hodině se učitelka zamýšlí, zda byl její postup vhodný. Co provádí?",
+              choices: [
+                { id: "a", text: "Sebehodnocení dítěte" },
+                { id: "b", text: "Sebereflexi pedagoga" },
+                { id: "c", text: "Hodnocení školy inspekcí" },
+                { id: "d", text: "Sumativní hodnocení celé školy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Zamyšlení pedagoga nad vlastní praxí je sebereflexe pedagoga. Hodnocení školy inspekcí patří do jiné oblasti.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Během činnosti učitelka dítěti řekne: „Zkus držet nůžky takto.“ Co poskytuje?",
+              choices: [
+                { id: "a", text: "Závěrečnou zpětnou vazbu" },
+                { id: "b", text: "Sumativní hodnocení" },
+                { id: "c", text: "Průběžnou zpětnou vazbu" },
+                { id: "d", text: "Hodnocení celé školy" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Krátká rada během práce je průběžná zpětná vazba. Závěrečná zpětná vazba přichází po dokončení činnosti.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Po skončení projektu učitelka shrne, co se dětem povedlo a co zkusit příště. Co poskytuje?",
+              choices: [
+                { id: "a", text: "Jen průběžnou vazbu bez shrnutí" },
+                { id: "b", text: "Hodnocení školy" },
+                { id: "c", text: "Pouze známku" },
+                { id: "d", text: "Závěrečnou zpětnou vazbu" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Shrnutí po dokončení činnosti je závěrečná zpětná vazba. Průběžná vazba probíhá během práce.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka podle pozorování upraví další aktivitu, aby dítě lépe pochopilo úkol. Jaký typ hodnocení využívá?",
+              choices: [
+                { id: "a", text: "Sumativní hodnocení" },
+                { id: "b", text: "Formativní hodnocení" },
+                { id: "c", text: "Hodnocení celé školy" },
+                { id: "d", text: "Pouze srovnávání dětí" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Formativní hodnocení podporuje další učení a úpravu postupu. Sumativní shrnuje výsledek po ukončení celku.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Na konci týdne učitelka shrne, čeho děti za ten čas dosáhly. Jaký typ hodnocení využívá?",
+              choices: [
+                { id: "a", text: "Pouze formativní" },
+                { id: "b", text: "Hodnocení školy" },
+                { id: "c", text: "Sumativní hodnocení" },
+                { id: "d", text: "Jen průběžnou vazbu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Shrnutí dosaženého výsledku po určitém období je sumativní hodnocení. Formativní podporuje průběžné učení.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka řekne: „Povedlo se ti roztřídit listy podle tvaru, zkus příště i podle barvy.“ Jaký typ zpětné vazby využívá?",
+              choices: [
+                { id: "a", text: "Nálepkování dítěte" },
+                { id: "b", text: "Srovnání s nejlepším žákem" },
+                { id: "c", text: "Pouze známku bez slova" },
+                { id: "d", text: "Popisnou zpětnou vazbu" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Konkrétní popis toho, co se povedlo a co zkusit dál, je popisná zpětná vazba. Nálepkování nebo srovnávání jsou rizikové.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka řekne dítěti: „Jsi nejlepší ve třídě v kreslení.“ Jaké riziko tím vzniká?",
+              choices: [
+                { id: "a", text: "Podpora sebehodnocení" },
+                { id: "b", text: "Riziko nálepkování dítěte" },
+                { id: "c", text: "Popisná zpětná vazba" },
+                { id: "d", text: "Formativní hodnocení" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Přisouzení pevné nálepky může dítě omezit a ovlivnit jeho sebevnímání. Popisná zpětná vazba je bezpečnější.",
+              order: 10,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka před ostatními řekne: „Podívejte, on to umí nejlíp.“ Jaké riziko tím vzniká?",
+              choices: [
+                { id: "a", text: "Podpora reflexe" },
+                { id: "b", text: "Sebehodnocení dítěte" },
+                { id: "c", text: "Riziko srovnávání dětí" },
+                { id: "d", text: "Popisná zpětná vazba" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Veřejné srovnávání dětí může poškodit sebevědomí a vztahy ve skupině. Hodnocení má být obezřetné a respektující.",
+              order: 11,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "pedagogicke-hodnoceni-a-reflexe",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "pedagogicke-hodnoceni-a-reflexe",
+              type: "multiple-choice",
+              prompt:
+                "Po reflexi si učitelka zapíše: „Příště zkrátím výklad a dám více času na praktickou část.“ Co tím docílí?",
+              choices: [
+                { id: "a", text: "Úpravu další praxe" },
+                { id: "b", text: "Ignorování zjištění" },
+                { id: "c", text: "Konec reflexe" },
+                { id: "d", text: "Hodnocení školy inspekcí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reflexe má vést k úpravě budoucí praxe. Zápis změny pro příště ukazuje, že reflexe má praktický následek.",
+              order: 12,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
