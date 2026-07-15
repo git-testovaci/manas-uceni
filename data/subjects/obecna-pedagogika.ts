@@ -836,6 +836,332 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "vyvoj-cloveka-a-vlivy-vychovy",
+          subjectId: "obecna-pedagogika",
+          unitId: "zakladni-pojmy",
+          title: "Vývoj člověka a vlivy výchovy",
+          summary:
+            "Jak dědičnost, prostředí, výchova a vlastní aktivita společně ovlivňují vývoj dítěte a rozvoj osobnosti.",
+          order: 4,
+          studySections: [
+            {
+              id: "vysvetleni-vyvoj-vlivy",
+              type: "explanation",
+              title: "Vývoj člověka a vlivy výchovy",
+              body:
+                "Vývoj člověka ovlivňuje dědičnost a biologické předpoklady, ale také prostředí — rodina, škola, vrstevníci, kultura a životní podmínky. Výchova a vzdělávání vývoj cíleně podporují a vedou. Důležitá je i vlastní aktivita dítěte: není jen pasivním příjemcem, ale aktivně se podílí na svém rozvoji. Tyto faktory spolu působí — žádný z nich nefunguje zcela samostatně. Výchova podporuje rozvoj osobnosti, předává kulturní hodnoty, připravuje na život ve společnosti, rozvíjí samostatnost, znalosti a dovednosti a může pomáhat předcházet nežádoucímu chování. Konkrétní situace ve vývoji dítěte proto vysvětlujeme souhrou více vlivů, ne jednou zjednodušenou příčinou.",
+            },
+            {
+              id: "pojmy-vyvoj-vlivy",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Dědičnost",
+                  definition:
+                    "Biologické předání vlastností od rodičů, které ovlivňuje vývoj člověka.",
+                },
+                {
+                  term: "Biologické předpoklady",
+                  definition:
+                    "Vrozené tělesné a psychické dispozice, které utvářejí možnosti vývoje.",
+                },
+                {
+                  term: "Prostředí",
+                  definition:
+                    "Vliv rodiny, školy, vrstevníků, kultury a životních podmínek na vývoj.",
+                },
+                {
+                  term: "Výchova",
+                  definition:
+                    "Cílené působení, které podporuje, vede a formuje vývoj dítěte.",
+                },
+                {
+                  term: "Vlastní aktivita",
+                  definition:
+                    "Aktivní podíl jedince na vlastním vývoji prostřednictvím činnosti a zkušeností.",
+                },
+                {
+                  term: "Vývoj osobnosti",
+                  definition:
+                    "Postupné utváření charakteru, postojů, hodnot a jedinečných rysů člověka.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Který faktor ovlivňuje vývoj člověka už od narození prostřednictvím biologického předání?",
+              choices: [
+                { id: "a", text: "Pouze školní rozvrh" },
+                { id: "b", text: "Dědičnost a biologické předpoklady" },
+                { id: "c", text: "Jen kulturní tradice obce" },
+                { id: "d", text: "Výhradně vlastní rozhodnutí dítěte" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Dědičnost a biologické předpoklady jsou vrozené dispozice předané biologicky. Škola, kultura nebo vlastní aktivita působí později a jiným způsobem — ne nahrazují biologický základ vývoje.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Co patří mezi vlivy prostředí na vývoj dítěte?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Rodina, škola, vrstevníci, kultura a životní podmínky",
+                },
+                { id: "b", text: "Pouze dědičné geny" },
+                { id: "c", text: "Jen vrozená výška a barva očí" },
+                { id: "d", text: "Výhradně vnitřní motivace bez okolí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Prostředí zahrnuje vztahy a podmínky, v nichž dítě žije — rodinu, školu, vrstevníky, kulturu i materiální zázemí. Dědičnost je biologický faktor, ne prostředí.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Jak působí výchova a vzdělávání na vývoj dítěte?",
+              choices: [
+                { id: "a", text: "Náhodně, bez cíle a záměru" },
+                {
+                  id: "b",
+                  text: "Cíleně ho podporují a vedou",
+                },
+                { id: "c", text: "Pouze sledují, ale nezasahují" },
+                { id: "d", text: "Nahrazují veškerou vlastní aktivitu" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Výchova a vzdělávání jsou záměrné — cíleně podporují a vedou vývoj. Nejde o náhodný sled událostí ani o pasivní pozorování; také nenahrazují aktivitu samotného dítěte.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Jakou roli hraje vlastní aktivita dítěte ve vývoji?",
+              choices: [
+                { id: "a", text: "Žádnou — dítě je jen pasivní" },
+                {
+                  id: "b",
+                  text: "Je aktivním faktorem vývoje",
+                },
+                { id: "c", text: "Nahrazuje vliv prostředí" },
+                { id: "d", text: "Ruší působení výchovy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Vlastní aktivita znamená, že se dítě podílí na vývoji činností, hrou, učením i zkoušením. Není pasivním objektem a nenahrazuje ostatní faktory — doplňuje je.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Holčička v MŠ rychle rozšiřuje slovní zásobu: rodiče s ní doma často mluví, ve třídě má bohaté podněty a sama se ptá na nová slova. Jak nejlépe vysvětlit tento pokrok?",
+              choices: [
+                { id: "a", text: "Jen díky dědičnosti" },
+                { id: "b", text: "Jen díky rodině" },
+                {
+                  id: "c",
+                  text: "Spolupůsobí dědičnost, prostředí, výchova i vlastní aktivita",
+                },
+                { id: "d", text: "Jen proto, že chodí do školky" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Rychlý pokrok ve slovní zásobě nelze připsat jedinému faktoru. Biologické předpoklady, domácí i školní prostředí, výchovné působení i vlastní zvídavost dítěte se vzájemně doplňují.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Jak výchova přispívá k rozvoji dítěte v pedagogickém významu?",
+              choices: [
+                { id: "a", text: "Podporuje rozvoj osobnosti" },
+                { id: "b", text: "Potlačuje veškerou individualitu" },
+                { id: "c", text: "Řeší jen biologický růst" },
+                { id: "d", text: "Nahrazuje vliv prostředí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Jedním z cílů výchovy je podpora rozvoje osobnosti — charakteru, postojů a hodnot. Nejde o potlačení individuality ani o nahrazení prostředí či biologického růstu.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Jak výchova pomáhá dítěti vstoupit do společenského života?",
+              choices: [
+                { id: "a", text: "Předává kulturní hodnoty a připravuje na život ve společnosti" },
+                { id: "b", text: "Odstraňuje vliv kultury" },
+                { id: "c", text: "Izoluje dítě od vrstevníků" },
+                { id: "d", text: "Zaměřuje se jen na tělesný vývoj" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Výchova předává kulturní hodnoty, pravidla a zvyklosti a pomáhá dítěti orientovat se ve společnosti. Neizoluje je ani neignoruje kulturní kontext.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "V čem může výchova podpořit dítě kromě předávání pravidel?",
+              choices: [
+                { id: "a", text: "Jen v kontrole každého kroku" },
+                {
+                  id: "b",
+                  text: "V rozvoji samostatnosti, znalostí, dovedností a využití schopností",
+                },
+                { id: "c", text: "Pouze v omezení vlastní aktivity" },
+                { id: "d", text: "V nahrazení zájmu dítěte" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Výchova rozvíjí samostatnost, znalosti a dovednosti a pomáhá dítěti využívat své schopnosti. Nejde o neustálou kontrolu ani o potlačení jeho aktivního přístupu.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Jak může výchova působit vůči nežádoucímu chování dítěte?",
+              choices: [
+                { id: "a", text: "Může mu pomoci předcházet" },
+                { id: "b", text: "Musí ho vždy ignorovat" },
+                { id: "c", text: "Nemá na chování žádný vliv" },
+                { id: "d", text: "Snižuje odpovědnost dítěte na nulu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Výchovné vedení, jasná pravidla a podpora pozitivního chování mohou nežádoucímu jednání předcházet. Výchova chování ovlivňuje, ale neznamená ignorovat problémy ani sejmout dítěti odpovědnost.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vyvoj-cloveka-a-vlivy-vychovy",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vyvoj-cloveka-a-vlivy-vychovy",
+              type: "multiple-choice",
+              prompt:
+                "Chlapec ve školce často křičí a nerespektuje pravidla. Kolegyně říká: „Je to jen špatná výchova doma.“ Proč je to zjednodušené vysvětlení?",
+              choices: [
+                { id: "a", text: "Stačí vinit pouze rodinu" },
+                { id: "b", text: "Chování určuje jen dědičnost" },
+                {
+                  id: "c",
+                  text: "Vývoj a chování ovlivňuje souhra více faktorů",
+                },
+                { id: "d", text: "Na chování nemá vliv prostředí" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Chování dítěte nelze vysvětlit jedinou příčinou. Spolupůsobí dědičnost, prostředí školky i domova, výchovné přístupy a vlastní prožívání a reakce dítěte. Pedagogicky správné je hledat souhru vlivů.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
