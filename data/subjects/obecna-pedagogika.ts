@@ -2338,6 +2338,1253 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Vývoj moderního školství a učitelské profese",
+          summary:
+            "Povinná školní docházka, profesionalizace učitelství a kompetence současného pedagoga v praxi.",
+          order: 4,
+          studySections: [
+            {
+              id: "vysvetleni-moderni-skolstvi",
+              type: "explanation",
+              title: "Vývoj moderního školství a učitelské profese",
+              body:
+                "Povinná školní docházka postupně zpřístupnila vzdělávání širším vrstvám obyvatelstva. Učitelství se profesionalizovalo a rozvíjela se odborná příprava učitelů. Role učitele se měnila od autoritativního předávání poznatků k podpoře aktivního učení. Současný pedagog potřebuje odborné, pedagogické a psychologické znalosti, umí plánovat, komunikovat s dětmi a rodiči a používat diagnostické a hodnoticí dovednosti. Pracuje s různorodou skupinou, spolupracuje s kolegy, jedná eticky, reflektuje vlastní práci a průběžně se dále vzdělává.",
+            },
+            {
+              id: "pojmy-moderni-skolstvi",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Povinná školní docházka",
+                  definition:
+                    "Závazek navštěvovat školu, který rozšířil přístup ke vzdělání.",
+                },
+                {
+                  term: "Profesionalizace",
+                  definition:
+                    "Postupné zvyšování odborných požadavků na učitelskou profesi.",
+                },
+                {
+                  term: "Profesní kompetence",
+                  definition:
+                    "Soubor znalostí a dovedností potřebných pro výkon pedagogické profese.",
+                },
+                {
+                  term: "Aktivní učení",
+                  definition:
+                    "Učení, při kterém se žák aktivně podílí na svém rozvoji.",
+                },
+                {
+                  term: "Reflexe",
+                  definition:
+                    "Zamyšlení pedagoga nad vlastní praxí a jejím zdokonalováním.",
+                },
+                {
+                  term: "Další vzdělávání",
+                  definition:
+                    "Průběžné rozvíjení odbornosti pedagoga po ukončení přípravy.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Jaký význam měla povinná školní docházka pro společnost?",
+              choices: [
+                { id: "a", text: "Rozšířila přístup ke vzdělání" },
+                { id: "b", text: "Zrušila veškeré školství" },
+                { id: "c", text: "Zpřístupnila vzdělání jen jedné vrstvě" },
+                { id: "d", text: "Neměla vliv na dostupnost školy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Povinná školní docházka postupně otevřela vzdělávání širším vrstvám obyvatelstva. Nejde o jeho omezení ani o zrušení škol.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt: "Co znamená profesionalizace učitelství?",
+              choices: [
+                { id: "a", text: "Rostoucí odborné požadavky na učitele" },
+                { id: "b", text: "Úplné vyloučení přípravy učitelů" },
+                { id: "c", text: "Náhodný výběr bez odbornosti" },
+                { id: "d", text: "Zánik učitelské profese" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Profesionalizace znamená, že na učitele se kladou vyšší odborné nároky a očekává se profesní příprava. Nejde o odmítnutí odbornosti.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Co je součástí profesionalizace učitelství?",
+              choices: [
+                { id: "a", text: "Odborná příprava učitelů" },
+                { id: "b", text: "Absence jakékoli přípravy" },
+                { id: "c", text: "Pouze náhodná praxe bez studia" },
+                { id: "d", text: "Zákaz dalšího vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Profesionalizace zahrnuje rozvoj odborné přípravy učitelů. Bez přípravy a dalšího rozvoje profesionalizace nedává smysl.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt: "Jak se měnila role učitele v moderním školství?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Od předávání poznatků k podpoře aktivního učení",
+                },
+                { id: "b", text: "Od aktivního učení k pasivnímu předčítání" },
+                { id: "c", text: "Vůbec se neměnila" },
+                { id: "d", text: "K úplnému zániku pedagogické role" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Učitel se více stává průvodcem aktivního učení, ne jen autoritou předávající hotové poznatky. Pasivní přednášení bez zapojení žáků je starší model.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Jaké znalosti potřebuje současný pedagog podle odborného pojetí profese?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Odborné, pedagogické a psychologické",
+                },
+                { id: "b", text: "Pouze technické bez pedagogiky" },
+                { id: "c", text: "Jen znalost rozvrhu hodin" },
+                { id: "d", text: "Žádné — stačí intuice" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog potřebuje obsahovou odbornost i pedagogické a psychologické poznatky pro práci s dětmi. Samotná intuice nebo organizační detail nestačí.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka připravuje týdenní plán aktivit pro skupinu v MŠ. Kterou profesní dovednost tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Plánování vzdělávací činnosti" },
+                { id: "b", text: "Ignorování cílů výuky" },
+                { id: "c", text: "Náhodný postup bez přípravy" },
+                { id: "d", text: "Odmítání spolupráce s kolegy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Plánování je základní profesní dovednost — pedagog promýšlí cíle, postup a podmínky pro děti. Náhodný postup bez přípravy profesionalitě neodpovídá.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Pedagog řeší s rodiči spolupráci při adaptaci dítěte. Která kompetence je klíčová?",
+              choices: [
+                { id: "a", text: "Komunikace s dětmi a rodiči" },
+                { id: "b", text: "Vyhýbání se kontaktu s rodinou" },
+                { id: "c", text: "Jednostranné rozhodování bez dialogu" },
+                { id: "d", text: "Pouze písemné testy bez rozhovoru" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog musí umět komunikovat s dětmi i rodiči — sdílet informace, naslouchat a domlouvat se. Izolace od rodiny brání výchovné spolupráci.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Učitel sleduje pokrok dítěte v grafomotorice a zaznamenává pozorování. K čemu slouží diagnostické a hodnoticí dovednosti?",
+              choices: [
+                { id: "a", text: "K poznání potřeb a pokroku dítěte" },
+                { id: "b", text: "Jen k trestání žáků" },
+                { id: "c", text: "K nahrazení veškeré komunikace" },
+                { id: "d", text: "K ignorování individuálních rozdílů" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Diagnostika a hodnocení pomáhají pochopit, jak dítě pokročilo a co potřebuje. Nejde o trestání ani o přehlížení individuálních rozdílů.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Po konfliktu ve třídě se pedagogka zamyšleně hodnotí svůj postup a konzultuje ho s kolegyní. Co z toho vyplývá?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Etika, spolupráce a reflexe patří k profesním kompetencím",
+                },
+                { id: "b", text: "Reflexe je zbytečná" },
+                { id: "c", text: "Spolupráce s kolegy je zakázaná" },
+                { id: "d", text: "Etika s prací pedagoga nesouvisí" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog jedná eticky, spolupracuje s kolegy a reflektuje vlastní praxi. To patří k profesionalitě, ne k okrajovému chování.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vyvoj-moderniho-skolstvi-a-ucitelske-profese",
+              type: "multiple-choice",
+              prompt:
+                "Učitel se účastní kurzu o podpoře inkluze ve třídě. Co tím rozvíjí?",
+              choices: [
+                { id: "a", text: "Další vzdělávání a profesní rozvoj" },
+                { id: "b", text: "Zákaz jakékoli odbornosti" },
+                { id: "c", text: "Konec pedagogické kariéry" },
+                { id: "d", text: "Odmítnutí reflexe práce" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Průběžné další vzdělávání je součástí profesního rozvoje pedagoga. Odbornost se nekončí ukončením studia.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "reformni-pedagogika",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Reformní pedagogika",
+          summary:
+            "Reakce na pasivní školu, důraz na aktivní dítě a přehled sledovaných reformních směrů.",
+          order: 5,
+          studySections: [
+            {
+              id: "vysvetleni-reformni-pedagogika",
+              type: "explanation",
+              title: "Reformní pedagogika",
+              body:
+                "Reformní pedagogika vznikala jako reakce na pasivitu žáků, mechanické memorování a přílišnou autoritativnost školy. Dítě je chápáno jako aktivní účastník vzdělávání. Důležitý je respekt k individuálním potřebám, zkušenost, samostatnost a vlastní činnost. Mezi sledované směry patří Montessori pedagogika, waldorfská pedagogika, Daltonský plán, Jenský plán, projektové vyučování a pragmatická pedagogika Johna Deweyho. Každý směr je třeba posuzovat podle základní myšlenky, role dítěte a pedagoga, prostředí, přínosů, omezení a vhodnosti pro konkrétní praxi.",
+            },
+            {
+              id: "pojmy-reformni-pedagogika",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Reformní pedagogika",
+                  definition:
+                    "Směr reagující na pasivitu, memorování a autoritativnost tradiční školy.",
+                },
+                {
+                  term: "Aktivní dítě",
+                  definition:
+                    "Dítě jako účastník vzdělávání, ne pasivní příjemce.",
+                },
+                {
+                  term: "Individualizace",
+                  definition:
+                    "Respekt k individuálním potřebám a tempu dítěte.",
+                },
+                {
+                  term: "Zkušenost",
+                  definition:
+                    "Vlastní prožitek a činnost dítěte jako základ učení.",
+                },
+                {
+                  term: "Samostatnost",
+                  definition:
+                    "Schopnost a prostor dítěte jednat a učit se vlastní činností.",
+                },
+                {
+                  term: "Projektové vyučování",
+                  definition:
+                    "Reformní přístup založený na práci na smysluplných úkolech a projektech.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt: "Na co reformní pedagogika reagovala u žáků?",
+              choices: [
+                { id: "a", text: "Na pasivitu žáků" },
+                { id: "b", text: "Na přílišnou aktivitu bez školy" },
+                { id: "c", text: "Na úplný zákaz učení" },
+                { id: "d", text: "Na neexistenci vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformní pedagogika kritizovala pasivní roli žáka, který jen přijímá hotové poznatky. Cílem je aktivnější zapojení dítěte.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Co reformní pedagogika kritizovala ve způsobu učení?",
+              choices: [
+                { id: "a", text: "Mechanické memorování" },
+                { id: "b", text: "Přílišné chápání látky" },
+                { id: "c", text: "Respekt k zkušenosti dítěte" },
+                { id: "d", text: "Samostatnou činnost žáka" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Mechanické memorování bez porozumění bylo jedním z problémů tradiční školy. Reformní přístupy kladou důraz na smysluplné učení.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Co reformní pedagogika kritizovala ve vztahu školy a žáka?",
+              choices: [
+                { id: "a", text: "Přílišnou autoritativnost školy" },
+                { id: "b", text: "Přílišný respekt k dítěti" },
+                { id: "c", text: "Nedostatek pravidel" },
+                { id: "d", text: "Zájem o individuální potřeby" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformní pedagogika odmítala přílišnou autoritativnost, kdy škola jednostranně rozhoduje bez respektu k dítěti. Respekt k potřebám je naopak její zásadou.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Jak reformní pedagogika chápe dítě ve vzdělávání?",
+              choices: [
+                { id: "a", text: "Jako aktivního účastníka" },
+                { id: "b", text: "Jako pasivního posluchače" },
+                { id: "c", text: "Jako objekt bez vlastní činnosti" },
+                { id: "d", text: "Jako překážku výuky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Dítě se podílí na učení vlastní činností a zkušeností. Pasivní role příjemce je typická pro kritizovanou tradiční školu.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Pedagožka přizpůsobuje tempo a podporu podle potřeb jednotlivých dětí ve skupině. Který reformní princip uplatňuje?",
+              choices: [
+                { id: "a", text: "Respekt k individuálním potřebám" },
+                { id: "b", text: "Jednotný postup pro všechny bez rozdílu" },
+                { id: "c", text: "Ignorování rozdílů mezi dětmi" },
+                { id: "d", text: "Pasivní memorování" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformní přístupy respektují individuální potřeby a tempo dítěte. Stejný postup bez ohledu na dítě jim odporuje.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Děti ve školce zkoumají vodu při přímé činnosti a pozorování. Co je zde důležité?",
+              choices: [
+                { id: "a", text: "Vlastní zkušenost dítěte" },
+                { id: "b", text: "Jen předčítání bez činnosti" },
+                { id: "c", text: "Výhradně autoritativní výklad" },
+                { id: "d", text: "Zákaz jakékoli aktivity" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformní pedagogika zdůrazňuje zkušenost z vlastní činnosti. Učení bez prožitku a aktivity je opakem tohoto principu.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Dítě si samo volí úkol v rámci nabídky a pracuje na něm bez neustálého vedení. Který reformní důraz je patrný?",
+              choices: [
+                { id: "a", text: "Samostatnost a vlastní činnost" },
+                { id: "b", text: "Pasivní poslouchání" },
+                { id: "c", text: "Mechanické opakování" },
+                { id: "d", text: "Úplná závislost na učiteli" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Samostatnost a vlastní činnost jsou pro reformní pedagogiku typické. Neustálá závislost na autoritě učitele jim neodpovídá.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Které směry patří mezi sledované reformní pedagogiky?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Montessori, waldorfská pedagogika, Daltonský a Jenský plán",
+                },
+                { id: "b", text: "Jen tradiční memorování bez změny" },
+                { id: "c", text: "Pouze vojenská kázeň" },
+                { id: "d", text: "Žádný z reformních směrů" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Mezi reformní směry patří Montessori pedagogika, waldorfská pedagogika, Daltonský plán a Jenský plán. Tradiční memorování není reformní směr.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Které přístupy patří do sledovaného reformního kontextu?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Projektové vyučování a pragmatická pedagogika Johna Deweyho",
+                },
+                { id: "b", text: "Pouze autoritativní přednášení" },
+                { id: "c", text: "Jen izolované memorování" },
+                { id: "d", text: "Žádný reformní přístup" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Projektové vyučování a pragmatická pedagogika Johna Deweyho patří mezi sledované reformní směry. Autoritativní přednášení bez aktivity je spíše kritizovaný model.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "reformni-pedagogika",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "reformni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Ředitelka zvažuje zavedení reformního přístupu v mateřské škole. Jak má postupovat odborně?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Posoudit přínosy, omezení a vhodnost pro praxi",
+                },
+                { id: "b", text: "Zavést ho bez úvahy o kontextu" },
+                { id: "c", text: "Posuzovat jen podle módnosti" },
+                { id: "d", text: "Ignorovat potřeby dětí a týmu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Reformní směr je třeba hodnotit podle přínosů, omezení a možnosti využití v konkrétní praxi — například v mateřské škole. Bez reflexe kontextu hrozí nevhodné použití.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "skolska-soustava-ceske-republiky",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Školská soustava České republiky",
+          summary:
+            "Základní kategorie vzdělávací soustavy a rozdíl mezi druhem školy, stupněm vzdělání, zařízením a kvalifikací.",
+          order: 6,
+          studySections: [
+            {
+              id: "vysvetleni-skolska-soustava",
+              type: "explanation",
+              title: "Školská soustava České republiky",
+              body:
+                "Vzdělávací soustava zahrnuje předškolní vzdělávání, základní a střední vzdělávání, konzervatoře, vyšší odborné a vysokoškolské vzdělávání, zájmové vzdělávání, základní umělecké vzdělávání, školská poradenská zařízení a školská zařízení. Je důležité rozlišovat druh školy, stupeň vzdělání, školské zařízení, obor vzdělání a odbornou kvalifikaci — nejde o totéž.",
+            },
+            {
+              id: "pojmy-skolska-soustava",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Druh školy",
+                  definition:
+                    "Typ školy podle zařazení ve vzdělávací soustavě.",
+                },
+                {
+                  term: "Stupeň vzdělání",
+                  definition:
+                    "Úroveň dosaženého vzdělání v soustavě.",
+                },
+                {
+                  term: "Školské zařízení",
+                  definition:
+                    "Instituce sloužící výchově či vzdělávání mimo běžnou školní třídu.",
+                },
+                {
+                  term: "Obor vzdělání",
+                  definition:
+                    "Vymezení obsahu a zaměření studia nebo výuky.",
+                },
+                {
+                  term: "Odborná kvalifikace",
+                  definition:
+                    "Předpoklady pro výkon určité profese, ne název školy.",
+                },
+                {
+                  term: "Školské poradenské zařízení",
+                  definition:
+                    "Zařízení poskytující poradenskou podporu ve vzdělávání.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Kam patří předškolní vzdělávání ve vzdělávací soustavě?",
+              choices: [
+                { id: "a", text: "Je její součástí" },
+                { id: "b", text: "Stojí mimo jakoukoli soustavu" },
+                { id: "c", text: "Je totéž co vysokoškolské vzdělávání" },
+                { id: "d", text: "Nemá vztah k vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Předškolní vzdělávání je součástí vzdělávací soustavy. Nejde o oddělenou oblast bez vztahu k vzdělávání ani o vysokoškolské vzdělávání.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Jaký je vztah základního a středního vzdělávání?",
+              choices: [
+                { id: "a", text: "Jsou odlišné části soustavy" },
+                { id: "b", text: "Jsou vždy totéž" },
+                { id: "c", text: "Střední vzdělávání neexistuje" },
+                { id: "d", text: "Základní vzdělávání není součástí soustavy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Základní a střední vzdělávání jsou různé části vzdělávací soustavy. Neměly by se zaměňovat jako jeden stejný celek.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt: "Jak je v soustavě vymezena konzervatoř?",
+              choices: [
+                { id: "a", text: "Jako samostatně rozlišovaná součást" },
+                { id: "b", text: "Jako mateřská škola" },
+                { id: "c", text: "Jako školské poradenské zařízení" },
+                { id: "d", text: "Jako zájmové kroužkové vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Konzervatoř je ve vzdělávací soustavě samostatně rozlišovaná součást. Nejde o mateřskou školu ani poradenské zařízení.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Jaký je vztah vyššího odborného a vysokoškolského vzdělávání?",
+              choices: [
+                { id: "a", text: "Nejsou totožné" },
+                { id: "b", text: "Vždy znamenají totéž" },
+                { id: "c", text: "Vyšší odborné neexistuje" },
+                { id: "d", text: "Vysokoškolské není vzdělávání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vyšší odborné a vysokoškolské vzdělávání jsou v soustavě odlišné kategorie. Neměly by se automaticky zaměňovat.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt: "Čím se liší zájmové vzdělávání?",
+              choices: [
+                { id: "a", text: "Je odlišné od stupně formálního vzdělání" },
+                { id: "b", text: "Je totéž co základní škola" },
+                { id: "c", text: "Není součástí vzdělávání" },
+                { id: "d", text: "Nahrazuje vysokoškolské studium" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Zájmové vzdělávání je samostatná oblast — nejde o formální stupeň vzdělání jako základní nebo střední škola.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Co je základní umělecké vzdělávání?",
+              choices: [
+                { id: "a", text: "Specifická oblast vzdělávání" },
+                { id: "b", text: "Totéž co školské poradenské zařízení" },
+                { id: "c", text: "Jen volný čas bez vzdělávání" },
+                { id: "d", text: "Název odborné kvalifikace" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Základní umělecké vzdělávání je ve vzdělávací soustavě vymezená specifická oblast. Nejde o poradenské zařízení ani o kvalifikaci.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Jakou roli mají školská poradenská zařízení?",
+              choices: [
+                { id: "a", text: "Poskytují poradenskou podporu" },
+                { id: "b", text: "Jsou totéž co běžná třída" },
+                { id: "c", text: "Nahrazují všechny školy" },
+                { id: "d", text: "Slouží jen k organizaci plesu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Školská poradenská zařízení poskytují poradenskou podporu ve vzdělávání. Nejde o běžnou výuku v třídě ani o náhradu celé školy.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Dítě navštěvuje školní jídelnu a zároveň mateřskou školu. Co je správné?",
+              choices: [
+                { id: "a", text: "Škola a školské zařízení nejsou totéž" },
+                { id: "b", text: "Každé zařízení je vždy škola" },
+                { id: "c", text: "Mateřská škola není v soustavě" },
+                { id: "d", text: "Jídelna je totéž co obor vzdělání" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Mateřská škola je škola, jídelna je školské zařízení — nejde o totéž. Školské zařízení podporuje provoz výchovy a vzdělávání, ale není automaticky školou.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt:
+                "Studentka říká: „Stupeň vzdělání, druh školy a obor jsou totéž.“ Co je správně?",
+              choices: [
+                { id: "a", text: "Jde o různé pojmy" },
+                { id: "b", text: "Má pravdu — vše je totéž" },
+                { id: "c", text: "Obor je totéž co školské zařízení" },
+                { id: "d", text: "Druh školy neexistuje" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Druh školy označuje typ školy, stupeň vzdělání úroveň dosaženého vzdělání a obor vzdělání jeho zaměření. Zaměňovat je chyba.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "skolska-soustava-ceske-republiky",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "skolska-soustava-ceske-republiky",
+              type: "multiple-choice",
+              prompt: "Co označuje odborná kvalifikace?",
+              choices: [
+                { id: "a", text: "Předpoklady pro výkon profese" },
+                { id: "b", text: "Název školy" },
+                { id: "c", text: "Název oboru vzdělání" },
+                { id: "d", text: "Druh školského zařízení" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Odborná kvalifikace vyjadřuje, zda má člověk předpoklady pro určitou profesi. Není to název školy, oboru ani zařízení.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "vzdelavaci-politika-a-evropsky-kontext",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Vzdělávací politika a evropský kontext",
+          summary:
+            "Cíle vzdělávací politiky, role aktérů, rovný přístup, inkluze, celoživotní učení a evropská spolupráce.",
+          order: 7,
+          studySections: [
+            {
+              id: "vysvetleni-vzdelavaci-politika",
+              type: "explanation",
+              title: "Vzdělávací politika a evropský kontext",
+              body:
+                "Vzdělávací politika řeší cíle, podmínky a směřování vzdělávání. Na vzdělávání se podílejí stát, kraje, obce, školy a zřizovatelé. Důležitý je rovný přístup ke vzdělávání, inkluzivní vzdělávání a celoživotní učení. Vzdělávací politika sleduje kvalitu vzdělávání a profesní přípravu pedagogů. Existuje evropská spolupráce ve vzdělávání, uznávání vzdělání a kvalifikací a ve vzdělávání se uplatňují evropské hodnoty.",
+            },
+            {
+              id: "pojmy-vzdelavaci-politika",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Vzdělávací politika",
+                  definition:
+                    "Soubor záměrů a opatření pro cíle a podmínky vzdělávání.",
+                },
+                {
+                  term: "Rovný přístup",
+                  definition:
+                    "Snaha o dostupnost vzdělávání bez neoprávněného znevýhodnění.",
+                },
+                {
+                  term: "Inkluzivní vzdělávání",
+                  definition:
+                    "Podpora účasti různorodých dětí ve společném vzdělávání.",
+                },
+                {
+                  term: "Celoživotní učení",
+                  definition:
+                    "Učení pokračující i po ukončení formální školy.",
+                },
+                {
+                  term: "Kvalita vzdělávání",
+                  definition:
+                    "Úroveň a účinnost vzdělávacího procesu a jeho výsledků.",
+                },
+                {
+                  term: "Uznávání kvalifikací",
+                  definition:
+                    "Uznání vzdělání a kvalifikací v rámci spolupráce.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt: "Co je předmětem vzdělávací politiky?",
+              choices: [
+                { id: "a", text: "Cíle, podmínky a směřování vzdělávání" },
+                { id: "b", text: "Jen barva školních lavic" },
+                { id: "c", text: "Pouze počasí ve městě" },
+                { id: "d", text: "Výhradně sportovní výsledky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vzdělávací politika určuje, kam má vzdělávání směřovat a za jakých podmínek probíhá. Okrajové detaily bez vztahu k vzdělávání nejsou jejím jádrem.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt: "Který aktér má roli ve vzdělávací politice?",
+              choices: [
+                { id: "a", text: "Stát" },
+                { id: "b", text: "Nikdo — vzdělávání nemá rámec" },
+                { id: "c", text: "Jen jednotlivec bez institucí" },
+                { id: "d", text: "Pouze komerční reklama" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Stát je jedním z aktérů vzdělávací politiky. Vzdělávání má společenský rámec a neprobíhá zcela mimo instituce a odpovědnost.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Kteří aktéři se podílejí na vzdělávání vedle státu?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Kraje, obce, školy a zřizovatelé",
+                },
+                { id: "b", text: "Nikdo jiný" },
+                { id: "c", text: "Jen zahraniční firmy bez škol" },
+                { id: "d", text: "Pouze rodiče bez škol" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Na vzdělávání se podílejí také kraje, obce, školy a zřizovatelé — každý v rámci své role. Nejde o záležitost jen jedné úrovně.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Obec zvažuje podporu dostupnosti školky pro rodiny z různých sociálních poměrů. Který princip se týká?",
+              choices: [
+                { id: "a", text: "Rovný přístup ke vzdělávání" },
+                { id: "b", text: "Záměrné znevýhodnění části dětí" },
+                { id: "c", text: "Zákaz vzdělávání" },
+                { id: "d", text: "Inkluze jako totéž s diskriminací" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Rovný přístup znamená snahu o dostupnost vzdělávání bez neoprávněného znevýhodnění. Inkluze se netýká diskriminace — jde o účast různorodých dětí ve společném vzdělávání.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě MŠ jsou děti s různými potřebami podporované ve společné skupině. O jaký princip jde?",
+              choices: [
+                { id: "a", text: "Inkluzivní vzdělávání" },
+                { id: "b", text: "Vyloučení z vzdělávání" },
+                { id: "c", text: "Rovný přístup jako zákaz podpory" },
+                { id: "d", text: "Konec celoživotního učení" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Inkluzivní vzdělávání podporuje účast různorodých dětí ve společném vzdělávání. Rovný přístup se týká dostupnosti, inkluze zaměření na zapojení v běžném prostředí.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt: "Co znamená celoživotní učení?",
+              choices: [
+                { id: "a", text: "Učení pokračuje i po škole" },
+                { id: "b", text: "Učení končí ukončením školy" },
+                { id: "c", text: "Vzdělávání jen v dětství" },
+                { id: "d", text: "Zákaz dalšího rozvoje" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Celoživotní učení znamená, že člověk se učí i po ukončení formální školy. Učení neskončí posledním ročníkem.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Proč vzdělávací politika sleduje kvalitu vzdělávání?",
+              choices: [
+                { id: "a", text: "Zajímá ji úroveň a účinnost vzdělávání" },
+                { id: "b", text: "Kvalita je pro politiku nepodstatná" },
+                { id: "c", text: "Jde jen o počet oken ve škole" },
+                { id: "d", text: "Vzdělávání nemá výsledky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Kvalita vzdělávání je důležitým tématem vzdělávací politiky — souvisí s tím, jak dobře vzdělávání plní své cíle.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Jak souvisí profesní příprava pedagogů s vzdělávací politikou?",
+              choices: [
+                { id: "a", text: "Ovlivňuje kvalitu vzdělávání" },
+                { id: "b", text: "Nemá žádný význam" },
+                { id: "c", text: "Brání jakékoli spolupráci" },
+                { id: "d", text: "Nahrazuje veškerou politiku" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Profesní příprava pedagogů je součástí zájmu vzdělávací politiky o kvalitu vzdělávání. Kvalifikace učitelů ovlivňuje podmínky výuky.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Absolventka studovala v jedné zemi a chce uplatnit kvalifikaci v jiné. Co patří do evropského kontextu?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Spolupráce a uznávání vzdělání či kvalifikací",
+                },
+                { id: "b", text: "Zákaz jakékoli spolupráce" },
+                { id: "c", text: "Ignorování kvalifikací" },
+                { id: "d", text: "Konec vzdělávání v Evropě" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Evropská spolupráce ve vzdělávání zahrnuje také uznávání vzdělání a kvalifikací. Nejde o izolaci systémů bez vzájemného vztahu.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "vzdelavaci-politika-a-evropsky-kontext",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "vzdelavaci-politika-a-evropsky-kontext",
+              type: "multiple-choice",
+              prompt:
+                "Škola podporuje respekt, spolupráci a odpovědnost ve výchově. Co to může odrážet?",
+              choices: [
+                { id: "a", text: "Promítání evropských hodnot do vzdělávání" },
+                { id: "b", text: "Odmítnutí jakýchkoli hodnot" },
+                { id: "c", text: "Konec vzdělávací politiky" },
+                { id: "d", text: "Zákaz inkluze" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Evropské hodnoty se mohou promítat do principů vzdělávání — například respekt, spolupráce a odpovědnost. Nejde o vzdělávání bez hodnotového rámce.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
