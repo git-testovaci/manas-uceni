@@ -9262,6 +9262,1052 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "multikulturni-vychova-a-rozmanitost",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Multikulturní výchova a rozmanitost",
+          summary:
+            "Kulturní a jazyková rozmanitost, respekt k odlišnostem a prevence předsudků a stereotypů.",
+          order: 7,
+          studySections: [
+            {
+              id: "vysvetleni-multikulturni-vychova",
+              type: "explanation",
+              title: "Multikulturní výchova a rozmanitost",
+              body:
+                "Lidé mohou pocházet z různých kulturních a jazykových prostředí. Rozmanitost není sama o sobě problém. Multikulturní výchova podporuje respekt k odlišnostem a pomáhá předcházet předsudkům a stereotypům. Stereotyp je zjednodušená představa o skupině lidí, předsudek je předem vytvořený hodnotící postoj bez dostatečného poznání. Pedagog posuzuje konkrétní dítě, ne skupinovou nálepku. Jazyková odlišnost nemusí znamenat nižší schopnosti dítěte. Děti mají mít možnost poznávat různé způsoby života bez zesměšňování a společná činnost může podporovat vzájemné poznávání a spolupráci.",
+            },
+            {
+              id: "pojmy-multikulturni-vychova",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Multikulturní výchova",
+                  definition:
+                    "Výchova podporující respekt k kulturním a jazykovým odlišnostem.",
+                },
+                {
+                  term: "Rozmanitost",
+                  definition:
+                    "Různorodost kulturních a jazykových prostředí, ze kterých lidé pocházejí.",
+                },
+                {
+                  term: "Stereotyp",
+                  definition:
+                    "Zjednodušená představa o skupině lidí.",
+                },
+                {
+                  term: "Předsudek",
+                  definition:
+                    "Předem vytvořený hodnotící postoj bez dostatečného poznání.",
+                },
+                {
+                  term: "Respekt k odlišnostem",
+                  definition:
+                    "Uznání různých způsobů života bez zesměšňování nebo vylučování.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě jsou děti z různých kulturních a jazykových prostředí. Co to ukazuje?",
+              choices: [
+                { id: "a", text: "Že ve třídě nemá být žádná rozmanitost" },
+                {
+                  id: "b",
+                  text: "Kulturní a jazykovou rozmanitost ve skupině",
+                },
+                { id: "c", text: "Pouze školní administrativu" },
+                { id: "d", text: "Že všechny děti musí být stejné" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Lidé mohou pocházet z různých kulturních a jazykových prostředí. Rozmanitost je běžnou součástí skupiny, ne problémem sama o sobě.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka říká: „Odlišnosti ve třídě jsou přirozené a samy o sobě nejsou problém.“ Co tím vyjadřuje?",
+              choices: [
+                { id: "a", text: "Že rozmanitost je vždy překážkou" },
+                { id: "b", text: "Že jedna kultura je lepší než jiná" },
+                {
+                  id: "c",
+                  text: "Že rozmanitost není sama o sobě problém",
+                },
+                { id: "d", text: "Že děti mají být izolovány podle původu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Rozmanitost není sama o sobě problém. Důležitý je respektující přístup k odlišnostem, ne jejich popírání nebo hodnocení jako horších.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt: "K čemu směřuje multikulturní výchova?",
+              choices: [
+                { id: "a", text: "K zesměšňování odlišností" },
+                { id: "b", text: "K vyloučení dětí z jiných prostředí" },
+                { id: "c", text: "K podpoře jedné kultury nad ostatními" },
+                {
+                  id: "d",
+                  text: "K respektu k odlišnostem a vzájemnému poznávání",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Multikulturní výchova podporuje respekt k odlišnostem. Cílem není vylučovat ani hodnotit jednu kulturu jako lepší.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Školka připravuje aktivity, kde děti poznávají různé zvyky a učí se o nich bez posměchu. Co tím podporuje?",
+              choices: [
+                { id: "a", text: "Pouze soutěžení mezi kulturami" },
+                {
+                  id: "b",
+                  text: "Prevenci předsudků a stereotypů",
+                },
+                { id: "c", text: "Zesměšňování odlišností" },
+                { id: "d", text: "Izolaci dětí podle původu" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Multikulturní výchova pomáhá předcházet předsudkům a stereotypům. Poznávání odlišností s respektem snižuje zjednodušené soudy o druhých.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "„Všichni z této skupiny jsou stejní a chovají se vždy stejně.“ Co tato věta vystihuje?",
+              choices: [
+                { id: "a", text: "Individuální pozorování dítěte" },
+                { id: "b", text: "Respekt k odlišnostem" },
+                {
+                  id: "c",
+                  text: "Stereotyp — zjednodušenou představu o skupině lidí",
+                },
+                { id: "d", text: "Konkrétní popis chování jednoho dítěte" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Stereotyp je zjednodušená představa o skupině lidí. Přehlíží jednotlivce a jejich skutečné chování.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka má o dětech z určitého prostředí negativní názor, aniž by je blíže poznala. Co to ukazuje?",
+              choices: [
+                { id: "a", text: "Odborné pozorování" },
+                { id: "b", text: "Respektující přístup" },
+                { id: "c", text: "Individuální hodnocení" },
+                {
+                  id: "d",
+                  text: "Předsudek — hodnotící postoj bez dostatečného poznání",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Předsudek je předem vytvořený hodnotící postoj bez dostatečného poznání. Pedagog má děti posuzovat podle konkrétních projevů, ne podle předpojatých soudů.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka hodnotí dítě podle jeho konkrétního chování ve školce, ne podle toho, odkud pochází. Co respektuje?",
+              choices: [
+                { id: "a", text: "Skupinovou nálepku" },
+                {
+                  id: "b",
+                  text: "Individuální posuzování konkrétního dítěte",
+                },
+                { id: "c", text: "Stereotyp o skupině" },
+                { id: "d", text: "Předsudek bez poznání" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog má posuzovat konkrétní dítě, ne skupinovou nálepku. Každé dítě je jedinec s vlastními projevy a potřebami.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Dítě teprve rozvíjí češtinu a zatím mluví méně než vrstevníci. Co z toho plyne?",
+              choices: [
+                { id: "a", text: "Automaticky nižší schopnosti dítěte" },
+                { id: "b", text: "Důvod k vyloučení ze skupiny" },
+                {
+                  id: "c",
+                  text: "Jazyková odlišnost nemusí znamenat nižší schopnosti",
+                },
+                { id: "d", text: "Důvod k posměchu před ostatními" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Jazyková odlišnost nemusí znamenat nižší schopnosti dítěte. Dítě může potřebovat čas a podporu, ne nálepku o schopnostech.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Děti ve školce poznávají různé zvyky a tradice bez posměchu a urážek. Co tím školka podporuje?",
+              choices: [
+                { id: "a", text: "Zesměšňování odlišností" },
+                { id: "b", text: "Vyloučení dětí z jiných prostředí" },
+                { id: "c", text: "Hodnocení jedné kultury jako lepší" },
+                {
+                  id: "d",
+                  text: "Respektující poznávání různých způsobů života",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Děti mají mít možnost poznávat různé způsoby života bez zesměšňování. Respekt je základem multikulturní výchovy.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "multikulturni-vychova-a-rozmanitost",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "multikulturni-vychova-a-rozmanitost",
+              type: "multiple-choice",
+              prompt:
+                "Děti společně připravují jednoduché jídlo podle různých rodinných zvyků a spolu to ochutnávají. Co taková činnost může podpořit?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Vzájemné poznávání a spolupráci",
+                },
+                { id: "b", text: "Stereotypy o skupinách" },
+                { id: "c", text: "Vyloučení některých dětí" },
+                { id: "d", text: "Posměch nad odlišnostmi" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Společná činnost může podporovat vzájemné poznávání a spolupráci. Děti se učí respektovat odlišnosti praktickou zkušeností.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "volny-cas-a-zajmova-vychova",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Volný čas a zájmová výchova",
+          summary:
+            "Význam volného času, zájmové výchovy a smysluplného trávení volna v předškolním věku.",
+          order: 8,
+          studySections: [
+            {
+              id: "vysvetleni-volny-cas-zajmova-vychova",
+              type: "explanation",
+              title: "Volný čas a zájmová výchova",
+              body:
+                "Volný čas je čas, ve kterém člověk neplní povinnosti a může volit činnost. Zájmová výchova podporuje rozvoj zájmů, schopností a dovedností. Volnočasové činnosti mohou být odpočinkové, rekreační, zájmové a tvořivé a mohou mít vzdělávací a sociální význam. Smysluplný volný čas může působit preventivně. Pedagog respektuje věk, potřeby, zájmy a možnosti dítěte, nabídka činností umožňuje přiměřenou volbu a organizovaná činnost nemá odstranit prostor pro spontánní aktivitu.",
+            },
+            {
+              id: "pojmy-volny-cas-zajmova-vychova",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Volný čas",
+                  definition:
+                    "Čas, ve kterém člověk neplní povinnosti a může volit činnost.",
+                },
+                {
+                  term: "Zájmová výchova",
+                  definition:
+                    "Výchova podporující rozvoj zájmů, schopností a dovedností.",
+                },
+                {
+                  term: "Rekreační činnost",
+                  definition:
+                    "Činnost zaměřená na odpočinek, zábavu a obnovu sil.",
+                },
+                {
+                  term: "Tvořivá činnost",
+                  definition:
+                    "Činnost, při které dítě tvoří, zkouší a rozvíjí své nápady.",
+                },
+                {
+                  term: "Spontánní aktivita",
+                  definition:
+                    "Aktivita, kterou dítě zvolí samo, bez přímého řízení dospělého.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt: "Co je volný čas?",
+              choices: [
+                { id: "a", text: "Čas plnění všech povinností bez přestávky" },
+                {
+                  id: "b",
+                  text: "Čas, ve kterém člověk neplní povinnosti a může volit činnost",
+                },
+                { id: "c", text: "Pouze čas spánku v noci" },
+                { id: "d", text: "Čas výhradně pro školní úkoly" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Volný čas je čas, ve kterém člověk neplní povinnosti a může volit činnost. Nejde jen o spánek ani o povinné úkoly.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt: "K čemu směřuje zájmová výchova?",
+              choices: [
+                { id: "a", text: "K potlačení zájmů dítěte" },
+                { id: "b", text: "K výhradnímu plnění povinností" },
+                {
+                  id: "c",
+                  text: "K rozvoji zájmů, schopností a dovedností",
+                },
+                { id: "d", text: "K odstranění veškeré volby dítěte" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Zájmová výchova podporuje rozvoj zájmů, schopností a dovedností. Dítě má prostor objevovat, co ho baví a v čem se rozvíjí.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Dítě po náročné aktivitě sedí v klidu s knížkou a odpočívá. Jakou volnočasovou činnost to ukazuje?",
+              choices: [
+                { id: "a", text: "Pouze soutěžní činnost" },
+                { id: "b", text: "Povinnou školní práci" },
+                { id: "c", text: "Organizovaný sport bez volby" },
+                {
+                  id: "d",
+                  text: "Odpočinkovou činnost",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Volnočasové činnosti mohou být odpočinkové. Odpočinek je důležitou součástí smysluplného trávení volného času.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Děti se na zahradě školky hrají na prolézačce a běhají pro radost. Jakou činnost to představuje?",
+              choices: [
+                { id: "a", text: "Pouze povinnou výuku" },
+                {
+                  id: "b",
+                  text: "Rekreační činnost",
+                },
+                { id: "c", text: "Administrativní práci" },
+                { id: "d", text: "Činnost bez volnočasového významu" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Volnočasové činnosti mohou být rekreační — zaměřené na zábavu, pohyb a obnovu sil. Hra na zahradě je typickým příkladem.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Dítě ve volném čase modeluje z plastelíny podle vlastního nápadu. Jakou činnost to ukazuje?",
+              choices: [
+                { id: "a", text: "Pouze pasivní sledování" },
+                { id: "b", text: "Výhradně povinnou činnost" },
+                { id: "c", text: "Administrativu školy" },
+                {
+                  id: "d",
+                  text: "Zájmovou a tvořivou činnost",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Volnočasové činnosti mohou být zájmové a tvořivé. Dítě rozvíjí své nápady a dovednosti při činnosti, kterou si samo zvolí.",
+              order: 5,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Děti při společné hře učí plánovat tahy a domlouvat se s kamarády. Jaký význam má taková volnočasová činnost?",
+              choices: [
+                { id: "a", text: "Pouze fyzický odpočinek bez učení" },
+                {
+                  id: "b",
+                  text: "Vzdělávací a sociální význam",
+                },
+                { id: "c", text: "Žádný význam pro rozvoj dítěte" },
+                { id: "d", text: "Jen zábavu bez vlivu na dovednosti" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Volnočasové činnosti mohou mít vzdělávací a sociální význam. Dítě se učí spolupracovat a řešit situace ve hře.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Školka nabízí dětem zajímavé aktivity místo prázdného čekání bez podnětů. Co může smysluplný volný čas v školce přinést?",
+              choices: [
+                { id: "a", text: "Pouze zbytečnou zátěž" },
+                { id: "b", text: "Preventivní přínos pro rozvoj dítěte" },
+                { id: "c", text: "Důvod k nálepkování dětí" },
+                { id: "d", text: "Izolaci od ostatních" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Smysluplný volný čas může působit preventivně. Dítě má podněty a strukturu, které podporují jeho rozvoj a zapojení.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vybírá činnosti podle věku dětí, jejich zájmů a aktuálních možností. Co tím respektuje?",
+              choices: [
+                { id: "a", text: "Pouze vlastní pohodlí" },
+                { id: "b", text: "Jen školní rozvrh bez ohledu na děti" },
+                {
+                  id: "c",
+                  text: "Věk, potřeby, zájmy a možnosti dítěte",
+                },
+                { id: "d", text: "Jednotný program pro všechny bez rozdílu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pedagog má respektovat věk, potřeby, zájmy a možnosti dítěte. Nabídka činností má odpovídat tomu, co děti zvládnou a co je zajímá.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Děti si mohou vybrat mezi stavěním, kreslením nebo klidovou činností v koutku. Co nabídka umožňuje?",
+              choices: [
+                { id: "a", text: "Žádnou volbu — vše je povinné" },
+                { id: "b", text: "Pouze jednu činnost pro všechny" },
+                { id: "c", text: "Trest za jinou volbu" },
+                {
+                  id: "d",
+                  text: "Přiměřenou volbu podle možností dítěte",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Nabídka činností má umožňovat přiměřenou volbu. Dítě se učí rozhodovat podle svých zájmů v rámci vhodných možností.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "volny-cas-a-zajmova-vychova",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "volny-cas-a-zajmova-vychova",
+              type: "multiple-choice",
+              prompt:
+                "Školka má plánované aktivity, ale děti mají i čas na vlastní hru podle nápadu. Co je důležité zachovat?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Prostor pro spontánní aktivitu vedle organizované činnosti",
+                },
+                { id: "b", text: "Pouze řízené činnosti bez volné hry" },
+                { id: "c", text: "Úplné zrušení jakékoli struktury" },
+                { id: "d", text: "Zákaz vlastní volby dítěte" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Organizovaná činnost nemá odstranit prostor pro spontánní aktivitu. Dítě potřebuje jak vedení, tak možnost hrát si podle vlastního nápadu.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "socialne-pedagogicka-prace-pedagoga",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Sociálně pedagogická práce pedagoga",
+          summary:
+            "Každodenní sociálně pedagogická práce pedagoga: prostředí, vztahy, spolupráce a reflexe praxe.",
+          order: 9,
+          studySections: [
+            {
+              id: "vysvetleni-socialne-pedagogicka-prace",
+              type: "explanation",
+              title: "Sociálně pedagogická práce pedagoga",
+              body:
+                "Pedagog sleduje potřeby dítěte v souvislosti s jeho prostředím, vytváří bezpečné a přijímající prostředí a podporuje vztahy mezi dětmi. Předchází vylučování dítěte ze skupiny, komunikuje s rodinou věcně a respektujícím způsobem a popisuje konkrétní projevy, nehodnotí osobnost dítěte. Podporuje zapojení dítěte do činností, přizpůsobuje podporu konkrétním potřebám a spolupracuje s kolegy a dalšími odborníky. Respektuje hranice své odborné role, chrání důstojnost a soukromí dítěte a svou práci reflektuje a upravuje další postup.",
+            },
+            {
+              id: "pojmy-socialne-pedagogicka-prace",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Sociálně pedagogická práce",
+                  definition:
+                    "Každodenní práce pedagoga s dětmi v souvislosti s jejich prostředím a potřebami.",
+                },
+                {
+                  term: "Přijímající prostředí",
+                  definition:
+                    "Prostředí, ve kterém se dítě cítí bezpečně a respektovaně.",
+                },
+                {
+                  term: "Individualizovaná podpora",
+                  definition:
+                    "Podpora přizpůsobená konkrétním potřebám dítěte.",
+                },
+                {
+                  term: "Hranice odborné role",
+                  definition:
+                    "Omezení kompetencí pedagoga v závažných situacích.",
+                },
+                {
+                  term: "Reflexe praxe",
+                  definition:
+                    "Zamyšlení nad vlastní prací a úprava dalšího postupu.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka přemýšlí, jak domácí režim a vztahy ve školce ovlivňují chování dítěte. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Posuzování jen podle věku dítěte" },
+                {
+                  id: "b",
+                  text: "Sledování potřeb dítěte v souvislosti s jeho prostředím",
+                },
+                { id: "c", text: "Ignorování vlivu okolí" },
+                { id: "d", text: "Diagnostikování rodiny" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog sleduje potřeby dítěte v souvislosti s jeho prostředím. Chování dítěte nelze chápat odděleně od situace, ve které žije.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě je klidná atmosféra, děti vědí, že se na učitelku mohou obrátit. Co pedagog tím vytváří?",
+              choices: [
+                { id: "a", text: "Stresující a nepředvídatelné prostředí" },
+                { id: "b", text: "Prostředí bez pravidel" },
+                {
+                  id: "c",
+                  text: "Bezpečné a přijímající prostředí",
+                },
+                { id: "d", text: "Prostředí, kde se dítě bojí mluvit" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pedagog vytváří bezpečné a přijímající prostředí. Dítě se v něm cítí respektované a může se lépe rozvíjet.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka podporuje děti při společné hře a pomáhá jim domlouvat se. Co je jejím úkolem?",
+              choices: [
+                { id: "a", text: "Izolovat děti od sebe" },
+                { id: "b", text: "Podporovat vztahy mezi dětmi" },
+                { id: "c", text: "Veřejně srovnávat děti" },
+                {
+                  id: "d",
+                  text: "Bránit jakékoli spolupráci",
+                },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog podporuje vztahy mezi dětmi. Pomáhá jim spolupracovat a řešit drobné neshody ve skupině.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se často drží stranou a ostatní ho do her nezahrnují. Jak má pedagog reagovat?",
+              choices: [
+                { id: "a", text: "Vyloučení nechat bez povšimnutí" },
+                { id: "b", text: "Dítě dále izolovat" },
+                { id: "c", text: "Dítě veřejně pokárat" },
+                {
+                  id: "d",
+                  text: "Předcházet vylučování dítěte ze skupiny",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Pedagog předchází vylučování dítěte ze skupiny. Včasná podpora zapojení pomáhá dítěti cítit se součástí kolektivu.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka s rodiči hovoří klidně, naslouchá a hledá společné kroky pro dítě. Co tím projevuje?",
+              choices: [
+                { id: "a", text: "Respektující komunikaci s rodinou" },
+                { id: "b", text: "Odsuzování rodiny" },
+                { id: "c", text: "Ignorování rodičů" },
+                { id: "d", text: "Veřejné kritizování rodičů" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog komunikuje s rodinou věcně a respektujícím způsobem. Spolupráce stojí na vzájemném respektu a zájmu o dítě.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka rodičům popíše, kdy a jak dítě reagovalo ve skupině, místo aby řekla, že je „špatné“. Co respektuje?",
+              choices: [
+                { id: "a", text: "Hodnocení osobnosti dítěte" },
+                { id: "b", text: "Nálepkování dítěte" },
+                {
+                  id: "c",
+                  text: "Konkrétní popis projevů dítěte",
+                },
+                { id: "d", text: "Veřejné ponižování dítěte" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pedagog popisuje konkrétní projevy, nehodnotí osobnost dítěte. Popis situace pomáhá najít podporu, obecná nálepka škodí.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se zpočátku bojí zapojit do skupinové aktivity. Učitelka ho jemně povzbudí a nabídne úlohu podle jeho možností. Co dělá?",
+              choices: [
+                { id: "a", text: "Dítě nutí do role, kterou nezvládne" },
+                {
+                  id: "b",
+                  text: "Podporuje zapojení dítěte do činností",
+                },
+                { id: "c", text: "Dítě nechá trvale stranou" },
+                { id: "d", text: "Dítě veřejně kritizuje" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog podporuje zapojení dítěte do činností. Postupně a s ohledem na jeho možnosti pomáhá dítěti být součástí skupiny.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka dítěti, které potřebuje více času, přizpůsobí tempo a formu pomoci. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Stejnou podporu bez ohledu na potřeby" },
+                { id: "b", text: "Ignorování potřeb dítěte" },
+                { id: "c", text: "Veřejné srovnávání s ostatními" },
+                {
+                  id: "d",
+                  text: "Individualizovanou podporu podle konkrétních potřeb",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Pedagog přizpůsobuje podporu konkrétním potřebám dítěte. Každé dítě může potřebovat jinou míru nebo formu pomoci.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka po domluvě s kolegyní a poradenským pracovištěm nastaví podporu pro dítě. Co tím respektuje?",
+              choices: [
+                { id: "a", text: "Práci bez kontaktu s nikým dalším" },
+                { id: "b", text: "Izolaci dítěte od pomoci" },
+                {
+                  id: "c",
+                  text: "Spolupráci s kolegy a dalšími odborníky",
+                },
+                { id: "d", text: "Přenesení veškeré odpovědnosti na rodiče" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pedagog spolupracuje s kolegy a dalšími odborníky. Sociálně pedagogická práce je účinnější, když spolupracuje více stran.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka zjistí závažnou situaci a vyhledá odbornou pomoc místo toho, aby jednala sama. Co respektuje?",
+              choices: [
+                { id: "a", text: "Neomezenou pravomoc ve všem" },
+                { id: "b", text: "Ignorování situace" },
+                { id: "c", text: "Veřejné šíření citlivých informací" },
+                {
+                  id: "d",
+                  text: "Hranice své odborné role",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Pedagog respektuje hranice své odborné role. Při závažné situaci vyhledá vhodnou odbornou pomoc místo jednání mimo kompetence.",
+              order: 10,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka řeší citlivé informace o dítěti jen s těmi, kdo je potřebují vědět, a nikdy před ostatními rodiči. Co chrání?",
+              choices: [
+                { id: "a", text: "Veřejné srovnávání dětí" },
+                {
+                  id: "b",
+                  text: "Důstojnost a soukromí dítěte",
+                },
+                { id: "c", text: "Povinnost šířit informace všem" },
+                { id: "d", text: "Ignorování potřeb dítěte" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Pedagog chrání důstojnost a soukromí dítěte. Citlivé informace se sdílejí diskrétně a jen v nezbytném rozsahu.",
+              order: 11,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialne-pedagogicka-prace-pedagoga",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialne-pedagogicka-prace-pedagoga",
+              type: "multiple-choice",
+              prompt:
+                "Po týdnu si učitelka zapíše, co ve skupině fungovalo a co změní příště. Co tím uplatňuje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Reflexi práce a úpravu dalšího postupu",
+                },
+                { id: "b", text: "Konec odborné práce" },
+                { id: "c", text: "Ignorování zkušeností" },
+                { id: "d", text: "Pevné opakování bez změny" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog svou práci reflektuje a upravuje další postup. Zamyšlení nad praxí pomáhá lépe podporovat děti v budoucnu.",
+              order: 12,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
