@@ -3585,6 +3585,625 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "kurikularni-dokumenty-a-vzdelavaci-programy",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Kurikulární dokumenty a vzdělávací programy",
+          summary:
+            "Kurikulum, rámcový a školní vzdělávací program, plánování pedagoga a hodnocení výsledků vzdělávání.",
+          order: 8,
+          studySections: [
+            {
+              id: "vysvetleni-kurikularni-dokumenty",
+              type: "explanation",
+              title: "Kurikulární dokumenty a vzdělávací programy",
+              body:
+                "Kurikulum zahrnuje cíle, obsah, podmínky, průběh a výsledky vzdělávání. Rámcový vzdělávací program stanovuje obecný závazný rámec. Školní vzdělávací program vytváří konkrétní škola a vychází z příslušného RVP. Pedagog připravuje konkrétní vzdělávací nabídku a plán, který respektuje potřeby dětí a podmínky školy. Vzdělávací cíl vyjadřuje, čeho má být dosaženo, obsah určuje, čemu se dítě učí, očekávané výsledky popisují předpokládaný výsledek vzdělávání. Evaluace slouží k posouzení průběhu a výsledků a ke zlepšení další práce.",
+            },
+            {
+              id: "pojmy-kurikularni-dokumenty",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Kurikulum",
+                  definition:
+                    "Soubor cílů, obsahu, podmínek, průběhu a výsledků vzdělávání.",
+                },
+                {
+                  term: "Rámcový vzdělávací program",
+                  definition:
+                    "Obecný závazný rámec pro vzdělávání.",
+                },
+                {
+                  term: "Školní vzdělávací program",
+                  definition:
+                    "Program vytvářený konkrétní školou na základě RVP.",
+                },
+                {
+                  term: "Vzdělávací cíl",
+                  definition:
+                    "Vyjádření toho, čeho má být ve vzdělávání dosaženo.",
+                },
+                {
+                  term: "Vzdělávací obsah",
+                  definition:
+                    "Určení toho, čemu se dítě učí.",
+                },
+                {
+                  term: "Očekávaný výsledek",
+                  definition:
+                    "Popis předpokládaného výsledku vzdělávání.",
+                },
+                {
+                  term: "Evaluace",
+                  definition:
+                    "Posouzení průběhu a výsledků pro zlepšení další práce.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Co zahrnuje kurikulum?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Cíle, obsah, podmínky, průběh a výsledky vzdělávání",
+                },
+                { id: "b", text: "Jen barvu školních učebnic" },
+                { id: "c", text: "Pouze rozvrh hodin" },
+                { id: "d", text: "Výhradně počet oken ve třídě" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Kurikulum je širší než jeden dokument — zahrnuje cíle, obsah, podmínky, průběh i výsledky vzdělávání. Organizační detaily samy o sobě kurikulum nenahrazují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Jakou funkci má rámcový vzdělávací program?",
+              choices: [
+                { id: "a", text: "Stanovuje obecný závazný rámec" },
+                { id: "b", text: "Nahrazuje práci každého pedagoga" },
+                { id: "c", text: "Je jen nezávazný návrh bez vlivu" },
+                { id: "d", text: "Popisuje pouze školní jídelnu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "RVP určuje obecný závazný rámec pro vzdělávání. Konkrétní týdenní plán jedné třídy připravuje pedagog v návaznosti na širší dokumenty.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Kdo vytváří školní vzdělávací program?",
+              choices: [
+                { id: "a", text: "Konkrétní škola" },
+                { id: "b", text: "Každý žák sám" },
+                { id: "c", text: "Nikdo — ŠVP neexistuje" },
+                { id: "d", text: "Pouze rodiče bez školy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "ŠVP vytváří konkrétní škola podle svých podmínek a výcházejícího rámce. Nejde o individuální dokument každého žáka.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Jaký je vztah RVP a ŠVP?",
+              choices: [
+                { id: "a", text: "ŠVP vychází z příslušného RVP" },
+                { id: "b", text: "RVP vychází ze ŠVP jedné třídy" },
+                { id: "c", text: "Spolu nesouvisí" },
+                { id: "d", text: "Jsou vždy totéž" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Školní program navazuje na rámcový program — škola ho konkretizuje v rámci závazného rámce. RVP nestaví na ŠVP jednotlivé školy.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka sestavuje týdenní nabídku aktivit pro svou skupinu. Co je její úloha?",
+              choices: [
+                { id: "a", text: "Připravit konkrétní vzdělávací nabídku a plán" },
+                { id: "b", text: "Ignorovat kurikulární dokumenty" },
+                { id: "c", text: "Pouze opisovat RVP bez plánování" },
+                { id: "d", text: "Nemít žádnou roli v plánování" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog převádí rámec do konkrétní nabídky a plánu pro děti. Pasivní opisování dokumentů bez plánování praxi nenahrazuje.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt:
+                "Pedagožka upravuje plán podle zájmů dětí a možností školky. Co musí plán respektovat?",
+              choices: [
+                { id: "a", text: "Potřeby dětí a podmínky školy" },
+                { id: "b", text: "Jen svůj osobní rozvrh bez ohledu na děti" },
+                { id: "c", text: "Pouze počasí mimo školu" },
+                { id: "d", text: "Náhodu bez vazby na realitu" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Plán pedagoga musí vycházet z potřeb dětí a podmínek konkrétní školy. Ignorování dětí nebo reality prostředí plánování neodpovídá.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Co vyjadřuje vzdělávací cíl?",
+              choices: [
+                { id: "a", text: "Čeho má být dosaženo" },
+                { id: "b", text: "Jen seznam pomůcek ve třídě" },
+                { id: "c", text: "Pouze rozvrh přestávek" },
+                { id: "d", text: "Název školní budovy" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Cíl říká, čeho chceme ve vzdělávání dosáhnout. Obsah určuje, čemu se učí, a očekávaný výsledek popisuje předpokládaný výsledek — nejde o totéž.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Co určuje vzdělávací obsah?",
+              choices: [
+                { id: "a", text: "Čemu se dítě učí" },
+                { id: "b", text: "Jen barvu školního pláště" },
+                { id: "c", text: "Pouze počet zaměstnanců" },
+                { id: "d", text: "Výhradně délku školní chodby" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Obsah vymezuje, čemu se dítě učí — témata, zkušenosti a oblasti. Cíl říká, čeho má být dosaženo; obsah popisuje, co se k tomu učí.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt: "Co popisují očekávané výsledky vzdělávání?",
+              choices: [
+                { id: "a", text: "Předpokládaný výsledek vzdělávání" },
+                { id: "b", text: "Jen rozvrh hodin" },
+                { id: "c", text: "Pouze školní adresu" },
+                { id: "d", text: "Náhodný seznam pomůcek" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Očekávané výsledky popisují, čeho by dítě mělo dosáhnout. Nejde o organizační údaje ani o cíl jako záměr — jde o předpokládaný výsledek učení.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "kurikularni-dokumenty-a-vzdelavaci-programy",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "kurikularni-dokumenty-a-vzdelavaci-programy",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka po projektu hodnotí, co se dětem dařilo a co upravit příště. K čemu slouží evaluace?",
+              choices: [
+                {
+                  id: "a",
+                  text: "K posouzení průběhu a výsledků a ke zlepšení práce",
+                },
+                { id: "b", text: "Jen k trestání dětí" },
+                { id: "c", text: "K zastavení dalšího plánování" },
+                { id: "d", text: "K ignorování výsledků" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Evaluace posuzuje průběh a výsledky a pomáhá zlepšit další práci. Nejde o trest ani o konec reflexe — má podporovat rozvoj výuky.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "hodnoceni-skoly-a-kvality-vzdelavani",
+          subjectId: "obecna-pedagogika",
+          unitId: "historicky-vyvoj-a-soucasne-trendy",
+          title: "Hodnocení školy a kvality vzdělávání",
+          summary:
+            "Vnitřní a vnější hodnocení školy, vlastní hodnocení, hospitace, zpětná vazba a role vedení a České školní inspekce.",
+          order: 9,
+          studySections: [
+            {
+              id: "vysvetleni-hodnoceni-skoly",
+              type: "explanation",
+              title: "Hodnocení školy a kvality vzdělávání",
+              body:
+                "Hodnocení školy slouží ke kontrole i ke zlepšování její práce. Rozlišujeme vnitřní a vnější hodnocení. Vlastní hodnocení školy je součástí vnitřního hodnocení. Hospitace sleduje průběh pedagogické práce, zpětná vazba poskytuje informace pro další zlepšení. Hodnotí se výsledky vzdělávání, klima školy i podmínky vzdělávání. Vedení školy pracuje s výsledky hodnocení. Česká školní inspekce se podílí na vnějším hodnocení školy.",
+            },
+            {
+              id: "pojmy-hodnoceni-skoly",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Vnitřní hodnocení",
+                  definition:
+                    "Hodnocení prováděné uvnitř školy pro zlepšení její práce.",
+                },
+                {
+                  term: "Vnější hodnocení",
+                  definition:
+                    "Hodnocení z vnějšího pohledu, mimo běžnou každodenní praxi školy.",
+                },
+                {
+                  term: "Vlastní hodnocení školy",
+                  definition:
+                    "Škola hodnotí svou práci jako součást vnitřního hodnocení.",
+                },
+                {
+                  term: "Hospitace",
+                  definition:
+                    "Sledování průběhu pedagogické práce za účelem hodnocení a rozvoje.",
+                },
+                {
+                  term: "Zpětná vazba",
+                  definition:
+                    "Informace sloužící k dalšímu zlepšení práce školy nebo pedagoga.",
+                },
+                {
+                  term: "Klima školy",
+                  definition:
+                    "Atmosféra vztahů a spolupráce ve školním prostředí.",
+                },
+                {
+                  term: "Česká školní inspekce",
+                  definition:
+                    "Instituce podílející se na vnějším hodnocení školy.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "K čemu slouží hodnocení školy?",
+              choices: [
+                { id: "a", text: "Ke kontrole i ke zlepšování práce školy" },
+                { id: "b", text: "Jen k trestání zaměstnanců" },
+                { id: "c", text: "K zastavení rozvoje školy" },
+                { id: "d", text: "K ignorování výsledků" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Hodnocení školy má kontrolní i rozvojový smysl — pomáhá zjistit stav a zlepšit práci. Nejde o trest bez reflexe.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Jaký je rozdíl mezi vnitřním a vnějším hodnocením?",
+              choices: [
+                { id: "a", text: "Vnitřní probíhá ve škole, vnější z vnějšku" },
+                { id: "b", text: "Jsou vždy totéž" },
+                { id: "c", text: "Vnější hodnocení neexistuje" },
+                { id: "d", text: "Vnitřní provádí jen inspekce" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vnitřní hodnocení škola provádí sama, vnější přichází z vnějšího pohledu — například prostřednictvím inspekce. Nejde o totéž.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co je vlastní hodnocení školy?",
+              choices: [
+                { id: "a", text: "Součást vnitřního hodnocení" },
+                { id: "b", text: "Totéž co vnější inspekce" },
+                { id: "c", text: "Hodnocení bez reflexe" },
+                { id: "d", text: "Zákaz jakékoli sebereflexe" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vlastní hodnocení školy je součástí vnitřního hodnocení — škola hodnotí svou práci. Vnější hodnocení je odlišný typ.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co sleduje hospitace?",
+              choices: [
+                { id: "a", text: "Průběh pedagogické práce" },
+                { id: "b", text: "Jen školní rozvrh jídel" },
+                { id: "c", text: "Pouze počasí" },
+                { id: "d", text: "Výhradně barvu fasády" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Hospitace sleduje průběh pedagogické práce v reálné situaci. Nejde o organizační nebo okrajové detaily bez vztahu k výuce.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Po hospitaci ředitelka sdělí učitelce konkrétní připomínky k vedení hodiny. Co poskytuje?",
+              choices: [
+                { id: "a", text: "Zpětnou vazbu pro zlepšení" },
+                { id: "b", text: "Jen kritiku bez smyslu" },
+                { id: "c", text: "Zákaz další práce" },
+                { id: "d", text: "Ignorování průběhu výuky" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Zpětná vazba dává informace pro další zlepšení práce. Hospitace ji může podložit pozorováním, ale zpětná vazba je samostatný pojem zaměřený na rozvoj.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co patří mezi předměty hodnocení školy?",
+              choices: [
+                { id: "a", text: "Výsledky vzdělávání" },
+                { id: "b", text: "Jen barva školního auta" },
+                { id: "c", text: "Pouze počet schodů" },
+                { id: "d", text: "Výhradně jména ulic okolo" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Mezi hodnocené oblasti patří výsledky vzdělávání, klima školy a podmínky vzdělávání. Okrajové detaily bez vztahu k práci školy nejsou jádrem hodnocení.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co znamená hodnocení klimatu školy?",
+              choices: [
+                { id: "a", text: "Posouzení atmosféry a vztahů ve škole" },
+                { id: "b", text: "Měření teploty ve třídě" },
+                { id: "c", text: "Jen kontrolu rozvrhu hodin" },
+                { id: "d", text: "Hodnocení pouze známek" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Klima školy se týká vztahů, spolupráce a atmosféry ve školním prostředí. Fyzická teplota nebo samotné známky klimatické hodnocení nenahrazují.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co zahrnuje hodnocení podmínek vzdělávání?",
+              choices: [
+                { id: "a", text: "Posouzení podmínek, za nichž vzdělávání probíhá" },
+                { id: "b", text: "Jen počet dětí ve městě" },
+                { id: "c", text: "Pouze jméno ředitele" },
+                { id: "d", text: "Výhradně barvu učebnic" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Podmínky vzdělávání zahrnují prostředí a zázemí pro výuku a výchovu. Osobní nebo okrajové údaje bez vztahu k podmínkám výuky nestačí.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Ředitelka na základě výsledků vlastního hodnocení plánuje změny v podpoře učitelů. Co tím ukazuje?",
+              choices: [
+                { id: "a", text: "Vedení pracuje s výsledky hodnocení" },
+                { id: "b", text: "Vedení výsledky ignoruje" },
+                { id: "c", text: "Hodnocení nemá žádný následný význam" },
+                { id: "d", text: "Vedení nesmí reagovat na zjištění" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vedení školy má pracovat s výsledky hodnocení a promítat je do rozhodování. Ignorování zjištění by mařilo smysl hodnocení.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "historicky-vyvoj-a-soucasne-trendy",
+                "hodnoceni-skoly-a-kvality-vzdelavani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "historicky-vyvoj-a-soucasne-trendy",
+              lessonId: "hodnoceni-skoly-a-kvality-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Kdo se podílí na vnějším hodnocení školy?",
+              choices: [
+                { id: "a", text: "Česká školní inspekce" },
+                { id: "b", text: "Nikdo z vnějšku" },
+                { id: "c", text: "Pouze jednotliví žáci bez instituce" },
+                { id: "d", text: "Výhradně rodičovská rada jako jediný orgán" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Česká školní inspekce se podílí na vnějším hodnocení školy. Vnitřní hodnocení probíhá ve škole samé — jde o odlišné typy hodnocení.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
