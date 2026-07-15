@@ -339,31 +339,57 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           id: "vychova-a-vzdelavani",
           subjectId: "obecna-pedagogika",
           unitId: "zakladni-pojmy",
-          title: "Výchova a vzdělávání",
-          summary: "Rozdíl mezi výchovou a vzděláváním a jejich cíli.",
+          title: "Základní pedagogické pojmy",
+          summary:
+            "Výchova, vzdělávání, učení, vyučování, socializace a edukace — jak se liší a jak spolu souvisí v praxi.",
           order: 2,
           studySections: [
             {
-              id: "vysvetleni-vychova",
+              id: "vysvetleni-zakladni-pojmy",
               type: "explanation",
-              title: "Výchova a vzdělávání",
+              title: "Základní pedagogické pojmy",
               body:
-                "Výchova je cílený proces formování osobnosti dítěte v rodině, škole i dalších institucích. Vzdělávání je jeho součást zaměřená na systematické získávání znalostí, dovedností a postojů. Oba procesy probíhají současně a vzájemně se doplňují.",
+                "Výchova je cílené a cílevědomé působení zaměřené na rozvoj osobnosti, postojů, hodnot a chování. Vzdělávání je proces získávání znalostí, dovedností, postojů a kompetencí; vzdělání je jeho výsledek nebo dosažená úroveň. Učení je proces změny prostřednictvím zkušenosti, činnosti nebo poznávání. Vyučování je cílevědomá činnost pedagoga, která organizuje a podporuje učení. Socializace je vstup jedince do společnosti a osvojování norem, rolí a vzorců chování. Edukace je širší pojem pro výchovné a vzdělávací procesy. V jedné situaci — například ve školní hodině — se často prolíná výchova, vzdělávání, učení, vyučování i socializace, ale každý pojem popisuje jiný aspekt.",
             },
             {
-              id: "pojmy",
+              id: "pojmy-zakladni",
               type: "keyTerms",
               title: "Klíčové pojmy",
               terms: [
                 {
                   term: "Výchova",
                   definition:
-                    "Cílené působení na rozvoj osobnosti, hodnot a chování člověka.",
+                    "Cílené působení na rozvoj osobnosti, postojů, hodnot a chování.",
                 },
                 {
                   term: "Vzdělávání",
                   definition:
-                    "Systematické získávání znalostí, dovedností a postojů ve vzdělávacím prostředí.",
+                    "Proces získávání znalostí, dovedností, postojů a kompetencí.",
+                },
+                {
+                  term: "Vzdělání",
+                  definition:
+                    "Výsledek nebo dosažená úroveň dosažená vzděláváním.",
+                },
+                {
+                  term: "Učení",
+                  definition:
+                    "Proces změny prostřednictvím zkušenosti, činnosti nebo poznávání.",
+                },
+                {
+                  term: "Vyučování",
+                  definition:
+                    "Cílevědomá činnost pedagoga organizující a podporující učení.",
+                },
+                {
+                  term: "Socializace",
+                  definition:
+                    "Vstup do společnosti a osvojování norem, rolí a vzorců chování.",
+                },
+                {
+                  term: "Edukace",
+                  definition:
+                    "Širší pojem pro výchovné a vzdělávací procesy.",
                 },
               ],
             },
@@ -380,69 +406,346 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               unitId: "zakladni-pojmy",
               lessonId: "vychova-a-vzdelavani",
               type: "multiple-choice",
-              prompt: "Co je výchova?",
+              prompt: "Co charakterizuje výchovu?",
               choices: [
-                { id: "a", text: "Náhodné pozorování dětí bez cíle" },
+                {
+                  id: "a",
+                  text: "Náhodný vliv okolí bez cíle a záměru",
+                },
                 {
                   id: "b",
-                  text: "Cílený proces formování osobnosti a chování",
+                  text: "Cílené působení na osobnost, postoje, hodnoty a chování",
                 },
-                { id: "c", text: "Pouze předávání faktů ve škole" },
-                { id: "d", text: "Výhradně biologický růst organismu" },
+                {
+                  id: "c",
+                  text: "Pouze předávání faktů z učebnice",
+                },
+                {
+                  id: "d",
+                  text: "Výhradně biologický růst organismu",
+                },
               ],
               correctChoiceId: "b",
               explanation:
-                "Výchova je cílené působení na rozvoj osobnosti, hodnot a chování. Není to náhodný ani čistě biologický proces.",
+                "Výchova je záměrná a cílevědomá — směřuje k rozvoji osobnosti, postojů, hodnot a chování. Není to náhoda, pouhé předávání faktů ani biologický růst.",
               order: 1,
+              difficulty: "easy",
             },
             {
               id: buildStudyPracticeItemId(
                 "obecna-pedagogika",
                 "zakladni-pojmy",
                 "vychova-a-vzdelavani",
-                2,
+                4,
               ),
               subjectId: "obecna-pedagogika",
               unitId: "zakladni-pojmy",
               lessonId: "vychova-a-vzdelavani",
               type: "multiple-choice",
-              prompt: "Čím se vzdělávání liší od výchovy jako celku?",
+              prompt: "Co je vzdělávání?",
               choices: [
-                { id: "a", text: "Vzdělávání neprobíhá ve škole" },
+                {
+                  id: "a",
+                  text: "Hotová úroveň znalostí po ukončení studia",
+                },
                 {
                   id: "b",
-                  text: "Vzdělávání je zaměřené na systematické učení",
+                  text: "Proces získávání znalostí, dovedností, postojů a kompetencí",
                 },
-                { id: "c", text: "Výchova nezahrnuje hodnoty" },
-                { id: "d", text: "Vzdělávání je jen mimoškolní aktivita" },
+                {
+                  id: "c",
+                  text: "Jen organizace rozvrhu hodin",
+                },
+                {
+                  id: "d",
+                  text: "Výhradně volná hra bez učení",
+                },
               ],
               correctChoiceId: "b",
               explanation:
-                "Vzdělávání je součást výchovy zaměřená na systematické získávání znalostí, dovedností a postojů.",
+                "Vzdělávání je proces — probíhá v čase a zahrnuje získávání znalostí, dovedností, postojů a kompetencí. Hotová úroveň je vzdělání, ne vzdělávání.",
               order: 2,
+              difficulty: "easy",
             },
             {
               id: buildStudyPracticeItemId(
                 "obecna-pedagogika",
                 "zakladni-pojmy",
                 "vychova-a-vzdelavani",
-                3,
+                5,
               ),
               subjectId: "obecna-pedagogika",
               unitId: "zakladni-pojmy",
               lessonId: "vychova-a-vzdelavani",
               type: "multiple-choice",
-              prompt: "Kde může probíhat výchova?",
+              prompt: "Co označuje pojem vzdělání?",
               choices: [
-                { id: "a", text: "Pouze v rodině" },
-                { id: "b", text: "Pouze ve škole" },
-                { id: "c", text: "V rodině, škole i dalších institucích" },
-                { id: "d", text: "Jen v předškolním věku" },
+                {
+                  id: "a",
+                  text: "Průběžný proces učení ve třídě",
+                },
+                {
+                  id: "b",
+                  text: "Výsledek nebo dosažená úroveň ze vzdělávání",
+                },
+                {
+                  id: "c",
+                  text: "Činnost učitele při vedení hodiny",
+                },
+                {
+                  id: "d",
+                  text: "Vstup dítěte do kolektivu",
+                },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Vzdělání je výsledek — to, čeho bylo ve vzdělávání dosaženo. Proces je vzdělávání, činnost pedagoga je vyučování a vstup do společnosti souvisí se socializací.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Žák se tři roky učí pracovat s textem, čte a píše. Co popisuje tento průběh a co až závěr studia?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Průběh je vzdělání, závěr je vzdělávání",
+                },
+                {
+                  id: "b",
+                  text: "Průběh je vzdělávání, závěr je vzdělání",
+                },
+                {
+                  id: "c",
+                  text: "Obojí je totéž — vzdělávání",
+                },
+                {
+                  id: "d",
+                  text: "Průběh je vyučování, závěr je socializace",
+                },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Tříleté učení je vzdělávání — proces. Dosažená úroveň čtení a psaní na konci je vzdělání — výsledek. Zaměňovat je chyba: proces není totéž co výsledek.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co je učení?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Proces změny díky zkušenosti, činnosti nebo poznávání",
+                },
+                {
+                  id: "b",
+                  text: "Výhradně činnost učitele u tabule",
+                },
+                {
+                  id: "c",
+                  text: "Pouze osvojení společenských norem",
+                },
+                {
+                  id: "d",
+                  text: "Hotový stav po ukončení školy",
+                },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Učení probíhá u žáka — mění se jeho poznání nebo dovednosti. Vyučování je činnost pedagoga, socializace se týká norem a vzdělání je výsledek, ne proces změny.",
+              order: 5,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co je vyučování?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Náhodná změna chování dítěte",
+                },
+                {
+                  id: "b",
+                  text: "Cílevědomá činnost pedagoga podporující učení",
+                },
+                {
+                  id: "c",
+                  text: "Výsledek dosažený po maturitě",
+                },
+                {
+                  id: "d",
+                  text: "Jen domácí příprava žáka",
+                },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Vyučování organizuje a vede učení — je to činnost pedagoga. Učení probíhá u žáka, vzdělání je výsledek a domácí příprava je jen část celku.",
+              order: 6,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitel vede diskusi, žáci formulují vlastní závěry. Který pojem popisuje činnost učitele a který změnu u žáků?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Učitel učí — vyučování; žáci se mění — učení",
+                },
+                {
+                  id: "b",
+                  text: "Učitel se učí — učení; žáci vedou — vyučování",
+                },
+                {
+                  id: "c",
+                  text: "Obojí je vzdělávání",
+                },
+                {
+                  id: "d",
+                  text: "Obojí je socializace",
+                },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vyučování je činnost pedagoga (vedení diskuse, organizace). Učení je proces u žáků (formulace závěrů, změna poznání). Role se nemění — učitel neprobírá učení ve smyslu žákovy změny.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Který pojem označuje vstup člověka do společnosti a osvojování norem, rolí a vzorců chování?",
+              choices: [
+                { id: "a", text: "Výchova" },
+                { id: "b", text: "Vzdělávání" },
+                { id: "c", text: "Socializace" },
+                { id: "d", text: "Edukace" },
               ],
               correctChoiceId: "c",
               explanation:
-                "Výchova probíhá v rodině, škole i dalších výchovných institucích po celý život.",
-              order: 3,
+                "Socializace znamená vstup do společnosti a osvojování norem, rolí a chování. Výchova je širší cílené působení, vzdělávání je proces získávání znalostí a edukace je nadřazený pojem pro výchovné i vzdělávací procesy.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co vystihuje pojem edukace?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Širší pojem pro výchovné a vzdělávací procesy",
+                },
+                {
+                  id: "b",
+                  text: "Pouze formální školní vyučování",
+                },
+                {
+                  id: "c",
+                  text: "Výhradně rodinnou výchovu",
+                },
+                {
+                  id: "d",
+                  text: "Jen výsledek zkoušky",
+                },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Edukace je nadřazený, širší pojem — zahrnuje výchovné i vzdělávací procesy. Není omezena jen na školu, rodinu ani na jeden výsledek.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zakladni-pojmy",
+                "vychova-a-vzdelavani",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zakladni-pojmy",
+              lessonId: "vychova-a-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Ve školce učitelka vede kroužek: děti spolupracují, učí se pravidlům skupiny a získávají nové dovednosti. Které pojmy popisují různé aspekty této situace?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Výchova, vzdělávání, učení, vyučování a socializace se prolínají",
+                },
+                {
+                  id: "b",
+                  text: "Jde výhradně o vyučování, ostatní pojmy neplatí",
+                },
+                {
+                  id: "c",
+                  text: "Jde jen o socializaci, učení v předškolním věku není",
+                },
+                {
+                  id: "d",
+                  text: "Všechny pojmy znamenají totéž",
+                },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "V jedné situaci může probíhat výchova (postoje), vzdělávání (proces), učení (změna u dětí), vyučování (vedení kroužku) i socializace (pravidla skupiny) — každý pojem zachycuje jiný aspekt.",
+              order: 10,
+              difficulty: "medium",
             },
           ],
           examQuestions: [],
