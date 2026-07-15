@@ -665,15 +665,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Jde jen o výchovu, vzdělávání v ní není",
+                  text: "Jde o výchovu bez vzdělávacího aspektu",
                 },
                 {
                   id: "b",
-                  text: "Výchova a vzdělávání se v jedné situaci prolínají jako různé aspekty výchovně-vzdělávacího procesu",
+                  text: "Výchova a vzdělávání se v jedné situaci prolínají",
                 },
                 {
                   id: "c",
-                  text: "Jde jen o vzdělávání, výchova nepůsobí",
+                  text: "Jde o vzdělávání bez výchovného působení",
                 },
                 {
                   id: "d",
@@ -809,16 +809,16 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co je socializace?",
               choices: [
-                { id: "a", text: "Pouze učení se číst a psát" },
+                { id: "a", text: "Učení číst a psát ve škole" },
                 {
                   id: "b",
-                  text: "Výhradně tělesný vývoj dítěte",
+                  text: "Biologický vývoj dítěte bez vlivu okolí",
                 },
                 {
                   id: "c",
-                  text: "Proces vstupu do společnosti a osvojování norem, rolí a chování",
+                  text: "Osvojování norem, rolí a chování ve společnosti",
                 },
-                { id: "d", text: "Náhodná hra bez vlivu okolí" },
+                { id: "d", text: "Hra bez vlivu lidí a pravidel okolí" },
               ],
               correctChoiceId: "c",
               explanation:
@@ -2499,12 +2499,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jaký význam měla povinná školní docházka pro společnost?",
               choices: [
-                { id: "a", text: "Zrušila veškeré školství" },
-                { id: "b", text: "Rozšířila přístup ke vzdělání" },
+                { id: "a", text: "Rozšířila přístup ke vzdělání" },
+                { id: "b", text: "Zrušila veškeré školství" },
                 { id: "c", text: "Zpřístupnila vzdělání jen jedné vrstvě" },
-                { id: "d", text: "Neměla vliv na dostupnost školy" },
+                { id: "d", text: "Neměla vliv na dostupnost školy" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Povinná školní docházka postupně otevřela vzdělávání širším vrstvám obyvatelstva. Nejde o jeho omezení ani o zrušení škol.",
               order: 1,
@@ -2524,11 +2524,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt: "Co znamená profesionalizace učitelství?",
               choices: [
                 { id: "a", text: "Úplné vyloučení přípravy učitelů" },
-                { id: "b", text: "Náhodný výběr bez odbornosti" },
-                { id: "c", text: "Rostoucí odborné požadavky na učitele" },
-                { id: "d", text: "Zánik učitelské profese" },
+                { id: "b", text: "Rostoucí odborné požadavky na učitele" },
+                { id: "c", text: "Náhodný výběr bez odbornosti" },
+                { id: "d", text: "Zánik učitelské profese" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Profesionalizace znamená, že na učitele se kladou vyšší odborné nároky a očekává se profesní příprava. Nejde o odmítnutí odbornosti.",
               order: 2,
@@ -2550,10 +2550,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Absence jakékoli přípravy" },
                 { id: "b", text: "Pouze náhodná praxe bez studia" },
-                { id: "c", text: "Zákaz dalšího vzdělávání" },
-                { id: "d", text: "Odborná příprava učitelů" },
+                { id: "c", text: "Odborná příprava učitelů" },
+                { id: "d", text: "Zákaz dalšího vzdělávání" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Profesionalizace zahrnuje rozvoj odborné přípravy učitelů. Bez přípravy a dalšího rozvoje profesionalizace nedává smysl.",
               order: 3,
@@ -2572,15 +2572,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Jak se měnila role učitele v moderním školství?",
               choices: [
-                { id: "a", text: "Od aktivního učení k pasivnímu předčítání" },
                 {
-                  id: "b",
+                  id: "a",
                   text: "Od předávání poznatků k podpoře aktivního učení",
                 },
+                { id: "b", text: "Od aktivního učení k pasivnímu předčítání" },
                 { id: "c", text: "Vůbec se neměnila" },
-                { id: "d", text: "K úplnému zániku pedagogické role" },
+                { id: "d", text: "K úplnému zániku pedagogické role" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Učitel se více stává průvodcem aktivního učení, ne jen autoritou předávající hotové poznatky. Pasivní přednášení bez zapojení žáků je starší model.",
               order: 4,
@@ -2601,14 +2601,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Jaké znalosti potřebuje současný pedagog podle odborného pojetí profese?",
               choices: [
                 { id: "a", text: "Pouze technické bez pedagogiky" },
-                { id: "b", text: "Jen znalost rozvrhu hodin" },
                 {
-                  id: "c",
+                  id: "b",
                   text: "Odborné, pedagogické a psychologické",
                 },
-                { id: "d", text: "Žádné — stačí intuice" },
+                { id: "c", text: "Jen znalost rozvrhu hodin" },
+                { id: "d", text: "Žádné — stačí intuice" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Pedagog potřebuje obsahovou odbornost i pedagogické a psychologické poznatky pro práci s dětmi. Samotná intuice nebo organizační detail nestačí.",
               order: 5,
@@ -2631,7 +2631,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Ignorování cílů výuky" },
                 { id: "b", text: "Náhodný postup bez přípravy" },
                 { id: "c", text: "Odmítání spolupráce s kolegy" },
-                { id: "d", text: "Plánování vzdělávací činnosti" },
+                { id: "d", text: "Plánování vzdělávací činnosti" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -2653,12 +2653,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Pedagog řeší s rodiči spolupráci při adaptaci dítěte. Která kompetence je klíčová?",
               choices: [
-                { id: "a", text: "Vyhýbání se kontaktu s rodinou" },
-                { id: "b", text: "Komunikace s dětmi a rodiči" },
+                { id: "a", text: "Komunikace s dětmi a rodiči" },
+                { id: "b", text: "Vyhýbání se kontaktu s rodinou" },
                 { id: "c", text: "Jednostranné rozhodování bez dialogu" },
-                { id: "d", text: "Pouze písemné testy bez rozhovoru" },
+                { id: "d", text: "Pouze písemné testy bez rozhovoru" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Pedagog musí umět komunikovat s dětmi i rodiči — sdílet informace, naslouchat a domlouvat se. Izolace od rodiny brání výchovné spolupráci.",
               order: 7,
@@ -2679,11 +2679,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitel sleduje pokrok dítěte v grafomotorice a zaznamenává pozorování. K čemu slouží diagnostické a hodnoticí dovednosti?",
               choices: [
                 { id: "a", text: "Jen k trestání žáků" },
-                { id: "b", text: "K nahrazení veškeré komunikace" },
-                { id: "c", text: "K poznání potřeb a pokroku dítěte" },
-                { id: "d", text: "K ignorování individuálních rozdílů" },
+                { id: "b", text: "K poznání potřeb a pokroku dítěte" },
+                { id: "c", text: "K nahrazení veškeré komunikace" },
+                { id: "d", text: "K ignorování individuálních rozdílů" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Diagnostika a hodnocení pomáhají pochopit, jak dítě pokročilo a co potřebuje. Nejde o trestání ani o přehlížení individuálních rozdílů.",
               order: 8,
@@ -2705,13 +2705,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Reflexe je zbytečná" },
                 { id: "b", text: "Spolupráce s kolegy je zakázaná" },
-                { id: "c", text: "Etika s prací pedagoga nesouvisí" },
                 {
-                  id: "d",
+                  id: "c",
                   text: "Etiku, spolupráci a reflexi",
                 },
+                { id: "d", text: "Etika s prací pedagoga nesouvisí" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Pedagog jedná eticky, spolupracuje s kolegy a reflektuje vlastní praxi. To patří k profesionalitě, ne k okrajovému chování.",
               order: 9,
@@ -2731,12 +2731,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitel se účastní kurzu o podpoře inkluze ve třídě. Co tím rozvíjí?",
               choices: [
-                { id: "a", text: "Další vzdělávání a profesní rozvoj" },
-                { id: "b", text: "Zákaz jakékoli odbornosti" },
-                { id: "c", text: "Konec pedagogické kariéry" },
-                { id: "d", text: "Odmítnutí reflexe práce" },
+                { id: "a", text: "Zákaz jakékoli odbornosti" },
+                { id: "b", text: "Konec pedagogické kariéry" },
+                { id: "c", text: "Odmítnutí reflexe práce" },
+                { id: "d", text: "Další vzdělávání a profesní rozvoj" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Průběžné další vzdělávání je součástí profesního rozvoje pedagoga. Odbornost se nekončí ukončením studia.",
               order: 10,
@@ -3139,12 +3139,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Kam patří předškolní vzdělávání ve vzdělávací soustavě?",
               choices: [
-                { id: "a", text: "Stojí mimo jakoukoli soustavu" },
-                { id: "b", text: "Je její součástí" },
+                { id: "a", text: "Je její součástí" },
+                { id: "b", text: "Stojí mimo jakoukoli soustavu" },
                 { id: "c", text: "Je totéž co vysokoškolské vzdělávání" },
-                { id: "d", text: "Nemá vztah k vzdělávání" },
+                { id: "d", text: "Nemá vztah k vzdělávání" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Předškolní vzdělávání je součástí vzdělávací soustavy. Nejde o oddělenou oblast bez vztahu k vzdělávání ani o vysokoškolské vzdělávání.",
               order: 1,
@@ -3167,7 +3167,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jsou vždy totéž" },
                 { id: "b", text: "Střední vzdělávání neexistuje" },
                 { id: "c", text: "Jsou odlišné části soustavy" },
-                { id: "d", text: "Základní vzdělávání není součástí soustavy" },
+                { id: "d", text: "Základní vzdělávání není součástí soustavy" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -3190,14 +3190,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Žák pokračuje po základní škole na konzervatoř. Kam tato škola patří?",
               choices: [
                 { id: "a", text: "Mezi mateřské školy" },
-                { id: "b", text: "Mezi školská poradenská zařízení" },
-                { id: "c", text: "Mezi zájmová kroužková vzdělávání" },
                 {
-                  id: "d",
+                  id: "b",
                   text: "Mezi samostatně rozlišované součásti soustavy",
                 },
+                { id: "c", text: "Mezi školská poradenská zařízení" },
+                { id: "d", text: "Mezi zájmová kroužková vzdělávání" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Konzervatoř je ve vzdělávací soustavě samostatně rozlišovaná součást. Nejde o mateřskou školu ani poradenské zařízení.",
               order: 3,
@@ -3217,12 +3217,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jaký je vztah vyššího odborného a vysokoškolského vzdělávání?",
               choices: [
-                { id: "a", text: "Vždy znamenají totéž" },
-                { id: "b", text: "Nejsou totožné" },
+                { id: "a", text: "Nejsou totožné" },
+                { id: "b", text: "Vždy znamenají totéž" },
                 { id: "c", text: "Vyšší odborné neexistuje" },
-                { id: "d", text: "Vysokoškolské není vzdělávání" },
+                { id: "d", text: "Vysokoškolské není vzdělávání" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Vyšší odborné a vysokoškolské vzdělávání jsou v soustavě odlišné kategorie. Neměly by se automaticky zaměňovat.",
               order: 4,
@@ -3245,7 +3245,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jako totéž co základní škola" },
                 { id: "b", text: "Jako není součástí vzdělávání" },
                 { id: "c", text: "Jako odlišné od stupně formálního vzdělání" },
-                { id: "d", text: "Jako náhradu vysokoškolského studia" },
+                { id: "d", text: "Jako náhradu vysokoškolského studia" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -3270,7 +3270,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Je to totéž co školské poradenské zařízení" },
                 { id: "b", text: "Je to jen volný čas bez vzdělávání" },
                 { id: "c", text: "Je to název odborné kvalifikace" },
-                { id: "d", text: "Patří to mezi specifickou oblast vzdělávání" },
+                { id: "d", text: "Patří to mezi specifickou oblast vzdělávání" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -3295,7 +3295,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jsou totéž co běžná třída" },
                 { id: "b", text: "Poskytují poradenskou podporu" },
                 { id: "c", text: "Nahrazují všechny školy" },
-                { id: "d", text: "Vedou běžnou výuku všech předmětů" },
+                { id: "d", text: "Vedou běžnou výuku všech předmětů" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -3317,12 +3317,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě navštěvuje školní jídelnu a zároveň mateřskou školu. Co je správné?",
               choices: [
-                { id: "a", text: "Každé zařízení je vždy škola" },
-                { id: "b", text: "Mateřská škola není v soustavě" },
-                { id: "c", text: "Škola a školské zařízení nejsou totéž" },
-                { id: "d", text: "Jídelna je totéž co obor vzdělání" },
+                { id: "a", text: "Škola a školské zařízení nejsou totéž" },
+                { id: "b", text: "Každé zařízení je vždy škola" },
+                { id: "c", text: "Mateřská škola není v soustavě" },
+                { id: "d", text: "Jídelna je totéž co obor vzdělání" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Mateřská škola je škola, jídelna je školské zařízení — nejde o totéž. Školské zařízení podporuje provoz výchovy a vzdělávání, ale není automaticky školou.",
               order: 8,
@@ -3345,7 +3345,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Má pravdu — vše je totéž" },
                 { id: "b", text: "Obor je totéž co školské zařízení" },
                 { id: "c", text: "Druh školy neexistuje" },
-                { id: "d", text: "Jde o různé pojmy" },
+                { id: "d", text: "Jde o různé pojmy" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -3366,12 +3366,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co označuje odborná kvalifikace?",
               choices: [
-                { id: "a", text: "Předpoklady pro výkon profese" },
-                { id: "b", text: "Název školy" },
+                { id: "a", text: "Název školy" },
+                { id: "b", text: "Předpoklady pro výkon profese" },
                 { id: "c", text: "Název oboru vzdělání" },
-                { id: "d", text: "Druh školského zařízení" },
+                { id: "d", text: "Druh školského zařízení" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Odborná kvalifikace vyjadřuje, zda má člověk předpoklady pro určitou profesi. Není to název školy, oboru ani zařízení.",
               order: 10,
@@ -4091,12 +4091,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "K čemu slouží hodnocení školy?",
               choices: [
-                { id: "a", text: "Jen k trestání zaměstnanců" },
-                { id: "b", text: "Ke kontrole i ke zlepšování práce školy" },
+                { id: "a", text: "Ke kontrole i ke zlepšování práce školy" },
+                { id: "b", text: "Jen k trestání zaměstnanců" },
                 { id: "c", text: "K zastavení rozvoje školy" },
-                { id: "d", text: "K ignorování výsledků" },
+                { id: "d", text: "K ignorování výsledků" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Hodnocení školy má kontrolní i rozvojový smysl — pomáhá zjistit stav a zlepšit práci. Nejde o trest bez reflexe.",
               order: 1,
@@ -4118,10 +4118,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Jsou vždy totéž" },
                 { id: "b", text: "Vnější hodnocení neexistuje" },
-                { id: "c", text: "Vnitřní probíhá ve škole, vnější z vnějšku" },
-                { id: "d", text: "Vnitřní provádí jen inspekce" },
+                { id: "c", text: "Vnitřní provádí jen inspekce" },
+                { id: "d", text: "Vnitřní probíhá ve škole, vnější z vnějšku" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Vnitřní hodnocení škola provádí sama, vnější přichází z vnějšího pohledu — například prostřednictvím inspekce. Nejde o totéž.",
               order: 2,
@@ -4141,11 +4141,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt: "Co je vlastní hodnocení školy?",
               choices: [
                 { id: "a", text: "Totéž co vnější inspekce" },
-                { id: "b", text: "Hodnocení bez reflexe" },
-                { id: "c", text: "Zákaz jakékoli sebereflexe" },
-                { id: "d", text: "Součást vnitřního hodnocení" },
+                { id: "b", text: "Součást vnitřního hodnocení" },
+                { id: "c", text: "Hodnocení bez reflexe" },
+                { id: "d", text: "Zákaz jakékoli sebereflexe" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Vlastní hodnocení školy je součástí vnitřního hodnocení — škola hodnotí svou práci. Vnější hodnocení je odlišný typ.",
               order: 3,
@@ -4164,12 +4164,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co sleduje hospitace?",
               choices: [
-                { id: "a", text: "Jen organizaci školního stravování" },
-                { id: "b", text: "Průběh pedagogické práce" },
+                { id: "a", text: "Průběh pedagogické práce" },
+                { id: "b", text: "Jen organizaci školního stravování" },
                 { id: "c", text: "Pouze administrativní evidenci" },
-                { id: "d", text: "Výhradně školní rozvrh přestávek" },
+                { id: "d", text: "Výhradně školní rozvrh přestávek" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Hospitace sleduje průběh pedagogické práce v reálné situaci. Nejde o organizační nebo okrajové detaily bez vztahu k výuce.",
               order: 4,
@@ -4192,7 +4192,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jen kritiku bez smyslu" },
                 { id: "b", text: "Zákaz další práce" },
                 { id: "c", text: "Zpětnou vazbu pro zlepšení" },
-                { id: "d", text: "Ignorování průběhu výuky" },
+                { id: "d", text: "Ignorování průběhu výuky" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -4214,11 +4214,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt: "Co patří mezi předměty hodnocení školy?",
               choices: [
                 { id: "a", text: "Jen organizace školního rozvrhu" },
-                { id: "b", text: "Pouze počet zaměstnanců" },
-                { id: "c", text: "Výhradně školní administrativa" },
-                { id: "d", text: "Výsledky vzdělávání" },
+                { id: "b", text: "Výsledky vzdělávání" },
+                { id: "c", text: "Pouze počet zaměstnanců" },
+                { id: "d", text: "Výhradně školní administrativa" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Mezi hodnocené oblasti patří výsledky vzdělávání, klima školy a podmínky vzdělávání. Okrajové detaily bez vztahu k práci školy nejsou jádrem hodnocení.",
               order: 6,
@@ -4237,12 +4237,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co znamená hodnocení klimatu školy?",
               choices: [
-                { id: "a", text: "Měření teploty ve třídě" },
-                { id: "b", text: "Posouzení atmosféry a vztahů ve škole" },
+                { id: "a", text: "Posouzení atmosféry a vztahů ve škole" },
+                { id: "b", text: "Měření teploty ve třídě" },
                 { id: "c", text: "Jen kontrolu rozvrhu hodin" },
-                { id: "d", text: "Hodnocení pouze známek" },
+                { id: "d", text: "Hodnocení pouze známek" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Klima školy se týká vztahů, spolupráce a atmosféry ve školním prostředí. Fyzická teplota nebo samotné známky klimatické hodnocení nenahrazují.",
               order: 7,
@@ -4263,13 +4263,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Jen organizační harmonogram školy" },
                 { id: "b", text: "Pouze počet zaměstnanců" },
+                { id: "c", text: "Výhradně výsledky sportovních soutěží" },
                 {
-                  id: "c",
+                  id: "d",
                   text: "Posouzení podmínek, za nichž vzdělávání probíhá",
-                },
-                { id: "d", text: "Výhradně výsledky sportovních soutěží" },
+                }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Podmínky vzdělávání zahrnují prostředí a zázemí pro výuku a výchovu. Osobní nebo okrajové údaje bez vztahu k podmínkám výuky nestačí.",
               order: 8,
@@ -4290,11 +4290,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Ředitelka projedná výsledky vlastního hodnocení s týmem a podle nich upraví podporu učitelům. Co tím ukazuje?",
               choices: [
                 { id: "a", text: "Vedení výsledky ignoruje" },
-                { id: "b", text: "Hodnocení nemá následný význam" },
-                { id: "c", text: "Vedení nesmí reagovat na zjištění" },
-                { id: "d", text: "Vedení pracuje s výsledky hodnocení" },
+                { id: "b", text: "Vedení pracuje s výsledky hodnocení" },
+                { id: "c", text: "Hodnocení nemá následný význam" },
+                { id: "d", text: "Vedení nesmí reagovat na zjištění" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Vedení školy má pracovat s výsledky hodnocení a promítat je do rozhodování. Ignorování zjištění by mařilo smysl hodnocení.",
               order: 9,
@@ -4314,12 +4314,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Kdo se podílí na vnějším hodnocení školy?",
               choices: [
-                { id: "a", text: "Česká školní inspekce" },
-                { id: "b", text: "Nikdo z vnějšku" },
-                { id: "c", text: "Pouze jednotliví žáci bez instituce" },
-                { id: "d", text: "Výhradně rodičovská rada jako jediný orgán" },
+                { id: "a", text: "Nikdo z vnějšku" },
+                { id: "b", text: "Pouze jednotliví žáci bez instituce" },
+                { id: "c", text: "Česká školní inspekce" },
+                { id: "d", text: "Výhradně rodičovská rada jako jediný orgán" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Česká školní inspekce se podílí na vnějším hodnocení školy. Vnitřní hodnocení probíhá ve škole samé — jde o odlišné typy hodnocení.",
               order: 10,
@@ -5034,7 +5034,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   text: "Co se má dítě naučit",
                 },
                 { id: "c", text: "Pouze počet zaměstnanců" },
-                { id: "d", text: "Výhradně školní rozvrh" },
+                { id: "d", text: "Výhradně školní rozvrh" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5056,15 +5056,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti se učí pojmenovat části rostliny. Kterou složku obsahu tím rozvíjejí?",
               choices: [
-                { id: "a", text: "Pouze návyk" },
-                { id: "b", text: "Jen postoj" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Vědomosti",
                 },
-                { id: "d", text: "Výhradně kompetenci bez poznání" },
+                { id: "b", text: "Pouze návyk" },
+                { id: "c", text: "Jen postoj" },
+                { id: "d", text: "Výhradně kompetenci bez poznání" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Pojmenování částí rostliny rozvíjí vědomosti — dítě získává poznatky. Návyk nebo postoj by popisovaly jiný typ obsahu.",
               order: 2,
@@ -5086,10 +5086,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Pouze vědomost bez činnosti" },
                 { id: "b", text: "Jen hodnotu bez činnosti" },
-                { id: "c", text: "Výhradně název aktivity" },
-                { id: "d", text: "Dovednosti" },
+                { id: "c", text: "Dovednosti" },
+                { id: "d", text: "Výhradně název aktivity" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Stříhání podle čáry rozvíjí dovednost — dítě získává schopnost konkrétní činnosti. Samotný název aktivity obsah nepopisuje.",
               order: 3,
@@ -5115,7 +5115,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   text: "Postoje a hodnoty",
                 },
                 { id: "c", text: "Jen název pomůcky" },
-                { id: "d", text: "Výhradně technické vybavení" },
+                { id: "d", text: "Výhradně technické vybavení" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5137,15 +5137,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti si zvykají po práci uklidit pomůcky na své místo. Kterou složku obsahu rozvíjejí?",
               choices: [
-                { id: "a", text: "Pouze vědomost" },
-                { id: "b", text: "Jen postoj bez chování" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Návyky",
                 },
-                { id: "d", text: "Výhradně název hodiny" },
+                { id: "b", text: "Pouze vědomost" },
+                { id: "c", text: "Jen postoj bez chování" },
+                { id: "d", text: "Výhradně název hodiny" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Pravidelné uklízení pomůcek rozvíjí návyk — opakovaný způsob chování. Postoj nebo vědomost popisují jiný typ obsahu.",
               order: 5,
@@ -5168,7 +5168,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze izolovanou vědomost" },
                 { id: "b", text: "Jen název aktivity" },
                 { id: "c", text: "Výhradně organizaci přestávek" },
-                { id: "d", text: "Kompetence" },
+                { id: "d", text: "Kompetence" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -5196,7 +5196,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   text: "Věk a potřeby dítěte",
                 },
                 { id: "c", text: "Pouze počet oken ve třídě" },
-                { id: "d", text: "Výhradně školní rozvrh" },
+                { id: "d", text: "Výhradně školní rozvrh" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5218,15 +5218,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka navazuje na to, co děti už znají z domova o zvířatech, a teprve pak přidává nové poznatky. Co tím uplatňuje?",
               choices: [
-                { id: "a", text: "Ignorování předchozích zkušeností" },
-                { id: "b", text: "Pouze náhodný výběr témat" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Přiměřenost a návaznost",
                 },
-                { id: "d", text: "Výhradně administrativní zápis" },
+                { id: "b", text: "Ignorování předchozích zkušeností" },
+                { id: "c", text: "Pouze náhodný výběr témat" },
+                { id: "d", text: "Výhradně administrativní zápis" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Obsah má být přiměřený a navazovat na předchozí zkušenosti dítěte. Náhodný výběr nebo ignorování zkušeností didaktické návaznosti neodpovídá.",
               order: 8,
@@ -5248,13 +5248,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Obsah může jen jednu oblast" },
                 { id: "b", text: "Obsah nesmí navazovat na cíl" },
-                { id: "c", text: "Jen organizaci jídelny" },
                 {
-                  id: "d",
+                  id: "c",
                   text: "Propojení různých oblastí rozvoje",
                 },
+                { id: "d", text: "Jen organizaci jídelny" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Obsah může propojovat různé oblasti rozvoje — například řeč, pohyb a výtvarnou činnost. Jedna izolovaná oblast není jedinou možností.",
               order: 9,
@@ -5274,15 +5274,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Cílem je rozvoj jemné motoriky, proto učitelka volí činnost se stříháním a lepením. Co tím správně propojuje?",
               choices: [
+                { id: "a", text: "Obsah bez vztahu k cíli" },
+                { id: "b", text: "Jen název pomůcky" },
+                { id: "c", text: "Výhradně školní rozvrh" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Cíl a výběr obsahu",
-                },
-                { id: "b", text: "Obsah bez vztahu k cíli" },
-                { id: "c", text: "Jen název pomůcky" },
-                { id: "d", text: "Výhradně školní rozvrh" },
+                }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Cíl určuje výběr obsahu a obsah musí odpovídat cíli. Stříhání a lepení jsou zvoleny proto, že podporují cíl rozvoje jemné motoriky.",
               order: 10,
@@ -5363,7 +5363,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Trvalost" },
                 { id: "b", text: "Názornost" },
                 { id: "c", text: "Zpětnou vazbu" },
-                { id: "d", text: "Vědeckost bez pozorování" },
+                { id: "d", text: "Vědeckost bez pozorování" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5388,7 +5388,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Trvalost bez ohledu na dítě" },
                 { id: "b", text: "Uvědomělost bez přizpůsobení" },
                 { id: "c", text: "Přiměřenost" },
-                { id: "d", text: "Názornost bez vztahu k úkolu" },
+                { id: "d", text: "Názornost bez vztahu k úkolu" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -5410,12 +5410,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Nové téma o zvířatech navazuje na to, co děti už znají z domova. Kterou zásadu učitelka uplatňuje?",
               choices: [
-                { id: "a", text: "Aktivitu bez návaznosti" },
-                { id: "b", text: "Trvalost bez postupu" },
-                { id: "c", text: "Individuální přístup bez obsahu" },
-                { id: "d", text: "Soustavnost a návaznost" },
+                { id: "a", text: "Soustavnost a návaznost" },
+                { id: "b", text: "Aktivitu bez návaznosti" },
+                { id: "c", text: "Trvalost bez postupu" },
+                { id: "d", text: "Individuální přístup bez obsahu" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Soustavnost a návaznost znamenají, že nové učivo navazuje na dřívější zkušenosti a poznatky dítěte. Náhodný skok bez vazby zásadu nenaplňuje.",
               order: 3,
@@ -5438,7 +5438,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Názornost bez reflexe" },
                 { id: "b", text: "Uvědomělost" },
                 { id: "c", text: "Trvalost bez porozumění" },
-                { id: "d", text: "Zpětnou vazbu bez myšlení" },
+                { id: "d", text: "Zpětnou vazbu bez myšlení" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5463,7 +5463,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Trvalost bez činnosti" },
                 { id: "b", text: "Vědeckost bez zapojení" },
                 { id: "c", text: "Aktivitu dítěte" },
-                { id: "d", text: "Názornost bez účasti dítěte" },
+                { id: "d", text: "Názornost bez účasti dítěte" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -5488,7 +5488,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Názornost bez opakování" },
                 { id: "b", text: "Individuální přístup bez návyku" },
                 { id: "c", text: "Uvědomělost jen jednou" },
-                { id: "d", text: "Trvalost" },
+                { id: "d", text: "Trvalost" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -5510,12 +5510,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Po vysvětlení o rostlinách děti zasadí semínko do hlíny a sledují růst. Kterou zásadu učitelka uplatňuje?",
               choices: [
-                { id: "a", text: "Názornost bez praxe" },
-                { id: "b", text: "Spojení teorie s praxí" },
+                { id: "a", text: "Spojení teorie s praxí" },
+                { id: "b", text: "Názornost bez praxe" },
                 { id: "c", text: "Trvalost bez činnosti" },
-                { id: "d", text: "Zpětnou vazbu bez zkušenosti" },
+                { id: "d", text: "Zpětnou vazbu bez zkušenosti" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Spojení teorie s praxí propojuje vysvětlení s vlastní činností a zkušeností dítěte. Samotný výklad bez praktického kroku zásadu nenaplňuje.",
               order: 7,
@@ -5536,11 +5536,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka upraví úkol pro dítě, které potřebuje více času a podpory. Kterou zásadu uplatňuje?",
               choices: [
                 { id: "a", text: "Trvalost bez ohledu na dítě" },
-                { id: "b", text: "Vědeckost bez respektu" },
-                { id: "c", text: "Individuální přístup" },
-                { id: "d", text: "Názornost bez rozdílů" },
+                { id: "b", text: "Individuální přístup" },
+                { id: "c", text: "Vědeckost bez respektu" },
+                { id: "d", text: "Názornost bez rozdílů" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Individuální přístup respektuje rozdíly a potřeby jednotlivých dětí. Stejný úkol bez úpravy pro všechny individuální přístup nenahrazuje.",
               order: 8,
@@ -5563,7 +5563,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Aktivitu bez pravdivosti" },
                 { id: "b", text: "Trvalost bez ověření" },
                 { id: "c", text: "Uvědomělost bez reality" },
-                { id: "d", text: "Vědeckost a pravdivost" },
+                { id: "d", text: "Vědeckost a pravdivost" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -5588,7 +5588,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Zpětnou vazbu" },
                 { id: "b", text: "Trvalost bez informace" },
                 { id: "c", text: "Názornost bez hodnocení" },
-                { id: "d", text: "Uvědomělost bez sdělení" },
+                { id: "d", text: "Uvědomělost bez sdělení" }
               ],
               correctChoiceId: "a",
               explanation:
@@ -5667,12 +5667,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co je vzdělávací metoda?",
               choices: [
-                { id: "a", text: "Jen název pomůcky" },
-                { id: "b", text: "Způsob postupu k cíli" },
+                { id: "a", text: "Způsob postupu k cíli" },
+                { id: "b", text: "Jen název pomůcky" },
                 { id: "c", text: "Pouze počet dětí ve třídě" },
-                { id: "d", text: "Výhradně školní rozvrh" },
+                { id: "d", text: "Výhradně školní rozvrh" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Metoda je způsob, jak pedagog a dítě postupují k cíli. Rozvrh nebo pomůcka samy metodu nevymezují.",
               order: 1,
@@ -5693,11 +5693,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka vypráví dětem pohádku o zvířátkách v lese. Kterou skupinu metod využívá?",
               choices: [
                 { id: "a", text: "Pouze experiment" },
-                { id: "b", text: "Jen manipulaci s předměty" },
-                { id: "c", text: "Slovní metody" },
-                { id: "d", text: "Výhradně exkurzi" },
+                { id: "b", text: "Slovní metody" },
+                { id: "c", text: "Jen manipulaci s předměty" },
+                { id: "d", text: "Výhradně exkurzi" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Vyprávění patří mezi slovní metody. Experiment nebo exkurze by šly o jiný typ postupu.",
               order: 2,
@@ -5719,10 +5719,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Jen rozhovor bez ukázky" },
                 { id: "b", text: "Pouze hru bez demonstrace" },
-                { id: "c", text: "Situační metody" },
-                { id: "d", text: "Názorně demonstrační metody" },
+                { id: "c", text: "Názorně demonstrační metody" },
+                { id: "d", text: "Situační metody" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Ukázka patří mezi názorně demonstrační metody. Samotný rozhovor bez ukázky by demonstraci nenahradil.",
               order: 3,
@@ -5742,12 +5742,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti samy lepí a skládají koláž z přírodnin. Kterou skupinu metod učitelka využívá?",
               choices: [
-                { id: "a", text: "Pouze slovní metody" },
-                { id: "b", text: "Praktické metody" },
+                { id: "a", text: "Praktické metody" },
+                { id: "b", text: "Pouze slovní metody" },
                 { id: "c", text: "Jen vyprávění" },
-                { id: "d", text: "Výhradně pozorování bez činnosti" },
+                { id: "d", text: "Výhradně pozorování bez činnosti" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Lepení a skládání je praktická činnost — patří mezi praktické metody. Čistě slovní výklad praktickou metodu nenahrazuje.",
               order: 4,
@@ -5768,11 +5768,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Děti hledají ve třídě předměty podle zadaných vlastností. Kterou skupinu metod učitelka využívá?",
               choices: [
                 { id: "a", text: "Pouze vyprávění" },
-                { id: "b", text: "Jen pasivní poslech" },
-                { id: "c", text: "Aktivizující metody" },
-                { id: "d", text: "Výhradně nápodobu" },
+                { id: "b", text: "Aktivizující metody" },
+                { id: "c", text: "Jen pasivní poslech" },
+                { id: "d", text: "Výhradně nápodobu" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Hledání a aktivní řešení úkolu patří mezi aktivizující metody. Pasivní poslech aktivizaci nenahrazuje.",
               order: 5,
@@ -5795,7 +5795,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze vyprávění" },
                 { id: "b", text: "Jen nápodobu" },
                 { id: "c", text: "Výhradně pozorování" },
-                { id: "d", text: "Situační a problémové metody" },
+                { id: "d", text: "Situační a problémové metody" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -5817,12 +5817,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Skupina několik dní připravuje výstavu o podzimu a společně ji dokončuje. Kterou metodu využívá?",
               choices: [
-                { id: "a", text: "Pouze krátký rozhovor" },
-                { id: "b", text: "Projektovou metodu" },
+                { id: "a", text: "Projektovou metodu" },
+                { id: "b", text: "Pouze krátký rozhovor" },
                 { id: "c", text: "Jen nápodobu" },
-                { id: "d", text: "Výhradně experiment" },
+                { id: "d", text: "Výhradně experiment" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Delší souvislý úkol s výsledkem je projektová metoda. Krátký rozhovor projekt nenahrazuje.",
               order: 7,
@@ -5845,7 +5845,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze vysvětlování" },
                 { id: "b", text: "Jen experiment" },
                 { id: "c", text: "Hru" },
-                { id: "d", text: "Výhradně pozorování" },
+                { id: "d", text: "Výhradně pozorování" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -5870,7 +5870,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze vyprávění" },
                 { id: "b", text: "Jen nápodobu" },
                 { id: "c", text: "Výhradně rozhovor" },
-                { id: "d", text: "Experiment a pozorování" },
+                { id: "d", text: "Experiment a pozorování" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -5895,7 +5895,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze experiment" },
                 { id: "b", text: "Rozhovor, vyprávění a vysvětlování" },
                 { id: "c", text: "Jen manipulaci bez slova" },
-                { id: "d", text: "Výhradně projekt" },
+                { id: "d", text: "Výhradně projekt" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -5920,7 +5920,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Pouze rozhovor" },
                 { id: "b", text: "Jen experiment" },
                 { id: "c", text: "Nápodobu" },
-                { id: "d", text: "Výhradně projekt" },
+                { id: "d", text: "Výhradně projekt" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -5942,12 +5942,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti společně skládají velký obrázek tak, že každé přidá svůj dílek. Kterou metodu využívají?",
               choices: [
-                { id: "a", text: "Kooperativní učení" },
-                { id: "b", text: "Pouze individuální práci" },
-                { id: "c", text: "Jen pasivní poslech" },
-                { id: "d", text: "Výhradně experiment" },
+                { id: "a", text: "Pouze individuální práci" },
+                { id: "b", text: "Jen pasivní poslech" },
+                { id: "c", text: "Výhradně experiment" },
+                { id: "d", text: "Kooperativní učení" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Společná práce na jednom úkolu s vzájemnou podporou je kooperativní učení. Individuální práce nebo pasivní poslech kooperaci nenahrazují.",
               order: 12,
@@ -6645,7 +6645,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Vyhodnocuje výsledek" },
                 { id: "b", text: "Zjišťuje potřeby a výchozí stav" },
                 { id: "c", text: "Realizuje činnost" },
-                { id: "d", text: "Upravuje další postup" },
+                { id: "d", text: "Upravuje další postup" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -6669,10 +6669,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Vybírá obsah" },
                 { id: "b", text: "Sleduje reakce dětí" },
-                { id: "c", text: "Stanovuje cíl" },
-                { id: "d", text: "Připravuje prostředky" },
+                { id: "c", text: "Připravuje prostředky" },
+                { id: "d", text: "Stanovuje cíl" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Formulace toho, čeho má být dosaženo, je stanovení cíle. Výběr obsahu nebo prostředků následuje až po cíli.",
               order: 2,
@@ -6692,12 +6692,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "K cíli o podzimu učitelka volí práci s listím a příběh o lesním zvířátku. Který krok plánování to je?",
               choices: [
-                { id: "a", text: "Realizace činnosti" },
-                { id: "b", text: "Vyhodnocení výsledku" },
-                { id: "c", text: "Zjištění potřeb" },
-                { id: "d", text: "Výběr obsahu" },
+                { id: "a", text: "Výběr obsahu" },
+                { id: "b", text: "Realizace činnosti" },
+                { id: "c", text: "Vyhodnocení výsledku" },
+                { id: "d", text: "Zjištění potřeb" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Volba témat a aktivit podle cíle je výběr obsahu. Realizace je až provedení v praxi.",
               order: 3,
@@ -6720,7 +6720,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Upravuje další postup" },
                 { id: "b", text: "Zvolí metody a organizační formy" },
                 { id: "c", text: "Vyhodnocuje výsledek" },
-                { id: "d", text: "Zjišťuje výchozí stav" },
+                { id: "d", text: "Zjišťuje výchozí stav" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -6745,7 +6745,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Sledování reakcí dětí" },
                 { id: "b", text: "Stanovení cíle" },
                 { id: "c", text: "Příprava prostředků a prostředí" },
-                { id: "d", text: "Realizace činnosti" },
+                { id: "d", text: "Realizace činnosti" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -6767,12 +6767,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka naplánuje jednodušší úkol pro dítě, které potřebuje více podpory. Který krok plánování provádí?",
               choices: [
-                { id: "a", text: "Vyhodnocuje výsledek" },
-                { id: "b", text: "Zjišťuje potřeby" },
-                { id: "c", text: "Vybírá obsah" },
-                { id: "d", text: "Promýšlí individualizaci" },
+                { id: "a", text: "Promýšlí individualizaci" },
+                { id: "b", text: "Vyhodnocuje výsledek" },
+                { id: "c", text: "Zjišťuje potřeby" },
+                { id: "d", text: "Vybírá obsah" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Přizpůsobení plánu konkrétnímu dítěti je promyšlení individualizace. Zjištění potřeb je dřívější krok, vyhodnocení pozdější.",
               order: 6,
@@ -6795,7 +6795,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Zjištění výchozího stavu" },
                 { id: "b", text: "Realizace činnosti" },
                 { id: "c", text: "Stanovení cíle" },
-                { id: "d", text: "Úprava dalšího postupu" },
+                { id: "d", text: "Úprava dalšího postupu" }
               ],
               correctChoiceId: "b",
               explanation:
@@ -6819,10 +6819,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 { id: "a", text: "Výběr obsahu" },
                 { id: "b", text: "Příprava prostředků" },
-                { id: "c", text: "Sledování reakcí dětí" },
-                { id: "d", text: "Stanovení cíle" },
+                { id: "c", text: "Stanovení cíle" },
+                { id: "d", text: "Sledování reakcí dětí" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Pozorování zapojení a potřeb dětí během činnosti je sledování reakcí. Vyhodnocení přichází po skončení aktivity.",
               order: 8,
@@ -6842,12 +6842,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Po aktivitě učitelka posoudí, zda děti dosáhly zamýšleného cíle. Který krok plánování provádí?",
               choices: [
-                { id: "a", text: "Zjištění potřeb" },
-                { id: "b", text: "Realizaci činnosti" },
-                { id: "c", text: "Výběr obsahu" },
-                { id: "d", text: "Vyhodnocení výsledku" },
+                { id: "a", text: "Vyhodnocení výsledku" },
+                { id: "b", text: "Zjištění potřeb" },
+                { id: "c", text: "Realizaci činnosti" },
+                { id: "d", text: "Výběr obsahu" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Posouzení dosažení cíle po činnosti je vyhodnocení výsledku. Sledování reakcí probíhá během aktivity.",
               order: 9,
@@ -6867,12 +6867,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Podle zjištění z hodiny učitelka změní příští postup a přidá více podpory. Který krok plánování provádí?",
               choices: [
-                { id: "a", text: "Úpravu dalšího postupu" },
-                { id: "b", text: "Stanovení cíle" },
-                { id: "c", text: "Zjištění výchozího stavu" },
-                { id: "d", text: "Realizaci činnosti" },
+                { id: "a", text: "Stanovení cíle" },
+                { id: "b", text: "Zjištění výchozího stavu" },
+                { id: "c", text: "Úpravu dalšího postupu" },
+                { id: "d", text: "Realizaci činnosti" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Změna dalšího plánování na základě vyhodnocení je úprava dalšího postupu — poslední krok plánovacího cyklu.",
               order: 10,
@@ -6945,12 +6945,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka sleduje, jak dítě roztřídilo přírodniny podle barvy. Co hodnotí?",
               choices: [
-                { id: "a", text: "Jen školní rozvrh" },
-                { id: "b", text: "Dítě" },
+                { id: "a", text: "Dítě" },
+                { id: "b", text: "Jen školní rozvrh" },
                 { id: "c", text: "Pouze budovu školy" },
-                { id: "d", text: "Výhradně počasí" },
+                { id: "d", text: "Výhradně počasí" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Sledování výkonu konkrétního dítěte je hodnocení dítěte. Hodnocení procesu by se týkalo průběhu celé aktivity.",
               order: 1,
@@ -6973,7 +6973,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jen jedno dítě" },
                 { id: "b", text: "Pouze pomůcky" },
                 { id: "c", text: "Vzdělávací proces" },
-                { id: "d", text: "Výhradně rozvrh jídel" },
+                { id: "d", text: "Výhradně rozvrh jídel" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -6996,11 +6996,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Dítě si po práci řekne: „Povedlo se mi roztřídit většinu listů.“ Co dělá?",
               choices: [
                 { id: "a", text: "Hodnotí školu" },
-                { id: "b", text: "Reflektuje pedagoga" },
-                { id: "c", text: "Porovnává ostatní děti" },
-                { id: "d", text: "Sebehodnocení" },
+                { id: "b", text: "Sebehodnocení" },
+                { id: "c", text: "Reflektuje pedagoga" },
+                { id: "d", text: "Porovnává ostatní děti" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Když dítě hodnotí vlastní práci, jde o sebehodnocení dítěte. Reflexe pedagoga nebo srovnávání s ostatními je něco jiného.",
               order: 3,
@@ -7020,12 +7020,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Po hodině se učitelka zamýšlí, zda byl její postup vhodný. Co provádí?",
               choices: [
-                { id: "a", text: "Sebehodnocení dítěte" },
-                { id: "b", text: "Sebereflexi pedagoga" },
+                { id: "a", text: "Sebereflexi pedagoga" },
+                { id: "b", text: "Sebehodnocení dítěte" },
                 { id: "c", text: "Hodnocení školy inspekcí" },
-                { id: "d", text: "Sumativní hodnocení celé školy" },
+                { id: "d", text: "Sumativní hodnocení celé školy" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Zamyšlení pedagoga nad vlastní praxí je sebereflexe pedagoga. Hodnocení školy inspekcí patří do jiné oblasti.",
               order: 4,
@@ -7048,7 +7048,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Závěrečnou zpětnou vazbu" },
                 { id: "b", text: "Sumativní hodnocení" },
                 { id: "c", text: "Průběžnou zpětnou vazbu" },
-                { id: "d", text: "Hodnocení celé školy" },
+                { id: "d", text: "Hodnocení celé školy" }
               ],
               correctChoiceId: "c",
               explanation:
@@ -7073,7 +7073,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Jen průběžnou vazbu bez shrnutí" },
                 { id: "b", text: "Hodnocení školy" },
                 { id: "c", text: "Pouze známku" },
-                { id: "d", text: "Závěrečnou zpětnou vazbu" },
+                { id: "d", text: "Závěrečnou zpětnou vazbu" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -7095,12 +7095,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka podle pozorování upraví další aktivitu, aby dítě lépe pochopilo úkol. Jaký typ hodnocení využívá?",
               choices: [
-                { id: "a", text: "Sumativní hodnocení" },
-                { id: "b", text: "Formativní hodnocení" },
+                { id: "a", text: "Formativní hodnocení" },
+                { id: "b", text: "Sumativní hodnocení" },
                 { id: "c", text: "Hodnocení celé školy" },
-                { id: "d", text: "Pouze srovnávání dětí" },
+                { id: "d", text: "Pouze srovnávání dětí" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Formativní hodnocení podporuje další učení a úpravu postupu. Sumativní shrnuje výsledek po ukončení celku.",
               order: 7,
@@ -7121,11 +7121,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Na konci týdne učitelka shrne, čeho děti za ten čas dosáhly. Jaký typ hodnocení využívá?",
               choices: [
                 { id: "a", text: "Pouze formativní" },
-                { id: "b", text: "Hodnocení školy" },
-                { id: "c", text: "Sumativní hodnocení" },
-                { id: "d", text: "Jen průběžnou vazbu" },
+                { id: "b", text: "Sumativní hodnocení" },
+                { id: "c", text: "Hodnocení školy" },
+                { id: "d", text: "Jen průběžnou vazbu" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Shrnutí dosaženého výsledku po určitém období je sumativní hodnocení. Formativní podporuje průběžné učení.",
               order: 8,
@@ -7148,7 +7148,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Nálepkování dítěte" },
                 { id: "b", text: "Srovnání s nejlepším žákem" },
                 { id: "c", text: "Pouze známku bez slova" },
-                { id: "d", text: "Popisnou zpětnou vazbu" },
+                { id: "d", text: "Popisnou zpětnou vazbu" }
               ],
               correctChoiceId: "d",
               explanation:
@@ -7171,11 +7171,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka řekne dítěti: „Jsi nejlepší ve třídě v kreslení.“ Jaké riziko tím vzniká?",
               choices: [
                 { id: "a", text: "Podpora sebehodnocení" },
-                { id: "b", text: "Riziko nálepkování dítěte" },
-                { id: "c", text: "Popisná zpětná vazba" },
-                { id: "d", text: "Formativní hodnocení" },
+                { id: "b", text: "Popisná zpětná vazba" },
+                { id: "c", text: "Riziko nálepkování dítěte" },
+                { id: "d", text: "Formativní hodnocení" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Přisouzení pevné nálepky může dítě omezit a ovlivnit jeho sebevnímání. Popisná zpětná vazba je bezpečnější.",
               order: 10,
@@ -7196,11 +7196,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka před ostatními řekne: „Podívejte, on to umí nejlíp.“ Jaké riziko tím vzniká?",
               choices: [
                 { id: "a", text: "Podpora reflexe" },
-                { id: "b", text: "Sebehodnocení dítěte" },
-                { id: "c", text: "Riziko srovnávání dětí" },
-                { id: "d", text: "Popisná zpětná vazba" },
+                { id: "b", text: "Riziko srovnávání dětí" },
+                { id: "c", text: "Sebehodnocení dítěte" },
+                { id: "d", text: "Popisná zpětná vazba" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Veřejné srovnávání dětí může poškodit sebevědomí a vztahy ve skupině. Hodnocení má být obezřetné a respektující.",
               order: 11,
@@ -7220,12 +7220,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Po reflexi si učitelka zapíše: „Příště zkrátím výklad a dám více času na praktickou část.“ Co tím docílí?",
               choices: [
-                { id: "a", text: "Úpravu další praxe" },
-                { id: "b", text: "Ignorování zjištění" },
-                { id: "c", text: "Konec reflexe" },
-                { id: "d", text: "Hodnocení školy inspekcí" },
+                { id: "a", text: "Ignorování zjištění" },
+                { id: "b", text: "Konec reflexe" },
+                { id: "c", text: "Hodnocení školy inspekcí" },
+                { id: "d", text: "Úpravu další praxe" }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Reflexe má vést k úpravě budoucí praxe. Zápis změny pro příště ukazuje, že reflexe má praktický následek.",
               order: 12,
@@ -8474,11 +8474,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               choices: [
                 {
                   id: "a",
-                  text: "Věcně řešit rozdílný názor se zaměřením na potřeby dítěte",
+                  text: "Věcně řešit názor se zaměřením na potřeby dítěte",
                 },
-                { id: "b", text: "Okamžitě ukončit spolupráci" },
-                { id: "c", text: "Veřejně kritizovat rodiče" },
-                { id: "d", text: "Ignorovat názor rodiče" },
+                { id: "b", text: "Okamžitě ukončit spolupráci s rodinou" },
+                { id: "c", text: "Veřejně kritizovat rodiče před ostatními" },
+                { id: "d", text: "Ignorovat názor rodiče bez reakce" },
               ],
               correctChoiceId: "a",
               explanation:
@@ -8639,10 +8639,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Automaticky nízké schopnosti dítěte" },
                 {
                   id: "b",
-                  text: "Obtížnější podmínky související s prostředím, ve kterém dítě vyrůstá",
+                  text: "Obtížnější podmínky spojené s prostředím dítěte",
                 },
-                { id: "c", text: "Pouze špatné chování dítěte" },
-                { id: "d", text: "Diagnózu, kterou stanoví učitel" },
+                { id: "c", text: "Samotné obtížné chování dítěte" },
+                { id: "d", text: "Nedostatek zájmu školy o dítě" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -8720,13 +8720,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě přichází z rodiny s jiným mateřským jazykem a zvyky než většina ve třídě. Jak to pedagog správně chápe?",
               choices: [
-                { id: "a", text: "Jako automatický problém dítěte" },
+                { id: "a", text: "Automatický problém dítěte ve skupině" },
                 {
                   id: "b",
-                  text: "Jako jazykovou a kulturní odlišnost, kterou lze respektovat a podpořit",
+                  text: "Jazykovou a kulturní odlišnost k podpoře",
                 },
-                { id: "c", text: "Jako důvod k vyloučení ze skupiny" },
-                { id: "d", text: "Jako důkaz nízkých schopností" },
+                { id: "c", text: "Důvod k vyloučení dítěte ze skupiny" },
+                { id: "d", text: "Důkaz nízkých schopností dítěte" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -9020,12 +9020,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka si všimne, že dítě se častěji stahuje ze skupiny a reaguje podrážděně. Co je vhodný preventivní postup?",
               choices: [
-                { id: "a", text: "Ignorovat změnu chování" },
-                { id: "b", text: "Okamžitě dítě nálepkovat" },
-                { id: "c", text: "Počkat, až situace eskaluje" },
+                { id: "a", text: "Ignorovat změnu chování a čekat" },
+                { id: "b", text: "Okamžitě dítě nálepkovat ve skupině" },
+                { id: "c", text: "Počkat, až situace výrazně eskaluje" },
                 {
                   id: "d",
-                  text: "Včas rozpoznat varovné signály a nabídnout dřívější podporu",
+                  text: "Včas reagovat na signály a nabídnout podporu",
                 },
               ],
               correctChoiceId: "d",
@@ -9048,13 +9048,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Ve třídě je klidná atmosféra, děti se cítí přijímané a mohou se obrátit na dospělého. Co to představuje?",
               choices: [
-                { id: "a", text: "Pouze dekoraci třídy" },
+                { id: "a", text: "Estetickou úpravu prostoru bez vlivu na vztahy" },
                 {
                   id: "b",
-                  text: "Bezpečné a přijímající prostředí jako ochranný faktor",
+                  text: "Bezpečné prostředí jako ochranný faktor prevence",
                 },
-                { id: "c", text: "Důvod k uvolnění všech pravidel" },
-                { id: "d", text: "Překážku prevence" },
+                { id: "c", text: "Důvod k uvolnění všech pravidel ve třídě" },
+                { id: "d", text: "Překážku preventivní práce ve skupině" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -9101,13 +9101,13 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě se svěří učitelce, že ho ve skupině něco trápí. Co takový vztah podporuje?",
               choices: [
-                { id: "a", text: "Izolaci dítěte" },
-                { id: "b", text: "Nálepkování dítěte" },
+                { id: "a", text: "Izolaci dítěte od ostatních ve skupině" },
+                { id: "b", text: "Nálepkování dítěte kvůli sdílenému problému" },
                 {
                   id: "c",
-                  text: "Možnost dítěte vyhledat pomoc u důvěryhodného dospělého",
+                  text: "Vyhledání pomoci u důvěryhodného dospělého",
                 },
-                { id: "d", text: "Ignorování problému" },
+                { id: "d", text: "Ignorování sdíleného problému dítěte" },
               ],
               correctChoiceId: "c",
               explanation:
@@ -9351,14 +9351,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Ve třídě jsou děti z různých kulturních a jazykových prostředí. Co to ukazuje?",
               choices: [
                 { id: "a", text: "Že ve třídě nemá být žádná rozmanitost" },
+                { id: "b", text: "Pouze školní administrativu" },
                 {
-                  id: "b",
+                  id: "c",
                   text: "Kulturní a jazykovou rozmanitost ve skupině",
                 },
-                { id: "c", text: "Pouze školní administrativu" },
-                { id: "d", text: "Že všechny děti musí být stejné" },
+                { id: "d", text: "Že všechny děti musí být stejné" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Lidé mohou pocházet z různých kulturních a jazykových prostředí. Rozmanitost je běžnou součástí skupiny, ne problémem sama o sobě.",
               order: 1,
@@ -9378,15 +9378,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka říká: „Odlišnosti ve třídě jsou přirozené a samy o sobě nejsou problém.“ Co tím vyjadřuje?",
               choices: [
-                { id: "a", text: "Že rozmanitost je vždy překážkou" },
-                { id: "b", text: "Že jedna kultura je lepší než jiná" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Že rozmanitost není sama o sobě problém",
                 },
-                { id: "d", text: "Že děti mají být izolovány podle původu" },
+                { id: "b", text: "Že rozmanitost je vždy překážkou" },
+                { id: "c", text: "Že jedna kultura je lepší než jiná" },
+                { id: "d", text: "Že děti mají být izolovány podle původu" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Rozmanitost není sama o sobě problém. Důležitý je respektující přístup k odlišnostem, ne jejich popírání nebo hodnocení jako horších.",
               order: 2,
@@ -9406,14 +9406,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt: "K čemu směřuje multikulturní výchova?",
               choices: [
                 { id: "a", text: "K zesměšňování odlišností" },
-                { id: "b", text: "K vyloučení dětí z jiných prostředí" },
-                { id: "c", text: "K podpoře jedné kultury nad ostatními" },
                 {
-                  id: "d",
+                  id: "b",
                   text: "K respektu k odlišnostem a vzájemnému poznávání",
                 },
+                { id: "c", text: "K vyloučení dětí z jiných prostředí" },
+                { id: "d", text: "K podpoře jedné kultury nad ostatními" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Multikulturní výchova podporuje respekt k odlišnostem. Cílem není vylučovat ani hodnotit jednu kulturu jako lepší.",
               order: 3,
@@ -9434,14 +9434,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Školka připravuje aktivity, kde děti poznávají různé zvyky a učí se o nich bez posměchu. Co tím podporuje?",
               choices: [
                 { id: "a", text: "Pouze soutěžení mezi kulturami" },
+                { id: "b", text: "Zesměšňování odlišností" },
+                { id: "c", text: "Izolaci dětí podle původu" },
                 {
-                  id: "b",
+                  id: "d",
                   text: "Prevenci předsudků a stereotypů",
-                },
-                { id: "c", text: "Zesměšňování odlišností" },
-                { id: "d", text: "Izolaci dětí podle původu" },
+                }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "d",
               explanation:
                 "Multikulturní výchova pomáhá předcházet předsudkům a stereotypům. Poznávání odlišností s respektem snižuje zjednodušené soudy o druhých.",
               order: 4,
@@ -9461,15 +9461,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "„Všichni z této skupiny jsou stejní a chovají se vždy stejně.“ Co tato věta vystihuje?",
               choices: [
-                { id: "a", text: "Individuální pozorování dítěte" },
-                { id: "b", text: "Respekt k odlišnostem" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Stereotyp — zjednodušenou představu o skupině lidí",
                 },
-                { id: "d", text: "Konkrétní popis chování jednoho dítěte" },
+                { id: "b", text: "Individuální pozorování dítěte" },
+                { id: "c", text: "Respekt k odlišnostem" },
+                { id: "d", text: "Konkrétní popis chování jednoho dítěte" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Stereotyp je zjednodušená představa o skupině lidí. Přehlíží jednotlivce a jejich skutečné chování.",
               order: 5,
@@ -9489,15 +9489,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka má o dětech z určitého prostředí negativní názor, aniž by je blíže poznala. Co to ukazuje?",
               choices: [
-                { id: "a", text: "Odborné pozorování" },
-                { id: "b", text: "Respektující přístup" },
-                { id: "c", text: "Individuální hodnocení" },
+                { id: "a", text: "Odborné pozorování konkrétního dítěte" },
                 {
-                  id: "d",
-                  text: "Předsudek — hodnotící postoj bez dostatečného poznání",
+                  id: "b",
+                  text: "Předsudek — hodnotící postoj bez poznání dítěte",
                 },
+                { id: "c", text: "Respektující přístup k odlišnostem" },
+                { id: "d", text: "Individuální hodnocení podle projevů" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Předsudek je předem vytvořený hodnotící postoj bez dostatečného poznání. Pedagog má děti posuzovat podle konkrétních projevů, ne podle předpojatých soudů.",
               order: 6,
@@ -9518,14 +9518,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka hodnotí dítě podle jeho konkrétního chování ve školce, ne podle toho, odkud pochází. Co respektuje?",
               choices: [
                 { id: "a", text: "Skupinovou nálepku" },
+                { id: "b", text: "Stereotyp o skupině" },
                 {
-                  id: "b",
+                  id: "c",
                   text: "Individuální posuzování konkrétního dítěte",
                 },
-                { id: "c", text: "Stereotyp o skupině" },
-                { id: "d", text: "Předsudek bez poznání" },
+                { id: "d", text: "Předsudek bez poznání" }
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Pedagog má posuzovat konkrétní dítě, ne skupinovou nálepku. Každé dítě je jedinec s vlastními projevy a potřebami.",
               order: 7,
@@ -9545,15 +9545,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě teprve rozvíjí češtinu a zatím mluví méně než vrstevníci. Co z toho plyne?",
               choices: [
-                { id: "a", text: "Automaticky nižší schopnosti dítěte" },
-                { id: "b", text: "Důvod k vyloučení ze skupiny" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Jazyková odlišnost nemusí znamenat nižší schopnosti",
                 },
-                { id: "d", text: "Důvod k posměchu před ostatními" },
+                { id: "b", text: "Automaticky nižší schopnosti dítěte" },
+                { id: "c", text: "Důvod k vyloučení ze skupiny" },
+                { id: "d", text: "Důvod k posměchu před ostatními" }
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Jazyková odlišnost nemusí znamenat nižší schopnosti dítěte. Dítě může potřebovat čas a podporu, ne nálepku o schopnostech.",
               order: 8,
@@ -9574,14 +9574,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Děti ve školce poznávají různé zvyky a tradice bez posměchu a urážek. Co tím školka podporuje?",
               choices: [
                 { id: "a", text: "Zesměšňování odlišností" },
-                { id: "b", text: "Vyloučení dětí z jiných prostředí" },
-                { id: "c", text: "Hodnocení jedné kultury jako lepší" },
                 {
-                  id: "d",
+                  id: "b",
                   text: "Respektující poznávání různých způsobů života",
                 },
+                { id: "c", text: "Vyloučení dětí z jiných prostředí" },
+                { id: "d", text: "Hodnocení jedné kultury jako lepší" }
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Děti mají mít možnost poznávat různé způsoby života bez zesměšňování. Respekt je základem multikulturní výchovy.",
               order: 9,
@@ -9601,15 +9601,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti společně připravují jednoduché jídlo podle různých rodinných zvyků a spolu to ochutnávají. Co taková činnost může podpořit?",
               choices: [
+                { id: "a", text: "Stereotypy o skupinách" },
+                { id: "b", text: "Vyloučení některých dětí" },
+                { id: "c", text: "Posměch nad odlišnostmi" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Vzájemné poznávání a spolupráci",
-                },
-                { id: "b", text: "Stereotypy o skupinách" },
-                { id: "c", text: "Vyloučení některých dětí" },
-                { id: "d", text: "Posměch nad odlišnostmi" },
+                }
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Společná činnost může podporovat vzájemné poznávání a spolupráci. Děti se učí respektovat odlišnosti praktickou zkušeností.",
               order: 10,
