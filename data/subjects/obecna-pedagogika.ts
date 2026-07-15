@@ -5273,6 +5273,982 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
           ],
           examQuestions: [],
         },
+        {
+          id: "didakticke-zasady",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Didaktické zásady",
+          summary:
+            "Deset základních didaktických zásad a jejich uplatnění v praxi mateřské školy.",
+          order: 4,
+          studySections: [
+            {
+              id: "vysvetleni-didakticke-zasady",
+              type: "explanation",
+              title: "Didaktické zásady",
+              body:
+                "Didaktické zásady usměrňují vzdělávací práci. Patří mezi ně názornost, přiměřenost, soustavnost a návaznost, uvědomělost, aktivita dítěte, trvalost, spojení teorie s praxí, individuální přístup, vědeckost a pravdivost a zpětná vazba. Názornost znamená, že dítě poznává skutečné předměty a situace. Přiměřenost vyžaduje soulad úkolu s věkem a možnostmi dítěte. Nové učivo má navazovat na to, co dítě už zná.",
+            },
+            {
+              id: "pojmy-didakticke-zasady",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Názornost",
+                  definition:
+                    "Využití skutečných předmětů, pozorování a konkrétních zážitků.",
+                },
+                {
+                  term: "Přiměřenost",
+                  definition:
+                    "Soulad úkolu s věkem, zkušenostmi a možnostmi dítěte.",
+                },
+                {
+                  term: "Soustavnost a návaznost",
+                  definition:
+                    "Postupné a logicky navazující vzdělávání.",
+                },
+                {
+                  term: "Aktivita dítěte",
+                  definition:
+                    "Aktivní zapojení dítěte do učení a činnosti.",
+                },
+                {
+                  term: "Individuální přístup",
+                  definition:
+                    "Respekt k rozdílům a potřebám jednotlivých dětí.",
+                },
+                {
+                  term: "Zpětná vazba",
+                  definition:
+                    "Informace podporující další učení a zlepšení.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Dítě pozoruje, dotýká se a porovnává skutečný list s listy na obrázku. Kterou didaktickou zásadu učitelka uplatňuje?",
+              choices: [
+                { id: "a", text: "Trvalost" },
+                { id: "b", text: "Názornost" },
+                { id: "c", text: "Zpětnou vazbu" },
+                { id: "d", text: "Vědeckost bez pozorování" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Názornost využívá skutečné předměty a smyslové poznávání. Dítě pracuje s reálným listem, ne jen s abstraktním popisem.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka zadává tříletým dětem jednoduché úkoly místo složitého psaní textu. Kterou zásadu respektuje?",
+              choices: [
+                { id: "a", text: "Trvalost bez ohledu na dítě" },
+                { id: "b", text: "Uvědomělost bez přizpůsobení" },
+                { id: "c", text: "Přiměřenost" },
+                { id: "d", text: "Názornost bez vztahu k úkolu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Přiměřenost znamená, že úkol odpovídá věku, zkušenostem a možnostem dítěte. Složitý úkol pro tříleté děti by zásadu porušoval.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Nové téma o zvířatech navazuje na to, co děti už znají z domova. Kterou zásadu učitelka uplatňuje?",
+              choices: [
+                { id: "a", text: "Aktivitu bez návaznosti" },
+                { id: "b", text: "Trvalost bez postupu" },
+                { id: "c", text: "Individuální přístup bez obsahu" },
+                { id: "d", text: "Soustavnost a návaznost" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Soustavnost a návaznost znamenají, že nové učivo navazuje na dřívější zkušenosti a poznatky dítěte. Náhodný skok bez vazby zásadu nenaplňuje.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Po činnosti se učitelka ptá, proč dítě zvolilo určitý postup. Kterou zásadu tím podporuje?",
+              choices: [
+                { id: "a", text: "Názornost bez reflexe" },
+                { id: "b", text: "Uvědomělost" },
+                { id: "c", text: "Trvalost bez porozumění" },
+                { id: "d", text: "Zpětnou vazbu bez myšlení" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Uvědomělost podporuje, aby dítě chápalo, co dělá a proč. Samotná činnost bez reflexe uvědomělost nenahrazuje.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Děti samy skládají stavebnici podle vlastního nápadu místo pasivního poslechu. Kterou zásadu učitelka uplatňuje?",
+              choices: [
+                { id: "a", text: "Trvalost bez činnosti" },
+                { id: "b", text: "Vědeckost bez zapojení" },
+                { id: "c", text: "Aktivitu dítěte" },
+                { id: "d", text: "Názornost bez účasti dítěte" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Aktivita dítěte znamená jeho vlastní zapojení do učení a činnosti. Pasivní poslech aktivitu dítěte nenaplňuje.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka opakovaně vrací k pravidlům spolupráce ve skupině po celý týden. Kterou zásadu tím podporuje?",
+              choices: [
+                { id: "a", text: "Názornost bez opakování" },
+                { id: "b", text: "Individuální přístup bez návyku" },
+                { id: "c", text: "Uvědomělost jen jednou" },
+                { id: "d", text: "Trvalost" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Trvalost znamená opakované a dlouhodobější utváření poznatků, dovedností a postojů. Jednorázová zmínka bez návaznosti trvalost nenaplňuje.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Po vysvětlení o rostlinách děti zasadí semínko do hlíny a sledují růst. Kterou zásadu učitelka uplatňuje?",
+              choices: [
+                { id: "a", text: "Názornost bez praxe" },
+                { id: "b", text: "Spojení teorie s praxí" },
+                { id: "c", text: "Trvalost bez činnosti" },
+                { id: "d", text: "Zpětnou vazbu bez zkušenosti" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Spojení teorie s praxí propojuje vysvětlení s vlastní činností a zkušeností dítěte. Samotný výklad bez praktického kroku zásadu nenaplňuje.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka upraví úkol pro dítě, které potřebuje více času a podpory. Kterou zásadu uplatňuje?",
+              choices: [
+                { id: "a", text: "Trvalost bez ohledu na dítě" },
+                { id: "b", text: "Vědeckost bez respektu" },
+                { id: "c", text: "Individuální přístup" },
+                { id: "d", text: "Názornost bez rozdílů" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Individuální přístup respektuje rozdíly a potřeby jednotlivých dětí. Stejný úkol bez úpravy pro všechny individuální přístup nenahrazuje.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vysvětluje, že listy na podzim opadávají, a ukazuje skutečné listí na zahradě. Kterou zásadu tím podporuje?",
+              choices: [
+                { id: "a", text: "Aktivitu bez pravdivosti" },
+                { id: "b", text: "Trvalost bez ověření" },
+                { id: "c", text: "Uvědomělost bez reality" },
+                { id: "d", text: "Vědeckost a pravdivost" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Vědeckost a pravdivost vyžadují, aby děti dostávaly správné a ověřitelné informace v souladu s realitou. Vymyšlený nebo nepravdivý popis zásadu porušuje.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "didakticke-zasady",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "didakticke-zasady",
+              type: "multiple-choice",
+              prompt:
+                "Po dokončení práce učitelka dítěti řekne, co se povedlo a co může zkusit jinak. Kterou zásadu uplatňuje?",
+              choices: [
+                { id: "a", text: "Zpětnou vazbu" },
+                { id: "b", text: "Trvalost bez informace" },
+                { id: "c", text: "Názornost bez hodnocení" },
+                { id: "d", text: "Uvědomělost bez sdělení" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Zpětná vazba poskytuje dítěti informace pro další učení a zlepšení. Ticho po práci bez jakékoli reakce zpětnou vazbu nenahrazuje.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "vzdelavaci-metody",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Vzdělávací metody",
+          summary:
+            "Význam vzdělávací metody a hlavní typy metod v praxi mateřské školy.",
+          order: 5,
+          studySections: [
+            {
+              id: "vysvetleni-vzdelavaci-metody",
+              type: "explanation",
+              title: "Vzdělávací metody",
+              body:
+                "Metoda je způsob, jak pedagog a dítě postupují k cíli. Patří mezi ně slovní metody, názorně demonstrační metody, praktické metody, aktivizující metody, situační a problémové metody, projektová metoda, hra, experiment, pozorování, rozhovor, vyprávění, vysvětlování, nápodoba a kooperativní učení. V mateřské škole se často využívají hra, vlastní zkušenost, pohyb, manipulace s předměty, pozorování, smyslové poznávání, komunikace a tvořivá činnost.",
+            },
+            {
+              id: "pojmy-vzdelavaci-metody",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Vzdělávací metoda",
+                  definition:
+                    "Způsob, jak pedagog a dítě postupují k cíli.",
+                },
+                {
+                  term: "Slovní metody",
+                  definition:
+                    "Metody využívající slovo a jazyk.",
+                },
+                {
+                  term: "Praktické metody",
+                  definition:
+                    "Metody založené na činnosti a zkušenosti.",
+                },
+                {
+                  term: "Aktivizující metody",
+                  definition:
+                    "Metody podporující aktivní zapojení dítěte.",
+                },
+                {
+                  term: "Projektová metoda",
+                  definition:
+                    "Metoda řešení úkolu v delším souvislém celku.",
+                },
+                {
+                  term: "Hra",
+                  definition:
+                    "Metoda učení prostřednictvím hry.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt: "Co je vzdělávací metoda?",
+              choices: [
+                { id: "a", text: "Jen název pomůcky" },
+                { id: "b", text: "Způsob postupu k cíli" },
+                { id: "c", text: "Pouze počet dětí ve třídě" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Metoda je způsob, jak pedagog a dítě postupují k cíli. Rozvrh nebo pomůcka samy metodu nevymezují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vypráví dětem pohádku o zvířátkách v lese. Kterou skupinu metod využívá?",
+              choices: [
+                { id: "a", text: "Pouze experiment" },
+                { id: "b", text: "Jen manipulaci s předměty" },
+                { id: "c", text: "Slovní metody" },
+                { id: "d", text: "Výhradně exkurzi" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Vyprávění patří mezi slovní metody. Experiment nebo exkurze by šly o jiný typ postupu.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka ukazuje, jak správně držet nůžky při stříhání. Kterou skupinu metod využívá?",
+              choices: [
+                { id: "a", text: "Jen rozhovor bez ukázky" },
+                { id: "b", text: "Pouze hru bez demonstrace" },
+                { id: "c", text: "Situační metody" },
+                { id: "d", text: "Názorně demonstrační metody" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Ukázka patří mezi názorně demonstrační metody. Samotný rozhovor bez ukázky by demonstraci nenahradil.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti samy lepí a skládají koláž z přírodnin. Kterou skupinu metod učitelka využívá?",
+              choices: [
+                { id: "a", text: "Pouze slovní metody" },
+                { id: "b", text: "Praktické metody" },
+                { id: "c", text: "Jen vyprávění" },
+                { id: "d", text: "Výhradně pozorování bez činnosti" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Lepení a skládání je praktická činnost — patří mezi praktické metody. Čistě slovní výklad praktickou metodu nenahrazuje.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti hledají ve třídě předměty podle zadaných vlastností. Kterou skupinu metod učitelka využívá?",
+              choices: [
+                { id: "a", text: "Pouze vyprávění" },
+                { id: "b", text: "Jen pasivní poslech" },
+                { id: "c", text: "Aktivizující metody" },
+                { id: "d", text: "Výhradně nápodobu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Hledání a aktivní řešení úkolu patří mezi aktivizující metody. Pasivní poslech aktivizaci nenahrazuje.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti řeší, jak uspořádat koutek tak, aby se tam všichni vešli a měli kam ukládat pomůcky. Kterou skupinu metod učitelka využívá?",
+              choices: [
+                { id: "a", text: "Pouze vyprávění" },
+                { id: "b", text: "Jen nápodobu" },
+                { id: "c", text: "Výhradně pozorování" },
+                { id: "d", text: "Situační a problémové metody" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Řešení reálné situace nebo problému patří mezi situační a problémové metody. Samotné vyprávění problém neřeší.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Skupina několik dní připravuje výstavu o podzimu a společně ji dokončuje. Kterou metodu využívá?",
+              choices: [
+                { id: "a", text: "Pouze krátký rozhovor" },
+                { id: "b", text: "Projektovou metodu" },
+                { id: "c", text: "Jen nápodobu" },
+                { id: "d", text: "Výhradně experiment" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Delší souvislý úkol s výsledkem je projektová metoda. Krátký rozhovor projekt nenahrazuje.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti si ve volném koutku hrají na obchod a procvičují spolupráci. Kterou metodu využívají?",
+              choices: [
+                { id: "a", text: "Pouze vysvětlování" },
+                { id: "b", text: "Jen experiment" },
+                { id: "c", text: "Hru" },
+                { id: "d", text: "Výhradně pozorování" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Hra je ve vzdělávání metoda učení. V mateřské škole má zvláštní význam pro rozvoj a zkušenost dítěte.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti pozorují, co se stane, když do vody vloží různé předměty, a zapisují si, co vidí. Které metody učitelka kombinuje?",
+              choices: [
+                { id: "a", text: "Pouze vyprávění" },
+                { id: "b", text: "Jen nápodobu" },
+                { id: "c", text: "Výhradně rozhovor" },
+                { id: "d", text: "Experiment a pozorování" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Zkoušení, co se stane, je experiment; sledování jevu je pozorování. Samotné vyprávění tuto zkušenost nenahrazuje.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vysvětluje pravidla hry, vypráví krátký příběh a pak s dětmi hovoří o jejich nápadech. Které metody využívá?",
+              choices: [
+                { id: "a", text: "Pouze experiment" },
+                { id: "b", text: "Rozhovor, vyprávění a vysvětlování" },
+                { id: "c", text: "Jen manipulaci bez slova" },
+                { id: "d", text: "Výhradně projekt" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Rozhovor, vyprávění a vysvětlování jsou slovní metody využívající jazyk a komunikaci. Experiment nebo projekt by šly o jiný postup.",
+              order: 10,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti napodobují pohyb učitelky při cvičení s šátkem. Kterou metodu využívají?",
+              choices: [
+                { id: "a", text: "Pouze rozhovor" },
+                { id: "b", text: "Jen experiment" },
+                { id: "c", text: "Nápodobu" },
+                { id: "d", text: "Výhradně projekt" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Opakování pohybu podle vzoru je nápodoba. Rozhovor nebo experiment by popisovaly jiný způsob učení.",
+              order: 11,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-metody",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-metody",
+              type: "multiple-choice",
+              prompt:
+                "Děti společně skládají velký obrázek tak, že každé přidá svůj dílek. Kterou metodu využívají?",
+              choices: [
+                { id: "a", text: "Kooperativní učení" },
+                { id: "b", text: "Pouze individuální práci" },
+                { id: "c", text: "Jen pasivní poslech" },
+                { id: "d", text: "Výhradně experiment" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Společná práce na jednom úkolu s vzájemnou podporou je kooperativní učení. Individuální práce nebo pasivní poslech kooperaci nenahrazují.",
+              order: 12,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "organizacni-formy-vzdelavani",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Organizační formy vzdělávání",
+          summary:
+            "Organizační formy vzdělávání a jejich odlišení od vzdělávacích metod.",
+          order: 6,
+          studySections: [
+            {
+              id: "vysvetleni-organizacni-formy",
+              type: "explanation",
+              title: "Organizační formy vzdělávání",
+              body:
+                "Organizační forma určuje, jak je činnost uspořádána. Patří mezi ni individuální práce, práce ve dvojici, skupinová práce, společná činnost celé skupiny, spontánní, řízená a nepřímo řízená činnost, pobyt venku, exkurze, projekt a zájmová činnost. Metoda je způsob, jak se postupuje k cíli; organizační forma je způsob uspořádání činnosti. Například rozhovor je metoda, rozhovor v malé skupině kombinuje metodu s organizační formou.",
+            },
+            {
+              id: "pojmy-organizacni-formy",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Organizační forma",
+                  definition:
+                    "Způsob uspořádání vzdělávací činnosti.",
+                },
+                {
+                  term: "Individuální práce",
+                  definition: "Dítě pracuje samo.",
+                },
+                {
+                  term: "Skupinová práce",
+                  definition: "Děti pracují v menší skupině.",
+                },
+                {
+                  term: "Řízená činnost",
+                  definition:
+                    "Činnost vedená pedagogem podle záměru.",
+                },
+                {
+                  term: "Spontánní činnost",
+                  definition:
+                    "Činnost vycházející z vlastního podnětu dítěte.",
+                },
+                {
+                  term: "Exkurze",
+                  definition:
+                    "Vzdělávací činnost mimo běžné prostředí třídy.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co určuje organizační forma vzdělávání?",
+              choices: [
+                { id: "a", text: "Jen název pomůcky" },
+                { id: "b", text: "Jak je činnost uspořádána" },
+                { id: "c", text: "Pouze barvu třídy" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Organizační forma určuje, jak je vzdělávací činnost uspořádána. Metoda říká, jak se postupuje k cíli — jde o odlišné pojmy.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Dítě samo dokončuje kresbu u stolu, zatímco ostatní pracují jinde. Jakou organizační formu učitelka zvolila?",
+              choices: [
+                { id: "a", text: "Společnou činnost celé skupiny" },
+                { id: "b", text: "Skupinovou práci" },
+                { id: "c", text: "Individuální práci" },
+                { id: "d", text: "Exkurzi" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Individuální práce znamená, že dítě pracuje samo. Skupinová nebo celotřídní činnost by popisovala jiné uspořádání.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Dva děti společně skládají puzzle u jednoho stolu. Jakou organizační formu využívají?",
+              choices: [
+                { id: "a", text: "Individuální práci" },
+                { id: "b", text: "Společnou činnost celé skupiny" },
+                { id: "c", text: "Exkurzi" },
+                { id: "d", text: "Práci ve dvojici" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Práce ve dvojici znamená, že činnost probíhá ve dvou dětech. Individuální práce nebo celá skupina by byly jiné formy.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Čtyři děti společně staví domeček ze stavebnice v koutku. Jakou organizační formu využívají?",
+              choices: [
+                { id: "a", text: "Individuální práci" },
+                { id: "b", text: "Skupinovou práci" },
+                { id: "c", text: "Pouze exkurzi" },
+                { id: "d", text: "Jen spontánní činnost bez skupiny" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Skupinová práce znamená činnost menší skupiny dětí. Individuální práce nebo exkurze by popisovaly jiné uspořádání.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Všichni děti společně zpívají jednu písničku na koberci. Jakou organizační formu učitelka zvolila?",
+              choices: [
+                { id: "a", text: "Individuální práci" },
+                { id: "b", text: "Práci ve dvojici" },
+                { id: "c", text: "Společnou činnost celé skupiny" },
+                { id: "d", text: "Jen exkurzi" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Společná činnost celé skupiny znamená, že všichni děti pracují nebo jednají společně. Individuální nebo dvojicová práce by byla jiná forma.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Dítě si samo zvolí hru v koutku bez přímého pokynu učitelky. Jakou činnost popisuje?",
+              choices: [
+                { id: "a", text: "Řízenou činnost podle pokynu" },
+                { id: "b", text: "Exkurzi" },
+                { id: "c", text: "Individuální práci bez volby" },
+                { id: "d", text: "Spontánní činnost" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Spontánní činnost vychází z vlastního podnětu dítěte. Řízená činnost je vedená podle záměru pedagoga.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka připraví podněty a materiály, ale děti si samy volí, jak s nimi budou pracovat. Jakou formu využívá?",
+              choices: [
+                { id: "a", text: "Přímo řízenou činnost bez volby" },
+                { id: "b", text: "Nepřímo řízenou činnost" },
+                { id: "c", text: "Exkurzi" },
+                { id: "d", text: "Jen individuální práci bez přípravy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Nepřímo řízená činnost znamená, že pedagog připraví podmínky, ale dítě má prostor pro vlastní rozhodování. Přímé řízení každého kroku by bylo jiné.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Skupina tráví dopoledne na zahradě a pozoruje přírodu. Jakou organizační formu využívá?",
+              choices: [
+                { id: "a", text: "Pouze individuální práci u stolu" },
+                { id: "b", text: "Jen práci ve dvojici ve třídě" },
+                { id: "c", text: "Pobyt venku" },
+                { id: "d", text: "Výhradně zájmovou činnost mimo školu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pobyt venku je organizační forma vzdělávání mimo běžnou třídu. Exkurze by šla o výuku mimo obvyklé prostředí školy na jiném místě.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Děti několik dní pracují na společném projektu a zároveň se účastní kroužku ve volném čase školy. Jaké formy využívají?",
+              choices: [
+                { id: "a", text: "Pouze individuální práci" },
+                { id: "b", text: "Jen řízenou činnost bez projektu" },
+                { id: "c", text: "Výhradně exkurzi" },
+                { id: "d", text: "Projekt a zájmovou činnost" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Delší společný úkol je projekt jako organizační uspořádání. Kroužek ve volném čase školy spadá pod zájmovou činnost.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "organizacni-formy-vzdelavani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "organizacni-formy-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka vede rozhovor se čtyřmi dětmi u stolu. Co je správně?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Rozhovor je metoda i organizační forma bez rozdílu",
+                },
+                { id: "b", text: "Metoda a organizační forma jsou totéž" },
+                { id: "c", text: "Rozhovor je organizační forma, ne metoda" },
+                {
+                  id: "d",
+                  text: "Rozhovor je metoda, malá skupina je organizační forma",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Rozhovor je způsob, jak se postupuje k cíli — metoda. Rozhovor v malé skupině ukazuje, jak je činnost uspořádána — organizační forma.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
       ],
     },
   ],
