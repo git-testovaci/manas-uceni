@@ -988,10 +988,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Který faktor ovlivňuje vývoj člověka už od narození prostřednictvím biologického předání?",
               choices: [
-                { id: "a", text: "Pouze školní rozvrh" },
+                { id: "a", text: "Školní rozvrh a organizace hodin" },
                 { id: "b", text: "Dědičnost a biologické předpoklady" },
-                { id: "c", text: "Jen kulturní tradice obce" },
-                { id: "d", text: "Výhradně vlastní rozhodnutí dítěte" },
+                { id: "c", text: "Kulturní tradice bez vlivu biologie" },
+                { id: "d", text: "Vlastní rozhodování bez vrozených dispozic" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -1013,15 +1013,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Co patří mezi vlivy prostředí na vývoj dítěte?",
               choices: [
+                { id: "a", text: "Dědičné geny a vrozené vlastnosti" },
+                { id: "b", text: "Vnitřní motivace bez vlivu okolí" },
+                { id: "c", text: "Výška a barva očí jako jediný vliv" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Rodina, škola, vrstevníci, kultura a životní podmínky",
                 },
-                { id: "b", text: "Pouze dědičné geny" },
-                { id: "c", text: "Jen vrozená výška a barva očí" },
-                { id: "d", text: "Výhradně vnitřní motivace bez okolí" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Prostředí zahrnuje vztahy a podmínky, v nichž dítě žije — rodinu, školu, vrstevníky, kulturu i materiální zázemí. Dědičnost je biologický faktor, ne prostředí.",
               order: 2,
@@ -1042,14 +1042,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Jak působí výchova a vzdělávání na vývoj dítěte?",
               choices: [
                 { id: "a", text: "Náhodně, bez cíle a záměru" },
+                { id: "b", text: "Pouze sledují, ale nezasahují" },
                 {
-                  id: "b",
+                  id: "c",
                   text: "Cíleně ho podporují a vedou",
                 },
-                { id: "c", text: "Pouze sledují, ale nezasahují" },
                 { id: "d", text: "Nahrazují veškerou vlastní aktivitu" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Výchova a vzdělávání jsou záměrné — cíleně podporují a vedou vývoj. Nejde o náhodný sled událostí ani o pasivní pozorování; také nenahrazují aktivitu samotného dítěte.",
               order: 3,
@@ -1069,15 +1069,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jakou roli hraje vlastní aktivita dítěte ve vývoji?",
               choices: [
-                { id: "a", text: "Žádnou — dítě je jen pasivní" },
                 {
-                  id: "b",
+                  id: "a",
                   text: "Je aktivním faktorem vývoje",
                 },
+                { id: "b", text: "Žádnou — dítě je jen pasivní" },
                 { id: "c", text: "Nahrazuje vliv prostředí" },
                 { id: "d", text: "Ruší působení výchovy" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Vlastní aktivita znamená, že se dítě podílí na vývoji činností, hrou, učením i zkoušením. Není pasivním objektem a nenahrazuje ostatní faktory — doplňuje je.",
               order: 4,
@@ -1097,15 +1097,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Holčička v MŠ rychle rozšiřuje slovní zásobu: rodiče s ní doma často mluví, ve třídě má bohaté podněty a sama se ptá na nová slova. Jak nejlépe vysvětlit tento pokrok?",
               choices: [
-                { id: "a", text: "Jen díky dědičnosti" },
-                { id: "b", text: "Jen díky rodině" },
+                { id: "a", text: "Jedním faktorem — dědičností" },
+                { id: "b", text: "Jedním faktorem — rodinou" },
+                { id: "c", text: "Jedním faktorem — návštěvou školky" },
                 {
-                  id: "c",
-                  text: "Spolupůsobí dědičnost, prostředí, výchova i vlastní aktivita",
+                  id: "d",
+                  text: "Souhrou dědičnosti, prostředí, výchovy i aktivity dítěte",
                 },
-                { id: "d", text: "Jen proto, že chodí do školky" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Rychlý pokrok ve slovní zásobě nelze připsat jedinému faktoru. Biologické předpoklady, domácí i školní prostředí, výchovné působení i vlastní zvídavost dítěte se vzájemně doplňují.",
               order: 5,
@@ -1125,12 +1125,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak výchova přispívá k rozvoji dítěte v pedagogickém významu?",
               choices: [
-                { id: "a", text: "Podporuje rozvoj osobnosti" },
-                { id: "b", text: "Potlačuje veškerou individualitu" },
+                { id: "a", text: "Potlačuje veškerou individualitu" },
+                { id: "b", text: "Podporuje rozvoj osobnosti" },
                 { id: "c", text: "Řeší jen biologický růst" },
                 { id: "d", text: "Nahrazuje vliv prostředí" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Jedním z cílů výchovy je podpora rozvoje osobnosti — charakteru, postojů a hodnot. Nejde o potlačení individuality ani o nahrazení prostředí či biologického růstu.",
               order: 6,
@@ -1150,12 +1150,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak výchova pomáhá dítěti vstoupit do společenského života?",
               choices: [
-                { id: "a", text: "Předává kulturní hodnoty a připravuje na život ve společnosti" },
-                { id: "b", text: "Odstraňuje vliv kultury" },
-                { id: "c", text: "Izoluje dítě od vrstevníků" },
-                { id: "d", text: "Zaměřuje se jen na tělesný vývoj" },
+                { id: "a", text: "Odstraňuje vliv kultury z výchovy" },
+                { id: "b", text: "Zaměřuje se toliko na tělesný vývoj" },
+                {
+                  id: "c",
+                  text: "Předává kulturní hodnoty a připravuje na život ve společnosti",
+                },
+                { id: "d", text: "Izoluje dítě od vrstevníků" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Výchova předává kulturní hodnoty, pravidla a zvyklosti a pomáhá dítěti orientovat se ve společnosti. Neizoluje je ani neignoruje kulturní kontext.",
               order: 7,
@@ -1175,15 +1178,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "V čem může výchova podpořit dítě kromě předávání pravidel?",
               choices: [
-                { id: "a", text: "Jen v kontrole každého kroku" },
                 {
-                  id: "b",
-                  text: "V rozvoji samostatnosti, znalostí, dovedností a využití schopností",
+                  id: "a",
+                  text: "Rozvojem samostatnosti, znalostí a dovedností",
                 },
-                { id: "c", text: "Pouze v omezení vlastní aktivity" },
-                { id: "d", text: "V nahrazení zájmu dítěte" },
+                { id: "b", text: "Kontrolou každého kroku dítěte" },
+                { id: "c", text: "Omezením vlastní aktivity dítěte" },
+                { id: "d", text: "Nahrazením zájmu a iniciativy dítěte" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Výchova rozvíjí samostatnost, znalosti a dovednosti a pomáhá dítěti využívat své schopnosti. Nejde o neustálou kontrolu ani o potlačení jeho aktivního přístupu.",
               order: 8,
@@ -1203,12 +1206,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak může výchova působit vůči nežádoucímu chování dítěte?",
               choices: [
-                { id: "a", text: "Může mu pomoci předcházet" },
-                { id: "b", text: "Musí ho vždy ignorovat" },
-                { id: "c", text: "Nemá na chování žádný vliv" },
-                { id: "d", text: "Snižuje odpovědnost dítěte na nulu" },
+                { id: "a", text: "Musí ho vždy ignorovat" },
+                { id: "b", text: "Nemá na chování žádný vliv" },
+                { id: "c", text: "Snižuje odpovědnost dítěte na nulu" },
+                { id: "d", text: "Může mu pomoci předcházet" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Výchovné vedení, jasná pravidla a podpora pozitivního chování mohou nežádoucímu jednání předcházet. Výchova chování ovlivňuje, ale neznamená ignorovat problémy ani sejmout dítěti odpovědnost.",
               order: 9,
@@ -1229,14 +1232,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Chlapec ve školce často křičí a nerespektuje pravidla. Kolegyně říká: „Je to jen špatná výchova doma.“ Proč je to zjednodušené vysvětlení?",
               choices: [
                 { id: "a", text: "Stačí vinit pouze rodinu" },
-                { id: "b", text: "Chování určuje jen dědičnost" },
-                {
-                  id: "c",
-                  text: "Vývoj a chování ovlivňuje souhra více faktorů",
-                },
+                { id: "b", text: "Vývoj a chování ovlivňuje souhra více faktorů" },
+                { id: "c", text: "Chování určuje jen dědičnost" },
                 { id: "d", text: "Na chování nemá vliv prostředí" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Chování dítěte nelze vysvětlit jedinou příčinou. Spolupůsobí dědičnost, prostředí školky i domova, výchovné přístupy a vlastní prožívání a reakce dítěte. Pedagogicky správné je hledat souhru vlivů.",
               order: 10,
@@ -1314,12 +1314,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka pozoruje, že po společné hře děti lépe spolupracují. Co může pedagogická teorie s takovým pozorováním udělat?",
               choices: [
-                { id: "a", text: "Vysvětlit vztahy mezi výchovnými jevy" },
-                { id: "b", text: "Ignorovat souvislosti mezi jevy" },
-                { id: "c", text: "Nahradit veškerou praxi" },
-                { id: "d", text: "Zaměřit se jen na jednu náhodnou zkušenost" },
+                { id: "a", text: "Nahradit veškerou praxi teorií" },
+                {
+                  id: "b",
+                  text: "Vysvětlit vztahy mezi výchovnými jevy",
+                },
+                { id: "c", text: "Ignorovat souvislosti mezi jevy" },
+                { id: "d", text: "Vycházet z jedné náhodné zkušenosti" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Teorie pomáhá pochopit, proč se jevy vyskytují a jak spolu souvisí — například hra a spolupráce. Nejde o nahrazení praxe ani o izolovaný dojem z jedné situace.",
               order: 1,
@@ -1339,12 +1342,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Proč pedagogická teorie nebere závěr z jediné zkušenosti jedné třídy jako obecné pravidlo?",
               choices: [
-                { id: "a", text: "Protože zobecňuje poznatky z více situací" },
+                { id: "a", text: "Protože jedna třída stačí vždy" },
                 { id: "b", text: "Protože praxe neexistuje" },
-                { id: "c", text: "Protože teorie je jen názor učitele" },
-                { id: "d", text: "Protože jedna třída stačí vždy" },
+                {
+                  id: "c",
+                  text: "Protože zobecňuje poznatky z více situací",
+                },
+                { id: "d", text: "Protože teorie je jen názor učitele" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Teorie staví na opakovaných a srovnatelných zkušenostech z více situací, ne na jednom případě. Jedna třída může inspirovat, ale sama o sobě nepostačuje pro obecné závěry.",
               order: 2,
@@ -1364,12 +1370,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Pedagožka vybírá postup při opakovaném konfliktu ve třídě. Jak jí může teorie pomoci?",
               choices: [
-                { id: "a", text: "Poskytne oporu pro odborné rozhodnutí" },
-                { id: "b", text: "Rozhodne za ni bez znalosti situace" },
-                { id: "c", text: "Nahradí pozorování dětí" },
-                { id: "d", text: "Zabrání jakékoli změně postupu" },
+                { id: "a", text: "Rozhodne za ni bez znalosti situace" },
+                { id: "b", text: "Nahradí pozorování dětí" },
+                { id: "c", text: "Zabrání jakékoli změně postupu" },
+                {
+                  id: "d",
+                  text: "Poskytne oporu pro odborné rozhodnutí",
+                },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Teorie nabízí vysvětlení a ověřené poznatky, které podporují promyšlené rozhodnutí. Nenahrazuje znalost konkrétní třídy ani neznamená rigidní návod bez úvahy.",
               order: 3,
@@ -1390,9 +1399,9 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Dítě ve školce má záchvat pláče při příchodu rodiče. Která složka pedagogiky řeší tuto konkrétní situaci?",
               choices: [
                 { id: "a", text: "Pedagogická praxe" },
-                { id: "b", text: "Pouze memorování pojmů" },
-                { id: "c", text: "Jen tvorba učebnic" },
-                { id: "d", text: "Výhradně statistika bez jednání" },
+                { id: "b", text: "Memorování pojmů bez jednání" },
+                { id: "c", text: "Tvorba učebnic bez kontaktu s dětmi" },
+                { id: "d", text: "Sběr statistik bez řešení situace" },
               ],
               correctChoiceId: "a",
               explanation:
@@ -1414,15 +1423,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitel aplikuje teorii kooperativního učení, ale ve třídě zjistí, že skupiny potřebují jiné vedení. Co ukazuje tento příklad?",
               choices: [
+                { id: "a", text: "Teorie praxi nikdy neovlivní" },
                 {
-                  id: "a",
+                  id: "b",
                   text: "Teorie a praxe se vzájemně ovlivňují",
                 },
-                { id: "b", text: "Teorie praxi nikdy neovlivní" },
                 { id: "c", text: "Praxe teorii nemůže obohatit" },
                 { id: "d", text: "Teorie a praxe jsou oddělené světy" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "b",
               explanation:
                 "Teorie vedla postup ve třídě, praxe ukázala potřebu úpravy — obě se ovlivňují. Teorie není uzavřená kniha a praxe není slepé opakování bez reflexe.",
               order: 5,
@@ -1442,12 +1451,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Nová chůva chce zavést pravidla ve skupině jen podle pocitu „co mi přijde správné“, bez poznání dětí a bez odborných podkladů. Co je na tom problém?",
               choices: [
-                { id: "a", text: "Odborné rozhodnutí nemá stát jen na intuici" },
-                { id: "b", text: "Intuice je vždy dostatečná" },
-                { id: "c", text: "Praxe nepotřebuje žádnou reflexi" },
+                { id: "a", text: "Intuice je vždy dostatečná" },
+                { id: "b", text: "Praxe nepotřebuje žádnou reflexi" },
+                {
+                  id: "c",
+                  text: "Odborné rozhodnutí nemá stát jen na intuici",
+                },
                 { id: "d", text: "Teorie je vždy zbytečná" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "c",
               explanation:
                 "Intuice může pomoci, ale odborné rozhodování má vycházet také z poznání situace, teorie a ověřených zdrojů. Spoléhat jen na pocit bez podkladů je rizikové.",
               order: 6,
@@ -1467,15 +1479,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Studentka třídí materiály pro seminář. Který pár správně spojuje typ zdroje?",
               choices: [
+                { id: "a", text: "Všechny jsou stejný typ populárního článku" },
+                { id: "b", text: "Zákon je učebnice, RVP je blog" },
+                { id: "c", text: "Odborný článek je vždy neověřený post" },
                 {
-                  id: "a",
+                  id: "d",
                   text: "Učebnice, odborný článek, zákon a RVP jsou různé typy zdrojů",
                 },
-                { id: "b", text: "Všechny jsou stejný typ populárního článku" },
-                { id: "c", text: "Zákon je učebnice, RVP je blog" },
-                { id: "d", text: "Odborný článek je vždy neověřený post" },
               ],
-              correctChoiceId: "a",
+              correctChoiceId: "d",
               explanation:
                 "Každý materiál má jinou funkci: učebnice systematizuje výuku, článek přináší odborný rozbor, zákon stanovuje pravidla, RVP rámcuje vzdělávání. Neměly by se zaměňovat.",
               order: 7,
@@ -1498,7 +1510,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Recenzovaný článek v pedagogickém časopise" },
                 { id: "b", text: "Anonymní komentář pod videem" },
                 { id: "c", text: "Nepodepsaný příspěvek bez zdrojů" },
-                { id: "d", text: "Zkratkovitý blog bez autorství" },
+                { id: "d", text: "Příspěvek na blogu bez uvedeného autora" },
               ],
               correctChoiceId: "a",
               explanation:
@@ -1525,8 +1537,8 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   id: "b",
                   text: "Autorství, odbornost, důkazy a ověřitelnost",
                 },
-                { id: "c", text: "Jen to, zda se mu text líbí" },
-                { id: "d", text: "Jen barvu obálky knihy" },
+                { id: "c", text: "To, zda se mu text líbí" },
+                { id: "d", text: "Vzhled obálky nebo formát souboru" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -1548,15 +1560,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Studentka píše referát a zkopíruje odstavec z učebnice bez uvedení zdroje a bez vlastního shrnutí. Co měla udělat správně?",
               choices: [
-                { id: "a", text: "Kopírovat text bez kontextu" },
                 {
-                  id: "b",
+                  id: "a",
                   text: "Zaznamenat hlavní myšlenku a uvést zdroj",
                 },
+                { id: "b", text: "Kopírovat text bez kontextu" },
                 { id: "c", text: "Předstírat vlastní autorství cizího textu" },
                 { id: "d", text: "Vynechat jakoukoli práci se zdrojem" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Správná práce se zdrojem znamená pochopit hlavní myšlenku, formulovat ji vlastními slovy a uvést, odkud čerpáme. Kopírování bez citace a kontextu je odborně i eticky chybné.",
               order: 10,
@@ -3436,15 +3448,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co je předmětem vzdělávací politiky?",
               choices: [
-                { id: "a", text: "Jen organizace školního stravování" },
-                { id: "b", text: "Pouze údržba školních budov" },
                 {
-                  id: "c",
+                  id: "a",
                   text: "Cíle, podmínky a směřování vzdělávání",
                 },
-                { id: "d", text: "Výhradně mimoškolní zájmové kluby" },
+                { id: "b", text: "Organizace školního stravování" },
+                { id: "c", text: "Údržba školních budov" },
+                { id: "d", text: "Mimoškolní zájmové kluby bez vzdělávání" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Vzdělávací politika určuje, kam má vzdělávání směřovat a za jakých podmínek probíhá. Okrajové detaily bez vztahu k vzdělávání nejsou jejím jádrem.",
               order: 1,
@@ -3464,11 +3476,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt: "Který aktér má roli ve vzdělávací politice?",
               choices: [
                 { id: "a", text: "Nikdo — vzdělávání nemá rámec" },
-                { id: "b", text: "Stát" },
-                { id: "c", text: "Jen jednotlivec bez institucí" },
-                { id: "d", text: "Pouze soukromý trh bez veřejné role" },
+                { id: "b", text: "Jednotlivec bez institucí" },
+                { id: "c", text: "Soukromý trh bez veřejné role" },
+                { id: "d", text: "Stát" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "d",
               explanation:
                 "Stát je jedním z aktérů vzdělávací politiky. Vzdělávání má společenský rámec a neprobíhá zcela mimo instituce a odpovědnost.",
               order: 2,
@@ -3489,14 +3501,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Kteří aktéři se podílejí na vzdělávání vedle státu?",
               choices: [
                 { id: "a", text: "Nikdo jiný" },
-                { id: "b", text: "Jen zahraniční firmy bez škol" },
-                { id: "c", text: "Pouze rodiče bez škol" },
                 {
-                  id: "d",
+                  id: "b",
                   text: "Kraje, obce, školy a zřizovatelé",
                 },
+                { id: "c", text: "Zahraniční firmy bez škol" },
+                { id: "d", text: "Rodiče bez škol a zřizovatelů" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Na vzdělávání se podílejí také kraje, obce, školy a zřizovatelé — každý v rámci své role. Nejde o záležitost jen jedné úrovně.",
               order: 3,
@@ -3516,12 +3528,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Obec zvažuje podporu dostupnosti školky pro rodiny z různých sociálních poměrů. Který princip se týká?",
               choices: [
-                { id: "a", text: "Záměrné znevýhodnění části dětí" },
-                { id: "b", text: "Rovný přístup ke vzdělávání" },
+                { id: "a", text: "Rovný přístup ke vzdělávání" },
+                { id: "b", text: "Záměrné znevýhodnění části dětí" },
                 { id: "c", text: "Zákaz vzdělávání" },
-                { id: "d", text: "Inkluze jako totéž s diskriminací" },
+                { id: "d", text: "Diskriminace místo podpory" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Rovný přístup znamená snahu o dostupnost vzdělávání bez neoprávněného znevýhodnění. Inkluze se netýká diskriminace — jde o účast různorodých dětí ve společném vzdělávání.",
               order: 4,
@@ -3591,11 +3603,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Proč vzdělávací politika sleduje kvalitu vzdělávání?",
               choices: [
                 { id: "a", text: "Kvalita je pro politiku nepodstatná" },
-                { id: "b", text: "Zajímá ji úroveň a účinnost vzdělávání" },
-                { id: "c", text: "Jde jen o počet žáků ve třídě" },
+                { id: "b", text: "Jde jen o počet žáků ve třídě" },
+                {
+                  id: "c",
+                  text: "Zajímá ji úroveň a účinnost vzdělávání",
+                },
                 { id: "d", text: "Vzdělávání nemá výsledky" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Kvalita vzdělávání je důležitým tématem vzdělávací politiky — souvisí s tím, jak dobře vzdělávání plní své cíle.",
               order: 7,
@@ -3615,12 +3630,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Jak souvisí profesní příprava pedagogů s vzdělávací politikou?",
               choices: [
-                { id: "a", text: "Nemá žádný význam" },
-                { id: "b", text: "Brání jakékoli spolupráci" },
-                { id: "c", text: "Ovlivňuje kvalitu vzdělávání" },
+                {
+                  id: "a",
+                  text: "Ovlivňuje kvalitu vzdělávání",
+                },
+                { id: "b", text: "Nemá žádný význam" },
+                { id: "c", text: "Brání jakékoli spolupráci" },
                 { id: "d", text: "Nahrazuje veškerou politiku" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Profesní příprava pedagogů je součástí zájmu vzdělávací politiky o kvalitu vzdělávání. Kvalifikace učitelů ovlivňuje podmínky výuky.",
               order: 8,
