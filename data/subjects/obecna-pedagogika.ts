@@ -6022,12 +6022,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co určuje organizační forma vzdělávání?",
               choices: [
-                { id: "a", text: "Jen název pomůcky" },
-                { id: "b", text: "Jak je činnost uspořádána" },
-                { id: "c", text: "Pouze barvu třídy" },
-                { id: "d", text: "Výhradně školní rozvrh" },
+                { id: "a", text: "Jak je činnost uspořádána" },
+                { id: "b", text: "Název pomůcky" },
+                { id: "c", text: "Barvu třídy" },
+                { id: "d", text: "Školní rozvrh" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Organizační forma určuje, jak je vzdělávací činnost uspořádána. Metoda říká, jak se postupuje k cíli — jde o odlišné pojmy.",
               order: 1,
@@ -6048,11 +6048,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Dítě samo dokončuje kresbu u stolu, zatímco ostatní pracují jinde. Jakou organizační formu učitelka zvolila?",
               choices: [
                 { id: "a", text: "Společnou činnost celé skupiny" },
-                { id: "b", text: "Skupinovou práci" },
-                { id: "c", text: "Individuální práci" },
+                { id: "b", text: "Individuální práci" },
+                { id: "c", text: "Skupinovou práci" },
                 { id: "d", text: "Exkurzi" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "b",
               explanation:
                 "Individuální práce znamená, že dítě pracuje samo. Skupinová nebo celotřídní činnost by popisovala jiné uspořádání.",
               order: 2,
@@ -6098,11 +6098,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Čtyři děti společně staví domeček ze stavebnice v koutku. Jakou organizační formu využívají?",
               choices: [
                 { id: "a", text: "Individuální práci" },
-                { id: "b", text: "Skupinovou práci" },
-                { id: "c", text: "Pouze exkurzi" },
-                { id: "d", text: "Jen spontánní činnost bez skupiny" },
+                { id: "b", text: "Spontánní činnost bez skupiny" },
+                { id: "c", text: "Skupinovou práci" },
+                { id: "d", text: "Exkurzi" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "c",
               explanation:
                 "Skupinová práce znamená činnost menší skupiny dětí. Individuální práce nebo exkurze by popisovaly jiné uspořádání.",
               order: 4,
@@ -6122,12 +6122,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Všichni děti společně zpívají jednu písničku na koberci. Jakou organizační formu učitelka zvolila?",
               choices: [
-                { id: "a", text: "Individuální práci" },
-                { id: "b", text: "Práci ve dvojici" },
-                { id: "c", text: "Společnou činnost celé skupiny" },
-                { id: "d", text: "Jen exkurzi" },
+                {
+                  id: "a",
+                  text: "Společnou činnost celé skupiny",
+                },
+                { id: "b", text: "Individuální práci" },
+                { id: "c", text: "Práci ve dvojici" },
+                { id: "d", text: "Exkurzi" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Společná činnost celé skupiny znamená, že všichni děti pracují nebo jednají společně. Individuální nebo dvojicová práce by byla jiná forma.",
               order: 5,
@@ -6175,7 +6178,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Přímo řízenou činnost bez volby" },
                 { id: "b", text: "Nepřímo řízenou činnost" },
                 { id: "c", text: "Exkurzi" },
-                { id: "d", text: "Jen individuální práci bez přípravy" },
+                { id: "d", text: "Individuální práci bez přípravy" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -6197,10 +6200,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Skupina tráví dopoledne na zahradě a pozoruje přírodu. Jakou organizační formu využívá?",
               choices: [
-                { id: "a", text: "Pouze individuální práci u stolu" },
-                { id: "b", text: "Jen práci ve dvojici ve třídě" },
+                { id: "a", text: "Individuální práci u stolu" },
+                { id: "b", text: "Práci ve dvojici ve třídě" },
                 { id: "c", text: "Pobyt venku" },
-                { id: "d", text: "Výhradně zájmovou činnost mimo školu" },
+                { id: "d", text: "Zájmovou činnost mimo školu" },
               ],
               correctChoiceId: "c",
               explanation:
@@ -6222,12 +6225,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti několik dní pracují na společném projektu a zároveň se účastní kroužku ve volném čase školy. Jaké formy využívají?",
               choices: [
-                { id: "a", text: "Pouze individuální práci" },
-                { id: "b", text: "Jen řízenou činnost bez projektu" },
-                { id: "c", text: "Výhradně exkurzi" },
-                { id: "d", text: "Projekt a zájmovou činnost" },
+                {
+                  id: "a",
+                  text: "Projekt a zájmovou činnost",
+                },
+                { id: "b", text: "Individuální práci" },
+                { id: "c", text: "Řízenou činnost bez projektu" },
+                { id: "d", text: "Exkurzi" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Delší společný úkol je projekt jako organizační uspořádání. Kroužek ve volném čase školy spadá pod zájmovou činnost.",
               order: 9,
@@ -6251,14 +6257,11 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   id: "a",
                   text: "Rozhovor je metoda i organizační forma bez rozdílu",
                 },
-                { id: "b", text: "Metoda a organizační forma jsou totéž" },
-                { id: "c", text: "Rozhovor je organizační forma, ne metoda" },
-                {
-                  id: "d",
-                  text: "Rozhovor je metoda, malá skupina je organizační forma",
-                },
+                { id: "b", text: "Rozhovor je metoda, malá skupina je organizační forma" },
+                { id: "c", text: "Metoda a organizační forma jsou totéž" },
+                { id: "d", text: "Rozhovor je organizační forma, ne metoda" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "b",
               explanation:
                 "Rozhovor je způsob, jak se postupuje k cíli — metoda. Rozhovor v malé skupině ukazuje, jak je činnost uspořádána — organizační forma.",
               order: 10,
@@ -6330,12 +6333,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Co jsou didaktické prostředky?",
               choices: [
-                { id: "a", text: "Jen školní rozvrh" },
-                { id: "b", text: "Nástroje podporující vzdělávání" },
-                { id: "c", text: "Pouze administrativní zápis" },
-                { id: "d", text: "Výhradně počet dětí" },
+                { id: "a", text: "Nástroje podporující vzdělávání" },
+                { id: "b", text: "Školní rozvrh" },
+                { id: "c", text: "Administrativní zápis" },
+                { id: "d", text: "Počet dětí ve skupině" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Didaktické prostředky jsou nástroje a prostředí, které podporují vzdělávání. Rozvrh nebo počet dětí samy prostředek nevymezují.",
               order: 1,
@@ -6355,12 +6358,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka připraví knihu s obrázky a dřevěné puzzle pro práci s dětmi. Které prostředky využívá?",
               choices: [
-                { id: "a", text: "Jen personální podmínky" },
-                { id: "b", text: "Pouze časové podmínky" },
-                { id: "c", text: "Knihu, obrázky a pomůcky" },
-                { id: "d", text: "Výhradně organizační formu" },
+                { id: "a", text: "Personální podmínky" },
+                { id: "b", text: "Časové podmínky" },
+                { id: "c", text: "Organizační formu" },
+                { id: "d", text: "Knihu, obrázky a pomůcky" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Kniha, obrázky a puzzle patří mezi didaktické prostředky — pomůcky a knihy. Personální nebo časové podmínky popisují jinou stránku vzdělávání.",
               order: 2,
@@ -6380,12 +6383,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Děti tvoří z žaluďů a listí a učitelka přehrává melodie na flétně. Které prostředky se využívají?",
               choices: [
-                { id: "a", text: "Jen hygienické podmínky" },
-                { id: "b", text: "Pouze personální podmínky" },
-                { id: "c", text: "Výhradně školní rozvrh" },
-                { id: "d", text: "Přírodní materiály a hudební nástroj" },
+                { id: "a", text: "Hygienické podmínky" },
+                { id: "b", text: "Personální podmínky" },
+                { id: "c", text: "Přírodní materiály a hudební nástroj" },
+                { id: "d", text: "Školní rozvrh" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Žaludy a listí jsou přírodní materiály, flétna hudební nástroj — obojí patří mezi didaktické prostředky. Rozvrh nebo hygiena jsou jiné kategorie.",
               order: 3,
@@ -6405,10 +6408,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka upraví koutek tak, aby děti měly klidné místo pro čtení a dostatek světla. Co využívá jako prostředek?",
               choices: [
-                { id: "a", text: "Jen časovou podmínku" },
+                { id: "a", text: "Časovou podmínku" },
                 { id: "b", text: "Prostředí třídy" },
-                { id: "c", text: "Pouze personální podmínku" },
-                { id: "d", text: "Výhradně metodu hodnocení" },
+                { id: "c", text: "Personální podmínku" },
+                { id: "d", text: "Metodu hodnocení" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -6430,12 +6433,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Učitelka klidně vysvětluje postup a ukazuje, jak pracovat s materiálem. Který prostředek využívá?",
               choices: [
-                { id: "a", text: "Jen hračku bez komunikace" },
-                { id: "b", text: "Pouze digitální technologii" },
-                { id: "c", text: "Slova a jednání pedagoga" },
-                { id: "d", text: "Výhradně organizační formu" },
+                { id: "a", text: "Slova a jednání pedagoga" },
+                { id: "b", text: "Hračku bez komunikace" },
+                { id: "c", text: "Digitální technologii" },
+                { id: "d", text: "Organizační formu" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "a",
               explanation:
                 "Slova a jednání pedagoga jsou didaktický prostředek. Hračka nebo technologie mohou být další prostředky, ale vysvětlení a ukázání jsou právě slova a činy pedagoga.",
               order: 5,
@@ -6455,9 +6458,9 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Ve třídě chybí dostatek stoliček a pracovní plocha je přeplněná. Které podmínky jsou narušené?",
               choices: [
-                { id: "a", text: "Jen psychosociální" },
-                { id: "b", text: "Pouze časové" },
-                { id: "c", text: "Výhradně personální" },
+                { id: "a", text: "Psychosociální" },
+                { id: "b", text: "Časové" },
+                { id: "c", text: "Personální" },
                 { id: "d", text: "Materiální a prostorové" },
               ],
               correctChoiceId: "d",
@@ -6480,10 +6483,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Aktivita trvá příliš krátce a chybí druhá dospělá osoba pro podporu dětí. Které podmínky jsou nedostatečné?",
               choices: [
-                { id: "a", text: "Jen hygienické" },
+                { id: "a", text: "Hygienické" },
                 { id: "b", text: "Časové a personální" },
-                { id: "c", text: "Pouze prostorové" },
-                { id: "d", text: "Výhradně didaktické prostředky" },
+                { id: "c", text: "Prostorové" },
+                { id: "d", text: "Didaktické prostředky" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -6505,10 +6508,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Ve skupině panuje napětí a děti si navzájem nerozumí. Které podmínky jsou oslabené?",
               choices: [
-                { id: "a", text: "Jen materiální" },
-                { id: "b", text: "Pouze časové" },
+                { id: "a", text: "Materiální" },
+                { id: "b", text: "Časové" },
                 { id: "c", text: "Organizační a psychosociální" },
-                { id: "d", text: "Výhradně bezpečnostní" },
+                { id: "d", text: "Bezpečnostní" },
               ],
               correctChoiceId: "c",
               explanation:
@@ -6530,12 +6533,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Před malováním učitelka zkontroluje, zda jsou barvy bezpečné a děti si umyjí ruce. Které podmínky sleduje?",
               choices: [
-                { id: "a", text: "Jen personální" },
-                { id: "b", text: "Pouze časové" },
-                { id: "c", text: "Výhradně organizační formy" },
-                { id: "d", text: "Hygienické a bezpečnostní" },
+                { id: "a", text: "Hygienické a bezpečnostní" },
+                { id: "b", text: "Personální" },
+                { id: "c", text: "Časové" },
+                { id: "d", text: "Organizační formy" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "a",
               explanation:
                 "Kontrola bezpečnosti barev a mytí rukou patří mezi hygienické a bezpečnostní podmínky. Personál nebo čas jsou jiné kategorie.",
               order: 9,
@@ -6558,12 +6561,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 { id: "a", text: "Podmínky nemají vliv na výsledek" },
                 {
                   id: "b",
+                  text: "Cíl sám určuje výsledek bez vlivu prostředí",
+                },
+                { id: "c", text: "Organizační forma je totéž co podmínka" },
+                {
+                  id: "d",
                   text: "Podmínky ovlivňují výsledek stejné činnosti",
                 },
-                { id: "c", text: "Cíl sám určuje výsledek bez vlivu prostředí" },
-                { id: "d", text: "Organizační forma je totéž co podmínka" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "d",
               explanation:
                 "Stejná činnost může mít jiný výsledek podle prostředí, času, atmosféry, počtu dětí a připravenosti pedagoga. Podmínky tedy výsledek ovlivňují.",
               order: 10,
@@ -7300,15 +7306,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               type: "multiple-choice",
               prompt: "Čím se sociální pedagogika zabývá jako pedagogická oblast?",
               choices: [
-                { id: "a", text: "Výhradně školním rozvrhem hodin" },
                 {
-                  id: "b",
+                  id: "a",
                   text: "Vztahy výchovy a sociálního prostředí",
                 },
-                { id: "c", text: "Pouze biologickým růstem bez vlivu okolí" },
-                { id: "d", text: "Jen administrativou školy" },
+                { id: "b", text: "Školním rozvrhem hodin" },
+                { id: "c", text: "Biologickým růstem bez vlivu okolí" },
+                { id: "d", text: "Administrativou školy" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Sociální pedagogika sleduje, jak spolu souvisí výchova a sociální prostředí, ve kterém dítě žije. Nejde o organizační detaily školy ani o biologický růst samostatně.",
               order: 1,
@@ -7329,14 +7335,14 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                 "Učitelka přemýšlí, jak domácí situace a školní prostředí společně ovlivňují chování dítěte. Který přístup odpovídá sociální pedagogice?",
               choices: [
                 { id: "a", text: "Výchova a prostředí spolu nesouvisí" },
-                { id: "b", text: "Důležité je jen školní učivo" },
+                { id: "b", text: "Důležité je hlavně školní učivo" },
+                { id: "c", text: "Prostředí nemá vliv na výchovu" },
                 {
-                  id: "c",
+                  id: "d",
                   text: "Výchova a sociální prostředí se vzájemně ovlivňují",
                 },
-                { id: "d", text: "Prostředí nemá vliv na výchovu" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Sociální pedagogika vychází z toho, že výchova a sociální prostředí spolu souvisí. Dítě se formuje v kontaktu s rodinou, školou i dalšími vlivy okolí.",
               order: 2,
@@ -7356,15 +7362,12 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Které prostředí patří mezi významné vlivy vývoje dítěte v sociální pedagogice?",
               choices: [
-                { id: "a", text: "Pouze počasí bez vztahu k lidem" },
-                { id: "b", text: "Jen barva školních stěn" },
-                { id: "c", text: "Výhradně školní jídelna" },
-                {
-                  id: "d",
-                  text: "Rodina a škola",
-                },
+                { id: "a", text: "Počasí bez vztahu k lidem" },
+                { id: "b", text: "Barva školních stěn" },
+                { id: "c", text: "Rodina a škola" },
+                { id: "d", text: "Školní jídelna jako jediný vliv" },
               ],
-              correctChoiceId: "d",
+              correctChoiceId: "c",
               explanation:
                 "Vývoj člověka ovlivňuje mimo jiné rodina a škola. Sociální pedagogika tyto vlivy zohledňuje při podpoře dítěte. Barva stěn nebo počasí samy o sobě nejsou klíčové sociální vlivy.",
               order: 3,
@@ -7384,13 +7387,10 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě ve školce napodobuje chování kamarádů a zároveň přebírá hodnoty z okolí mimo rodinu. Které vlivy sociální pedagogika zohledňuje?",
               choices: [
-                { id: "a", text: "Jen vnitřní orgány bez vlivu okolí" },
-                {
-                  id: "b",
-                  text: "Vrstevníky a širší společnost",
-                },
-                { id: "c", text: "Pouze školní rozvrh" },
-                { id: "d", text: "Výhradně hračky ve třídě" },
+                { id: "a", text: "Vnitřní orgány bez vlivu okolí" },
+                { id: "b", text: "Vrstevníky a širší společnost" },
+                { id: "c", text: "Školní rozvrh" },
+                { id: "d", text: "Hračky ve třídě jako hlavní vliv" },
               ],
               correctChoiceId: "b",
               explanation:
@@ -7412,12 +7412,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Dítě prožívá náročnou životní situaci a ve školce potřebuje větší porozumění a podporu. Co je úkolem sociální pedagogiky?",
               choices: [
-                { id: "a", text: "Dítě ignorovat a čekat" },
-                { id: "b", text: "Podporovat dítě v obtížných podmínkách" },
-                { id: "c", text: "Pouze hodnotit známky" },
+                {
+                  id: "a",
+                  text: "Podporovat dítě v obtížných podmínkách",
+                },
+                { id: "b", text: "Dítě ignorovat a čekat" },
+                { id: "c", text: "Hodnotit známky místo podpory" },
                 { id: "d", text: "Izolovat dítě od ostatních" },
               ],
-              correctChoiceId: "b",
+              correctChoiceId: "a",
               explanation:
                 "Sociální pedagogika podporuje děti v obtížných životních podmínkách. Cílem není dítě odsoudit ani izolovat, ale nabídnout vhodnou pomoc a porozumění.",
               order: 5,
@@ -7437,15 +7440,15 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "Školka plánuje program pro rozvoj spolupráce ve skupině a řešení drobných konfliktů mezi dětmi. Která oblast sociální pedagogiky se tím projevuje?",
               choices: [
-                { id: "a", text: "Pouze školní administrativa" },
-                { id: "b", text: "Jen hodnocení známek" },
+                { id: "a", text: "Školní administrativa" },
+                { id: "b", text: "Hodnocení známek" },
+                { id: "c", text: "Úklid třídy" },
                 {
-                  id: "c",
+                  id: "d",
                   text: "Prevence sociálních problémů",
                 },
-                { id: "d", text: "Výhradně úklid třídy" },
               ],
-              correctChoiceId: "c",
+              correctChoiceId: "d",
               explanation:
                 "Prevence sociálních problémů patří k úkolům sociální pedagogiky. Včasná podpora spolupráce a řešení konfliktů může předcházet větším obtížím.",
               order: 6,
@@ -7470,7 +7473,7 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
                   id: "b",
                   text: "Spolupráci školy, rodiny a dalších institucí",
                 },
-                { id: "c", text: "Pouze vlastní rozhodnutí bez informování" },
+                { id: "c", text: "Vlastní rozhodnutí bez informování" },
                 { id: "d", text: "Izolaci dítěte od rodičů" },
               ],
               correctChoiceId: "b",
@@ -7493,13 +7496,16 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
               prompt:
                 "K čemu slouží sociální pedagogika podle jejího širšího významu?",
               choices: [
-                { id: "a", text: "Pouze dětem označeným jako problémové" },
-                { id: "b", text: "Jen školní inspekci" },
+                {
+                  id: "a",
+                  text: "Pomoci dětem označeným jako problémové",
+                },
+                { id: "b", text: "Kontrole ze strany školní inspekce" },
                 {
                   id: "c",
                   text: "Širší podpoře výchovy a vzdělávání, ne jen vybraným dětem",
                 },
-                { id: "d", text: "Výhradně trestání chování" },
+                { id: "d", text: "Trestání a sankcionování chování" },
               ],
               correctChoiceId: "c",
               explanation:
