@@ -7212,5 +7212,1018 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
         },
       ],
     },
+    {
+      id: "vybrane-kapitoly-ze-socialni-pedagogiky",
+      subjectId: "obecna-pedagogika",
+      title: "Vybrané kapitoly ze sociální pedagogiky",
+      description: "Sociální pedagogika, rodina a výchovné styly",
+      order: 4,
+      lessons: [
+        {
+          id: "socialni-pedagogika",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Sociální pedagogika",
+          summary:
+            "Význam sociální pedagogiky, vztah výchovy a sociálního prostředí, podpora dětí a spolupráce institucí.",
+          order: 1,
+          studySections: [
+            {
+              id: "vysvetleni-socialni-pedagogika",
+              type: "explanation",
+              title: "Sociální pedagogika",
+              body:
+                "Sociální pedagogika sleduje vztah výchovy a sociálního prostředí. Vývoj člověka ovlivňuje rodina, škola, vrstevníci i širší společnost. Sociální pedagogika podporuje děti v obtížných životních podmínkách, zabývá se prevencí sociálních problémů a podporuje spolupráci školy, rodiny a dalších institucí. Nezabývá se pouze „problémovými dětmi“ — její poznatky a postupy mají širší význam pro výchovu a vzdělávání.",
+            },
+            {
+              id: "pojmy-socialni-pedagogika",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Sociální pedagogika",
+                  definition:
+                    "Oblast pedagogiky sledující vztah výchovy a sociálního prostředí.",
+                },
+                {
+                  term: "Sociální prostředí",
+                  definition:
+                    "Prostředí, ve kterém dítě žije a v němž působí výchovné vlivy.",
+                },
+                {
+                  term: "Prevence",
+                  definition:
+                    "Předcházení sociálním problémům a obtížím v životě dítěte.",
+                },
+                {
+                  term: "Podpora dítěte",
+                  definition:
+                    "Cílená pomoc dětem v náročných životních podmínkách.",
+                },
+                {
+                  term: "Spolupráce institucí",
+                  definition:
+                    "Koordinovaná spolupráce školy, rodiny a dalších institucí v zájmu dítěte.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt: "Čím se sociální pedagogika zabývá jako pedagogická oblast?",
+              choices: [
+                { id: "a", text: "Výhradně školním rozvrhem hodin" },
+                {
+                  id: "b",
+                  text: "Vztahy výchovy a sociálního prostředí",
+                },
+                { id: "c", text: "Pouze biologickým růstem bez vlivu okolí" },
+                { id: "d", text: "Jen administrativou školy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální pedagogika sleduje, jak spolu souvisí výchova a sociální prostředí, ve kterém dítě žije. Nejde o organizační detaily školy ani o biologický růst samostatně.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka přemýšlí, jak domácí situace a školní prostředí společně ovlivňují chování dítěte. Který přístup odpovídá sociální pedagogice?",
+              choices: [
+                { id: "a", text: "Výchova a prostředí spolu nesouvisí" },
+                { id: "b", text: "Důležité je jen školní učivo" },
+                {
+                  id: "c",
+                  text: "Výchova a sociální prostředí se vzájemně ovlivňují",
+                },
+                { id: "d", text: "Prostředí nemá vliv na výchovu" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Sociální pedagogika vychází z toho, že výchova a sociální prostředí spolu souvisí. Dítě se formuje v kontaktu s rodinou, školou i dalšími vlivy okolí.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Které prostředí patří mezi významné vlivy vývoje dítěte v sociální pedagogice?",
+              choices: [
+                { id: "a", text: "Pouze počasí bez vztahu k lidem" },
+                { id: "b", text: "Jen barva školních stěn" },
+                { id: "c", text: "Výhradně školní jídelna" },
+                {
+                  id: "d",
+                  text: "Rodina a škola",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Vývoj člověka ovlivňuje mimo jiné rodina a škola. Sociální pedagogika tyto vlivy zohledňuje při podpoře dítěte. Barva stěn nebo počasí samy o sobě nejsou klíčové sociální vlivy.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Dítě ve školce napodobuje chování kamarádů a zároveň přebírá hodnoty z okolí mimo rodinu. Které vlivy sociální pedagogika zohledňuje?",
+              choices: [
+                { id: "a", text: "Jen vnitřní orgány bez vlivu okolí" },
+                {
+                  id: "b",
+                  text: "Vrstevníky a širší společnost",
+                },
+                { id: "c", text: "Pouze školní rozvrh" },
+                { id: "d", text: "Výhradně hračky ve třídě" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Kromě rodiny a školy ovlivňují vývoj člověka také vrstevníci a širší společnost. Sociální pedagogika tyto vlivy bere v úvahu při práci s dítětem.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Dítě prožívá náročnou životní situaci a ve školce potřebuje větší porozumění a podporu. Co je úkolem sociální pedagogiky?",
+              choices: [
+                { id: "a", text: "Dítě ignorovat a čekat" },
+                { id: "b", text: "Podporovat dítě v obtížných podmínkách" },
+                { id: "c", text: "Pouze hodnotit známky" },
+                { id: "d", text: "Izolovat dítě od ostatních" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální pedagogika podporuje děti v obtížných životních podmínkách. Cílem není dítě odsoudit ani izolovat, ale nabídnout vhodnou pomoc a porozumění.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Školka plánuje program pro rozvoj spolupráce ve skupině a řešení drobných konfliktů mezi dětmi. Která oblast sociální pedagogiky se tím projevuje?",
+              choices: [
+                { id: "a", text: "Pouze školní administrativa" },
+                { id: "b", text: "Jen hodnocení známek" },
+                {
+                  id: "c",
+                  text: "Prevence sociálních problémů",
+                },
+                { id: "d", text: "Výhradně úklid třídy" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Prevence sociálních problémů patří k úkolům sociální pedagogiky. Včasná podpora spolupráce a řešení konfliktů může předcházet větším obtížím.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka domlouvá schůzku s rodiči a kontaktuje poradenské pracoviště kvůli podpoře dítěte. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Práci bez kontaktu s rodinou" },
+                {
+                  id: "b",
+                  text: "Spolupráci školy, rodiny a dalších institucí",
+                },
+                { id: "c", text: "Pouze vlastní rozhodnutí bez informování" },
+                { id: "d", text: "Izolaci dítěte od rodičů" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Sociální pedagogika podporuje spolupráci školy, rodiny a dalších institucí. Společná koordinace pomáhá dítěti lépe než práce každého zvlášť.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "socialni-pedagogika",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "socialni-pedagogika",
+              type: "multiple-choice",
+              prompt:
+                "K čemu slouží sociální pedagogika podle jejího širšího významu?",
+              choices: [
+                { id: "a", text: "Pouze dětem označeným jako problémové" },
+                { id: "b", text: "Jen školní inspekci" },
+                {
+                  id: "c",
+                  text: "Širší podpoře výchovy a vzdělávání, ne jen vybraným dětem",
+                },
+                { id: "d", text: "Výhradně trestání chování" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Sociální pedagogika se nezabývá pouze „problémovými dětmi“. Její poznatky o prostředí, prevenci a spolupráci mají význam pro výchovu a vzdělávání šířeji.",
+              order: 8,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "rodina-a-jeji-funkce",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Rodina a její funkce",
+          summary:
+            "Funkce rodiny, různé rodinné formy a vliv rodinné situace na dítě a spolupráci se školou.",
+          order: 2,
+          studySections: [
+            {
+              id: "vysvetleni-rodina-funkce",
+              type: "explanation",
+              title: "Rodina a její funkce",
+              body:
+                "Rodina plní biologickou a reprodukční, emocionální, výchovnou, socializační, ochrannou, ekonomickou, kulturní a rekreační funkci. Existují různé rodinné formy — úplná, neúplná, rekonstruovaná rodina, náhradní rodinná péče, vícegenerační rodina i rodiny z různých kulturních prostředí. Podoby rodiny se historicky a kulturně proměňují. Rodinná situace může ovlivnit dítě i spolupráci školy s rodinou.",
+            },
+            {
+              id: "pojmy-rodina-funkce",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Funkce rodiny",
+                  definition:
+                    "Úlohy, které rodina plní pro své členy a společnost.",
+                },
+                {
+                  term: "Úplná rodina",
+                  definition:
+                    "Rodina, kde oba rodiče žijí společně s dětmi.",
+                },
+                {
+                  term: "Neúplná rodina",
+                  definition:
+                    "Rodina, kde jeden z rodičů chybí nebo není přítomen.",
+                },
+                {
+                  term: "Rekonstruovaná rodina",
+                  definition:
+                    "Rodina vzniklá po rozchodu nebo rozvodu, často s novým partnerem.",
+                },
+                {
+                  term: "Náhradní rodinná péče",
+                  definition:
+                    "Péče o dítě mimo původní rodinu, například u pěstounů nebo v ústavu.",
+                },
+                {
+                  term: "Vícegenerační rodina",
+                  definition:
+                    "Rodina, kde spolu žijí více generací, například prarodiče s rodiči a dětmi.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Rodina zajišťuje zrození dítěte a jeho fyzický růst v bezpečí domova. Kterou funkci rodiny to ilustruje?",
+              choices: [
+                { id: "a", text: "Rekreační funkci" },
+                {
+                  id: "b",
+                  text: "Biologickou a reprodukční funkci",
+                },
+                { id: "c", text: "Ekonomickou funkci" },
+                { id: "d", text: "Kulturní funkci" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Biologická a reprodukční funkce rodiny souvisí se zrozením dítěte a zajištěním jeho základních biologických potřeb. Rekreace nebo kultura jsou jiné oblasti.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se po náročném dni ve školce cítí bezpečně, když ho rodič objímá a uklidní. Která funkce rodiny je zde hlavní?",
+              choices: [
+                { id: "a", text: "Ekonomická funkce" },
+                { id: "b", text: "Biologická funkce" },
+                {
+                  id: "c",
+                  text: "Emocionální funkce",
+                },
+                { id: "d", text: "Rekreační funkce" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Emocionální funkce rodiny zahrnuje lásku, bezpečí a citovou podporu. Ekonomická funkce se týká zajištění materiálních potřeb, ne pocitu bezpečí.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Rodiče učí dítě dodržovat domácí pravidla a přebírat odpovědnost za drobné úkoly. Kterou funkci rodiny to ukazuje?",
+              choices: [
+                { id: "a", text: "Ochrannou funkci" },
+                { id: "b", text: "Rekreační funkci" },
+                { id: "c", text: "Ekonomickou funkci" },
+                {
+                  id: "d",
+                  text: "Výchovnou funkci",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Výchovná funkce rodiny spočívá v vedení dítěte, učení pravidel a odpovědnosti. Ochranná funkce se více týká bezpečí a ochrany před nebezpečím.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se doma učí pozdravit hosty a chovat se slušně při společné večeři. Kterou funkci rodiny to nejlépe vystihuje?",
+              choices: [
+                { id: "a", text: "Biologickou funkci" },
+                {
+                  id: "b",
+                  text: "Socializační funkci",
+                },
+                { id: "c", text: "Ekonomickou funkci" },
+                { id: "d", text: "Rekreační funkci" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Socializační funkce rodiny pomáhá dítěti osvojit si chování a zvyky potřebné pro život mezi lidmi. Biologická funkce se týká zrození a péče o tělesné potřeby.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Rodiče hlídají dítě u silnice a učí ho, co je nebezpečné. Kterou funkci rodiny to představuje?",
+              choices: [
+                { id: "a", text: "Kulturní funkci" },
+                { id: "b", text: "Ochrannou funkci" },
+                { id: "c", text: "Rekreační funkci" },
+                { id: "d", text: "Ekonomickou funkci" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Ochranná funkce rodiny zahrnuje ochranu dítěte před nebezpečím a riziky. Kulturní funkce se týká předávání tradic a hodnot, ne bezpečnosti u silnice.",
+              order: 5,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Rodina zajišťuje oblečení, jídlo a základní potřeby dítěte. Kterou funkci rodiny to ilustruje?",
+              choices: [
+                { id: "a", text: "Emocionální funkci" },
+                { id: "b", text: "Socializační funkci" },
+                {
+                  id: "c",
+                  text: "Ekonomickou funkci",
+                },
+                { id: "d", text: "Rekreační funkci" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Ekonomická funkce rodiny zahrnuje zajištění materiálních potřeb a prostředků pro život. Emocionální funkce se týká citové podpory, ne materiálního zabezpečení.",
+              order: 6,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Dítě se doma učí písničky, zvyky a tradice své rodiny. Kterou funkci rodiny to ukazuje?",
+              choices: [
+                { id: "a", text: "Biologickou funkci" },
+                {
+                  id: "b",
+                  text: "Kulturní funkci",
+                },
+                { id: "c", text: "Ochrannou funkci" },
+                { id: "d", text: "Ekonomickou funkci" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Kulturní funkce rodiny předává dítěti tradice, zvyky a kulturní hodnoty. Biologická funkce se týká zrození a tělesných potřeb.",
+              order: 7,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Rodina společně hraje hry, chodí na výlet nebo si užívá volný čas. Kterou funkci rodiny to vystihuje?",
+              choices: [
+                { id: "a", text: "Výchovnou funkci" },
+                { id: "b", text: "Ekonomickou funkci" },
+                { id: "c", text: "Ochrannou funkci" },
+                {
+                  id: "d",
+                  text: "Rekreační funkci",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Rekreační funkce rodiny zahrnuje společný odpočinek, hry a volnočasové aktivity. Výchovná funkce se více týká vedení a pravidel.",
+              order: 8,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Ve třídě jsou děti z rodin, kde žijí oba rodiče, jen jeden rodič nebo rodina s novým partnerem po rozchodu. Jak tyto formy správně pojmenovat?",
+              choices: [
+                { id: "a", text: "Všechny jsou stejné funkce rodiny" },
+                { id: "b", text: "Jen školní skupiny" },
+                {
+                  id: "c",
+                  text: "Úplná, neúplná a rekonstruovaná rodina",
+                },
+                { id: "d", text: "Pouze náhradní péče" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Mezi běžné rodinné formy patří úplná rodina, neúplná rodina a rekonstruovaná rodina. Nejde o školní skupiny ani o to, že by všechny formy byly totéž.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Dítě bydlí u pěstounů nebo spolu s prarodiči a rodiči v jedné domácnosti. Které uspořádání to může představovat?",
+              choices: [
+                { id: "a", text: "Pouze školní třídu" },
+                {
+                  id: "b",
+                  text: "Náhradní rodinnou péči nebo vícegenerační rodinu",
+                },
+                { id: "c", text: "Jen rekreační skupinu" },
+                { id: "d", text: "Výhradně pracovní tým" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Náhradní rodinná péče zajišťuje dítě mimo původní rodinu, vícegenerační rodina sdílí domácnost více generací. Obě jsou rodinná uspořádání, ne školní skupina.",
+              order: 10,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                11,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Ve školce jsou děti z rodin s různými zvyky a tradicemi a učitelka to respektuje. Co tím odráží?",
+              choices: [
+                { id: "a", text: "Že rodina se nikdy nemění" },
+                { id: "b", text: "Že existuje jen jedna rodinná forma" },
+                {
+                  id: "c",
+                  text: "Kulturní a historickou proměnlivost rodiny",
+                },
+                { id: "d", text: "Že rodina nemá vliv na dítě" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Podoby rodiny se historicky a kulturně proměňují a existují rodiny z různých kulturních prostředí. Pedagog to zohledňuje, aniž by jednu formu automaticky hodnotil jako lepší.",
+              order: 11,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodina-a-jeji-funkce",
+                12,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodina-a-jeji-funkce",
+              type: "multiple-choice",
+              prompt:
+                "Dítě často přichází unavené a rodič má málo času na komunikaci se školkou. Co z toho plyne pro pedagoga?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Rodinná situace může ovlivnit dítě i spolupráci školy s rodinou",
+                },
+                { id: "b", text: "Rodina nikdy neovlivňuje práci ve školce" },
+                { id: "c", text: "Škola nemusí s rodinou komunikovat" },
+                { id: "d", text: "Forma rodiny sama určuje úspěch dítěte" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Rodinná situace může ovlivnit dítě i spolupráci školy s rodinou. Pedagog to zohledňuje, ale nehodnotí automaticky jednu rodinnou formu jako horší nebo lepší.",
+              order: 12,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "rodinna-vychova-a-vychovne-styly",
+          subjectId: "obecna-pedagogika",
+          unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+          title: "Rodinná výchova a výchovné styly",
+          summary:
+            "Výchovné styly v rodině, význam hranic a věcná spolupráce pedagoga s rodiči.",
+          order: 3,
+          studySections: [
+            {
+              id: "vysvetleni-vychovne-styly",
+              type: "explanation",
+              title: "Rodinná výchova a výchovné styly",
+              body:
+                "Autoritářský styl zdůrazňuje silnou kontrolu a poslušnost, liberální styl poskytuje mnoho volnosti a málo hranic, demokratický nebo respektující styl spojuje pravidla, respekt a přiměřenou samostatnost. Nedůslednost znamená proměnlivá nebo nepředvídatelná pravidla, přehnaná ochrana omezuje příležitosti k samostatnosti a zanedbávání znamená nedostatek potřebné péče a podpory. Hranice a pravidla pomáhají vytvářet bezpečí. Výchovné styly mohou ovlivňovat chování a prožívání dítěte. Pedagog nemá rodinu rychle odsuzovat, ale popisovat konkrétní projevy dítěte a komunikovat věcně v jeho zájmu.",
+            },
+            {
+              id: "pojmy-vychovne-styly",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Autoritářský styl",
+                  definition:
+                    "Styl s důrazem na silnou kontrolu a poslušnost.",
+                },
+                {
+                  term: "Liberální styl",
+                  definition:
+                    "Styl s velkou volností a málo stanovených hranic.",
+                },
+                {
+                  term: "Demokratický styl",
+                  definition:
+                    "Styl spojující pravidla, respekt a přiměřenou samostatnost.",
+                },
+                {
+                  term: "Nedůslednost",
+                  definition:
+                    "Proměnlivá nebo nepředvídatelná pravidla ve výchově.",
+                },
+                {
+                  term: "Přehnaná ochrana",
+                  definition:
+                    "Omezení příležitostí dítěte k samostatnosti z obavy.",
+                },
+                {
+                  term: "Zanedbávání",
+                  definition:
+                    "Nedostatek potřebné péče a podpory dítěte.",
+                },
+                {
+                  term: "Hranice",
+                  definition:
+                    "Pravidla a limity, které pomáhají vytvářet bezpečí.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič trvá na okamžité poslušnosti bez vysvětlení a dítě se bojí říct vlastní názor. Který výchovný styl to nejlépe vystihuje?",
+              choices: [
+                { id: "a", text: "Liberální styl" },
+                {
+                  id: "b",
+                  text: "Autoritářský styl",
+                },
+                { id: "c", text: "Demokratický styl" },
+                { id: "d", text: "Nedůslednost" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Autoritářský styl zdůrazňuje silnou kontrolu a poslušnost. Demokratický styl naopak spojuje pravidla s respektem a přiměřenou samostatností.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Dítě si může dělat téměř cokoli, rodiče málo stanovují pravidla a hranice. Který styl to popisuje?",
+              choices: [
+                { id: "a", text: "Autoritářský styl" },
+                { id: "b", text: "Demokratický styl" },
+                {
+                  id: "c",
+                  text: "Liberální styl",
+                },
+                { id: "d", text: "Zanedbávání" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Liberální styl poskytuje mnoho volnosti a málo hranic. Zanedbávání znamená nedostatek péče, ne nutně záměrně velkou volnost s přítomnými rodiči.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Rodiče vysvětlují pravidla, respektují dítě a zároveň mu dávají přiměřenou samostatnost. Který styl to vystihuje?",
+              choices: [
+                { id: "a", text: "Autoritářský styl" },
+                { id: "b", text: "Liberální styl bez pravidel" },
+                { id: "c", text: "Přehnaná ochrana" },
+                {
+                  id: "d",
+                  text: "Demokratický nebo respektující styl",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Demokratický nebo respektující styl spojuje pravidla, respekt a přiměřenou samostatnost. Autoritářský styl kladě důraz hlavně na kontrolu a poslušnost.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Dnes je něco zakázané, zítra stejná věc projde bez povšimnutí a dítě neví, co platí. Co to ukazuje?",
+              choices: [
+                { id: "a", text: "Demokratický styl" },
+                {
+                  id: "b",
+                  text: "Nedůslednost",
+                },
+                { id: "c", text: "Kulturní funkci rodiny" },
+                { id: "d", text: "Spolupráci institucí" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Nedůslednost znamená proměnlivá nebo nepředvídatelná pravidla. Dítě pak těžko odhaduje, co se od něj očekává.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Rodič dítěti skoro vše udělá sám a nechce ho nechat zkusit obléknout se nebo uklidit hračky. Co to může představovat?",
+              choices: [
+                { id: "a", text: "Liberální styl s mnoha hranicemi" },
+                { id: "b", text: "Přehnanou ochranu omezující samostatnost" },
+                { id: "c", text: "Demokratický styl" },
+                { id: "d", text: "Rekreační funkci rodiny" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Přehnaná ochrana omezuje příležitosti dítěte k samostatnosti. Rodič sice pečuje, ale brání dítěti vyzkoušet si věci samo.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Dítě často přichází do školky bez dostatečné péče, rodič málo reaguje na jeho potřeby doma. Co tento stav nejlépe vystihuje?",
+              choices: [
+                { id: "a", text: "Demokratický styl" },
+                { id: "b", text: "Přehnanou ochranu" },
+                {
+                  id: "c",
+                  text: "Zanedbávání",
+                },
+                { id: "d", text: "Kulturní tradici" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Zanedbávání znamená nedostatek potřebné péče a podpory. Nejde o demokratický styl ani o ochranu — jde o nedostatečnou péči.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Ve školce platí jasná pravidla pro hru a odchod domů. Proč jsou hranice a pravidla pro dítě důležité?",
+              choices: [
+                { id: "a", text: "Jen aby děti nemohly nic dělat" },
+                {
+                  id: "b",
+                  text: "Pomáhají vytvářet bezpečí a předvídatelnost",
+                },
+                { id: "c", text: "Slouží pouze k trestání" },
+                { id: "d", text: "Nemají žádný význam" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Hranice a pravidla pomáhají vytvářet bezpečí. Dítě ví, co se očekává, a cítí se jistěji než při nejasných nebo proměnlivých pravidlech.",
+              order: 7,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Dítě z domova s častou nedůsledností pravidel může mít ve školce potíže s čekáním na řadu. Co z toho plyne?",
+              choices: [
+                { id: "a", text: "Výchovný styl nikdy neovlivňuje dítě" },
+                { id: "b", text: "Jeden projev vždy dokazuje diagnózu" },
+                {
+                  id: "c",
+                  text: "Výchovné styly mohou ovlivňovat chování a prožívání dítěte",
+                },
+                { id: "d", text: "Škola nemá s tím nic společného" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Výchovné styly mohou ovlivňovat chování a prožívání dítěte. Z jednoho projevu však nelze automaticky určit styl ani diagnózu — jde o možný vliv, ne o jistý důkaz.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka slyší o domácím prostředí dítěte a chce jednat odborně. Jaký postup je vhodný?",
+              choices: [
+                { id: "a", text: "Rychle odsoudit rodinu před ostatními" },
+                { id: "b", text: "Rodinu ignorovat" },
+                { id: "c", text: "Diagnostikovat rodinu podle jednoho chování" },
+                {
+                  id: "d",
+                  text: "Neodsuzovat rodinu a vycházet z konkrétních projevů dítěte",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Pedagog nemá rodinu rychle odsuzovat. Má popisovat konkrétní projevy dítěte a jednat věcně, ne moralizovat ani diagnostikovat rodinu.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "vybrane-kapitoly-ze-socialni-pedagogiky",
+                "rodinna-vychova-a-vychovne-styly",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "vybrane-kapitoly-ze-socialni-pedagogiky",
+              lessonId: "rodinna-vychova-a-vychovne-styly",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka pozve rodiče ke schůzce, popíše pozorování dítěte ve školce a domluví společný postup. Co tím uplatňuje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Věcnou spolupráci s rodiči v zájmu dítěte",
+                },
+                { id: "b", text: "Trestání rodičů za chování dítěte" },
+                { id: "c", text: "Veřejné srovnávání rodin" },
+                { id: "d", text: "Ignorování rodičů" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Pedagog má komunikovat věcně v zájmu dítěte a spolupracovat s rodiči. Schůzka s popisem pozorování a domluveným postupem je příkladem takové spolupráce.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+      ],
+    },
   ],
 };
