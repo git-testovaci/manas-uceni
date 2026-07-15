@@ -4312,5 +4312,968 @@ export const OBECNA_PEDAGOGIKA_CONTENT: StudySubjectContent = {
         },
       ],
     },
+    {
+      id: "zaklady-obecne-didaktiky",
+      subjectId: "obecna-pedagogika",
+      title: "Základy obecné didaktiky",
+      description: "Didaktika, vzdělávací cíle a obsah vzdělávání",
+      order: 3,
+      lessons: [
+        {
+          id: "co-je-didaktika",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Co je didaktika",
+          summary:
+            "Didaktika jako pedagogická disciplína, obecná a oborová didaktika, vztah vyučování a učení a základní didaktické otázky.",
+          order: 1,
+          studySections: [
+            {
+              id: "vysvetleni-didaktika",
+              type: "explanation",
+              title: "Co je didaktika",
+              body:
+                "Didaktika je pedagogická disciplína zabývající se vzděláváním, vyučováním a učením. Obecná didaktika řeší obecné zákonitosti vzdělávání, oborová didaktika vzdělávání v konkrétní oblasti nebo předmětu. Didaktika sleduje vztah vyučování a učení. Účastníky vzdělávacího procesu jsou pedagog a vzdělávaný jedinec. Zkoumá podmínky, průběh a výsledky vzdělávání. Řeší, koho, proč, čemu, jak, kdy, kde a s jakým výsledkem vzděláváme. Vzdělávací situaci je nutné posuzovat jako propojení cíle, obsahu, metod, podmínek a výsledků.",
+            },
+            {
+              id: "pojmy-didaktika",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Didaktika",
+                  definition:
+                    "Pedagogická disciplína zabývající se vzděláváním, vyučováním a učením.",
+                },
+                {
+                  term: "Obecná didaktika",
+                  definition:
+                    "Část didaktiky řešící obecné zákonitosti vzdělávání.",
+                },
+                {
+                  term: "Oborová didaktika",
+                  definition:
+                    "Část didaktiky řešící vzdělávání v konkrétní oblasti nebo předmětu.",
+                },
+                {
+                  term: "Vyučování",
+                  definition:
+                    "Činnost pedagoga v rámci vzdělávacího procesu.",
+                },
+                {
+                  term: "Učení",
+                  definition:
+                    "Proces změny na straně vzdělávaného jedince.",
+                },
+                {
+                  term: "Vzdělávací proces",
+                  definition:
+                    "Cílevědomé působení pedagoga na vzdělávaného jedince.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt: "Čím se didaktika zabývá?",
+              choices: [
+                { id: "a", text: "Jen organizací školního rozvrhu" },
+                {
+                  id: "b",
+                  text: "Vzděláváním, vyučováním a učením",
+                },
+                { id: "c", text: "Výhradně školní administrativou" },
+                { id: "d", text: "Pouze hodnocením známek" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Didaktika je pedagogická disciplína zaměřená na vzdělávání, vyučování a učení. Rozvrh nebo administrativa samy o sobě didaktiku nenahrazují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt: "Co řeší obecná didaktika?",
+              choices: [
+                { id: "a", text: "Jen výuku jednoho předmětu" },
+                { id: "b", text: "Pouze školní jídelnu" },
+                {
+                  id: "c",
+                  text: "Obecné zákonitosti vzdělávání",
+                },
+                { id: "d", text: "Výhradně školní dokumentaci" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Obecná didaktika se zabývá obecnými zákonitostmi vzdělávání. Výuka jednoho předmětu spíše spadá pod oborovou didaktiku.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka přemýšlí, jak vést výuku matematiky v 1. ročníku. Kterou oblast didaktiky tím řeší?",
+              choices: [
+                { id: "a", text: "Obecnou didaktiku bez vztahu k předmětu" },
+                { id: "b", text: "Pouze školní administrativu" },
+                { id: "c", text: "Výhradně organizaci přestávek" },
+                { id: "d", text: "Oborovou didaktiku" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Vzdělávání v konkrétní oblasti nebo předmětu řeší oborová didaktika. Obecná didaktika se týká obecných zákonitostí napříč oblastmi.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt:
+                "Pedagog vede hodinu a děti při ní získávají nové poznatky. Co didaktika v tomto vztahu sleduje?",
+              choices: [
+                { id: "a", text: "Jen barvu učebnic" },
+                {
+                  id: "b",
+                  text: "Vztah vyučování a učení",
+                },
+                { id: "c", text: "Pouze počet židlí ve třídě" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Didaktika zkoumá, jak souvisí činnost pedagoga (vyučování) a změna na straně dítěte (učení). Nejde o organizační detaily bez vztahu k výuce.",
+              order: 4,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt: "Kdo jsou účastníci vzdělávacího procesu?",
+              choices: [
+                { id: "a", text: "Jen školní inspekce" },
+                { id: "b", text: "Pouze rodiče mimo školu" },
+                {
+                  id: "c",
+                  text: "Pedagog a vzdělávaný jedinec",
+                },
+                { id: "d", text: "Výhradně zřizovatel školy" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Vzdělávací proces probíhá mezi pedagogem a vzdělávaným jedincem. Inspekce, rodiče nebo zřizovatel nejsou účastníky v tomto základním didaktickém smyslu.",
+              order: 5,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt: "Co didaktika zkoumá kromě cílů a obsahu?",
+              choices: [
+                { id: "a", text: "Jen jména ulic okolo školy" },
+                { id: "b", text: "Pouze barvu školního auta" },
+                { id: "c", text: "Výhradně počasí ve třídě" },
+                {
+                  id: "d",
+                  text: "Podmínky, průběh a výsledky vzdělávání",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Didaktika sleduje podmínky, průběh i výsledky vzdělávání. Okrajové detaily bez vztahu k vzdělávání k jejímu předmětu nepatří.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt: "Která otázka patří mezi základní didaktické otázky?",
+              choices: [
+                { id: "a", text: "Jakou barvu má školní budova?" },
+                {
+                  id: "b",
+                  text: "Čemu a jak vzděláváme?",
+                },
+                { id: "c", text: "Kolik je hodin v roce?" },
+                { id: "d", text: "Kdo vyhrál fotbalový zápas?" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Didaktika řeší mimo jiné otázky čemu, jak, koho, proč, kdy, kde a s jakým výsledkem vzděláváme. Barva budovy nebo sportovní výsledek k tomu nepatří.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "co-je-didaktika",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "co-je-didaktika",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka plánuje aktivitu a zároveň promýšlí cíl, obsah, metody a podmínky. Co tím správně chápe?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Vzdělávací situaci jako propojení prvků",
+                },
+                { id: "b", text: "Jen náhodný postup bez souvislostí" },
+                { id: "c", text: "Pouze jeden izolovaný detail" },
+                { id: "d", text: "Výhradně administrativní zápis" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Vzdělávací situaci je třeba posuzovat jako propojení cíle, obsahu, metod, podmínek a výsledků. Izolovaný detail nebo náhodný postup didaktické plánování nenahrazuje.",
+              order: 8,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "vzdelavaci-cile",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Vzdělávací cíle",
+          summary:
+            "Význam vzdělávacího cíle, jeho typy, kvalita formulace a rozdíl mezi cílem a aktivitou.",
+          order: 2,
+          studySections: [
+            {
+              id: "vysvetleni-vzdelavaci-cile",
+              type: "explanation",
+              title: "Vzdělávací cíle",
+              body:
+                "Vzdělávací cíl vyjadřuje, čeho má být dosaženo. Cíle mohou být obecné a konkrétní, krátkodobé a dlouhodobé, poznávací, dovednostní a postojové. Cíl má být zaměřený na dítě, srozumitelný a ověřitelný. Musí navazovat na činnost i hodnocení. Aktivita sama není cílem — například malování obrázku je činnost, zatímco cílem může být rozvoj jemné motoriky, představivosti nebo rozlišování barev.",
+            },
+            {
+              id: "pojmy-vzdelavaci-cile",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Vzdělávací cíl",
+                  definition:
+                    "Vyjádření toho, čeho má být ve vzdělávání dosaženo.",
+                },
+                {
+                  term: "Obecný cíl",
+                  definition: "Širší záměr vzdělávání.",
+                },
+                {
+                  term: "Konkrétní cíl",
+                  definition: "Upřesněný cíl pro konkrétní situaci.",
+                },
+                {
+                  term: "Krátkodobý cíl",
+                  definition: "Cíl pro kratší časové období.",
+                },
+                {
+                  term: "Dlouhodobý cíl",
+                  definition: "Cíl s delším časovým horizontem.",
+                },
+                {
+                  term: "Poznávací cíl",
+                  definition: "Cíl zaměřený na poznání a porozumění.",
+                },
+                {
+                  term: "Dovednostní cíl",
+                  definition: "Cíl zaměřený na získání dovednosti.",
+                },
+                {
+                  term: "Postojový cíl",
+                  definition: "Cíl zaměřený na postoje a vztahy.",
+                },
+                {
+                  term: "Ověřitelnost cíle",
+                  definition:
+                    "Možnost zjistit, zda byl cíl dosažen.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt: "Co vyjadřuje vzdělávací cíl?",
+              choices: [
+                { id: "a", text: "Jen název pomůcky" },
+                {
+                  id: "b",
+                  text: "Čeho má být dosaženo",
+                },
+                { id: "c", text: "Pouze počet dětí ve třídě" },
+                { id: "d", text: "Výhradně barvu třídy" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Vzdělávací cíl říká, čeho má být ve vzdělávání dosaženo. Pomůcka, počet dětí nebo barva třídy cíl nevyjadřují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka chce, aby děti uměly spolupracovat ve skupině. Jaký typ cíle tím spíše formuluje?",
+              choices: [
+                { id: "a", text: "Konkrétní cíl pro jednu hodinu" },
+                { id: "b", text: "Pouze název aktivity" },
+                {
+                  id: "c",
+                  text: "Obecný cíl",
+                },
+                { id: "d", text: "Jen organizační poznámku" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Schopnost spolupracovat je širší záměr — spíše obecný cíl. Konkrétní cíl by byl upřesněný pro jednu situaci, například roztřídění přírodnin podle znaku.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Dnes odpoledne má dítě rozpoznat tři typické znaky podzimu. Jaký typ cíle jde o časové hledisko?",
+              choices: [
+                { id: "a", text: "Dlouhodobý cíl na celý rok" },
+                { id: "b", text: "Cíl bez časového vymezení" },
+                { id: "c", text: "Jen popis aktivity" },
+                { id: "d", text: "Krátkodobý cíl" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Cíl na jedno odpoledne je krátkodobý. Dlouhodobý cíl by měl delší časový horizont, například rozvoj přes celý školní rok.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Cíl zní: „Dítě rozpozná alespoň tři typické znaky podzimu.“ Jaký typ cíle to je?",
+              choices: [
+                { id: "a", text: "Postojový cíl" },
+                {
+                  id: "b",
+                  text: "Poznávací cíl",
+                },
+                { id: "c", text: "Jen název činnosti" },
+                { id: "d", text: "Dovednostní cíl" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Rozpoznání znaků podzimu je cíl zaměřený na poznání. Dovednostní cíl by se týkal konkrétní činnosti, postojový vztahů a postojů dítěte.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Cíl zní: „Dítě roztřídí přírodniny podle zvoleného znaku.“ Jaký typ cíle to je?",
+              choices: [
+                { id: "a", text: "Poznávací cíl" },
+                { id: "b", text: "Postojový cíl" },
+                {
+                  id: "c",
+                  text: "Dovednostní cíl",
+                },
+                { id: "d", text: "Jen popis pomůcky" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Roztřídění přírodnin je cíl zaměřený na dovednost — dítě něco umí provést. Poznávací cíl by se týkal spíše porozumění nebo rozpoznání.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Cíl zní: „Dítě vyjádří vlastní zkušenost s podzimem.“ Jaký typ cíle to je?",
+              choices: [
+                { id: "a", text: "Poznávací cíl" },
+                { id: "b", text: "Dovednostní cíl bez vztahu k postoji" },
+                { id: "c", text: "Jen organizační úkol" },
+                { id: "d", text: "Postojový cíl" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Vyjádření vlastní zkušenosti souvisí s postojem dítěte k tématu a s jeho osobním vztahováním. Čistě poznávací nebo dovednostní cíl by popisoval jiný typ výsledku.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Která formulace cíle je zaměřená na dítě?",
+              choices: [
+                { id: "a", text: "Učitelka přečte pohádku." },
+                { id: "b", text: "Budeme si povídat o podzimu." },
+                {
+                  id: "c",
+                  text: "Dítě rozpozná alespoň tři typické znaky podzimu.",
+                },
+                { id: "d", text: "Připravíme si pomůcky na stůl." },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Cíl má být zaměřený na dítě a jeho výsledek. Věty o činnosti učitele nebo obecné povídání popisují spíše aktivitu než cíl dítěte.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Která formulace cíle je srozumitelná a ověřitelná?",
+              choices: [
+                { id: "a", text: "Děti se něco naučí." },
+                { id: "b", text: "Bude to hezké odpoledne." },
+                {
+                  id: "c",
+                  text: "Dítě roztřídí přírodniny podle zvoleného znaku.",
+                },
+                { id: "d", text: "Děti budou hodné." },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Ověřitelný cíl lze posoudit podle konkrétního výsledku — zda dítě přírodniny roztřídilo. Vágní formulace o tom, že se děti něco naučí, ověřit nelze.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka stanoví cíl, připraví činnost a později zjišťuje, zda ho děti splnily. Co tím správně propojuje?",
+              choices: [
+                { id: "a", text: "Jen pomůcky a rozvrh" },
+                { id: "b", text: "Pouze název aktivity" },
+                { id: "c", text: "Výhradně školní jídelnu" },
+                {
+                  id: "d",
+                  text: "Cíl s činností a hodnocením",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Cíl má navazovat na činnost i hodnocení — z cíle vychází aktivita a podle cíle se posuzuje výsledek. Pomůcky nebo jídelna tuto souvislost nenahrazují.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "vzdelavaci-cile",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "vzdelavaci-cile",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka zapisuje jako cíl: „Děti budou malovat obrázek.“ Co je správně?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Malování je aktivita, ne automaticky cíl",
+                },
+                { id: "b", text: "Aktivita je vždy totéž co cíl" },
+                { id: "c", text: "Cíl nesmí navazovat na činnost" },
+                { id: "d", text: "Cíl nemá být ověřitelný" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Malování obrázku je činnost. Cílem může být například rozvoj jemné motoriky, představivosti nebo rozlišování barev — aktivita sama o sobě cíl nenahrazuje.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+        {
+          id: "obsah-vzdelavani",
+          subjectId: "obecna-pedagogika",
+          unitId: "zaklady-obecne-didaktiky",
+          title: "Obsah vzdělávání",
+          summary:
+            "Význam obsahu vzdělávání, jeho složky, přiměřenost a vztah k cíli a potřebám dítěte.",
+          order: 3,
+          studySections: [
+            {
+              id: "vysvetleni-obsah-vzdelavani",
+              type: "explanation",
+              title: "Obsah vzdělávání",
+              body:
+                "Obsah vzdělávání určuje, co se má dítě naučit. Zahrnuje vědomosti, dovednosti, postoje, hodnoty, návyky a kompetence. Musí odpovídat věku a potřebám dítěte, být přiměřený a navazovat na předchozí zkušenosti. Obsah může propojovat různé oblasti rozvoje. Cíl určuje výběr obsahu a obsah musí odpovídat cíli.",
+            },
+            {
+              id: "pojmy-obsah-vzdelavani",
+              type: "keyTerms",
+              title: "Klíčové pojmy",
+              terms: [
+                {
+                  term: "Obsah vzdělávání",
+                  definition:
+                    "To, co se má dítě ve vzdělávání naučit.",
+                },
+                {
+                  term: "Vědomosti",
+                  definition: "Poznatky, které dítě získává.",
+                },
+                {
+                  term: "Dovednosti",
+                  definition: "Schopnosti, které dítě rozvíjí.",
+                },
+                {
+                  term: "Postoje",
+                  definition: "Vztahy dítěte k jevům a situacím.",
+                },
+                {
+                  term: "Hodnoty",
+                  definition: "To, co dítě považuje za důležité.",
+                },
+                {
+                  term: "Návyky",
+                  definition: "Opakované způsoby chování.",
+                },
+                {
+                  term: "Kompetence",
+                  definition:
+                    "Schopnost uplatnit znalosti a dovednosti v situaci.",
+                },
+                {
+                  term: "Přiměřenost",
+                  definition:
+                    "Soulad obsahu s možnostmi a potřebami dítěte.",
+                },
+                {
+                  term: "Návaznost",
+                  definition:
+                    "Propojení s předchozími zkušenostmi dítěte.",
+                },
+              ],
+            },
+          ],
+          practiceQuestions: [
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                1,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt: "Co určuje obsah vzdělávání?",
+              choices: [
+                { id: "a", text: "Jen barvu školní budovy" },
+                {
+                  id: "b",
+                  text: "Co se má dítě naučit",
+                },
+                { id: "c", text: "Pouze počet zaměstnanců" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Obsah vzdělávání určuje, co se má dítě naučit. Rozvrh nebo organizační detaily samy obsah nevymezují.",
+              order: 1,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                2,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Děti se učí pojmenovat části rostliny. Kterou složku obsahu tím rozvíjejí?",
+              choices: [
+                { id: "a", text: "Pouze návyk" },
+                { id: "b", text: "Jen postoj" },
+                {
+                  id: "c",
+                  text: "Vědomosti",
+                },
+                { id: "d", text: "Výhradně kompetenci bez poznání" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pojmenování částí rostliny rozvíjí vědomosti — dítě získává poznatky. Návyk nebo postoj by popisovaly jiný typ obsahu.",
+              order: 2,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                3,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Děti trénují stříhání papíru podle čáry. Kterou složku obsahu rozvíjejí?",
+              choices: [
+                { id: "a", text: "Pouze vědomost bez činnosti" },
+                { id: "b", text: "Jen hodnotu bez činnosti" },
+                { id: "c", text: "Výhradně název aktivity" },
+                { id: "d", text: "Dovednosti" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Stříhání podle čáry rozvíjí dovednost — dítě získává schopnost konkrétní činnosti. Samotný název aktivity obsah nepopisuje.",
+              order: 3,
+              difficulty: "easy",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                4,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Ve skupině rozvíjíme respekt k pravidlům společné hry. Kterou složku obsahu tím podporujeme?",
+              choices: [
+                { id: "a", text: "Pouze vědomost bez vztahu" },
+                {
+                  id: "b",
+                  text: "Postoje a hodnoty",
+                },
+                { id: "c", text: "Jen název pomůcky" },
+                { id: "d", text: "Výhradně technické vybavení" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Respekt k pravidlům spolupráce souvisí s postoji a hodnotami dítěte. Vědomost nebo vybavení samo o sobě tento obsah nenahrazuje.",
+              order: 4,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                5,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Děti si zvykají po práci uklidit pomůcky na své místo. Kterou složku obsahu rozvíjejí?",
+              choices: [
+                { id: "a", text: "Pouze vědomost" },
+                { id: "b", text: "Jen postoj bez chování" },
+                {
+                  id: "c",
+                  text: "Návyky",
+                },
+                { id: "d", text: "Výhradně název hodiny" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Pravidelné uklízení pomůcek rozvíjí návyk — opakovaný způsob chování. Postoj nebo vědomost popisují jiný typ obsahu.",
+              order: 5,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                6,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Dítě použije naučené pravidlo při řešení nové úlohy ve skupině. Kterou složku obsahu rozvíjí?",
+              choices: [
+                { id: "a", text: "Pouze izolovanou vědomost" },
+                { id: "b", text: "Jen název aktivity" },
+                { id: "c", text: "Výhradně organizaci přestávek" },
+                { id: "d", text: "Kompetence" },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Uplatnění znalosti v nové situaci rozvíjí kompetenci — schopnost použít poznání a dovednost v praxi. Samotná vědomost bez uplatnění kompetenci nenahrazuje.",
+              order: 6,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                7,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka volí jednoduché úlohy pro třídu tříletých dětí místo složitých textů. Co tím respektuje?",
+              choices: [
+                { id: "a", text: "Jen barvu pomůcek" },
+                {
+                  id: "b",
+                  text: "Věk a potřeby dítěte",
+                },
+                { id: "c", text: "Pouze počet oken ve třídě" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "b",
+              explanation:
+                "Obsah musí odpovídat věku a potřebám dítěte. Složité texty pro tříleté děti by nebyly přiměřené jejich možnostem.",
+              order: 7,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                8,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Učitelka navazuje na to, co děti už znají z domova o zvířatech, a teprve pak přidává nové poznatky. Co tím uplatňuje?",
+              choices: [
+                { id: "a", text: "Ignorování předchozích zkušeností" },
+                { id: "b", text: "Pouze náhodný výběr témat" },
+                {
+                  id: "c",
+                  text: "Přiměřenost a návaznost",
+                },
+                { id: "d", text: "Výhradně administrativní zápis" },
+              ],
+              correctChoiceId: "c",
+              explanation:
+                "Obsah má být přiměřený a navazovat na předchozí zkušenosti dítěte. Náhodný výběr nebo ignorování zkušeností didaktické návaznosti neodpovídá.",
+              order: 8,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                9,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Při práci s příběhem propojuje učitelka řeč, pohyb a výtvarnou činnost. Co tím ukazuje?",
+              choices: [
+                { id: "a", text: "Obsah může jen jednu oblast" },
+                { id: "b", text: "Obsah nesmí navazovat na cíl" },
+                { id: "c", text: "Jen organizaci jídelny" },
+                {
+                  id: "d",
+                  text: "Propojení různých oblastí rozvoje",
+                },
+              ],
+              correctChoiceId: "d",
+              explanation:
+                "Obsah může propojovat různé oblasti rozvoje — například řeč, pohyb a výtvarnou činnost. Jedna izolovaná oblast není jedinou možností.",
+              order: 9,
+              difficulty: "medium",
+            },
+            {
+              id: buildStudyPracticeItemId(
+                "obecna-pedagogika",
+                "zaklady-obecne-didaktiky",
+                "obsah-vzdelavani",
+                10,
+              ),
+              subjectId: "obecna-pedagogika",
+              unitId: "zaklady-obecne-didaktiky",
+              lessonId: "obsah-vzdelavani",
+              type: "multiple-choice",
+              prompt:
+                "Cílem je rozvoj jemné motoriky, proto učitelka volí činnost se stříháním a lepením. Co tím správně propojuje?",
+              choices: [
+                {
+                  id: "a",
+                  text: "Cíl a výběr obsahu",
+                },
+                { id: "b", text: "Obsah bez vztahu k cíli" },
+                { id: "c", text: "Jen název pomůcky" },
+                { id: "d", text: "Výhradně školní rozvrh" },
+              ],
+              correctChoiceId: "a",
+              explanation:
+                "Cíl určuje výběr obsahu a obsah musí odpovídat cíli. Stříhání a lepení jsou zvoleny proto, že podporují cíl rozvoje jemné motoriky.",
+              order: 10,
+              difficulty: "medium",
+            },
+          ],
+          examQuestions: [],
+        },
+      ],
+    },
   ],
 };
